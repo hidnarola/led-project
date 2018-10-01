@@ -1,0 +1,194 @@
+<app-admin-header></app-admin-header>
+
+<!-- Page container -->
+<div class="page-container">
+
+  <!-- Page content -->
+  <div class="page-content">
+
+
+    <!-- Main sidebar -->
+    <div class="sidebar sidebar-main">
+      <div class="sidebar-content">
+
+        <!-- User menu -->
+        <div class="sidebar-user">
+          <div class="category-content">
+            <div class="media">
+              <a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
+              <div class="media-body">
+                <span class="media-heading text-semibold">Victoria Baker</span>
+                <div class="text-size-mini text-muted">
+                  <i class="icon-pin text-size-small"></i> &nbsp;Santa Ana, CA
+                </div>
+              </div>
+
+              <div class="media-right media-middle">
+                <ul class="icons-list">
+                  <li>
+                    <a href="#"><i class="icon-cog3"></i></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /user menu -->
+
+
+        <!-- Main navigation -->
+        <div class="sidebar-category sidebar-category-visible">
+          <div class="category-content no-padding">
+            <ul class="navigation navigation-main navigation-accordion">
+
+              <!-- Main -->
+              <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
+              <li><a href="" routerLink="/admin/dashboard"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
+              <li><a href="" routerLink="/admin/users"><i class="icon-user-tie"></i> <span>Users</span></a></li>
+              <li class="active"><a href="" routerLink="/admin/sign-setup"><i class="icon-cog3"></i> <span>Sign Setup</span></a></li>
+              <!-- /main -->
+
+            </ul>
+          </div>
+        </div>
+        <!-- /main navigation -->
+
+      </div>
+    </div>
+    <!-- /main sidebar -->
+
+    <!-- Main content -->
+    <div class="content-wrapper">
+
+
+      <!-- Page header -->
+      <div class="page-header page-header-default">
+        <div class="page-header-content">
+          <div class="page-title">
+            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Home</span> - Sign-Setup</h4>
+          </div>
+
+          <div class="heading-elements">
+
+          </div>
+        </div>
+
+        <div class="breadcrumb-line">
+          <ul class="breadcrumb">
+            <li><a href="" routerLink="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+            <li class="active">Sign-Setup</li>
+          </ul>
+
+          <ul class="breadcrumb-elements">
+
+          </ul>
+        </div>
+      </div>
+      <!-- /page header -->
+
+      <!-- Content area -->
+      <div class="content">
+
+        <div class="panel panel-flat">
+          <div class="panel-heading">
+            <h5 class="panel-title">Manage Sign</h5>
+            <div class="heading-elements">
+              <ul class="icons-list">
+                <!-- <li><a data-action="collapse"></a></li> -->
+                <li><a href="" routerLink="/admin/sign-setup/add">
+                    <button class="btn btn-primary">Add New Setup</button></a></li>
+                <!-- <li><a data-action="close"></a></li> -->
+              </ul>
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <div>
+              <table datatable [dtOptions]="dtOptions" class="row-border hover">
+                <thead>
+                  <tr>
+                    <th>Sign Name</th>
+                    <th>Type</th>
+                    <th>IP</th>
+                    <th>Port</th>
+                    <th>Time-Zone</th>
+                    <th>Screen Size</th>
+                    <th class="text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let sign of data ; let i = index">
+                    <td>{{ sign.name }}</td>
+                    <td>{{ sign.type }}</td>
+                    <td class="text-right">{{ sign.host }}</td>
+                    <td class="text-right">{{ sign.port }}</td>
+                    <td>{{ sign.timezone }}</td>
+                    <td class="text-right">{{ sign.width }} x {{ sign.height }}</td>
+                    <td class="text-center">
+                      <ul class="icons-list">
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-menu9"></i>
+                          </a>
+                          <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="" routerLink="/admin/sign-setup/edit/{{ sign.id }}"><i class="icon-pencil4"></i>
+                                Edit</a></li>
+                            <li (click)="deleteSign(sign.id)"><a><i class=" icon-trash-alt"></i> Delete</a></li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
+            <thead>
+              <tr>
+                <th style="width: 20%">
+                  <mfDefaultSorter by="alias">Alias</mfDefaultSorter>
+                </th>
+                <th style="width: 30%">
+                  <mfDefaultSorter by="ip">IP</mfDefaultSorter>
+                </th>
+                <th style="width: 10%">
+                  <mfDefaultSorter by="port">Port</mfDefaultSorter>
+                </th>
+                <th style="width: 20%">
+                  <mfDefaultSorter by="timezone">Time-Zone</mfDefaultSorter>
+                </th>
+                <th style="width: 10%">
+                  <mfDefaultSorter by="sizex">Size-X</mfDefaultSorter>
+                </th>
+                <th style="width: 10%">
+                  <mfDefaultSorter by="sizey">Size-Y</mfDefaultSorter>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of mf.data">
+                <td>{{item.alias}}</td>
+                <td>{{item.ip}}</td>
+                <td class="text-right">{{item.port}}</td>
+                <td>{{item.timezone | uppercase}}</td>
+                <td class="text-right">{{item.sizex}}</td>
+                <td class="text-right">{{item.sizey}}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="6">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table> -->
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

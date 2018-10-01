@@ -1,0 +1,104 @@
+<div class="login-container">
+  <!-- Page container -->
+  <div class="page-container">
+
+    <!-- Page content -->
+    <div class="page-content">
+
+      <!-- Main content -->
+      <div class="content-wrapper">
+
+        <!-- Content area -->
+        <div class="content">
+
+          <!-- Advanced login -->
+          <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+            <div class="panel panel-body login-form">
+              <div class="text-center">
+                <div class="icon-object border-slate-300 text-slate-300"><i class="icon-user"></i></div>
+                <h5 class="content-group">Admin Login<small class="display-block">Your credentials</small></h5>
+              </div>
+
+              <div class="form-group has-feedback has-feedback-left">
+                <input type="text" placeholder="Email" class="form-control" name="email" [(ngModel)]="model.email"
+                  #email="ngModel" [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required email />
+                <div class="form-control-feedback">
+                  <i class="icon-user text-muted"></i>
+                </div>
+                <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
+                  <div *ngIf="email.errors.required">Email is required</div>
+                  <div *ngIf="email.errors.email">Email must be a valid email address</div>
+                </div>
+              </div>
+
+              <div class="form-group has-feedback has-feedback-left">
+                <input type="password" placeholder="Password" class="form-control" name="password" [(ngModel)]="model.password"
+                  #password="ngModel" [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" required minlength="6" />
+                <div class="form-control-feedback">
+                  <i class="icon-lock2 text-muted"></i>
+                </div>
+                <div *ngIf="f.submitted && password.invalid" class="invalid-feedback">
+                  <div *ngIf="password.errors.required">Password is required</div>
+                  <div *ngIf="password.errors.minlength">Password must be at least 6 characters</div>
+                </div>
+              </div>
+
+              <div class="form-group login-options">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <label class="checkbox-inline">
+                      <input type="checkbox" class="styled" checked="checked">
+                      Remember
+                    </label>
+                  </div>
+
+                  <div class="col-sm-6 text-right">
+                    <a href="" routerLink='/forgot'>Forgot password?</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <button type="submit" class="btn bg-blue btn-block">Login <i class="icon-arrow-right14 position-right"></i></button>
+              </div>
+
+              <!-- <div class="content-divider text-muted form-group"><span>or sign in with</span></div>
+              <ul class="list-inline form-group list-inline-condensed text-center">
+                <li><a href="#" class="btn border-indigo text-indigo btn-flat btn-icon btn-rounded"><i class="icon-facebook"></i></a></li>
+                <li><a href="#" class="btn border-pink-300 text-pink-300 btn-flat btn-icon btn-rounded"><i class="icon-dribbble3"></i></a></li>
+                <li><a href="#" class="btn border-slate-600 text-slate-600 btn-flat btn-icon btn-rounded"><i class="icon-github"></i></a></li>
+                <li><a href="#" class="btn border-info text-info btn-flat btn-icon btn-rounded"><i class="icon-twitter"></i></a></li>
+              </ul> -->
+
+              <!-- <div class="content-divider text-muted form-group"><span></span></div>
+              <a href="" routerLink='/signup' class="btn btn-default btn-block content-group">Admin Login</a>
+              <span class="help-block text-center no-margin">By continuing, you're confirming that you've read our <a
+                  href="#">Terms &amp; Conditions</a> and <a href="#">Cookie Policy</a></span> -->
+
+            </div>
+
+
+          </form>
+          <!-- /advanced login -->
+
+
+          <!-- Footer -->
+          <div class="footer text-muted text-center">
+            &copy; 2018. <a href="#"> LED ADVT</a> by <a href="#" target="_blank">Narola Infotech</a>
+          </div>
+          <!-- /footer -->
+
+        </div>
+        <!-- /content area -->
+
+      </div>
+      <!-- /main content -->
+
+    </div>
+    <!-- /page content -->
+
+  </div>
+  <!-- /page container -->
+
+</div>
+<script type="text/javascript" src="assets/js/pages/login.js"></script>
