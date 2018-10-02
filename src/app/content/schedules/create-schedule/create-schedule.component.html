@@ -172,14 +172,29 @@
                   </div>
                 </div>
               </div>
+              <div class="row" *ngIf="SCHE.SCHE_DAYL === repeat">
+                <div class="col-md-6">
+                  <div class="form-group has-feedback">
+                    <input type="number" placeholder="Every N-th Day" class="form-control" name="nthday" [(ngModel)]="model.nthday"
+                      #nthday="ngModel" [ngClass]="{ 'is-invalid': f.submitted && nthday.invalid }" required />
+                    <div class="form-control-feedback">
+                      <i class="icon-move-horizontal text-muted"></i>
+                    </div>
+                    <div *ngIf="f.submitted && nthday.invalid" class="invalid-feedback">
+                      <div *ngIf="nthday.errors.required">Every N-th Day is required</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="row">
                 <div class="col-md-12">
-                  
+
                   <!-- <input type='file' (change)="onSelectFile($event)" multiple> -->
 
                   <input type="file" placeholder="Browse Images" name="myfile" [(ngModel)]="model.myfile" #file #myfile="ngModel"
-                    class="file-input" data-show-upload="false" data-show-caption="true"
-                    data-show-preview="true" [ngClass]="{ 'is-invalid': f.submitted && myfile.invalid }" multiple="multiple" (change)="selectFiles($event)" required>
+                    class="file-input" data-show-upload="false" data-show-caption="true" data-show-preview="true"
+                    [ngClass]="{ 'is-invalid': f.submitted && myfile.invalid }" multiple="multiple" (change)="selectFiles($event)"
+                    required>
 
                   <!-- <input type="file" name="myfile" class="file-input" multiple="multiple" data-show-upload="false"
                     #file #myfile="ngModel" [(ngModel)]="model.myfile" placeholder="Browse Images" data-show-caption="true"
@@ -190,7 +205,7 @@
 
                 </div>
               </div>
-
+              <br />
               <div class="text-right">
                 <button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10"><b><i class="icon-plus3"></i></b>
                   Create Schedule</button>

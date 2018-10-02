@@ -19,7 +19,6 @@ export class SchedulesService {
     // this is the important step. You need to set content type as null
     headers.set('Content-Type', null);
     headers.set('Accept', 'multipart/form-data');
-    const params = new HttpParams();
     this.formdata = new FormData();
     this.formdata.append('myfiles', data.myfiles);
     this.formdata.append('priority', data.priority);
@@ -29,7 +28,7 @@ export class SchedulesService {
     this.formdata.append('endtime', data.endtime);
     return this
       .http
-      .post(uri, this.formdata, { params, headers })
+      .post(uri, this.formdata, { headers })
       .map(res => {
         console.log(res);
         return res;
