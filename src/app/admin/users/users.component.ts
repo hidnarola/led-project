@@ -12,9 +12,13 @@ export class UsersComponent implements OnInit, AfterViewChecked {
 
   dtOptions: DataTables.Settings = {};
   data: any;
+  user_email: string;
+  user_role: string;
   constructor(private service: UsersService) { }
 
   ngOnInit() {
+    this.user_email = localStorage.getItem('user_email');
+    this.user_role = (localStorage.getItem('user_role')).replace('ROLE_', '');
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10

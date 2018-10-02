@@ -7,6 +7,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ManageSignComponent implements OnInit {
   userid: any;
+  user_email: string;
+  user_role: string;
   constructor(private route: ActivatedRoute) { }
   timezone: any = [
     { 'name': 'MacDonalds-Irvine 1', 'type': 'RGB', 'ip': '192.168.1.21', 'port': '22', 'timezone': 'America/Los_Angelos(Pacific)' },
@@ -31,6 +33,8 @@ export class ManageSignComponent implements OnInit {
   isEditItems: boolean;
 
   ngOnInit() {
+    this.user_email = localStorage.getItem('user_email');
+    this.user_role = (localStorage.getItem('user_role')).replace('ROLE_', '');
      this.route.params.subscribe(params => {
       this.userid = params['id'];
     });

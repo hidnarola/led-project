@@ -39,6 +39,7 @@ export class SignsService {
   addSign(data) {
     const uri = this.apiURL + 'leddesigner/signsn/add';
     const signs = {
+      serial_number: Number(data.signsn),
       height: Number(data.heighty),
       host: data.ip,
       name: data.signname,

@@ -17,18 +17,10 @@
             <div class="media">
               <a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
               <div class="media-body">
-                <span class="media-heading text-semibold">Victoria Baker</span>
+                <span class="media-heading text-semibold">{{ user_email }}</span>
                 <div class="text-size-mini text-muted">
-                  <i class="icon-pin text-size-small"></i> &nbsp;Santa Ana, CA
+                  <i class="icon-user3 text-size-small"></i> &nbsp;{{ user_role }}
                 </div>
-              </div>
-
-              <div class="media-right media-middle">
-                <ul class="icons-list">
-                  <li>
-                    <a href="#"><i class="icon-cog3"></i></a>
-                  </li>
-                </ul>
               </div>
             </div>
           </div>
@@ -108,7 +100,7 @@
 
             <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
               <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                   <div class="form-group has-feedback">
                     <input type="text" class="form-control" placeholder="Sign Name" name="signname" [(ngModel)]="model.name"
                       #signname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ip.invalid }" required>
@@ -117,6 +109,18 @@
                     </div>
                     <div *ngIf="f.submitted && signname.invalid" class="invalid-feedback">
                       <div *ngIf="signname.errors.required">Sign Name is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group has-feedback">
+                    <input type="text" disabled placeholder="Sign S/N" class="form-control" name="signsn" [(ngModel)]="model.serial_number"
+                      #signsn="ngModel" [ngClass]="{ 'is-invalid': f.submitted && signsn.invalid }" required />
+                    <div class="form-control-feedback">
+                      <i class="icon-list-numbered text-muted"></i>
+                    </div>
+                    <div *ngIf="f.submitted && signsn.invalid" class="invalid-feedback">
+                      <div *ngIf="signsn.errors.required">Sign S/N is required</div>
                     </div>
                   </div>
                 </div>
@@ -199,19 +203,7 @@
 
                   </div>
                 </div>
-                <!-- <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <input type="text" placeholder="Sign S/N" class="form-control" name="signsn"
-                      [(ngModel)]="model.signsn" #signsn="ngModel" [ngClass]="{ 'is-invalid': f.submitted && signsn.invalid }"
-                      required />
-                    <div class="form-control-feedback">
-                      <i class="icon-list-numbered text-muted"></i>
-                    </div>
-                    <div *ngIf="f.submitted && signsn.invalid" class="invalid-feedback">
-                      <div *ngIf="signsn.errors.required">Sign S/N is required</div>
-                    </div>
-                  </div>
-                </div> -->
+
                 <div class="col-md-6">
                   <div class="form-group has-feedback">
                     <!-- <input type="tel" placeholder="Phone" class="form-control" name="phone" [(ngModel)]="model.phone"

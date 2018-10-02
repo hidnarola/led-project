@@ -8,9 +8,13 @@ import { AccountService } from '../../../shared/account.service';
 })
 export class CreateUserComponent implements OnInit {
   model: any = {};
+  user_email: string;
+  user_role: string;
   constructor(private service: AccountService) { }
 
   ngOnInit() {
+    this.user_email = localStorage.getItem('user_email');
+    this.user_role = (localStorage.getItem('user_role')).replace('ROLE_', '');
     this.model.isAdmin = false;
   }
 

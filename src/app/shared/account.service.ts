@@ -112,6 +112,7 @@ export class AccountService {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           const str = res.headers.get('Authorization');
           const token = str.replace('Bearer ', '');
+          localStorage.setItem('user_email', uname);
           localStorage.setItem('access-token', token);
           // console.log(token);
         }

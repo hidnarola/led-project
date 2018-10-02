@@ -17,10 +17,14 @@ export class CreateScheduleComponent implements OnInit {
   model: any = {};
   selectedFiles: FileList;
   SCHE = this.config;
+  user_email: string;
+  user_role: string;
   constructor(private route: ActivatedRoute, private config: Config, private service: SchedulesService) { }
   // public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'myfile'});
 
   ngOnInit() {
+    this.user_email = localStorage.getItem('user_email');
+    this.user_role = (localStorage.getItem('user_role')).replace('ROLE_', '');
     this.model.myfiles = [];
     this.route.queryParams
       .filter(params => params.repeat)

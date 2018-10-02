@@ -11,10 +11,13 @@ export class CreateSetupComponent implements OnInit, AfterViewChecked {
   signType: any;
   model: any = {};
   timezones: any;
+  user_email: string;
+  user_role: string;
   constructor(private service: SignsService, private config: Config) { }
 
   ngOnInit() {
-
+    this.user_email = localStorage.getItem('user_email');
+    this.user_role = (localStorage.getItem('user_role')).replace('ROLE_', '');
     this.signType = this.config.signType;
     this.timezones = this.config.timeZone;
     this.model.signtype = this.signType[0];

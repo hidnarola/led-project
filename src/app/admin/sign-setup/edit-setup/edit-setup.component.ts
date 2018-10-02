@@ -12,17 +12,20 @@ export class EditSetupComponent implements OnInit {
   model: any = {};
   signType: any;
   timezones: any;
+  user_email: string;
+  user_role: string;
   constructor(private config: Config, private route: ActivatedRoute, private router: Router, private service: SignsService) { }
 
   ngOnInit() {
-
+    this.user_email = localStorage.getItem('user_email');
+    this.user_role = (localStorage.getItem('user_role')).replace('ROLE_', '');
     this.signType = this.config.signType;
     this.timezones = this.config.timeZone;
     this.route.params.subscribe(params => {
       // console.log(params['id']);
       this.service.getSingleSign(params['id']).subscribe(res => {
         this.model = res;
-        // console.log(res);
+        console.log(res);
       });
     });
   }
