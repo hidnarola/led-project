@@ -16,7 +16,7 @@ export class CreateScheduleComponent implements OnInit {
   repeat = 'None';
   model: any = {};
   selectedFiles: FileList;
-  SCHE = this.config;
+  CONFIG = this.config;
   user_email: string;
   user_role: string;
   constructor(private route: ActivatedRoute, private config: Config, private service: SchedulesService) { }
@@ -25,6 +25,8 @@ export class CreateScheduleComponent implements OnInit {
   ngOnInit() {
     this.user_email = localStorage.getItem('user_email');
     this.user_role = (localStorage.getItem('user_role')).replace('ROLE_', '');
+    this.model.monthorweek = 'week';
+    this.model.ondate = new Date();
     this.model.myfiles = [];
     this.route.queryParams
       .filter(params => params.repeat)
@@ -34,25 +36,38 @@ export class CreateScheduleComponent implements OnInit {
         this.repeat = params.repeat;
       });
 
-    // this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
-    // this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-    //      console.log('ImageUpload:uploaded:', item, status, response);
-    //      alert('File uploaded successfully');
-    //  };
+
   }
+
+  // myUploader(event) {
+  //   console.log(event.files);
+  //   this.model.myfiles = event.files;
+  // }
+
+  onselectedFiles(event) {
+    console.log(event.files);
+    this.selectedFiles = event.files;
+    this.model.myfiles = this.selectedFiles;
+  }
+
 
   onSubmit() {
-    console.log(this.model);
-    this.service.continuousCreate(this.model).subscribe(res => {
-      console.log(res);
-    });
+
+    if (this.repeat === this.config.SCHE_CONT) {
+      this.service.continuousCreate(this.model).subscribe(res => {
+        console.log(res);
+      });
+    } else {
+      console.log(this.repeat);
+      console.log(this.model);
+    }
   }
 
-  selectFiles(event) {
-    this.selectedFiles = event.target.files;
-    this.model.myfiles =  this.selectedFiles;
-    console.log(event.target.files);
-  }
+  // selectFiles(event) {
+  //   this.selectedFiles = event.target.files;
+  //   this.model.myfiles = this.selectedFiles;
+  //   console.log(event.target.files);
+  // }
 
   // // Converting into array of DataURL
   // // ================================

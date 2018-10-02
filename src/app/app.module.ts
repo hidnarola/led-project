@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { DataTableModule } from 'angular-6-datatable';
 import { DataTablesModule } from 'angular-datatables';
@@ -24,6 +24,12 @@ import { AdminHeaderComponent } from './admin/admin-header/admin-header.componen
 import { UsersComponent } from './admin/users/users.component';
 import { SignSetupComponent } from './admin/sign-setup/sign-setup.component';
 import { AdminLogoutComponent } from './admin/admin-logout/admin-logout.component';
+
+// PrimeNG Modules
+import { CalendarModule } from 'primeng/calendar';
+import { FileUploadModule } from 'primeng/fileupload';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { CheckboxModule } from 'primeng/checkbox';
 
 import { JwtModule } from '@auth0/angular-jwt';
 import { JwtInterceptor } from './shared/jwt.intersepter';
@@ -68,7 +74,9 @@ export function tokenGetter() {
     ManageSignComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule, BrowserAnimationsModule,
+    CheckboxModule, RadioButtonModule,
+    CalendarModule, FileUploadModule,
     DataTableModule,
     DataTablesModule,
     FormsModule,

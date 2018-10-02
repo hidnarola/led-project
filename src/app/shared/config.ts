@@ -11,4 +11,7 @@ export class Config {
     SCHE_WEEK = 'Weekly';
     SCHE_MONT = 'Monthly';
     SCHE_YEAR = 'Yearly';
+
+    DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 }

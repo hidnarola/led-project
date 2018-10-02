@@ -1,5 +1,5 @@
-<!-- <div *ngIf="SCHE.SCHE_CONT === repeat">Continue</div>
-<div *ngIf="SCHE.SCHE_DAYL === repeat">Daily</div> -->
+<!-- <div *ngIf="CONFIG.SCHE_CONT === repeat">Continue</div>
+<div *ngIf="CONFIG.SCHE_DAYL === repeat">Daily</div> -->
 
 <app-header></app-header>
 
@@ -94,7 +94,7 @@
 
             <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
 
-              <div class="row">
+              <div class="row" *ngIf="CONFIG.SCHE_YEAR !== repeat">
                 <div class="col-md-12">
                   <div class="form-group has-feedback">
                     <input type="number" class="form-control" placeholder="Priority" name="priority" [(ngModel)]="model.priority"
@@ -108,8 +108,64 @@
                   </div>
                 </div>
               </div>
+              <div class="row" *ngIf="CONFIG.SCHE_YEAR === repeat">
+                <div class="col-md-6">
+                  <div class="form-group has-feedback">
+                    <input type="number" class="form-control" placeholder="Priority" name="priority" [(ngModel)]="model.priority"
+                      #priority="ngModel" [ngClass]="{ 'is-invalid': f.submitted && priority.invalid }" required>
+                    <div class="form-control-feedback">
+                      <i class="icon-display text-muted"></i>
+                    </div>
+                    <div *ngIf="f.submitted && priority.invalid" class="invalid-feedback">
+                      <div *ngIf="priority.errors.required">Priority is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group has-feedback">
+                    <!-- <p-calendar name="ondate" dateFormat="dd mm" [(ngModel)]="model.ondate" [showIcon]="true"></p-calendar> -->
+                    <input type="date" class="form-control" placeholder="On Date" name="ondate" [(ngModel)]="model.ondate"
+                      #ondate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ondate.invalid }" required>
+                    <div class="form-control-feedback">
+                      <i class="icon-screen3 text-muted"></i>
+                    </div>
+                    <div *ngIf="f.submitted && ondate.invalid" class="invalid-feedback">
+                      <div *ngIf="ondate.errors.required">On date is required</div>
+                    </div>
+                  </div>
+                </div>
 
-              <div class="row">
+              </div>
+              <div class="row" *ngIf="CONFIG.SCHE_YEAR === repeat">
+                <div class="col-md-6">
+                  <div class="form-group has-feedback">
+                    <!-- <p-calendar [(ngModel)]="model.firstyear" name="firstyear" view="year" dateFormat="yyyy" [yearNavigator]="true" yearRange="2018:9999"></p-calendar> -->
+                    <input type="date" class="form-control" placeholder="First year" name="firstyear" [(ngModel)]="model.firstyear"
+                      #firstyear="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstyear.invalid }" required>
+                    <div class="form-control-feedback">
+                      <i class="icon-screen3 text-muted"></i>
+                    </div>
+                    <div *ngIf="f.submitted && firstyear.invalid" class="invalid-feedback">
+                      <div *ngIf="firstyear.errors.required">First Year is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group has-feedback">
+                    <!-- <p-calendar [(ngModel)]="model.lastyear" name="lastyear" view="year" dateFormat="yyyy" [yearNavigator]="true" yearRange="2018:9999"></p-calendar> -->
+                    <input type="date" class="form-control" placeholder="Last Year" name="lastyear" [(ngModel)]="model.lastyear"
+                      #lastyear="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lastyear.invalid }" required>
+                    <div class="form-control-feedback">
+                      <i class="icon-screen3 text-muted"></i>
+                    </div>
+                    <div *ngIf="f.submitted && lastyear.invalid" class="invalid-feedback">
+                      <div *ngIf="lastyear.errors.required">Last Year is required</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="row" *ngIf="CONFIG.SCHE_YEAR !== repeat">
                 <div class="col-md-6">
                   <div class="form-group has-feedback">
                     <input type="date" class="form-control" placeholder="Start Date" name="startdate" [(ngModel)]="model.startdate"
@@ -164,7 +220,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row" *ngIf="SCHE.SCHE_DAYL === repeat">
+              <div class="row" *ngIf="CONFIG.SCHE_DAYL === repeat">
                 <div class="col-md-6">
                   <div class="form-group has-feedback">
                     <input type="number" placeholder="Every N-th Day" class="form-control" name="nthday" [(ngModel)]="model.nthday"
@@ -178,22 +234,79 @@
                   </div>
                 </div>
               </div>
+              <div class="row" *ngIf="CONFIG.SCHE_WEEK === repeat">
+                <div class="col-md-6">
+                  <div class="form-group has-feedback">
+                    <input type="number" placeholder="Every N-th Week" class="form-control" name="nthweek" [(ngModel)]="model.nthweek"
+                      #nthweek="ngModel" [ngClass]="{ 'is-invalid': f.submitted && nthweek.invalid }" required />
+                    <div class="form-control-feedback">
+                      <i class="icon-move-horizontal text-muted"></i>
+                    </div>
+                    <div *ngIf="f.submitted && nthweek.invalid" class="invalid-feedback">
+                      <div *ngIf="nthweek.errors.required">Every N-th Week is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <span *ngFor="let day of CONFIG.DAYS">
+                      {{ day }} <p-checkbox name="days" value="{{day}}" [(ngModel)]="model.weekdays"></p-checkbox>&nbsp;
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="CONFIG.SCHE_MONT === repeat">
+                <div class="col-md-6">
+                  <div class="form-group has-feedback">
+                    <input type="number" placeholder="On Month Day" class="form-control" name="nthweek" [(ngModel)]="model.monthday"
+                      #nthweek="ngModel" [ngClass]="{ 'is-invalid': f.submitted && nthweek.invalid }" required />
+                    <div class="form-control-feedback">
+                      <i class="icon-move-horizontal text-muted"></i>
+                    </div>
+                    <div *ngIf="f.submitted && nthweek.invalid" class="invalid-feedback">
+                      <div *ngIf="nthweek.errors.required">On Month Day is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <p-radioButton name="monthorweek" value="month" label="Month Day" [(ngModel)]="model.monthorweek"></p-radioButton>
+                    &nbsp;
+                    <p-radioButton name="monthorweek" value="week" label="Week Day" [(ngModel)]="model.monthorweek"></p-radioButton>
+                  </div>
+                </div>
+
+              </div>
+              <div class="row" *ngIf="CONFIG.SCHE_MONT === repeat">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <span *ngFor="let day of CONFIG.DAYS">
+                      {{ day }} <p-checkbox name="days" value="{{day}}" [(ngModel)]="model.weekdays"></p-checkbox>&nbsp;
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <span *ngFor="let month of CONFIG.MONTHS">
+                      {{ month }} <p-checkbox name="months" value="{{month}}" [(ngModel)]="model.months"></p-checkbox>&nbsp;
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div class="row">
                 <div class="col-md-12">
-
                   <!-- <input type='file' (change)="onSelectFile($event)" multiple> -->
-
-                  <input type="file" placeholder="Browse Images" name="myfile" [(ngModel)]="model.myfile" #file #myfile="ngModel"
+                  <!-- <input type="file" placeholder="Browse Images" name="myfile" [(ngModel)]="model.myfile" #file #myfile="ngModel"
                     class="file-input" data-show-upload="false" data-show-caption="true" data-show-preview="true"
                     [ngClass]="{ 'is-invalid': f.submitted && myfile.invalid }" multiple="multiple" (change)="selectFiles($event)"
-                    required>
+                    required> -->
 
                   <!-- <input type="file" name="myfile" class="file-input" multiple="multiple" data-show-upload="false"
                     #file #myfile="ngModel" [(ngModel)]="model.myfile" placeholder="Browse Images" data-show-caption="true"
                     ng2FileSelect [uploader]="myfile" /> -->
-                  <div *ngIf="f.submitted && myfile.invalid" class="invalid-feedback">
-                    <div *ngIf="myfile.errors.required">File(s) required</div>
-                  </div>
+
+                  <p-fileUpload name="myfile" [showUploadButton]="false" customUpload="true" (onSelect)="onselectedFiles($event)"
+                    multiple="multiple" required="required"></p-fileUpload>
 
                 </div>
               </div>

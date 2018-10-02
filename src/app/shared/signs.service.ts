@@ -39,13 +39,13 @@ export class SignsService {
   addSign(data) {
     const uri = this.apiURL + 'leddesigner/signsn/add';
     const signs = {
-      serial_number: Number(data.signsn),
+      serial_number: data.signsn,
       height: Number(data.heighty),
       host: data.ip,
       name: data.signname,
       port: Number(data.port),
       status: true,
-      timezone: new Date().toLocaleString,
+      timezone: data.timezone,
       type: data.signtype,
       width: Number(data.widthx)
     };
