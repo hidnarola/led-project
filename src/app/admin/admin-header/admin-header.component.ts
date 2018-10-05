@@ -6,11 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin-header.component.css']
 })
 export class AdminHeaderComponent implements OnInit {
-user_email: any;
+
+  user_name: string;
   constructor() { }
 
   ngOnInit() {
-    this.user_email = localStorage.getItem('user_email');
+    this.user_name = localStorage.getItem('name');
   }
 
   logout() {

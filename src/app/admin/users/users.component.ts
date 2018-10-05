@@ -12,13 +12,13 @@ export class UsersComponent implements OnInit, AfterViewChecked {
 
   dtOptions: DataTables.Settings = {};
   data: any;
-  user_email: string;
+  user_name: string;
   user_role: string;
   constructor(private service: UsersService) { }
 
   ngOnInit() {
-    this.user_email = localStorage.getItem('user_email');
-    this.user_role = (localStorage.getItem('user_role')).replace('ROLE_', '');
+    this.user_name = localStorage.getItem('name');
+    this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10
@@ -73,6 +73,14 @@ export class UsersComponent implements OnInit, AfterViewChecked {
       this.data = res;
       console.log(res);
     });
+  }
+
+  deleteUser(id) {
+    // this.service.deleteProfile(id).subscribe(res => {
+    //   alert('Not Allowed');
+    // });
+
+    alert('Not Allowed');
   }
 
 }

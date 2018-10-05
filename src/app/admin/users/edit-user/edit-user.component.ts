@@ -8,13 +8,13 @@ import { UsersService } from '../../../shared/users.service';
 })
 export class EditUserComponent implements OnInit {
   model: any = {};
-  user_email: string;
+  user_name: string;
   user_role: string;
   constructor(private route: ActivatedRoute, private router: Router, private service: UsersService) { }
 
   ngOnInit() {
-    this.user_email = localStorage.getItem('user_email');
-    this.user_role = (localStorage.getItem('user_role')).replace('ROLE_', '');
+    this.user_name = localStorage.getItem('name');
+    this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
     this.route.params.subscribe(params => {
       // console.log(params['id']);
       this.service.getUserProfile(params['id']).subscribe(res => {
@@ -30,4 +30,5 @@ export class EditUserComponent implements OnInit {
       this.router.navigate(['/admin/users']);
     });
   }
+
 }

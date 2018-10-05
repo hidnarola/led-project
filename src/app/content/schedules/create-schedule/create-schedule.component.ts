@@ -14,20 +14,35 @@ import { SchedulesService } from '../../../shared/schedules.service';
 })
 export class CreateScheduleComponent implements OnInit {
   repeat = 'None';
+  years = [];
+
+  maxYearDate: Date;
+  dobYearRange = '';
+
   model: any = {};
   selectedFiles: FileList;
+  uploadedFiles: any[] = [];
   CONFIG = this.config;
-  user_email: string;
+  user_name: string;
   user_role: string;
   constructor(private route: ActivatedRoute, private config: Config, private service: SchedulesService) { }
   // public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'myfile'});
 
   ngOnInit() {
-    this.user_email = localStorage.getItem('user_email');
-    this.user_role = (localStorage.getItem('user_role')).replace('ROLE_', '');
+
+    // this.maxYearDate = new Date(new Date().setFullYear(new Date().getFullYear()));
+    // this.dobYearRange = '1900:' + (new Date().getFullYear() - 12);
+
+    this.user_name = localStorage.getItem('name');
+    this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
     this.model.monthorweek = 'week';
-    this.model.ondate = new Date();
+    // this.model.ondate = new Date();
     this.model.myfiles = [];
+    for (let i: any = new Date().getFullYear(); this.years.length < 100; i++) {
+      // console.log(this.years.length + ' : ' + i);
+      this.years.push({ 'value': i });
+    }
+    // console.log(this.years);
     this.route.queryParams
       .filter(params => params.repeat)
       .subscribe(params => {
@@ -39,20 +54,29 @@ export class CreateScheduleComponent implements OnInit {
 
   }
 
-  // myUploader(event) {
-  //   console.log(event.files);
-  //   this.model.myfiles = event.files;
-  // }
-
-  onselectedFiles(event) {
-    console.log(event.files);
-    this.selectedFiles = event.files;
-    this.model.myfiles = this.selectedFiles;
+  myUploader(event) {
+    console.log('myUploader: ' + JSON.stringify(event.files));
+    this.model.myfiles = event.files;
   }
 
+  onselectedFiles(event) {
+    console.log('onselectedFiles: ' + JSON.stringify(event.files));
+    this.selectedFiles = event.files;
+    // this.model.myfiles.push(this.selectedFiles);
+    // console.log('onselectedFiles: ' + this.selectedFiles);
+  }
+
+  onUpload(event): void {
+    console.log('onUpload');
+    for (const file of event.files) {
+      this.uploadedFiles.push(file);
+    }
+    console.log('onUpload' + this.uploadedFiles);
+  }
 
   onSubmit() {
 
+    console.log(this.model);
     if (this.repeat === this.config.SCHE_CONT) {
       this.service.continuousCreate(this.model).subscribe(res => {
         console.log(res);

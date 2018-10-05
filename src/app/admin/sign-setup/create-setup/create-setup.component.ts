@@ -1,7 +1,8 @@
 import { Component, OnInit, AfterViewChecked } from '@angular/core';
-import {DropdownModule} from 'primeng/dropdown';
+import { DropdownModule } from 'primeng/dropdown';
 import { SignsService } from '../../../shared/signs.service';
 import { Config } from '../../../shared/config';
+import { NotifierService } from 'angular-notifier';
 @Component({
   selector: 'app-create-setup',
   templateUrl: './create-setup.component.html',
@@ -11,13 +12,13 @@ export class CreateSetupComponent implements OnInit, AfterViewChecked {
   signType: any;
   model: any = {};
   timezones: any;
-  user_email: string;
+  user_name: string;
   user_role: string;
-  constructor(private service: SignsService, private config: Config) { }
+  constructor(private notifier: NotifierService, private service: SignsService, private config: Config) { }
 
   ngOnInit() {
-    this.user_email = localStorage.getItem('user_email');
-    this.user_role = (localStorage.getItem('user_role')).replace('ROLE_', '');
+    this.user_name = localStorage.getItem('name');
+    this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
     this.signType = this.config.signType;
     this.timezones = this.config.timeZone;
     this.model.signtype = this.signType[0];
@@ -26,7 +27,11 @@ export class CreateSetupComponent implements OnInit, AfterViewChecked {
   onSubmit() {
     //  alert(JSON.stringify(this.model));
     this.service.addSign(this.model).subscribe(res => {
-      console.log(res);
+      // console.log(res);
+      this.notifier.notify('success', 'Added Successfully');
+      this.model = {};
+      this.model.signtype = this.signType[0];
+      this.model.timezone = 'America/Los_Angeles : (GMT-08:00) Pacific Time';
     });
   }
 

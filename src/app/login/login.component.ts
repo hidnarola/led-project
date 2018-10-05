@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 // import { first } from 'rxjs/operators';
 import { AccountService } from '../shared/account.service';
+import { NotifierService } from 'angular-notifier';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,26 +12,46 @@ import { AccountService } from '../shared/account.service';
 export class LoginComponent implements OnInit {
 
   model: any = {};
-  constructor(private service: AccountService, private router: Router, private helper: JwtHelperService) { }
+  constructor(private notifier: NotifierService, private service: AccountService,
+    private router: Router, private helper: JwtHelperService) {
+  }
 
   onSubmit() {
     // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.model));
     this.service.login(this.model.email, this.model.password).subscribe(res => {
       // console.log(JSON.stringify(res));
       const decodedToken = this.helper.decodeToken(localStorage.getItem('access-token'));
-      // console.log(decodedToken);
+      let user = decodedToken.sub;
+      let arr = [];
+      user = user.replace('{', '');
+      user = user.replace('}', ''); // these lines will remove the leading and trailing braces
+      // user = user.replace(/=/g, ':');
+      arr = user.split(','); // this will give you an array of strings with each index in the format "12=Other Services (Assisted)"
+      // console.log(arr);
+      arr[3] = arr[3].replace('[Authority{authorityName=\'', '');
+      arr[3] = arr[3].replace('\']}', '');
+      console.log(arr);
+      arr.forEach(function (item) {
+        // here you can split again with '=' and do what is required
+        const s = item.split('=');
+        // const obj = { key: s[0], value: s[1] }; // this is up to your implementation
+        // console.log((s[0]).trim() + ' : ' + s[1]);
+        localStorage.setItem((s[0]).trim(), s[1]);
+      });
+      localStorage.setItem('USER', JSON.stringify(arr));
 
       // CHECK USER ROLE
-      if (decodedToken.sub === 'ROLE_USER') {
-        localStorage.setItem('user_role', 'ROLE_USER');
+      if (localStorage.getItem('authorities') === 'ROLE_USER') {
         this.router.navigate(['home']);
-      } else if (decodedToken.sub === 'ROLE_ADMIN') {
-        localStorage.setItem('user_role', 'ROLE_ADMIN');
+      } else if (localStorage.getItem('authorities') === 'ROLE_ADMIN') {
         this.router.navigate(['admin/dashboard']);
+      } else {
+        this.notifier.notify('warning', 'ACCESS DENIED');
       }
 
     }, error => {
       console.log(error);
+      this.notifier.notify('error', error.message);
     });
 
 

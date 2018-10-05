@@ -10,13 +10,13 @@ import { SignsService } from '../../shared/signs.service';
 export class SignSetupComponent implements OnInit, AfterViewChecked {
   data: any;
   dtOptions: DataTables.Settings = {};
-  user_email: string;
+  user_name: string;
   user_role: string;
   constructor(private service: SignsService) { }
 
   ngOnInit() {
-    this.user_email = localStorage.getItem('user_email');
-    this.user_role = (localStorage.getItem('user_role')).replace('ROLE_', '');
+    this.user_name = localStorage.getItem('name');
+    this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
     // this.dtOptions = {
     //   pagingType: 'full_numbers',
     //   pageLength: 10,

@@ -18,7 +18,7 @@ export class UsersService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        console.log(res);
         return res;
       }
       ));
@@ -36,10 +36,23 @@ export class UsersService {
       ));
   }
 
+  deleteProfile(id) {
+
+    // Not implemented
+    const uri = this.apiURL + 'leddesigner/user/deleteProfile?userid=' + id;
+
+    return this.http
+      .get(uri)
+      .pipe(map(res => {
+        // console.log(res);
+        return res;
+      }
+      ));
+  }
+
   updateProfile(data) {
     const uri = this.apiURL + 'leddesigner/user/updateProfile';
     const profile = {
-      email: data.email,
       firstname: data.firstname,
       lastname: data.lastname,
       mobno: data.mobno,
@@ -48,6 +61,7 @@ export class UsersService {
       state: data.state,
       userid: data.userid
     };
+    console.log(profile);
     return this.http
       .put(uri, profile)
       .map(res => {

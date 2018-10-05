@@ -1,7 +1,7 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTableModule } from 'angular-6-datatable';
 import { DataTablesModule } from 'angular-datatables';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -27,9 +27,13 @@ import { AdminLogoutComponent } from './admin/admin-logout/admin-logout.componen
 
 // PrimeNG Modules
 import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CheckboxModule } from 'primeng/checkbox';
+
+// Notification or Alert
+import { NotifierModule, NotifierOptions } from 'angular-notifier';
 
 import { JwtModule } from '@auth0/angular-jwt';
 import { JwtInterceptor } from './shared/jwt.intersepter';
@@ -45,6 +49,51 @@ import { ManageSignComponent } from './admin/users/manage-sign/manage-sign.compo
 export function tokenGetter() {
   return localStorage.getItem('access-token');
 }
+
+
+/**
+ * Custom angular notifier options
+ */
+const customNotifierOptions: NotifierOptions = {
+  position: {
+    horizontal: {
+      position: 'right',
+      distance: 12
+    },
+    vertical: {
+      position: 'top',
+      distance: 12,
+      gap: 10
+    }
+  },
+  theme: 'material',
+  behaviour: {
+    autoHide: 5000,
+    onClick: 'hide',
+    onMouseover: 'pauseAutoHide',
+    showDismissButton: true,
+    stacking: 5
+  },
+  animations: {
+    enabled: true,
+    show: {
+      preset: 'slide',
+      speed: 300,
+      easing: 'ease'
+    },
+    hide: {
+      preset: 'fade',
+      speed: 300,
+      easing: 'ease',
+      offset: 50
+    },
+    shift: {
+      speed: 300,
+      easing: 'ease'
+    },
+    overlap: 150
+  }
+};
 
 @NgModule({
   declarations: [
@@ -77,9 +126,11 @@ export function tokenGetter() {
     BrowserModule, BrowserAnimationsModule,
     CheckboxModule, RadioButtonModule,
     CalendarModule, FileUploadModule,
+    DropdownModule,
     DataTableModule,
     DataTablesModule,
     FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
     HttpModule,
@@ -89,7 +140,8 @@ export function tokenGetter() {
         whitelistedDomains: ['192.168.100.42:8080'],
         blacklistedRoutes: ['localhost:4000/api/auth']
       }
-    })
+    }),
+    NotifierModule.withConfig(customNotifierOptions)
   ],
   providers: [Config,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }

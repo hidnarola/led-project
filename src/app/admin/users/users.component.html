@@ -17,7 +17,7 @@
             <div class="media">
               <a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
               <div class="media-body">
-                <span class="media-heading text-semibold">{{ user_email }}</span>
+                <span class="media-heading text-semibold">{{ user_name }}</span>
                 <div class="text-size-mini text-muted">
                   <i class="icon-user3 text-size-small"></i> &nbsp;{{ user_role }}
                 </div>
@@ -109,7 +109,7 @@
                     </th>
                     <th> Company Name
                     </th>
-                    <th>Status</th>
+                    <th>Type</th>
                     <th class="text-center">Actions</th>
                   </tr>
                 </thead>
@@ -120,7 +120,8 @@
                     <td>{{ user.email }}</td>
                     <td>{{ user.mobno }}</td>
                     <td>{{ user.companyname }}</td>
-                    <td><span class="label label-success">Active</span></td>
+                    <td><span class="label label-{{user.authorities[0].name==='ROLE_USER' ? 'success' : 'danger'}}">{{user.authorities[0].name==='ROLE_USER'
+                        ? 'User' : 'Admin'}}</span></td>
                     <td class="text-center">
                       <ul class="icons-list">
                         <li class="dropdown">
@@ -128,11 +129,12 @@
                             <i class="icon-menu9"></i>
                           </a>
                           <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="" routerLink="/admin/user/sign/{{ user.userid }}"><i class=" icon-display"></i>
+                            <li *ngIf="user.authorities[0].name==='ROLE_USER'"><a href="" routerLink="/admin/user/sign/{{ user.userid }}"><i
+                                  class=" icon-display"></i>
                                 Manage Sign</a></li>
                             <li><a href="" routerLink="/admin/user/edit/{{ user.userid }}"><i class="icon-pencil4"></i>
                                 Edit</a></li>
-                            <li><a href=""><i class=" icon-trash-alt"></i> Delete</a></li>
+                            <li><a (click)="deleteUser(user.userid)"><i class="icon-trash-alt"></i> Delete</a></li>
                           </ul>
                         </li>
                       </ul>

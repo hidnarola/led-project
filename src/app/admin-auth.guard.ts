@@ -11,7 +11,7 @@ export class AdminAuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (localStorage.getItem('access-token') && localStorage.getItem('user_role') === 'ROLE_ADMIN') {
+    if (localStorage.getItem('access-token') && localStorage.getItem('authorities') === 'ROLE_ADMIN') {
       // logged in so return true
       return true;
     }

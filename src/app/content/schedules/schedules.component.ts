@@ -8,7 +8,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 export class SchedulesComponent implements OnInit, OnDestroy {
   dtOptions: DataTables.Settings = {};
   persons: any = [];
-  user_email: string;
+  user_name: string;
   user_role: string;
   // We use this trigger because fetching the list of persons can be quite long,
   // thus we ensure the data is fetched before rendering
@@ -17,8 +17,8 @@ export class SchedulesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.user_email = localStorage.getItem('user_email');
-    this.user_role = (localStorage.getItem('user_role')).replace('ROLE_', '');
+    this.user_name = localStorage.getItem('name');
+    this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10

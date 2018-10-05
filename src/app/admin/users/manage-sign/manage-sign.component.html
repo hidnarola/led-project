@@ -17,7 +17,7 @@
             <div class="media">
               <a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
               <div class="media-body">
-                <span class="media-heading text-semibold">{{ user_email }}</span>
+                <span class="media-heading text-semibold">{{ user_name }}</span>
                 <div class="text-size-mini text-muted">
                   <i class="icon-user3 text-size-small"></i> &nbsp;{{ user_role }}
                 </div>
@@ -67,7 +67,7 @@
         <div class="breadcrumb-line">
           <ul class="breadcrumb">
             <li><a href="" routerLink="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
-            <li><a href="" routerLink="/admin/users"><i class="icon-home2 position-left"></i> User</a></li>
+            <li><a href="" routerLink="/admin/users"><i class="icon-user-tie position-left"></i> User</a></li>
             <li class="active">Manage Sign</li>
           </ul>
 
@@ -85,66 +85,129 @@
         <div class="panel panel-flat">
           <div class="panel-heading">
             <h5 class="panel-title">Manage Sign for USER_ID : {{ userid }}</h5>
-            <div class="heading-elements">
-              <ul class="icons-list">
-                <!-- <li><a data-action="collapse"></a></li> -->
-                <li><a data-action="reload"></a></li>
-                <!-- <li><a data-action="close"></a></li> -->
-              </ul>
-            </div>
+            <!-- <div class="heading-elements"> -->
+            <!-- <ul class="icons-list"> -->
+            <!-- <li><a data-action="collapse"></a></li> -->
+            <!-- <li><a data-action="reload"></a></li> -->
+            <!-- <li><a data-action="close"></a></li> -->
+            <!-- </ul> -->
+            <!-- </div> -->
           </div>
 
           <div class="panel-body">
 
-            <div class="row">
-              <table class="table table-striped table-bordered col-lg-4">
-                <caption>
-                  <i>Add or Remove Signs</i>
-                </caption>
+            <!-- <form [formGroup]="manageSign"> -->
 
-                <thead>
-                  <tr>
-                    <th>Sign Name &nbsp;
-                      <a (click)="onEditCloseItems()" class="text-info float-right">
-                        <!-- <i class="mdi mdi-{{isEditItems ? 'close' : 'pencil'}} mdi-18px"></i> -->
-                        <i class="icon icon-{{isEditItems ? 'x' : 'pencil4'}}"></i>
-                      </a>
-                    </th>
-                  </tr>
-                </thead>
+            <table class="table table-striped table-bordered col-lg-4">
+              <caption>
+                <i>Add or Remove Signs</i>
+              </caption>
 
-                <tbody *ngIf="!isEditItems">
-                  <tr *ngFor="let field of fieldArray; let i = index">
-                    <td *ngIf="field?.name">
-                      <i (click)="deleteFieldValue(i)" class="icon icon-x"></i> {{field.name}}
-                    </td>
-                  </tr>
-                </tbody>
+              <thead>
+                <tr>
+                  <th>Sign Name &nbsp;
+                    <a (click)="onEditCloseItems()" class="text-info float-right">
+                      <!-- <i class="mdi mdi-{{isEditItems ? 'close' : 'pencil'}} mdi-18px"></i> -->
+                      <i class="icon icon-{{isEditItems ? 'x' : 'pencil4'}}"></i>
+                    </a>
+                  </th>
+                </tr>
+              </thead>
 
-                <tbody *ngIf="isEditItems">
-                  <tr *ngFor="let field of fieldArray; let i = index">
-                    <td>
-                      <div class="form-group"> {{ field.name }}
-                        <!-- <input [(ngModel)]="field.name" class="form-control" type="text" name="{{field.name}}"
+              <tbody *ngIf="!isEditItems">
+                <tr *ngFor="let field of fieldArray; let i = index">
+                  <td *ngIf="field?.id">
+                    <i (click)="deleteFieldValue(field.id)" class="icon icon-x"></i> {{field.sn.name + ' : ' +
+                    field.sn.serial_number}}
+                  </td>
+                </tr>
+                <tr *ngIf="isAddNew">
+                  <td>
+                    <div class="form-group">
+                      Choose New One:
+                      <select data-placeholder="Select Sign" class="form-control select" (change)="addUserSign($event.target.value)"
+                        name="addNewSign" [(ngModel)]="addNewSign" required>
+                        <option [ngValue]="sign.id" *ngFor="let sign of allSign">{{sign.name + ' : ' +
+                          sign.serial_number}}</option>
+                      </select>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="!isAddNew">
+                  <td align="right">
+                    <button class="btn btn-primary btn-lg1" type="button" (click)="addFieldValue()" style="margin-right:10px">Add
+                      More Sign</button>
+                  </td>
+                </tr>
+              </tbody>
+
+              <tbody *ngIf="isEditItems">
+                <tr *ngFor="let field of fieldArray; let i = index">
+                  <td>
+                    <div class="form-group">
+                      {{ field.sn.name ? i+1 + '. ' + field.sn.name : 'Choose New One' }}
+                      <!-- <input [(ngModel)]="field.name" class="form-control" type="text" name="{{field.name}}"
                           placeholder="Name..." /> -->
-                        <select data-placeholder="Select Time-Zone..." class="form-control select" name="{{field.name}}"
-                          [(ngModel)]="field.name" required>
-                          <option [ngValue]="zone.name" *ngFor="let zone of timezone">{{zone.name}}</option>
-                        </select>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td align="right">
-                      <button class="btn btn-secondary btn-lg1" type="button" (click)="addFieldValue()" style="margin-right:10px">Add
-                        More Item</button>
-                      <button (click)="onEditCloseItems()" class="btn btn-primary btn-lg1" type="button">Save Items</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                      <select data-placeholder="Select Sign" class="form-control select" (focus)="onfocusSign(field.id)"
+                        (change)="onchangeSign(field.sn.id)" name="{{field.id}}" [(ngModel)]="field.sn.id" required>
+                        <option [ngValue]="sign.id" *ngFor="let sign of allSign">{{sign.name + ' : ' +
+                          sign.serial_number}}</option>
+                      </select>
+                    </div>
+                  </td>
+                </tr>
 
+                <tr>
+                  <td align="right">
+                    <button (click)="onEditCloseItems()" class="btn btn-primary btn-lg1" type="button">Save Items</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+
+            <!-- <div formArrayName="itemRows">
+
+
+                <div *ngFor="let itemrow of manageSign.controls.itemRows.controls; let i=index" [formGroupName]="i">
+                  <div class="col-md-12">
+                    <div class="col-md-10">
+                      <div class="form-group">
+                        <label></label>
+                        <input formControlName="itemname" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <button *ngIf="manageSign.controls.itemRows.controls.length > 1" (click)="deleteRow(i)" class="btn btn-danger">Delete
+                        Button</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button type="button" (click)="addNewRow()" class="btn btn-primary">Add new Sign</button> -->
+
+            <!-- </form> -->
+
+            <!-- <div [formGroup]="myGroup">
+              <div formArrayName="items">
+                <div *ngFor="let item of orderForm.get('items').controls; let i = index">
+                  <div [formGroupName]="i">
+                    <input name="sign" />
+                  </div>
+                </div>
+              </div>
+            </div> -->
+
+            <!-- <div formArrayName="items" *ngFor="let item of orderForm.get('items').controls; let i = index;">
+              <div [formGroupName]="i">
+                <input formControlName="name" placeholder="Item name">
+                <input formControlName="description" placeholder="Item description">
+                <input formControlName="price" placeholder="Item price">
+              </div>
+
+              Chosen name: {{ orderForm.controls.items.controls[i].controls.name.value }}
+            </div> -->
+            <!-- <button type="button" (click)="addItem()" class="btn btn-primary">Add new Sign</button> -->
           </div>
 
 

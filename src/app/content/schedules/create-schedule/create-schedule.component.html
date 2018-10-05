@@ -19,7 +19,7 @@
             <div class="media">
               <a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
               <div class="media-body">
-                <span class="media-heading text-semibold">{{ user_email }}</span>
+                <span class="media-heading text-semibold">{{ user_name }}</span>
                 <div class="text-size-mini text-muted">
                   <i class="icon-user3 text-size-small"></i> &nbsp;{{ user_role }}
                 </div>
@@ -92,75 +92,51 @@
           <div class="panel-body">
 
 
-            <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+            <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" enctype="multipart/form-data"
+              novalidate>
 
-              <div class="row" *ngIf="CONFIG.SCHE_YEAR !== repeat">
+              <div class="row">
                 <div class="col-md-12">
                   <div class="form-group has-feedback">
-                    <input type="number" class="form-control" placeholder="Priority" name="priority" [(ngModel)]="model.priority"
-                      #priority="ngModel" [ngClass]="{ 'is-invalid': f.submitted && priority.invalid }" required>
+                    <input type="number" class="form-control" min="1" max="5" placeholder="Priority" name="priority"
+                      [(ngModel)]="model.priority" #priority="ngModel" [ngClass]="{ 'is-invalid': f.submitted && priority.invalid }"
+                      required>
                     <div class="form-control-feedback">
                       <i class="icon-display text-muted"></i>
                     </div>
                     <div *ngIf="f.submitted && priority.invalid" class="invalid-feedback">
                       <div *ngIf="priority.errors.required">Priority is required</div>
+                      <div *ngIf="priority.errors.max">Number Must be beetween 1 and 5</div>
                     </div>
                   </div>
                 </div>
               </div>
+
               <div class="row" *ngIf="CONFIG.SCHE_YEAR === repeat">
                 <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <input type="number" class="form-control" placeholder="Priority" name="priority" [(ngModel)]="model.priority"
-                      #priority="ngModel" [ngClass]="{ 'is-invalid': f.submitted && priority.invalid }" required>
-                    <div class="form-control-feedback">
-                      <i class="icon-display text-muted"></i>
-                    </div>
-                    <div *ngIf="f.submitted && priority.invalid" class="invalid-feedback">
-                      <div *ngIf="priority.errors.required">Priority is required</div>
-                    </div>
+                  <div class="form-group">
+                    <!-- <p-calendar [(ngModel)]="model.firstyear" name="firstyear" view="year" dateFormat="yyyy" [yearNavigator]="true" yearRange="2018:9999"></p-calendar> -->
+                    <!-- <input type="date" class="form-control" placeholder="First year" name="firstyear" [(ngModel)]="model.firstyear"
+                      #firstyear="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstyear.invalid }" required> -->
+                    <p-dropdown [options]="years" name="firstyear" [(ngModel)]="model.firstyear" placeholder="Select a First Year"
+                      optionLabel="value" [showClear]="true"></p-dropdown> &nbsp;&nbsp;
+                    <p-dropdown [options]="years" name="lastyear" [(ngModel)]="model.lastyear" placeholder="Select a Last Year"
+                      optionLabel="value" [showClear]="true"></p-dropdown>
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <!-- <p-calendar name="ondate" dateFormat="dd mm" [(ngModel)]="model.ondate" [showIcon]="true"></p-calendar> -->
-                    <input type="date" class="form-control" placeholder="On Date" name="ondate" [(ngModel)]="model.ondate"
-                      #ondate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ondate.invalid }" required>
-                    <div class="form-control-feedback">
+                  <div class="form-group">
+                    <!-- <label>On Date: </label> -->
+                    <!-- <input type="date" class="form-control" placeholder="On Date" name="ondate" [(ngModel)]="model.ondate"
+                      #ondate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ondate.invalid }" required> -->
+                    <p-calendar name="ondate" dateFormat="dd-mm" placeholder="On Date (dd-mm)" [monthNavigator]="true"
+                      [yearNavigator]="false" [(ngModel)]="model.ondate"></p-calendar>
+                    <!-- <div class="form-control-feedback">
                       <i class="icon-screen3 text-muted"></i>
                     </div>
                     <div *ngIf="f.submitted && ondate.invalid" class="invalid-feedback">
                       <div *ngIf="ondate.errors.required">On date is required</div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-              <div class="row" *ngIf="CONFIG.SCHE_YEAR === repeat">
-                <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <!-- <p-calendar [(ngModel)]="model.firstyear" name="firstyear" view="year" dateFormat="yyyy" [yearNavigator]="true" yearRange="2018:9999"></p-calendar> -->
-                    <input type="date" class="form-control" placeholder="First year" name="firstyear" [(ngModel)]="model.firstyear"
-                      #firstyear="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstyear.invalid }" required>
-                    <div class="form-control-feedback">
-                      <i class="icon-screen3 text-muted"></i>
-                    </div>
-                    <div *ngIf="f.submitted && firstyear.invalid" class="invalid-feedback">
-                      <div *ngIf="firstyear.errors.required">First Year is required</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <!-- <p-calendar [(ngModel)]="model.lastyear" name="lastyear" view="year" dateFormat="yyyy" [yearNavigator]="true" yearRange="2018:9999"></p-calendar> -->
-                    <input type="date" class="form-control" placeholder="Last Year" name="lastyear" [(ngModel)]="model.lastyear"
-                      #lastyear="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lastyear.invalid }" required>
-                    <div class="form-control-feedback">
-                      <i class="icon-screen3 text-muted"></i>
-                    </div>
-                    <div *ngIf="f.submitted && lastyear.invalid" class="invalid-feedback">
-                      <div *ngIf="lastyear.errors.required">Last Year is required</div>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
 
@@ -198,6 +174,7 @@
                   <div class="form-group has-feedback">
                     <input type="time" placeholder="Start Time" class="form-control" name="starttime" [(ngModel)]="model.starttime"
                       #starttime="ngModel" [ngClass]="{ 'is-invalid': f.submitted && starttime.invalid }" required />
+                    <!-- <p-calendar name="starttime" [(ngModel)]="value" showTime="true" hourFormat="12"></p-calendar> -->
                     <div class="form-control-feedback">
                       <i class="icon-move-horizontal text-muted"></i>
                     </div>
@@ -305,11 +282,16 @@
                     #file #myfile="ngModel" [(ngModel)]="model.myfile" placeholder="Browse Images" data-show-caption="true"
                     ng2FileSelect [uploader]="myfile" /> -->
 
-                  <p-fileUpload name="myfile" [showUploadButton]="false" customUpload="true" (onSelect)="onselectedFiles($event)"
-                    multiple="multiple" required="required"></p-fileUpload>
+                  <p-fileUpload name="myfile" [showUploadButton]="false" customUpload="true" auto="auto" (onUpload)="onUpload($event)"
+                    (uploadHandler)="myUploader($event)" multiple="multiple" required="required"></p-fileUpload>
 
                 </div>
               </div>
+              <ul *ngIf="uploadedFiles.length">
+
+                <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+
+              </ul>
               <br />
               <div class="text-right">
                 <button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10"><b><i class="icon-plus3"></i></b>
