@@ -282,16 +282,19 @@
                     #file #myfile="ngModel" [(ngModel)]="model.myfile" placeholder="Browse Images" data-show-caption="true"
                     ng2FileSelect [uploader]="myfile" /> -->
 
-                  <p-fileUpload name="myfile" [showUploadButton]="false" customUpload="true" auto="auto" (onUpload)="onUpload($event)"
-                    (uploadHandler)="myUploader($event)" multiple="multiple" required="required"></p-fileUpload>
+                  <!-- <p-fileUpload name="myfile" [showUploadButton]="false" customUpload="true" auto="auto" (onUpload)="onUpload($event)" 
+                    (uploadHandler)="myUploader($event)" multiple="multiple" required="required"></p-fileUpload> -->
 
+                  <input type="file" multiple="multiple" name="myfile" class="file-input" data-show-upload="false"
+                    #Image (change)="handleFileInput($event.target.files)" data-show-caption="true" required>
                 </div>
               </div>
-              <ul *ngIf="uploadedFiles.length">
+              <!-- <ul *ngIf="uploadedFiles.length">
 
                 <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
 
-              </ul>
+              </ul> -->
+              <!-- <img [src]="imageUrl" style="width:250px;height:200px"> -->
               <br />
               <div class="text-right">
                 <button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10"><b><i class="icon-plus3"></i></b>

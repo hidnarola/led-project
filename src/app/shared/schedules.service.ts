@@ -14,16 +14,16 @@ export class SchedulesService {
   // schedule: string;
   constructor(private http: HttpClient, private config: Config) { }
 
-  continuousCreate(data) {
+  continuousCreate(data, file: FileList) {
     const uri = this.apiURL + 'leddesigner/schedule/continuous';
     // {"userid" : 3,"startDate" : "2018-08-01","endDate" : "2018-09-30","startTime" : "10:30","endTime" : "10:40","priority" : 1}
     const scheduleData = '{' +
-      '"priority": "' + data.priority + '",' +
+      '"priority": "' + Number(data.priority) + '",' +
       '"startdate": "' + data.startdate + '",' +
       '"enddate": "' + data.enddate + '",' +
       '"starttime": "' + data.starttime + '",' +
       '"endtime": "' + data.endtime + '",' +
-      '"userid": "' + data.userid + '" }';
+      '"userid": "' + Number(localStorage.getItem('userid')) + '" }';
 
     // this.schedule = scheduleData.toString();
     console.log(scheduleData);
@@ -32,7 +32,7 @@ export class SchedulesService {
     headers.set('Content-Type', null);
     headers.set('Accept', 'multipart/form-data');
     this.formdata = new FormData();
-    this.formdata.append('file', data.myfiles);
+    this.formdata.append('file', file);
     this.formdata.append('scheduleStr', scheduleData);
     // this.formdata.append('priority', data.priority);
     // this.formdata.append('startdate', data.startdate);
@@ -45,6 +45,8 @@ export class SchedulesService {
       .map(res => {
         console.log(res);
         return res;
+      }, error => {
+        console.log(error);
       });
 
 

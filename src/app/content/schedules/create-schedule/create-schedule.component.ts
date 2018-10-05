@@ -3,6 +3,7 @@ import { Config } from '../../../shared/config';
 import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import { SchedulesService } from '../../../shared/schedules.service';
+import { forEach } from '@angular/router/src/utils/collection';
 
 // import {  FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 
@@ -18,6 +19,9 @@ export class CreateScheduleComponent implements OnInit {
 
   maxYearDate: Date;
   dobYearRange = '';
+
+  fileToUpload: FileList;
+  imageUrl = '/assets/img/default-image.png';
 
   model: any = {};
   selectedFiles: FileList;
@@ -54,31 +58,45 @@ export class CreateScheduleComponent implements OnInit {
 
   }
 
-  myUploader(event) {
-    console.log('myUploader: ' + JSON.stringify(event.files));
-    this.model.myfiles = event.files;
+  handleFileInput(file: FileList) {
+    this.fileToUpload = file;
+
+    // // Show image preview
+    // const reader = new FileReader();
+    // reader.onload = (event: any) => {
+    //   this.imageUrl = event.target.result;
+    // };
+    // reader.readAsDataURL(this.fileToUpload);
+
+    console.log(this.fileToUpload);
   }
 
-  onselectedFiles(event) {
-    console.log('onselectedFiles: ' + JSON.stringify(event.files));
-    this.selectedFiles = event.files;
-    // this.model.myfiles.push(this.selectedFiles);
-    // console.log('onselectedFiles: ' + this.selectedFiles);
-  }
+  // myUploader(event) {
+  //   console.log('myUploader: ' + JSON.stringify(event.files));
+  //   this.model.myfiles = event.files;
+  // }
 
-  onUpload(event): void {
-    console.log('onUpload');
-    for (const file of event.files) {
-      this.uploadedFiles.push(file);
-    }
-    console.log('onUpload' + this.uploadedFiles);
-  }
+  // onselectedFiles(event) {
+  //   console.log('onselectedFiles: ' + JSON.stringify(event.files));
+  //   this.selectedFiles = event.files;
+  //   // this.model.myfiles.push(this.selectedFiles);
+  //   // console.log('onselectedFiles: ' + this.selectedFiles);
+  // }
+
+  // onUpload(event): void {
+  //   console.log('onUpload');
+  //   for (const file of event.files) {
+  //     this.uploadedFiles.push(file);
+  //   }
+  //   console.log('onUpload' + this.uploadedFiles);
+  // }
 
   onSubmit() {
 
-    console.log(this.model);
+    // console.log(this.model);
+
     if (this.repeat === this.config.SCHE_CONT) {
-      this.service.continuousCreate(this.model).subscribe(res => {
+      this.service.continuousCreate(this.model, this.fileToUpload).subscribe(res => {
         console.log(res);
       });
     } else {
