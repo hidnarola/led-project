@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
+import { NotifierService } from 'angular-notifier';
+import { SchedulesService } from '../../shared/schedules.service';
 @Component({
   selector: 'app-schedules',
   templateUrl: './schedules.component.html',
@@ -7,13 +8,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 })
 export class SchedulesComponent implements OnInit, OnDestroy {
   dtOptions: DataTables.Settings = {};
-  persons: any = [];
+  schedules: any = [];
   user_name: string;
   user_role: string;
-  // We use this trigger because fetching the list of persons can be quite long,
+  // We use this trigger because fetching the list of schedules can be quite long,
   // thus we ensure the data is fetched before rendering
   // dtTrigger: Subject<any> = new Subject();
-  constructor() { }
+  constructor(private service: SchedulesService, private notification: NotifierService) { }
 
   ngOnInit() {
 
@@ -23,73 +24,19 @@ export class SchedulesComponent implements OnInit, OnDestroy {
       pagingType: 'full_numbers',
       pageLength: 10
     };
-    this.persons = [
-      { firstname: 'Ketan', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' },
-      { firstname: 'Karan', lastname: 'Patel' },
-      { firstname: 'Krishna', lastname: 'Patel' }
-    ];
+    // this.schedules = [];
+    this.getSchedules();
+  }
+  getSchedules() {
+    // console.log(localStorage.getItem('userid'));
+    this.service.getContiDataByUserId(localStorage.getItem('userid')).subscribe(res => {
+      this.schedules = res;
+      console.log(res);
+    });
+  }
+
+  deleteSchedule(id) {
+    this.notification.notify('success', 'Deleted : ' + id);
   }
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event

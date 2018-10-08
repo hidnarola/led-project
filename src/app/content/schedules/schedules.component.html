@@ -116,15 +116,32 @@
               <thead>
                 <tr>
                   <th>SR</th>
-                  <th>First name</th>
-                  <th>Last name</th>
+                  <th>Schedule name</th>
+                  <th>Type</th>
+                  <th class="text-center">Action</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let person of persons; let i = index">
+                <tr *ngFor="let schedule of schedules; let i = index">
                   <td>{{ i + 1 }}</td>
-                  <td>{{ person.firstname }}</td>
-                  <td>{{ person.lastname }}</td>
+                  <td>{{ schedule.scheduleName }}</td>
+                  <td><span class="label label-primary">{{ schedule.type }}</span></td>
+                  <td class="text-center">
+                    <ul class="icons-list">
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                          <i class="icon-menu9"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                          <li><a href="" routerLink="/schedule/{{schedule.id}}"><i class=" icon-eye2"></i>
+                              View</a></li>
+                          <li><a href="" routerLink="/schedule/edit/{{schedule.id}}"><i class="icon-pencil4"></i>
+                              Edit</a></li>
+                          <li><a (click)="deleteSchedule(schedule.id)"><i class="icon-trash-alt"></i> Delete</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </td>
                 </tr>
               </tbody>
             </table>

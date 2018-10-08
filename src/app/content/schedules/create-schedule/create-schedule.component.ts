@@ -112,7 +112,14 @@ export class CreateScheduleComponent implements OnInit {
 
     if (this.repeat === this.config.SCHE_CONT) {
       this.service.continuousCreate(this.model, this.fileToUpload).subscribe(res => {
-        console.log(res);
+      }, error => {
+        if (error.status === 201) {
+          this.notifier.notify('success', 'Scheduled Stored Successfully');
+          this.model = {};
+          this.fileToUpload = [];
+        } else {
+          this.notifier.notify('error', error);
+        }
       });
     } else {
       console.log(this.repeat);

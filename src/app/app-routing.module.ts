@@ -11,6 +11,7 @@ import { ResetPasswordComponent } from './login/forgot-password/reset-password/r
 import { SchedulesComponent } from './content/schedules/schedules.component';
 import { CreateScheduleComponent } from './content/schedules/create-schedule/create-schedule.component';
 import { EditScheduleComponent } from './content/schedules/edit-schedule/edit-schedule.component';
+import { ViewScheduleComponent } from './content/schedules/view-schedule/view-schedule.component';
 
 import { MySignsComponent } from './content/my-signs/my-signs.component';
 
@@ -57,6 +58,10 @@ const routes: Routes = [
   },
   {
     path: 'schedule/edit/:id', component: EditScheduleComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'schedule/:id', component: ViewScheduleComponent,
     canActivate: [AuthGuard]
   },
   {

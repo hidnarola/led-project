@@ -16,8 +16,7 @@ export class SchedulesService {
 
   continuousCreate(data, file: File[]) {
     const uri = this.apiURL + 'leddesigner/schedule/continuous';
-    // {"userid" : 4,"scheduleName":"mySchedule.yml","startDate" : "2018-08-01",
-    // "endDate" : "2018-09-30","startTime" : "10:30","endTime" : "10:40","priority" : 1}
+
     // {"priority": 1,"scheduleName": "myFirstContinueSchedule.yml","startDate": "2018-01-02",
     // "endDate": "2018-01-01","startTime": "01:00","endTime": "01:00","userid": 5 }
 
@@ -55,5 +54,41 @@ export class SchedulesService {
       });
 
 
+  }
+
+  getContiDataByUserId(userid) {
+    const uri = this.apiURL + 'leddesigner/schedule/getContinuousSchdulesByUserid?userid=' + userid;
+
+    return this.http
+      .get(uri)
+      .pipe(map(res => {
+        // console.log(res);
+        return res;
+      }
+      ));
+  }
+
+  deleteContiScheduleById(id) {
+    const uri = this.apiURL + 'leddesigner/schedule/deleteContinuousSchdulesByid?id=' + id;
+
+    return this.http
+      .delete(uri)
+      .pipe(map(res => {
+        // console.log(res);
+        return res;
+      }
+      ));
+  }
+
+  getScheduleById(id) {
+    const uri = this.apiURL + 'leddesigner/schedule/getSchdulesById?id=' + id;
+
+    return this.http
+      .get(uri)
+      .pipe(map(res => {
+        // console.log(res);
+        return res;
+      }
+      ));
   }
 }

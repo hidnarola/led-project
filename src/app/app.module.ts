@@ -47,6 +47,7 @@ import { CreateSetupComponent } from './admin/sign-setup/create-setup/create-set
 import { EditSetupComponent } from './admin/sign-setup/edit-setup/edit-setup.component';
 import { ManageSignComponent } from './admin/users/manage-sign/manage-sign.component';
 import { MySignsComponent } from './content/my-signs/my-signs.component';
+import { ViewScheduleComponent } from './content/schedules/view-schedule/view-schedule.component';
 export function tokenGetter() {
   return localStorage.getItem('access-token');
 }
@@ -122,7 +123,8 @@ const customNotifierOptions: NotifierOptions = {
     CreateSetupComponent,
     EditSetupComponent,
     ManageSignComponent,
-    MySignsComponent
+    MySignsComponent,
+    ViewScheduleComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,
