@@ -46,6 +46,7 @@ import { EditUserComponent } from './admin/users/edit-user/edit-user.component';
 import { CreateSetupComponent } from './admin/sign-setup/create-setup/create-setup.component';
 import { EditSetupComponent } from './admin/sign-setup/edit-setup/edit-setup.component';
 import { ManageSignComponent } from './admin/users/manage-sign/manage-sign.component';
+import { MySignsComponent } from './content/my-signs/my-signs.component';
 export function tokenGetter() {
   return localStorage.getItem('access-token');
 }
@@ -120,7 +121,8 @@ const customNotifierOptions: NotifierOptions = {
     EditUserComponent,
     CreateSetupComponent,
     EditSetupComponent,
-    ManageSignComponent
+    ManageSignComponent,
+    MySignsComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,

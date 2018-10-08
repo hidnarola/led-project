@@ -37,7 +37,7 @@ export class SchedulesService {
     headers.set('Content-Type', null);
     headers.set('Accept', 'multipart/form-data');
     this.formdata = new FormData();
-    this.formdata.append('file', file);
+    this.formdata.append('file', file[0]);
     this.formdata.append('scheduleStr', scheduleData);
     // this.formdata.append('priority', data.priority);
     // this.formdata.append('startdate', data.startdate);

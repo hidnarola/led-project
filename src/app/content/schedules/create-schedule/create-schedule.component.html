@@ -38,6 +38,7 @@
               <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
               <li><a href="" routerLink="/home"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
               <li class="active"><a href="" routerLink="/schedules"><i class="icon-calendar5"></i> <span>Schedules</span></a></li>
+              <li><a href="" routerLink="/signs"><i class="icon-display"></i> <span>My Signs</span></a></li>
               <!-- /main -->
 
             </ul>
@@ -111,17 +112,17 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group has-feedback">
-                      <input type="text" class="form-control" placeholder="Schedule Name" name="schedulename" [(ngModel)]="model.name"
-                        #name="ngModel" [ngClass]="{ 'is-invalid': f.submitted && name.invalid }" required>
-                      <div class="form-control-feedback">
-                        <i class="icon-screen3 text-muted"></i>
-                      </div>
-                      <div *ngIf="f.submitted && name.invalid" class="invalid-feedback">
-                        <div *ngIf="name.errors.required">Schedule name is required</div>
-                      </div>
+                  <div class="form-group has-feedback">
+                    <input type="text" class="form-control" placeholder="Schedule Name" name="schedulename" [(ngModel)]="model.name"
+                      #name="ngModel" [ngClass]="{ 'is-invalid': f.submitted && name.invalid }" required>
+                    <div class="form-control-feedback">
+                      <i class="icon-screen3 text-muted"></i>
+                    </div>
+                    <div *ngIf="f.submitted && name.invalid" class="invalid-feedback">
+                      <div *ngIf="name.errors.required">Schedule name is required</div>
                     </div>
                   </div>
+                </div>
               </div>
 
               <div class="row" *ngIf="CONFIG.SCHE_YEAR === repeat">
@@ -313,7 +314,8 @@
                   <tr *ngFor="let file of fileToUpload; let i = index">
                     <td> {{ i + 1 }} </td>
                     <td> {{file.name}} </td>
-                    <td class="text-right"><button type="button" class="btn btn-primary" (click)="showImagePreview(file)"><i class="icon icon-display"></i>
+                    <td class="text-right"><button type="button" class="btn btn-primary" (click)="showImagePreview(file)"><i
+                          class="icon icon-display"></i>
                         Preview</button>
                       <button type="button" class="btn btn-danger" (click)="deleteImage(i)"><i class="icon icon-trash"></i>
                         Delete</button></td>
@@ -327,6 +329,8 @@
                   </tr>
                 </tfoot>
               </table>
+              <i><small><strong>Note:</strong>only first image will be uploaded. [Testing Purpose]</small></i>
+
               <!-- <ul *ngIf="fileToUpload.length">
                 <li *ngFor="let file of fileToUpload" (click)="showImagePreview(file)">{{file.name}}</li>
               </ul> -->

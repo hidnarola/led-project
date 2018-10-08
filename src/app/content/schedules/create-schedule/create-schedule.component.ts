@@ -21,6 +21,8 @@ export class CreateScheduleComponent implements OnInit {
   // dobYearRange = '';
   myfile: any;
   fileToUpload: File[] = [];
+  // fileToUpload: FileList;
+  // fileToUpload: File;
   imageUrl = '/assets/images/signature.png';
   isPreview: boolean;
   model: any = {};

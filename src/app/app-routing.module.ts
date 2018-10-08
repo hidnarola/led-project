@@ -12,6 +12,7 @@ import { SchedulesComponent } from './content/schedules/schedules.component';
 import { CreateScheduleComponent } from './content/schedules/create-schedule/create-schedule.component';
 import { EditScheduleComponent } from './content/schedules/edit-schedule/edit-schedule.component';
 
+import { MySignsComponent } from './content/my-signs/my-signs.component';
 
 // Admin
 import { AdminLoginComponent } from './admin/admin-login/admin-login.component';
@@ -56,6 +57,10 @@ const routes: Routes = [
   },
   {
     path: 'schedule/edit/:id', component: EditScheduleComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'signs', component: MySignsComponent,
     canActivate: [AuthGuard]
   },
   { path: 'logout', component: AdminLogoutComponent },
