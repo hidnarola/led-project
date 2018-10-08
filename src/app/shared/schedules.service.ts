@@ -14,19 +14,24 @@ export class SchedulesService {
   // schedule: string;
   constructor(private http: HttpClient, private config: Config) { }
 
-  continuousCreate(data, file: FileList) {
+  continuousCreate(data, file: File[]) {
     const uri = this.apiURL + 'leddesigner/schedule/continuous';
-    // {"userid" : 3,"startDate" : "2018-08-01","endDate" : "2018-09-30","startTime" : "10:30","endTime" : "10:40","priority" : 1}
+    // {"userid" : 4,"scheduleName":"mySchedule.yml","startDate" : "2018-08-01",
+    // "endDate" : "2018-09-30","startTime" : "10:30","endTime" : "10:40","priority" : 1}
+    // {"priority": 1,"scheduleName": "myFirstContinueSchedule.yml","startDate": "2018-01-02",
+    // "endDate": "2018-01-01","startTime": "01:00","endTime": "01:00","userid": 5 }
+
     const scheduleData = '{' +
-      '"priority": "' + Number(data.priority) + '",' +
-      '"startdate": "' + data.startdate + '",' +
-      '"enddate": "' + data.enddate + '",' +
-      '"starttime": "' + data.starttime + '",' +
-      '"endtime": "' + data.endtime + '",' +
-      '"userid": "' + Number(localStorage.getItem('userid')) + '" }';
+      '"priority": ' + Number(data.priority) + ',' +
+      '"scheduleName": "' + data.name + '",' +
+      '"startDate": "' + data.startdate + '",' +
+      '"endDate": "' + data.enddate + '",' +
+      '"startTime": "' + data.starttime + '",' +
+      '"endTime": "' + data.endtime + '",' +
+      '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
 
     // this.schedule = scheduleData.toString();
-    console.log(scheduleData);
+    // console.log(scheduleData);
     const headers = new HttpHeaders();
     // this is the important step. You need to set content type as null
     headers.set('Content-Type', null);

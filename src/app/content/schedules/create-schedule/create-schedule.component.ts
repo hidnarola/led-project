@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import { SchedulesService } from '../../../shared/schedules.service';
 import { forEach } from '@angular/router/src/utils/collection';
+import { NotifierService } from 'angular-notifier';
 
 // import {  FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 
@@ -16,20 +17,20 @@ import { forEach } from '@angular/router/src/utils/collection';
 export class CreateScheduleComponent implements OnInit {
   repeat = 'None';
   years = [];
-
-  maxYearDate: Date;
-  dobYearRange = '';
-
-  fileToUpload: FileList;
-  imageUrl = '/assets/img/default-image.png';
-
+  // maxYearDate: Date;
+  // dobYearRange = '';
+  myfile: any;
+  fileToUpload: File[] = [];
+  imageUrl = '/assets/images/signature.png';
+  isPreview: boolean;
   model: any = {};
-  selectedFiles: FileList;
-  uploadedFiles: any[] = [];
+  // selectedFiles: FileList;
+  // uploadedFiles: any[] = [];
   CONFIG = this.config;
   user_name: string;
   user_role: string;
-  constructor(private route: ActivatedRoute, private config: Config, private service: SchedulesService) { }
+  constructor(private notifier: NotifierService, private route: ActivatedRoute,
+    private config: Config, private service: SchedulesService) { }
   // public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'myfile'});
 
   ngOnInit() {
@@ -54,23 +55,68 @@ export class CreateScheduleComponent implements OnInit {
         // console.log(params.repeat);
         this.repeat = params.repeat;
       });
-
-
   }
 
   handleFileInput(file: FileList) {
-    this.fileToUpload = file;
-
-    // // Show image preview
-    // const reader = new FileReader();
-    // reader.onload = (event: any) => {
-    //   this.imageUrl = event.target.result;
-    // };
-    // reader.readAsDataURL(this.fileToUpload);
+    let isMatched = false;
+    if (this.fileToUpload.length > 0 && file.length > 0) {
+      this.fileToUpload.forEach(files => {
+        if (file.item(0).name === files.name) {
+          console.log('matched');
+          this.notifier.notify('info', 'Rename Filename if you want to add');
+          this.notifier.notify('warning', 'Same File Name Exist.');
+          isMatched = true;
+        }
+      });
+    } else {
+      isMatched = true;
+      if (file.length > 0) {
+        this.fileToUpload.push(file.item(0));
+      } else {
+        this.notifier.notify('info', 'No File Selected');
+      }
+    }
+    if (!isMatched) {
+      if (file.length > 0) {
+        this.fileToUpload.push(file.item(0));
+      } else {
+        this.notifier.notify('info', 'No File Selected');
+      }
+      isMatched = false;
+    }
 
     console.log(this.fileToUpload);
   }
 
+  showImagePreview(file: File) {
+    this.isPreview = true;
+    // Show image preview
+    const reader = new FileReader();
+    reader.onload = (event: any) => {
+      this.imageUrl = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  deleteImage(index) {
+    this.fileToUpload.splice(index, 1);
+    this.isPreview = false;
+    this.myfile = '';
+  }
+
+  onSubmit() {
+
+    // console.log(this.model);
+
+    if (this.repeat === this.config.SCHE_CONT) {
+      this.service.continuousCreate(this.model, this.fileToUpload).subscribe(res => {
+        console.log(res);
+      });
+    } else {
+      console.log(this.repeat);
+      console.log(this.model);
+    }
+  }
   // myUploader(event) {
   //   console.log('myUploader: ' + JSON.stringify(event.files));
   //   this.model.myfiles = event.files;
@@ -90,20 +136,6 @@ export class CreateScheduleComponent implements OnInit {
   //   }
   //   console.log('onUpload' + this.uploadedFiles);
   // }
-
-  onSubmit() {
-
-    // console.log(this.model);
-
-    if (this.repeat === this.config.SCHE_CONT) {
-      this.service.continuousCreate(this.model, this.fileToUpload).subscribe(res => {
-        console.log(res);
-      });
-    } else {
-      console.log(this.repeat);
-      console.log(this.model);
-    }
-  }
 
   // selectFiles(event) {
   //   this.selectedFiles = event.target.files;

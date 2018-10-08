@@ -96,7 +96,7 @@
               novalidate>
 
               <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                   <div class="form-group has-feedback">
                     <input type="number" class="form-control" min="1" max="5" placeholder="Priority" name="priority"
                       [(ngModel)]="model.priority" #priority="ngModel" [ngClass]="{ 'is-invalid': f.submitted && priority.invalid }"
@@ -110,6 +110,18 @@
                     </div>
                   </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="form-group has-feedback">
+                      <input type="text" class="form-control" placeholder="Schedule Name" name="schedulename" [(ngModel)]="model.name"
+                        #name="ngModel" [ngClass]="{ 'is-invalid': f.submitted && name.invalid }" required>
+                      <div class="form-control-feedback">
+                        <i class="icon-screen3 text-muted"></i>
+                      </div>
+                      <div *ngIf="f.submitted && name.invalid" class="invalid-feedback">
+                        <div *ngIf="name.errors.required">Schedule name is required</div>
+                      </div>
+                    </div>
+                  </div>
               </div>
 
               <div class="row" *ngIf="CONFIG.SCHE_YEAR === repeat">
@@ -192,7 +204,7 @@
                       <i class="icon-move-horizontal text-muted"></i>
                     </div>
                     <div *ngIf="f.submitted && endtime.invalid" class="invalid-feedback">
-                      <div *ngIf="endtime.errors.required">Start Time is required</div>
+                      <div *ngIf="endtime.errors.required">End Time is required</div>
                     </div>
                   </div>
                 </div>
@@ -285,16 +297,40 @@
                   <!-- <p-fileUpload name="myfile" [showUploadButton]="false" customUpload="true" auto="auto" (onUpload)="onUpload($event)" 
                     (uploadHandler)="myUploader($event)" multiple="multiple" required="required"></p-fileUpload> -->
 
-                  <input type="file" multiple="multiple" name="myfile" class="file-input" data-show-upload="false"
-                    #Image (change)="handleFileInput($event.target.files)" data-show-caption="true" required>
+                  <input type="file" ([ngModel])="myfile" name="myfile" class="file-styled" #Image (change)="handleFileInput($event.target.files)"
+                    required>
                 </div>
               </div>
-              <!-- <ul *ngIf="uploadedFiles.length">
-
-                <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
-
+              <table class="table table-hover" *ngIf="fileToUpload.length">
+                <thead>
+                  <tr>
+                    <th>Sr</th>
+                    <th>Image Name</th>
+                    <th class="text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let file of fileToUpload; let i = index">
+                    <td> {{ i + 1 }} </td>
+                    <td> {{file.name}} </td>
+                    <td class="text-right"><button type="button" class="btn btn-primary" (click)="showImagePreview(file)"><i class="icon icon-display"></i>
+                        Preview</button>
+                      <button type="button" class="btn btn-danger" (click)="deleteImage(i)"><i class="icon icon-trash"></i>
+                        Delete</button></td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="3" align="center">
+                      <img *ngIf="isPreview" [src]="imageUrl" style="max-width:100%;width:auto;height:100px">
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+              <!-- <ul *ngIf="fileToUpload.length">
+                <li *ngFor="let file of fileToUpload" (click)="showImagePreview(file)">{{file.name}}</li>
               </ul> -->
-              <!-- <img [src]="imageUrl" style="width:250px;height:200px"> -->
+
               <br />
               <div class="text-right">
                 <button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10"><b><i class="icon-plus3"></i></b>
