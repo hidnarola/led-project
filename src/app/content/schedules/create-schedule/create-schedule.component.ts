@@ -3,7 +3,6 @@ import { Config } from '../../../shared/config';
 import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import { SchedulesService } from '../../../shared/schedules.service';
-import { forEach } from '@angular/router/src/utils/collection';
 import { NotifierService } from 'angular-notifier';
 
 // import {  FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';

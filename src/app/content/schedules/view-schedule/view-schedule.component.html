@@ -1,0 +1,174 @@
+<!-- <div *ngIf="CONFIG.SCHE_CONT === repeat">Continue</div>
+<div *ngIf="CONFIG.SCHE_DAYL === repeat">Daily</div> -->
+
+<app-header></app-header>
+
+<!-- Page container -->
+<div class="page-container">
+
+  <!-- Page content -->
+  <div class="page-content">
+
+    <!-- Main sidebar -->
+    <div class="sidebar sidebar-main">
+      <div class="sidebar-content">
+
+        <!-- User menu -->
+        <div class="sidebar-user">
+          <div class="category-content">
+            <div class="media">
+              <a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
+              <div class="media-body">
+                <span class="media-heading text-semibold">{{ user_name }}</span>
+                <div class="text-size-mini text-muted">
+                  <i class="icon-user3 text-size-small"></i> &nbsp;{{ user_role }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /user menu -->
+
+        <!-- Main navigation -->
+        <div class="sidebar-category sidebar-category-visible">
+          <div class="category-content no-padding">
+            <ul class="navigation navigation-main navigation-accordion">
+
+              <!-- Main -->
+              <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
+              <li><a href="" routerLink="/home"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
+              <li class="active"><a href="" routerLink="/schedules"><i class="icon-calendar5"></i> <span>Schedules</span></a></li>
+              <li><a href="" routerLink="/signs"><i class="icon-display"></i> <span>My Signs</span></a></li>
+              <!-- /main -->
+
+            </ul>
+          </div>
+        </div>
+        <!-- /main navigation -->
+
+      </div>
+    </div>
+    <!-- /main sidebar -->
+
+
+    <!-- Main content -->
+    <div class="content-wrapper">
+
+
+      <!-- Page header -->
+      <div class="page-header page-header-default">
+        <div class="page-header-content">
+          <div class="page-title">
+            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Schedules</span> - View
+              Schedule ( {{repeat}} )</h4>
+          </div>
+
+          <div class="heading-elements">
+
+          </div>
+        </div>
+
+        <div class="breadcrumb-line">
+          <ul class="breadcrumb">
+            <li><a href="" routerLink="/home"><i class="icon-home2 position-left"></i> Home</a></li>
+            <li><a href="" routerLink="/schedules"><i class="icon-task position-left"></i> Schedule</a></li>
+            <li class="active">View Schedule ( {{ repeat }} ) </li>
+          </ul>
+
+        </div>
+      </div>
+      <!-- /page header -->
+
+      <!-- Content area -->
+      <div class="content">
+
+        <div class="panel panel-flat">
+          <div class="panel-heading">
+            <h5 class="panel-title">{{ repeat }} Schedule</h5>
+            <div class="heading-elements">
+
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="panel panel-body border-top-info">
+                  <!-- <h6 class="no-margin text-semibold">Horizontal description list</h6>
+                  <p class="content-group-sm text-muted">Horizontal list of terms with their associated descriptions.</p> -->
+
+                  <div class="well">
+                    <dl class="dl-horizontal">
+                      <dt>Schedule Name</dt>
+                      <dd>{{ dto?.scheduleName }}</dd>
+                      <dt>Priority</dt>
+                      <dd>{{ dto?.priority }}</dd>
+                      <hr />
+                      <div *ngIf="CONFIG.SCHE_YEAR === repeat">
+                        <dt>First Year</dt>
+                        <dd>{{dto?.startDate.year}}</dd>
+                        <dt>Last Year</dt>
+                        <dd>{{dto?.endDate.year}}</dd>
+                      </div>
+                      <div *ngIf="CONFIG.SCHE_YEAR !== repeat">
+                        <dt>Start Date</dt>
+                        <dd>{{ dto?.startDate.dayOfMonth }} {{ dto?.startDate.month }} {{dto?.startDate.year}}</dd>
+                        <dt>End Date</dt>
+                        <dd>{{ dto?.endDate.dayOfMonth }} {{ dto?.endDate.month }} {{dto?.endDate.year}}</dd>
+                      </div>
+                      <hr />
+                      <dt>Start Time</dt>
+                      <dd>{{ dto?.startTime.hour }}:{{ dto?.startTime.minute }}:{{ dto?.startTime.second }}</dd>
+                      <dt>End Time</dt>
+                      <dd>{{ dto?.endTime.hour }}:{{ dto?.endTime.minute }}:{{ dto?.endTime.second }}</dd>
+                      <div *ngIf="CONFIG.SCHE_DAYL === repeat">
+                        <hr />
+                        <dt>N-th Day</dt>
+                        <dd></dd>
+                      </div>
+                      <div *ngIf="CONFIG.SCHE_WEEK === repeat">
+                        <hr />
+                        <dt>Every N-th Week</dt>
+                        <dd></dd>
+                        <dt>Week Days</dt>
+                        <dd></dd>
+                      </div>
+                      <div *ngIf="CONFIG.SCHE_MONT === repeat">
+                        <hr />
+                        <dt>On Month Day</dt>
+                        <dd></dd>
+                        <dt>Week / Month Days</dt>
+                        <dd></dd>
+                        <dt>On Week Days</dt>
+                        <dd></dd>
+                        <dt>On Month</dt>
+                        <dd></dd>
+                      </div>
+                    </dl>
+                  </div>
+                  <div *ngFor="let file of files; let i = index">
+                    <img [src]="file.path" style="max-width:100%;width:auto;height:100px" alt={{file.path}}>&nbsp;
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- Footer -->
+        <app-footer></app-footer>
+        <!-- /footer -->
+
+      </div>
+      <!-- /content area -->
+
+    </div>
+    <!-- /main content -->
+
+  </div>
+  <!-- /page content -->
+
+</div>
+<!-- /page container -->

@@ -57,7 +57,7 @@ export class SchedulesService {
   }
 
   getContiDataByUserId(userid) {
-    const uri = this.apiURL + 'leddesigner/schedule/getContinuousSchdulesByUserid?userid=' + userid;
+    const uri = this.apiURL + 'leddesigner/schedule/getContinuousSchedulesByUserid?userid=' + userid;
 
     return this.http
       .get(uri)
@@ -69,7 +69,7 @@ export class SchedulesService {
   }
 
   deleteContiScheduleById(id) {
-    const uri = this.apiURL + 'leddesigner/schedule/deleteContinuousSchdulesByid?id=' + id;
+    const uri = this.apiURL + 'leddesigner/schedule/deleteContinuousSchedule?id=' + id;
 
     return this.http
       .delete(uri)
@@ -81,7 +81,7 @@ export class SchedulesService {
   }
 
   getScheduleById(id) {
-    const uri = this.apiURL + 'leddesigner/schedule/getSchdulesById?id=' + id;
+    const uri = this.apiURL + 'leddesigner/schedule/getSelectedContinuousSchduleInfo?id=' + id;
 
     return this.http
       .get(uri)

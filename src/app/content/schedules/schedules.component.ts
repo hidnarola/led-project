@@ -36,7 +36,13 @@ export class SchedulesComponent implements OnInit, OnDestroy {
   }
 
   deleteSchedule(id) {
-    this.notification.notify('success', 'Deleted : ' + id);
+    this.service.deleteContiScheduleById(id).subscribe(res => {
+      this.notification.notify('success', 'Deleted : ' + res);
+      console.log(res);
+    }, error => {
+      console.log(error);
+    });
+
   }
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
