@@ -37,10 +37,14 @@ export class SchedulesComponent implements OnInit, OnDestroy {
 
   deleteSchedule(id) {
     this.service.deleteContiScheduleById(id).subscribe(res => {
-      this.notification.notify('success', 'Deleted : ' + res);
-      console.log(res);
     }, error => {
-      console.log(error);
+      if (error.status === 200) {
+        this.notification.notify('success', error.error.text);
+        // console.log();
+        this.getSchedules();
+      } else {
+        this.notification.notify('error', 'ER' + error.status + ' : ' + error.error.message);
+      }
     });
 
   }

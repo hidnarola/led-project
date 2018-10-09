@@ -56,6 +56,37 @@ export class SchedulesService {
 
   }
 
+  updateContiSChedule(data, file: File[]) {
+    const uri = this.apiURL + 'leddesigner/schedule/updateContinuous';
+    // {"userid" : 4,"scheduleName":"mySchedule.yml","startDate" : "2018-08-01","endDate" :
+    //  "2018-09-30","startTime" : "10:30","endTime" : "10:40","priority" : 1}
+    const scheduleData = '{' +
+      '"priority": ' + Number(data.priority) + ',' +
+      '"scheduleName": "' + data.scheduleName + '",' +
+      '"startDate": "' + data.startDate + '",' +
+      '"endDate": "' + data.endDate + '",' +
+      '"startTime": "' + data.startTime + '",' +
+      '"endTime": "' + data.endTime + '",' +
+      '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
+
+    const headers = new HttpHeaders();
+    headers.set('Content-Type', null);
+    headers.set('Accept', 'multipart/form-data');
+    this.formdata = new FormData();
+    this.formdata.append('file', file[0]);
+    this.formdata.append('scheduleStr', scheduleData);
+
+    return this
+      .http
+      .put(uri, this.formdata, { headers })
+      .map(res => {
+        console.log(res);
+        return res;
+      }, error => {
+        console.log(error);
+      });
+  }
+
   getContiDataByUserId(userid) {
     const uri = this.apiURL + 'leddesigner/schedule/getContinuousSchedulesByUserid?userid=' + userid;
 

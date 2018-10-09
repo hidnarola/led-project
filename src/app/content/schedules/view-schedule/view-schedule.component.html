@@ -118,9 +118,9 @@
                       </div>
                       <hr />
                       <dt>Start Time</dt>
-                      <dd>{{ dto?.startTime.hour }}:{{ dto?.startTime.minute }}:{{ dto?.startTime.second }}</dd>
+                      <dd>{{ dto?.startTime }}</dd>
                       <dt>End Time</dt>
-                      <dd>{{ dto?.endTime.hour }}:{{ dto?.endTime.minute }}:{{ dto?.endTime.second }}</dd>
+                      <dd>{{ dto?.endTime }}</dd>
                       <div *ngIf="CONFIG.SCHE_DAYL === repeat">
                         <hr />
                         <dt>N-th Day</dt>
@@ -146,9 +146,13 @@
                       </div>
                     </dl>
                   </div>
-                  <div *ngFor="let file of files; let i = index">
+                  <!-- <div *ngFor="let file of files; let i = index">
                     <img [src]="file.path" style="max-width:100%;width:auto;height:100px" alt={{file.path}}>&nbsp;
-                  </div>
+                  </div> -->
+                  <ul *ngFor="let file of files; let i = index">
+                    <li>{{file.path}}</li>
+                  </ul>
+                  <i><small>Note: Click on image to show preview</small></i>
                 </div>
               </div>
             </div>

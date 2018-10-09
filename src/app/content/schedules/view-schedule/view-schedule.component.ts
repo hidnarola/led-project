@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SchedulesService } from '../../../shared/schedules.service';
 import { Config } from '../../../shared/config';
+import { Timestamp } from 'rxjs/internal/operators/timestamp';
 @Component({
   selector: 'app-view-schedule',
   templateUrl: './view-schedule.component.html',
@@ -27,9 +28,14 @@ export class ViewScheduleComponent implements OnInit {
         this.repeat = this.res.type;
         this.dto = this.res.schduleDTO;
         this.files = this.res.multipartImages;
+        let HH = this.dto.startTime.hour > 9 ? this.dto.startTime.hour : '0' + this.dto.startTime.hour;
+        let MM = this.dto.startTime.minute > 9 ? this.dto.startTime.minute : '0' + this.dto.startTime.minute;
+        this.dto.startTime = HH + ':' + MM + ':00';
+        HH = this.dto.endTime.hour > 9 ? this.dto.endTime.hour : '0' + this.dto.endTime.hour;
+        MM = this.dto.endTime.minute > 9 ? this.dto.endTime.minute : '0' + this.dto.endTime.minute;
+        this.dto.endTime = HH + ':' + MM + ':00';
         console.log(res);
       });
     });
   }
-
 }
