@@ -6,7 +6,6 @@ import { Config } from '../../../shared/config';
 
 import { NotifierService } from 'angular-notifier';
 import { timestamp } from 'rxjs/operators';
-import { Timestamp } from 'rxjs/internal/operators/timestamp';
 @Component({
   selector: 'app-edit-schedule',
   templateUrl: './edit-schedule.component.html',
