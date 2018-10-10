@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
       // console.log(JSON.stringify(res));
       const decodedToken = this.helper.decodeToken(localStorage.getItem('access-token'));
       let user = decodedToken.sub;
+      localStorage.setItem('validity', decodedToken.exp);
       let arr = [];
       user = user.replace('{', '');
       user = user.replace('}', ''); // these lines will remove the leading and trailing braces

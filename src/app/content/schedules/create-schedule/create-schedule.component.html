@@ -103,7 +103,7 @@
                       [(ngModel)]="model.priority" #priority="ngModel" [ngClass]="{ 'is-invalid': f.submitted && priority.invalid }"
                       required>
                     <div class="form-control-feedback">
-                      <i class="icon-display text-muted"></i>
+                      <i class="icon-stairs-up text-muted"></i>
                     </div>
                     <div *ngIf="f.submitted && priority.invalid" class="invalid-feedback">
                       <div *ngIf="priority.errors.required">Priority is required</div>
@@ -160,7 +160,7 @@
                     <input type="date" class="form-control" placeholder="Start Date" name="startdate" [(ngModel)]="model.startdate"
                       #startdate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && startdate.invalid }" required>
                     <div class="form-control-feedback">
-                      <i class="icon-screen3 text-muted"></i>
+                      <i class="icon-calendar text-muted"></i>
                     </div>
                     <div *ngIf="f.submitted && startdate.invalid" class="invalid-feedback">
                       <div *ngIf="startdate.errors.required">Start Date is required</div>
@@ -173,7 +173,7 @@
                     <input type="date" class="form-control" placeholder="End Date" name="enddate" [(ngModel)]="model.enddate"
                       #enddate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && enddate.invalid }" required>
                     <div class="form-control-feedback">
-                      <i class="icon-screen3 text-muted"></i>
+                      <i class="icon-calendar text-muted"></i>
                     </div>
                     <div *ngIf="f.submitted && enddate.invalid" class="invalid-feedback">
                       <div *ngIf="enddate.errors.required">End Date is required</div>
@@ -189,7 +189,7 @@
                       #starttime="ngModel" [ngClass]="{ 'is-invalid': f.submitted && starttime.invalid }" required />
                     <!-- <p-calendar name="starttime" [(ngModel)]="value" showTime="true" hourFormat="12"></p-calendar> -->
                     <div class="form-control-feedback">
-                      <i class="icon-move-horizontal text-muted"></i>
+                      <i class="icon-watch2 text-muted"></i>
                     </div>
                     <div *ngIf="f.submitted && starttime.invalid" class="invalid-feedback">
                       <div *ngIf="starttime.errors.required">Start Time is required</div>
@@ -202,7 +202,7 @@
                     <input type="time" placeholder="End Time" class="form-control" name="endtime" [(ngModel)]="model.endtime"
                       #endtime="ngModel" [ngClass]="{ 'is-invalid': f.submitted && endtime.invalid }" required />
                     <div class="form-control-feedback">
-                      <i class="icon-move-horizontal text-muted"></i>
+                      <i class="icon-watch2 text-muted"></i>
                     </div>
                     <div *ngIf="f.submitted && endtime.invalid" class="invalid-feedback">
                       <div *ngIf="endtime.errors.required">End Time is required</div>
@@ -230,7 +230,7 @@
                     <input type="number" placeholder="Every N-th Week" class="form-control" name="nthweek" [(ngModel)]="model.nthweek"
                       #nthweek="ngModel" [ngClass]="{ 'is-invalid': f.submitted && nthweek.invalid }" required />
                     <div class="form-control-feedback">
-                      <i class="icon-move-horizontal text-muted"></i>
+                      <i class="icon-seven-segment-7 text-muted"></i>
                     </div>
                     <div *ngIf="f.submitted && nthweek.invalid" class="invalid-feedback">
                       <div *ngIf="nthweek.errors.required">Every N-th Week is required</div>

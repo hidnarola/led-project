@@ -62,7 +62,7 @@ export class SchedulesService {
     //  "2018-09-30","startTime" : "10:30","endTime" : "10:40","priority" : 1}
     const scheduleData = '{' +
       '"priority": ' + Number(data.priority) + ',' +
-      '"scheduleName": "' + data.scheduleName + '",' +
+      '"scheduleName": "' + data.scheduleName + '.yml",' +
       '"startDate": "' + data.startDate + '",' +
       '"endDate": "' + data.endDate + '",' +
       '"startTime": "' + data.startTime + '",' +
@@ -87,7 +87,7 @@ export class SchedulesService {
       });
   }
 
-  getContiDataByUserId(userid) {
+  getContiSchedulesByUserId(userid) {
     const uri = this.apiURL + 'leddesigner/schedule/getContinuousSchedulesByUserid?userid=' + userid;
 
     return this.http

@@ -29,7 +29,7 @@ export class SchedulesComponent implements OnInit, OnDestroy {
   }
   getSchedules() {
     // console.log(localStorage.getItem('userid'));
-    this.service.getContiDataByUserId(localStorage.getItem('userid')).subscribe(res => {
+    this.service.getContiSchedulesByUserId(localStorage.getItem('userid')).subscribe(res => {
       this.schedules = res;
       console.log(res);
     });

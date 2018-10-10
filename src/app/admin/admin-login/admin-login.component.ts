@@ -22,6 +22,7 @@ export class AdminLoginComponent implements OnInit {
       const decodedToken = this.helper.decodeToken(localStorage.getItem('access-token'));
       // console.log(decodedToken);
       let user = decodedToken.sub;
+      localStorage.setItem('validity', decodedToken.exp);
       let arr = [];
       user = user.replace('{', '');
       user = user.replace('}', ''); // these lines will remove the leading and trailing braces

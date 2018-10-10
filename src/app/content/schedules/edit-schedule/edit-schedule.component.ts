@@ -6,6 +6,7 @@ import { Config } from '../../../shared/config';
 
 import { NotifierService } from 'angular-notifier';
 import { timestamp } from 'rxjs/operators';
+import { Timestamp } from 'rxjs/internal/operators/timestamp';
 @Component({
   selector: 'app-edit-schedule',
   templateUrl: './edit-schedule.component.html',
@@ -66,7 +67,7 @@ export class EditScheduleComponent implements OnInit {
         this.model.endTime = HH + ':' + MM;
 
         console.log(this.res.schduleDTO);
-        console.log();
+
       });
     });
     // document.getElementById('mydate').value = '2001-01-10';

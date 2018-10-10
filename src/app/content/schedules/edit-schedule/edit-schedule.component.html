@@ -103,7 +103,7 @@
                       [(ngModel)]="model.priority" #priority="ngModel" [ngClass]="{ 'is-invalid': f.submitted && priority.invalid }"
                       required>
                     <div class="form-control-feedback">
-                      <i class="icon-display text-muted"></i>
+                      <i class="icon-stairs-up text-muted"></i>
                     </div>
                     <div *ngIf="f.submitted && priority.invalid" class="invalid-feedback">
                       <div *ngIf="priority.errors.required">Priority is required</div>
@@ -160,7 +160,7 @@
                     <input type="date" class="form-control" placeholder="Start Date" name="startdate" [(ngModel)]="model.startDate"
                       #startdate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && startdate.invalid }" required>
                     <div class="form-control-feedback">
-                      <i class="icon-screen3 text-muted"></i>
+                      <i class="icon-calendar text-muted"></i>
                     </div>
                     <div *ngIf="f.submitted && startdate.invalid" class="invalid-feedback">
                       <div *ngIf="startdate.errors.required">Start Date is required</div>
@@ -173,7 +173,7 @@
                     <input type="date" class="form-control" placeholder="End Date" name="enddate" [(ngModel)]="model.endDate"
                       #enddate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && enddate.invalid }" required>
                     <div class="form-control-feedback">
-                      <i class="icon-screen3 text-muted"></i>
+                      <i class="icon-calendar text-muted"></i>
                     </div>
                     <div *ngIf="f.submitted && enddate.invalid" class="invalid-feedback">
                       <div *ngIf="enddate.errors.required">End Date is required</div>
@@ -189,7 +189,7 @@
                       #starttime="ngModel" [ngClass]="{ 'is-invalid': f.submitted && starttime.invalid }" required />
                     <!-- <p-calendar name="starttime" [(ngModel)]="value" showTime="true" hourFormat="12"></p-calendar> -->
                     <div class="form-control-feedback">
-                      <i class="icon-move-horizontal text-muted"></i>
+                      <i class="icon-watch2 text-muted"></i>
                     </div>
                     <div *ngIf="f.submitted && starttime.invalid" class="invalid-feedback">
                       <div *ngIf="starttime.errors.required">Start Time is required</div>
@@ -202,7 +202,7 @@
                     <input type="time" placeholder="End Time" class="form-control" name="endtime" [(ngModel)]="model.endTime"
                       #endtime="ngModel" [ngClass]="{ 'is-invalid': f.submitted && endtime.invalid }" required />
                     <div class="form-control-feedback">
-                      <i class="icon-move-horizontal text-muted"></i>
+                      <i class=" icon-watch2 text-muted"></i>
                     </div>
                     <div *ngIf="f.submitted && endtime.invalid" class="invalid-feedback">
                       <div *ngIf="endtime.errors.required">End Time is required</div>
@@ -297,18 +297,21 @@
 
                   <!-- <p-fileUpload name="myfile" [showUploadButton]="false" customUpload="true" auto="auto" (onUpload)="onUpload($event)" 
                     (uploadHandler)="myUploader($event)" multiple="multiple" required="required"></p-fileUpload> -->
-                  <div class="form-group has-feedback">
+                  <div class="form-group">
                     <input type="file" ([ngModel])="myfile" name="myfile" class="file-styled" (change)="handleFileInput($event.target.files)"
                       #myfile [ngClass]="{ 'is-invalid': f.submitted && myfile.invalid }" required>
-
-                    <div class="form-control-feedback">
-                      <i class="icon-cloud text-muted"></i>
-                    </div>
                     <div *ngIf="f.submitted && myfile.invalid" class="invalid-feedback">
                       <div *ngIf="myfile.errors.required">Image(s) is required</div>
                     </div>
                   </div>
 
+                </div>
+              </div>
+              <div class="row">
+                <div> Uploaded Image(s) :
+                  <ul *ngFor="let file of files; let i = index">
+                    <li>{{file.path}}</li>
+                  </ul>
                 </div>
               </div>
               <table class="table table-hover" *ngIf="fileToUpload.length">
@@ -339,7 +342,6 @@
                 </tfoot>
               </table>
               <i><small><strong>Note:</strong>only first image will be updated. [Testing Purpose]</small></i>
-
               <!-- <ul *ngIf="fileToUpload.length">
                 <li *ngFor="let file of fileToUpload" (click)="showImagePreview(file)">{{file.name}}</li>
               </ul> -->
