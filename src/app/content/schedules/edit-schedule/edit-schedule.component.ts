@@ -47,13 +47,13 @@ export class EditScheduleComponent implements OnInit {
         // Set Date to datepicker
         let year = this.model.startDate.year;
         let month = (this.model.startDate.monthValue > 9)
-          ? this.model.startDate.monthValue - 1 : '0' + (this.model.startDate.monthValue - 1);
+          ? this.model.startDate.monthValue : '0' + (this.model.startDate.monthValue);
         let date = (this.model.startDate.dayOfMonth > 9)
           ? this.model.startDate.dayOfMonth : '0' + this.model.startDate.dayOfMonth;
         this.model.startDate = year + '-' + month + '-' + date;
         year = this.model.endDate.year;
         month = (this.model.endDate.monthValue > 9)
-          ? this.model.endDate.monthValue - 1 : '0' + (this.model.endDate.monthValue - 1);
+          ? this.model.endDate.monthValue : '0' + (this.model.endDate.monthValue);
         date = (this.model.endDate.dayOfMonth > 9)
           ? this.model.endDate.dayOfMonth : '0' + this.model.endDate.dayOfMonth;
         this.model.endDate = year + '-' + month + '-' + date;
@@ -64,7 +64,9 @@ export class EditScheduleComponent implements OnInit {
         HH = this.model.endTime.hour > 9 ? this.model.endTime.hour : '0' + this.model.endTime.hour;
         MM = this.model.endTime.minute > 9 ? this.model.endTime.minute : '0' + this.model.endTime.minute;
         this.model.endTime = HH + ':' + MM;
+        if (this.repeat === this.CONFIG.SCHE_WEEK) {
 
+        }
         console.log(this.res.schduleDTO);
 
       });
@@ -123,7 +125,7 @@ export class EditScheduleComponent implements OnInit {
     // console.log(this.model);
 
     if (this.repeat === this.config.SCHE_CONT) {
-      this.service.updateContiSChedule(this.model, this.fileToUpload).subscribe(res => {
+      this.service.updateSChedule(this.model, this.fileToUpload).subscribe(res => {
       }, error => {
         if (error.status === 200) {
           this.notifier.notify('success', 'Scheduled Updated Successfully');

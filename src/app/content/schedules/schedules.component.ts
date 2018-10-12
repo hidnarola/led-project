@@ -29,19 +29,23 @@ export class SchedulesComponent implements OnInit, OnDestroy {
   }
   getSchedules() {
     // console.log(localStorage.getItem('userid'));
-    this.service.getContiSchedulesByUserId(localStorage.getItem('userid')).subscribe(res => {
+    this.service.getSchedulesByUserId(localStorage.getItem('userid')).subscribe(res => {
       this.schedules = res;
       console.log(res);
     });
   }
-
+  sendSchedule() {
+    this.notification.notify('success', 'Schedule Sent Successfully');
+  }
   deleteSchedule(id) {
-    this.service.deleteContiScheduleById(id).subscribe(res => {
+    this.service.deleteScheduleById(id).subscribe(res => {
     }, error => {
       if (error.status === 200) {
         this.notification.notify('success', error.error.text);
         // console.log();
         this.getSchedules();
+      } else if (error.status === 0 ) {
+        this.notification.notify('error', 'ER: ' + 'API Disconnected');
       } else {
         this.notification.notify('error', 'ER' + error.status + ' : ' + error.error.message);
       }

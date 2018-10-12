@@ -109,6 +109,8 @@
                         <dd>{{dto?.startDate.year}}</dd>
                         <dt>Last Year</dt>
                         <dd>{{dto?.endDate.year}}</dd>
+                        <dt>On Date</dt>
+                        <dd>{{ dto?.scheduleMonthDays - 1 }} {{ CONFIG.MONTHS[dto?.scheduleMonths - 1 ] }}</dd>
                       </div>
                       <div *ngIf="CONFIG.SCHE_YEAR !== repeat">
                         <dt>Start Date</dt>
@@ -124,25 +126,25 @@
                       <div *ngIf="CONFIG.SCHE_DAYL === repeat">
                         <hr />
                         <dt>N-th Day</dt>
-                        <dd></dd>
+                        <dd>{{ dto?.moduloYDay }}</dd>
                       </div>
                       <div *ngIf="CONFIG.SCHE_WEEK === repeat">
                         <hr />
                         <dt>Every N-th Week</dt>
-                        <dd></dd>
+                        <dd>{{ dto.moduloWeek }}</dd>
                         <dt>Week Days</dt>
-                        <dd></dd>
+                        <dd><span *ngFor="let day of dto?.weekDays">{{ CONFIG.DAYS[day] }}&nbsp;</span></dd>
                       </div>
                       <div *ngIf="CONFIG.SCHE_MONT === repeat">
                         <hr />
                         <dt>On Month Day</dt>
-                        <dd></dd>
-                        <dt>Week / Month Days</dt>
-                        <dd></dd>
+                        <dd>{{ dto?.scheduleMonthDays }}</dd>
+                        <!-- <dt>Week / Month Days</dt>
+                        <dd></dd> -->
                         <dt>On Week Days</dt>
-                        <dd></dd>
+                        <dd><span *ngFor="let day of dto?.weekDays">{{ CONFIG.DAYS[day] }}&nbsp;</span></dd>
                         <dt>On Month</dt>
-                        <dd></dd>
+                        <dd><span *ngFor="let month of dto?.scheduleMonths">{{ CONFIG.MONTHS[month] }}&nbsp;</span></dd>
                       </div>
                     </dl>
                   </div>

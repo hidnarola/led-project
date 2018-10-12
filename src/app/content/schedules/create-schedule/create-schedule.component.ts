@@ -15,7 +15,7 @@ import { NotifierService } from 'angular-notifier';
 })
 export class CreateScheduleComponent implements OnInit {
   repeat = 'None';
-  years = [];
+  currentYear = Number(new Date().getFullYear());
   // maxYearDate: Date;
   // dobYearRange = '';
   myfile: any;
@@ -44,10 +44,15 @@ export class CreateScheduleComponent implements OnInit {
     this.model.monthorweek = 'week';
     // this.model.ondate = new Date();
     this.model.myfiles = [];
-    for (let i: any = new Date().getFullYear(); this.years.length < 100; i++) {
-      // console.log(this.years.length + ' : ' + i);
-      this.years.push({ 'value': i });
-    }
+
+    // this.model.firstYear = this.currentYear;
+    // this.model.lastYear = this.currentYear;
+
+    // // Years [First and Last Year  Drop Down Loop]
+    // for (let i: any = new Date().getFullYear(); this.years.length < 100; i++) {
+    //   // console.log(this.years.length + ' : ' + i);
+    //   this.years.push({ 'value': i });
+    // }
     // console.log(this.years);
     this.route.queryParams
       .filter(params => params.repeat)
@@ -109,21 +114,23 @@ export class CreateScheduleComponent implements OnInit {
 
     // console.log(this.model);
 
-    if (this.repeat === this.config.SCHE_CONT) {
-      this.service.continuousCreate(this.model, this.fileToUpload).subscribe(res => {
-      }, error => {
-        if (error.status === 201) {
-          this.notifier.notify('success', 'Scheduled Stored Successfully');
-          this.model = {};
-          this.fileToUpload = [];
-        } else {
-          this.notifier.notify('error', error);
-        }
-      });
-    } else {
-      console.log(this.repeat);
-      console.log(this.model);
-    }
+    // if (this.repeat === this.config.SCHE_CONT) {
+    this.service.createSchedule(this.model, this.fileToUpload, this.repeat).subscribe(res => {
+    }, error => {
+      if (error.status === 201) {
+        this.notifier.notify('success', 'Scheduled Stored Successfully');
+        this.model = {};
+        this.fileToUpload = [];
+      } else if (error.status === 500) {
+        this.notifier.notify('error', error.error.message);
+      } else {
+        this.notifier.notify('error', 'Something Wrong');
+      }
+    });
+    // } else {
+    //   console.log(this.repeat);
+    //   console.log(this.model);
+    // }
   }
   // myUploader(event) {
   //   console.log('myUploader: ' + JSON.stringify(event.files));
