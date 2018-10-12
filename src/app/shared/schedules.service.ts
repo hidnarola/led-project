@@ -117,8 +117,8 @@ export class SchedulesService {
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
         '"scheduleMonthDays": ' + ((data.scheduleMonthDays) ? data.scheduleMonthDays : 0) + ',' +
-        '"scheduleMonths": [' + ((data.scheduleMonths) ? data.scheduleMonths : 0) + '],' +
-        '"weekDays": [' + ((data.weekDays) ? data.weekDays : 0) + '],' +
+        '"scheduleMonths": [' + ((data.scheduleMonths) ? data.scheduleMonths : '') + '],' +
+        '"weekDays": [' + ((data.weekDays) ? data.weekDays : '') + '],' +
         '"type": "' + type + '",' +
         '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
     } else if (type === this.config.SCHE_YEAR) {
@@ -156,7 +156,7 @@ export class SchedulesService {
       //   '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
     }
     // this.schedule = scheduleData.toString();
-    // console.log(scheduleData);
+    console.log(this.scheduleData);
     const headers = new HttpHeaders();
     // this is the important step. You need to set content type as null
     headers.set('Content-Type', null);
@@ -182,35 +182,77 @@ export class SchedulesService {
 
   }
 
-  updateSChedule(data, file: File[]) {
+  updateSChedule(data, file: File[], type) {
     // const uri = this.apiURL + 'leddesigner/schedule/updateContinuous';
     const uri = this.apiURL + 'leddesigner/schedule/update';
-    // {"userid" : 4,"scheduleName":"mySchedule.yml","startDate" : "2018-08-01","endDate" :
-    //  "2018-09-30","startTime" : "10:30","endTime" : "10:40","priority" : 1}
-    const scheduleData = '{' +
-      '"priority": ' + Number(data.priority) + ',' +
-      '"scheduleName": "' + data.scheduleName + '",' +
-      '"scheduleMonthDays": ' + data.scheduleMonthDays + ',' +
-      '"scheduleMonths": ' + data.scheduleMonths + ',' +
-      '"weekDays": ' + data.weekDays + ',' +
-      '"moduloWeek": ' + data.moduloWeek + ',' +
-      '"moduloYDay": ' + data.moduloYDay + ',' +
-      '"onDate": "' + data.onDate + '",' +
-      '"firstYear": "' + data.firstYear + '",' +
-      '"lastYear": "' + data.lastYear + '",' +
-      '"startDate": "' + data.startDate + '",' +
-      '"endDate": "' + data.endDate + '",' +
-      '"startTime": "' + data.startTime + '",' +
-      '"endTime": "' + data.endTime + '",' +
-      '"type": "' + data.type + '",' +
-      '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
+    if (type === this.config.SCHE_CONT) {
+      this.scheduleData = '{' +
+        '"priority": ' + Number(data.priority) + ',' +
+        '"scheduleName": "' + data.scheduleName + '",' +
+        '"startDate": "' + ((data.startDate) ? data.startDate : '') + '",' +
+        '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
+        '"startTime": "' + data.startTime + '",' +
+        '"endTime": "' + data.endTime + '",' +
+        '"type": "' + type + '",' +
+        '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
+    } else if (type === this.config.SCHE_DAYL) {
+      this.scheduleData = '{' +
+        '"priority": ' + Number(data.priority) + ',' +
+        '"scheduleName": "' + data.scheduleName + '",' +
+        '"startDate": "' + ((data.startDate) ? data.startDate : '') + '",' +
+        '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
+        '"startTime": "' + data.startTime + '",' +
+        '"endTime": "' + data.endTime + '",' +
+        '"moduloYDay": ' + ((data.moduloYDay) ? data.moduloYDay : 0) + ',' +
+        '"type": "' + type + '",' +
+        '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
+    } else if (type === this.config.SCHE_WEEK) {
+      this.scheduleData = '{' +
+        '"priority": ' + Number(data.priority) + ',' +
+        '"scheduleName": "' + data.scheduleName + '",' +
+        '"startDate": "' + ((data.startDate) ? data.startDate : '') + '",' +
+        '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
+        '"startTime": "' + data.startTime + '",' +
+        '"endTime": "' + data.endTime + '",' +
+        '"weekDays": [' + ((data.weekDays) ? data.weekDays : 0) + '],' +
+        '"moduloWeek": ' + ((data.moduloWeek) ? data.moduloWeek : 0) + ',' +
+        '"type": "' + type + '",' +
+        '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
+    } else if (type === this.config.SCHE_MONT) {
+      this.scheduleData = '{' +
+        '"priority": ' + Number(data.priority) + ',' +
+        '"scheduleName": "' + data.scheduleName + '",' +
+        '"startDate": "' + ((data.startDate) ? data.startDate : '') + '",' +
+        '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
+        '"startTime": "' + data.startTime + '",' +
+        '"endTime": "' + data.endTime + '",' +
+        '"scheduleMonthDays": ' + ((data.scheduleMonthDays) ? data.scheduleMonthDays : 0) + ',' +
+        '"scheduleMonths": [' + ((data.scheduleMonths) ? data.scheduleMonths : '') + '],' +
+        '"weekDays": [' + ((data.weekDays) ? data.weekDays : '') + '],' +
+        '"type": "' + type + '",' +
+        '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
+    } else if (type === this.config.SCHE_YEAR) {
+      // const onDate = this.convertToOnDate(data.onDate);
+      this.scheduleData = '{' +
+        '"priority": ' + Number(data.priority) + ',' +
+        '"scheduleName": "' + data.scheduleName + '",' +
+        '"firstYear": "' + ((data.firstYear) ? data.firstYear : '') + '",' +
+        '"lastYear": "' + ((data.lastYear) ? data.lastYear : '') + '",' +
+        '"startTime": "' + data.startTime + '",' +
+        '"endTime": "' + data.endTime + '",' +
+        '"onDate": "' + ((data.onDate) ? data.onDate : '') + '",' +
+        '"type": "' + type + '",' +
+        '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
+    } else {
+      this.scheduleData = '{}';
+    }
 
     const headers = new HttpHeaders();
     headers.set('Content-Type', null);
     headers.set('Accept', 'multipart/form-data');
     this.formdata = new FormData();
     this.formdata.append('file', file[0]);
-    this.formdata.append('scheduleStr', scheduleData);
+    this.formdata.append('scheduleStr', this.scheduleData);
 
     return this
       .http
@@ -283,5 +325,17 @@ export class SchedulesService {
         return res;
       }
       ));
+  }
+
+
+  // Functions
+  getValueOfScheduleMonthDays(days) {
+    let day = 0;
+    for (let i = 0; days !== 1; i++) {
+      // console.log('days: ' + days);
+      days = days / 2;
+      day++;
+    }
+    return day;
   }
 }

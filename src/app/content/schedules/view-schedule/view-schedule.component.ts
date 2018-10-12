@@ -27,12 +27,15 @@ export class ViewScheduleComponent implements OnInit {
         this.repeat = this.res.type;
         this.dto = this.res.schduleDTO;
         this.files = this.res.multipartImages;
-        let HH = this.dto.startTime.hour > 9 ? this.dto.startTime.hour : '0' + this.dto.startTime.hour;
-        let MM = this.dto.startTime.minute > 9 ? this.dto.startTime.minute : '0' + this.dto.startTime.minute;
+        let HH = ('0' + this.dto.startTime.hour).slice(-2);
+        let MM = ('0' + this.dto.startTime.minute).slice(-2);
         this.dto.startTime = HH + ':' + MM + ':00';
-        HH = this.dto.endTime.hour > 9 ? this.dto.endTime.hour : '0' + this.dto.endTime.hour;
-        MM = this.dto.endTime.minute > 9 ? this.dto.endTime.minute : '0' + this.dto.endTime.minute;
+        HH = ('0' + this.dto.endTime.hour).slice(-2);
+        MM = ('0' + this.dto.endTime.minute).slice(-2);
         this.dto.endTime = HH + ':' + MM + ':00';
+        if (this.CONFIG.SCHE_MONT === this.repeat) {
+          // this.dto.scheduleMonthDays = this.service.getValueOfScheduleMonthDays(this.dto.scheduleMonthDays).toString();
+        }
         console.log(res);
       }, error => {
         console.log(error.error.message);

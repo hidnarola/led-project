@@ -239,6 +239,7 @@
                 </div>
               </div>
               <div class="row" *ngIf="CONFIG.SCHE_WEEK === repeat">
+
                 <div class="col-md-6">
                   <div class="form-group has-feedback">
                     <input type="number" placeholder="Every N-th Week" class="form-control" name="nthweek" [(ngModel)]="model.moduloWeek"
@@ -261,6 +262,20 @@
               </div>
               <div class="row" *ngIf="CONFIG.SCHE_MONT === repeat">
                 <div class="col-md-6">
+                  <div class="form-group">
+                    <p-radioButton name="monthorweek" value="month" label="Month Day" [(ngModel)]="model.monthorweek"></p-radioButton>
+                    &nbsp;
+                    <p-radioButton name="monthorweek" value="week" label="Week Day" [(ngModel)]="model.monthorweek"></p-radioButton>
+                  </div>
+                </div>
+                <div class="col-md-6" *ngIf="model.monthorweek === 'week'">
+                  <div class="form-group">
+                    <span *ngFor="let day of CONFIG.DAYS; let i = index">
+                      {{ day }} <p-checkbox name="days" value="{{i}}" [(ngModel)]="model.weekDays"></p-checkbox>&nbsp;
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-6" *ngIf="model.monthorweek === 'month'">
                   <div class="form-group has-feedback">
                     <input type="number" placeholder="On Month Day" min="1" max="31" class="form-control" name="monthday"
                       [(ngModel)]="model.scheduleMonthDays" #monthday="ngModel" [ngClass]="{ 'is-invalid': f.submitted && monthday.invalid }"
@@ -273,27 +288,15 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <p-radioButton name="monthorweek" value="month" label="Month Day" [(ngModel)]="model.monthorweek"></p-radioButton>
-                    &nbsp;
-                    <p-radioButton name="monthorweek" value="week" label="Week Day" [(ngModel)]="model.monthorweek"></p-radioButton>
-                  </div>
-                </div>
+
 
               </div>
               <div class="row" *ngIf="CONFIG.SCHE_MONT === repeat">
-                <div class="col-md-6">
+
+                <div class="col-md-12">
                   <div class="form-group">
-                    <span *ngFor="let day of CONFIG.DAYS">
-                      {{ day }} <p-checkbox name="days" value="{{day}}" [(ngModel)]="model.weekdays"></p-checkbox>&nbsp;
-                    </span>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <span *ngFor="let month of CONFIG.MONTHS">
-                      {{ month }} <p-checkbox name="months" value="{{month}}" [(ngModel)]="model.months"></p-checkbox>&nbsp;
+                    <span *ngFor="let month of CONFIG.MONTHS; let i = index">
+                      {{ month }} <p-checkbox name="months" value="{{i}}" [(ngModel)]="model.scheduleMonths"></p-checkbox>&nbsp;
                     </span>
                   </div>
                 </div>

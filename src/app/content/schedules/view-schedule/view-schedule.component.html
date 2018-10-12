@@ -138,11 +138,13 @@
                       <div *ngIf="CONFIG.SCHE_MONT === repeat">
                         <hr />
                         <dt>On Month Day</dt>
-                        <dd>{{ dto?.scheduleMonthDays }}</dd>
+                        <dd>{{ dto?.scheduleMonthDays === 1 ? '-' : dto?.scheduleMonthDays }}</dd>
                         <!-- <dt>Week / Month Days</dt>
                         <dd></dd> -->
                         <dt>On Week Days</dt>
-                        <dd><span *ngFor="let day of dto?.weekDays">{{ CONFIG.DAYS[day] }}&nbsp;</span></dd>
+                        <dd><i *ngIf="dto?.weekDays.length === 0">-</i>
+                          <span *ngFor="let day of dto?.weekDays">{{
+                            CONFIG.DAYS[day] }}&nbsp;</span></dd>
                         <dt>On Month</dt>
                         <dd><span *ngFor="let month of dto?.scheduleMonths">{{ CONFIG.MONTHS[month] }}&nbsp;</span></dd>
                       </div>

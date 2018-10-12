@@ -123,8 +123,10 @@ export class CreateScheduleComponent implements OnInit {
         this.fileToUpload = [];
       } else if (error.status === 500) {
         this.notifier.notify('error', error.error.message);
+      } else if (error.status === 400) {
+        this.notifier.notify('warning', 'Select Image To upload');
       } else {
-        this.notifier.notify('error', 'Something Wrong');
+        this.notifier.notify('error', error.error);
       }
     });
     // } else {
