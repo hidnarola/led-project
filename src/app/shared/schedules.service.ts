@@ -327,6 +327,35 @@ export class SchedulesService {
       ));
   }
 
+  getFilesByUserId(userid) {
+    const uri = this.apiURL + 'leddesigner/schedule/getFiles?userid=' + userid;
+    // const uri = 'http://192.168.100.42:8081/leddesigner/schedule/getFiles?userid=' + userid;
+    return this.http
+      .get(uri)
+      .pipe(map(res => {
+        // console.log(res);
+        return res;
+      }
+      ));
+  }
+
+  sendFileByUserId(fileList, uid) {
+    // const uri = 'http://192.168.100.42:8081/leddesigner/schedule/send?userid=' + uid;
+    const uri = this.apiURL + 'leddesigner/schedule/send?userid=' +  uid;
+    const filedata = {
+      fileTransferDTO: fileList
+    };
+    return this
+      .http
+      .post(uri, filedata)
+      .map(res => {
+        console.log(res);
+        return res;
+      }, error => {
+        console.log(error);
+      });
+
+  }
 
   // Functions
   getValueOfScheduleMonthDays(days) {

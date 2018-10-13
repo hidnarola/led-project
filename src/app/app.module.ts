@@ -28,6 +28,7 @@ import { AdminLogoutComponent } from './admin/admin-logout/admin-logout.componen
 // PrimeNG Modules
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { FileUploadModule } from 'primeng/fileupload';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -48,6 +49,7 @@ import { EditSetupComponent } from './admin/sign-setup/edit-setup/edit-setup.com
 import { ManageSignComponent } from './admin/users/manage-sign/manage-sign.component';
 import { MySignsComponent } from './content/my-signs/my-signs.component';
 import { ViewScheduleComponent } from './content/schedules/view-schedule/view-schedule.component';
+import { SendScheduleComponent } from './content/schedules/send-schedule/send-schedule.component';
 export function tokenGetter() {
   return localStorage.getItem('access-token');
 }
@@ -124,13 +126,14 @@ const customNotifierOptions: NotifierOptions = {
     EditSetupComponent,
     ManageSignComponent,
     MySignsComponent,
-    ViewScheduleComponent
+    ViewScheduleComponent,
+    SendScheduleComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,
     CheckboxModule, RadioButtonModule,
     CalendarModule, FileUploadModule,
-    DropdownModule,
+    DropdownModule, MultiSelectModule,
     DataTableModule,
     DataTablesModule,
     FormsModule,

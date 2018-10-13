@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NotifierService } from 'angular-notifier';
 import { SchedulesService } from '../../shared/schedules.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-schedules',
   templateUrl: './schedules.component.html',
   styleUrls: ['./schedules.component.css']
 })
-export class SchedulesComponent implements OnInit, OnDestroy {
+export class SchedulesComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   schedules: any = [];
   user_name: string;
@@ -14,7 +15,8 @@ export class SchedulesComponent implements OnInit, OnDestroy {
   // We use this trigger because fetching the list of schedules can be quite long,
   // thus we ensure the data is fetched before rendering
   // dtTrigger: Subject<any> = new Subject();
-  constructor(private service: SchedulesService, private notification: NotifierService) { }
+  constructor(private service: SchedulesService, private notification: NotifierService,
+    private router: Router) { }
 
   ngOnInit() {
 
@@ -44,7 +46,7 @@ export class SchedulesComponent implements OnInit, OnDestroy {
         this.notification.notify('success', error.error.text);
         // console.log();
         this.getSchedules();
-      } else if (error.status === 0 ) {
+      } else if (error.status === 0) {
         this.notification.notify('error', 'ER: ' + 'API Disconnected');
       } else {
         this.notification.notify('error', 'ER' + error.status + ' : ' + error.error.message);
@@ -52,13 +54,8 @@ export class SchedulesComponent implements OnInit, OnDestroy {
     });
 
   }
-  ngOnDestroy(): void {
-    // Do not forget to unsubscribe the event
-    // this.dtTrigger.unsubscribe();
+  redirectToSend() {
+    this.router.navigate(['/schedule/send']);
   }
 
-  // private extractData(res: Response) {
-  //   const body = res.json();
-  //   return body.data || {};
-  // }
 }

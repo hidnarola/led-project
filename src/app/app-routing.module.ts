@@ -12,7 +12,7 @@ import { SchedulesComponent } from './content/schedules/schedules.component';
 import { CreateScheduleComponent } from './content/schedules/create-schedule/create-schedule.component';
 import { EditScheduleComponent } from './content/schedules/edit-schedule/edit-schedule.component';
 import { ViewScheduleComponent } from './content/schedules/view-schedule/view-schedule.component';
-
+import { SendScheduleComponent } from './content/schedules/send-schedule/send-schedule.component';
 import { MySignsComponent } from './content/my-signs/my-signs.component';
 
 // Admin
@@ -58,6 +58,10 @@ const routes: Routes = [
   },
   {
     path: 'schedule/edit/:id', component: EditScheduleComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'schedule/send', component: SendScheduleComponent,
     canActivate: [AuthGuard]
   },
   {
