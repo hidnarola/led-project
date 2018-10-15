@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 // User
 import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component';
+// import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './content/home/home.component';
 import { ForgotPasswordComponent } from './login/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './login/forgot-password/reset-password/reset-password.component';
@@ -34,7 +34,7 @@ import { AdminAuthGuard } from './admin-auth.guard';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
+  // { path: 'signup', component: SignupComponent },
   { path: 'forgot', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'admin', redirectTo: 'admin/login' },

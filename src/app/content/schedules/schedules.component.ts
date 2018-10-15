@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NotifierService } from 'angular-notifier';
 import { SchedulesService } from '../../shared/schedules.service';
 import { Router } from '@angular/router';

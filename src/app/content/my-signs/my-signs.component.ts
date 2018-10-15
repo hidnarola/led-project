@@ -6,6 +6,7 @@ import { UserSignService } from '../../shared/user-sign.service';
   styleUrls: ['./my-signs.component.css']
 })
 export class MySignsComponent implements OnInit {
+  dtOptions: DataTables.Settings = {};
   userid: string;
   signArray: any = [];
   user_name: string;
@@ -16,6 +17,10 @@ export class MySignsComponent implements OnInit {
     this.user_name = localStorage.getItem('name');
     this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
     this.userid = localStorage.getItem('userid');
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 10
+    };
     this.getSignByUser();
   }
 
