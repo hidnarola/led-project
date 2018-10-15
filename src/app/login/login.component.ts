@@ -15,7 +15,18 @@ export class LoginComponent implements OnInit {
   constructor(private notifier: NotifierService, private service: AccountService,
     private router: Router, private helper: JwtHelperService) {
   }
-
+  ngOnInit() {
+    if (localStorage.getItem('access-token')) {
+      if (localStorage.getItem('authorities') === 'ROLE_USER') {
+        this.router.navigate(['home']);
+      } else if (localStorage.getItem('authorities') === 'ROLE_ADMIN') {
+        this.router.navigate(['admin/dashboard']);
+      } else {
+        this.notifier.notify('warning', 'ACCESS DENIED. Please Login Again.');
+        localStorage.removeItem('access-token');
+      }
+    }
+  }
   onSubmit() {
     // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.model));
     this.service.login(this.model.email, this.model.password).subscribe(res => {
@@ -64,7 +75,6 @@ export class LoginComponent implements OnInit {
 
   }
 
-  ngOnInit() {
-  }
+
 
 }
