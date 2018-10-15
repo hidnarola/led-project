@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DataTableModule } from 'angular-6-datatable';
+// import { DataTableModule } from 'angular-6-datatable';
 import { DataTablesModule } from 'angular-datatables';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
@@ -134,7 +134,7 @@ const customNotifierOptions: NotifierOptions = {
     CheckboxModule, RadioButtonModule,
     CalendarModule, FileUploadModule,
     DropdownModule, MultiSelectModule,
-    DataTableModule,
+    // DataTableModule,
     DataTablesModule,
     FormsModule,
     ReactiveFormsModule,
@@ -144,7 +144,7 @@ const customNotifierOptions: NotifierOptions = {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['192.168.100.42:8080'],
+        whitelistedDomains: ['192.168.100.42:8080', '192.168.100.42:8081', 'clientapp.narola.online:2220'],
         blacklistedRoutes: ['localhost:4000/api/auth']
       }
     }),
