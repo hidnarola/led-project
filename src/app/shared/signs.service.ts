@@ -65,15 +65,16 @@ export class SignsService {
   updateSign(data) {
     const uri = this.apiURL + 'leddesigner/signsn/updateSignSN';
     const signs = {
-      serial_number: data.signsn,
-      sizeY: Number(data.heighty),
-      ipaddress: data.ip,
-      name: data.signname,
+      id: data.id,
+      serial_number: data.serial_number,
+      sizeY: Number(data.sizeY),
+      ipaddress: data.ipaddress,
+      name: data.name,
       port: Number(data.port),
       status: true,
       timezone: data.timezone,
-      type: data.signtype,
-      sizeX: Number(data.widthx)
+      type: data.type,
+      sizeX: Number(data.sizeX)
     };
     return this.http
       .put(uri, signs)
