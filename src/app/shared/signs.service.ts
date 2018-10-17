@@ -42,14 +42,14 @@ export class SignsService {
     const uri = this.apiURL + 'leddesigner/signsn/add';
     const signs = {
       serial_number: data.signsn,
-      height: Number(data.heighty),
-      host: data.ip,
+      sizeY: Number(data.heighty),
+      ipaddress: data.ip,
       name: data.signname,
       port: Number(data.port),
       status: true,
       timezone: data.timezone,
       type: data.signtype,
-      width: Number(data.widthx)
+      sizeX: Number(data.widthx)
     };
 
     // timezone: data.timezone,
@@ -65,15 +65,15 @@ export class SignsService {
   updateSign(data) {
     const uri = this.apiURL + 'leddesigner/signsn/updateSignSN';
     const signs = {
-      height: data.height,
-      host: data.host,
-      id: data.id,
-      name: data.name,
-      port: data.port,
+      serial_number: data.signsn,
+      sizeY: Number(data.heighty),
+      ipaddress: data.ip,
+      name: data.signname,
+      port: Number(data.port),
       status: true,
       timezone: data.timezone,
-      type: data.type,
-      width: data.width
+      type: data.signtype,
+      sizeX: Number(data.widthx)
     };
     return this.http
       .put(uri, signs)

@@ -128,7 +128,7 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group has-feedback">
-                    <input type="text" class="form-control" placeholder="Host / IP" name="ip" [(ngModel)]="model.host"
+                    <input type="text" class="form-control" placeholder="Host / IP" name="ip" [(ngModel)]="model.ipaddress"
                       #ip="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ip.invalid }" required>
                     <div class="form-control-feedback">
                       <i class="icon-screen3 text-muted"></i>
@@ -157,7 +157,7 @@
                 <div class="col-md-6">
                   <div class="form-group has-feedback">
                     <input type="text" placeholder="Screen Width (pixels)" class="form-control" name="widthx"
-                      [(ngModel)]="model.width" #widthx="ngModel" [ngClass]="{ 'is-invalid': f.submitted && widthx.invalid }"
+                      [(ngModel)]="model.sizeX" #widthx="ngModel" [ngClass]="{ 'is-invalid': f.submitted && widthx.invalid }"
                       required />
                     <div class="form-control-feedback">
                       <i class="icon-move-horizontal text-muted"></i>
@@ -171,7 +171,7 @@
                 <div class="col-md-6">
                   <div class="form-group has-feedback">
                     <input type="text" placeholder="Screen Height (pixels)" class="form-control" name="heighty"
-                      [(ngModel)]="model.height" #heighty="ngModel" [ngClass]="{ 'is-invalid': f.submitted && heighty.invalid }"
+                      [(ngModel)]="model.sizeY" #heighty="ngModel" [ngClass]="{ 'is-invalid': f.submitted && heighty.invalid }"
                       required />
                     <div class="form-control-feedback">
                       <i class=" icon-move-vertical text-muted"></i>

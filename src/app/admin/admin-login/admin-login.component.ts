@@ -22,6 +22,7 @@ export class AdminLoginComponent implements OnInit {
       const decodedToken = this.helper.decodeToken(localStorage.getItem('access-token'));
       // console.log(decodedToken);
       let user = decodedToken.sub;
+      localStorage.setItem('validity', decodedToken.exp);
       let arr = [];
       user = user.replace('{', '');
       user = user.replace('}', ''); // these lines will remove the leading and trailing braces
@@ -61,6 +62,16 @@ export class AdminLoginComponent implements OnInit {
 
 
   ngOnInit() {
+    if (localStorage.getItem('access-token')) {
+      if (localStorage.getItem('authorities') === 'ROLE_USER') {
+        this.router.navigate(['home']);
+      } else if (localStorage.getItem('authorities') === 'ROLE_ADMIN') {
+        this.router.navigate(['admin/dashboard']);
+      } else {
+        this.notifier.notify('warning', 'ACCESS DENIED. Please Login Again.');
+        localStorage.removeItem('access-token');
+      }
+    }
   }
 
 }

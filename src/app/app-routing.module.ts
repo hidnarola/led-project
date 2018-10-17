@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 // User
 import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component';
+// import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './content/home/home.component';
 import { ForgotPasswordComponent } from './login/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './login/forgot-password/reset-password/reset-password.component';
@@ -12,7 +12,7 @@ import { SchedulesComponent } from './content/schedules/schedules.component';
 import { CreateScheduleComponent } from './content/schedules/create-schedule/create-schedule.component';
 import { EditScheduleComponent } from './content/schedules/edit-schedule/edit-schedule.component';
 import { ViewScheduleComponent } from './content/schedules/view-schedule/view-schedule.component';
-
+import { SendScheduleComponent } from './content/schedules/send-schedule/send-schedule.component';
 import { MySignsComponent } from './content/my-signs/my-signs.component';
 
 // Admin
@@ -34,7 +34,7 @@ import { AdminAuthGuard } from './admin-auth.guard';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
+  // { path: 'signup', component: SignupComponent },
   { path: 'forgot', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'admin', redirectTo: 'admin/login' },
@@ -58,6 +58,10 @@ const routes: Routes = [
   },
   {
     path: 'schedule/edit/:id', component: EditScheduleComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'schedule/send', component: SendScheduleComponent,
     canActivate: [AuthGuard]
   },
   {

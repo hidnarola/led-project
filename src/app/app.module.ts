@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DataTableModule } from 'angular-6-datatable';
+// import { DataTableModule } from 'angular-6-datatable';
 import { DataTablesModule } from 'angular-datatables';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
-import { FileSelectDirective } from 'ng2-file-upload';
+// import { FileSelectDirective } from 'ng2-file-upload';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,6 +28,7 @@ import { AdminLogoutComponent } from './admin/admin-logout/admin-logout.componen
 // PrimeNG Modules
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { FileUploadModule } from 'primeng/fileupload';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -48,6 +49,7 @@ import { EditSetupComponent } from './admin/sign-setup/edit-setup/edit-setup.com
 import { ManageSignComponent } from './admin/users/manage-sign/manage-sign.component';
 import { MySignsComponent } from './content/my-signs/my-signs.component';
 import { ViewScheduleComponent } from './content/schedules/view-schedule/view-schedule.component';
+import { SendScheduleComponent } from './content/schedules/send-schedule/send-schedule.component';
 export function tokenGetter() {
   return localStorage.getItem('access-token');
 }
@@ -100,7 +102,7 @@ const customNotifierOptions: NotifierOptions = {
 @NgModule({
   declarations: [
     AppComponent,
-    FileSelectDirective,
+    // FileSelectDirective,
     HeaderComponent,
     FooterComponent,
     ContentComponent,
@@ -124,14 +126,15 @@ const customNotifierOptions: NotifierOptions = {
     EditSetupComponent,
     ManageSignComponent,
     MySignsComponent,
-    ViewScheduleComponent
+    ViewScheduleComponent,
+    SendScheduleComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,
     CheckboxModule, RadioButtonModule,
     CalendarModule, FileUploadModule,
-    DropdownModule,
-    DataTableModule,
+    DropdownModule, MultiSelectModule,
+    // DataTableModule,
     DataTablesModule,
     FormsModule,
     ReactiveFormsModule,
@@ -141,7 +144,7 @@ const customNotifierOptions: NotifierOptions = {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['192.168.100.42:8080'],
+        whitelistedDomains: ['192.168.100.42:8080', '192.168.100.42:8081', 'clientapp.narola.online:2220'],
         blacklistedRoutes: ['localhost:4000/api/auth']
       }
     }),
