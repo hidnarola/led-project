@@ -154,9 +154,15 @@
                     <img [src]="file.path" style="max-width:100%;width:auto;height:100px" alt={{file.path}}>&nbsp;
                   </div> -->
                   <ul *ngFor="let file of files; let i = index">
-                    <li>{{file.path}}</li>
+                    <li (click)="imagePreview(file.path)">{{file.path}}</li>
                   </ul>
-                  <i><small>Note: Click on image to show preview</small></i>
+                  <i><small>Note: Click on image name to show preview</small></i>
+                  <div class="text-center">
+                    <img *ngIf="isPreview" [src]="imageUrl" alt="image" style="width:auto;height:auto">
+                  </div>
+                  <!-- Get File Types -->
+                  <!-- <input type="file" id="file-selector" (change)="onChangeInput($event)">
+                  <div id="files"></div> -->
                 </div>
               </div>
             </div>

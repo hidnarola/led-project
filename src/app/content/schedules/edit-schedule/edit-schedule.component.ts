@@ -110,7 +110,16 @@ export class EditScheduleComponent implements OnInit {
     console.log(this.fileToUpload);
   }
 
-  showImagePreview(file: File) {
+  imagePreview(filename) {
+    this.isPreview = true;
+    this.service.getImageForPreview(filename, localStorage.getItem('userid')).subscribe(res => {
+      console.log(res);
+      const blob = new Blob([res], { type: 'image/png' });
+      this.showImagePreview(blob);
+    });
+  }
+
+  showImagePreview(file) {
     this.isPreview = true;
     // Show image preview
     const reader = new FileReader();

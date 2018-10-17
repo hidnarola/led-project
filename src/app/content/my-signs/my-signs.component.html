@@ -96,30 +96,28 @@
           </div>
 
           <div class="panel-body">
-            <div>
-              <table datatable [dtOptions]="dtOptions" class="row-border hover">
-                <thead>
-                  <tr>
-                    <th>Sign Name</th>
-                    <th>Type</th>
-                    <th>IP</th>
-                    <th>Port</th>
-                    <th>Time-Zone</th>
-                    <th>Screen Size</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let sign of signArray ; let i = index">
-                    <td>{{ sign.name }} ({{sign.serial_number}})</td>
-                    <td>{{ sign.type }}</td>
-                    <td class="text-right">{{ sign.ipaddress }}</td>
-                    <td class="text-right">{{ sign.port }}</td>
-                    <td>{{ sign.timeZone }}</td>
-                    <td class="text-right">{{ sign.sizeX }} x {{ sign.sizeY }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <table datatable [dtOptions]="dtOptions" class="row-border hover">
+              <thead>
+                <tr>
+                  <th>Sign Name</th>
+                  <th>Type</th>
+                  <th>IP</th>
+                  <th>Port</th>
+                  <th>Time-Zone</th>
+                  <th>Screen Size</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let sign of signArray ; let i = index">
+                  <td>{{ sign.name }} ({{sign.serial_number}})</td>
+                  <td>{{ sign.type }}</td>
+                  <td class="text-right">{{ sign.ipaddress }}</td>
+                  <td class="text-right">{{ sign.port }}</td>
+                  <td>{{ sign.timeZone }}</td>
+                  <td class="text-right">{{ sign.sizeX }} x {{ sign.sizeY }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
 

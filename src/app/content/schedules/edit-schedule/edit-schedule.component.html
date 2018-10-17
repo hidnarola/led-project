@@ -171,8 +171,9 @@
               <div class="row" *ngIf="CONFIG.SCHE_YEAR !== repeat">
                 <div class="col-md-6">
                   <div class="form-group has-feedback">
-                    <input type="date" class="form-control" placeholder="Start Date" min="2018-01-01" max="9999-12-31" name="startdate" [(ngModel)]="model.startDate"
-                      #startdate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && startdate.invalid }" required>
+                    <input type="date" class="form-control" placeholder="Start Date" min="2018-01-01" max="9999-12-31"
+                      name="startdate" [(ngModel)]="model.startDate" #startdate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && startdate.invalid }"
+                      required>
                     <div class="form-control-feedback">
                       <i class="icon-calendar text-muted"></i>
                     </div>
@@ -184,8 +185,9 @@
 
                 <div class="col-md-6">
                   <div class="form-group has-feedback">
-                    <input type="date" class="form-control" placeholder="End Date" min="2018-01-01" max="9999-12-31" name="enddate" [(ngModel)]="model.endDate"
-                      #enddate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && enddate.invalid }" required>
+                    <input type="date" class="form-control" placeholder="End Date" min="2018-01-01" max="9999-12-31"
+                      name="enddate" [(ngModel)]="model.endDate" #enddate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && enddate.invalid }"
+                      required>
                     <div class="form-control-feedback">
                       <i class="icon-calendar text-muted"></i>
                     </div>
@@ -336,7 +338,7 @@
               <div class="row">
                 <div> Uploaded Image(s) :
                   <ul *ngFor="let file of files; let i = index">
-                    <li>{{file.path}}</li>
+                    <li (click)="imagePreview(file.path)">{{file.path}}</li>
                   </ul>
                 </div>
               </div>
@@ -367,13 +369,16 @@
                   </tr>
                 </tfoot>
               </table>
-              <i><small><strong>Note:</strong>only first image will be updated. [Testing Purpose]</small></i>
+              <div align="center" *ngIf="!fileToUpload.length">
+                <img *ngIf="isPreview" [src]="imageUrl" style="max-width:100%;width:auto;height:100px">
+              </div>
+              <!-- <i><small><strong>Note:</strong>only first image will be updated. [Testing Purpose]</small></i> -->
               <!-- <ul *ngIf="fileToUpload.length">
                 <li *ngFor="let file of fileToUpload" (click)="showImagePreview(file)">{{file.name}}</li>
               </ul> -->
 
               <br />
-              <div class="text-right">
+              <div class="text-right" >
                 <button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10"><b><i class="icon-plus3"></i></b>
                   Update Schedule</button>
               </div>

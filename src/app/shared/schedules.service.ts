@@ -162,7 +162,10 @@ export class SchedulesService {
     headers.set('Content-Type', null);
     headers.set('Accept', 'multipart/form-data');
     this.formdata = new FormData();
-    this.formdata.append('file', file);
+    for (let i = 0; i < file.length; i++) {
+      this.formdata.append('multipartFiles', file[i]);
+    }
+    // this.formdata.append('multipartFiles', file);
     this.formdata.append('scheduleStr', this.scheduleData);
     // this.formdata.append('priority', data.priority);
     // this.formdata.append('startdate', data.startdate);
@@ -251,7 +254,10 @@ export class SchedulesService {
     headers.set('Content-Type', null);
     headers.set('Accept', 'multipart/form-data');
     this.formdata = new FormData();
-    this.formdata.append('file', file);
+    for (let i = 0; i < file.length; i++) {
+      this.formdata.append('multipartFiles', file[i]);
+    }
+    // this.formdata.append('multipartFiles', file);
     this.formdata.append('scheduleStr', this.scheduleData);
 
     return this
@@ -261,7 +267,7 @@ export class SchedulesService {
         console.log(res);
         return res;
       }, error => {
-        console.log(error);
+        console.log(error.error.message);
       });
   }
 
@@ -341,7 +347,7 @@ export class SchedulesService {
 
   sendFileByUserId(fileList, uid) {
     // const uri = 'http://192.168.100.42:8081/leddesigner/schedule/send?userid=' + uid;
-    const uri = this.apiURL + 'leddesigner/schedule/send?userid=' +  uid;
+    const uri = this.apiURL + 'leddesigner/schedule/send?userid=' + uid;
     const filedata = {
       fileTransferDTO: fileList
     };
@@ -355,6 +361,21 @@ export class SchedulesService {
         console.log(error);
       });
 
+  }
+
+  getImageForPreview(filename, userid) {
+    const uri = this.apiURL + 'leddesigner/schedule/filePreview?fileName=' + filename + '&userid=' + userid;
+    // const uri = 'http://192.168.100.42:8080/leddesigner/schedule/filePreview?fileName=blog-website-banner.jpg&userid=7';
+    return this.http
+      .get(uri
+        // , { responseType: 'blob' }
+        , { responseType: 'arraybuffer' }
+      )
+      .pipe(map(res => {
+        // console.log(res);
+        return res;
+      }
+      ));
   }
 
   // Functions

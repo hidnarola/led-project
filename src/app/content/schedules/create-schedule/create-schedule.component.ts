@@ -20,6 +20,7 @@ export class CreateScheduleComponent implements OnInit {
   // dobYearRange = '';
   myfile: any;
   fileToUpload: File[] = [];
+  filesToUpload: FileList;
   // fileToUpload: FileList;
   // fileToUpload: File;
   imageUrl = '/assets/images/signature.png';
@@ -44,7 +45,6 @@ export class CreateScheduleComponent implements OnInit {
     this.model.monthorweek = 'week';
     // this.model.ondate = new Date();
     this.model.myfiles = [];
-
     // this.model.firstYear = this.currentYear;
     // this.model.lastYear = this.currentYear;
 
@@ -64,6 +64,7 @@ export class CreateScheduleComponent implements OnInit {
   }
 
   handleFileInput(file: FileList) {
+
     let isMatched = false;
     if (this.fileToUpload.length > 0 && file.length > 0) {
       this.fileToUpload.forEach(files => {
@@ -78,6 +79,7 @@ export class CreateScheduleComponent implements OnInit {
       isMatched = true;
       if (file.length > 0) {
         this.fileToUpload.push(file.item(0));
+        this.filesToUpload = file;
       } else {
         this.notifier.notify('info', 'No File Selected');
       }
@@ -85,6 +87,7 @@ export class CreateScheduleComponent implements OnInit {
     if (!isMatched) {
       if (file.length > 0) {
         this.fileToUpload.push(file.item(0));
+        this.filesToUpload = file;
       } else {
         this.notifier.notify('info', 'No File Selected');
       }
@@ -92,6 +95,8 @@ export class CreateScheduleComponent implements OnInit {
     }
 
     console.log(this.fileToUpload);
+
+    console.log(this.filesToUpload);
   }
 
   showImagePreview(file: File) {

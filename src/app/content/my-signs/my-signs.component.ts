@@ -19,7 +19,7 @@ export class MySignsComponent implements OnInit {
     this.userid = localStorage.getItem('userid');
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 10
+      pageLength: 5
     };
     this.getSignByUser();
   }

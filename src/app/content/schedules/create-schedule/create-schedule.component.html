@@ -329,7 +329,7 @@
 
                   <input type="file" ([ngModel])="myfile" name="myfile" class="file-styled" #Image (change)="handleFileInput($event.target.files)"
                     required>
-                </div>
+                </div>  
               </div>
               <table class="table table-hover" *ngIf="fileToUpload.length">
                 <thead>
@@ -358,7 +358,7 @@
                   </tr>
                 </tfoot>
               </table>
-              <i><small><strong>Note:</strong>only first image will be uploaded. [Testing Purpose]</small></i>
+              <!-- <i><small><strong>Note:</strong>only first image will be uploaded. [Testing Purpose]</small></i> -->
 
               <!-- <ul *ngIf="fileToUpload.length">
                 <li *ngFor="let file of fileToUpload" (click)="showImagePreview(file)">{{file.name}}</li>
