@@ -73,7 +73,6 @@ export class AccountService {
         return res;
       }
       );
-
   }
 
   reset_password(key, newpass) {
