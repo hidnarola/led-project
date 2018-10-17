@@ -50,6 +50,7 @@ import { ManageSignComponent } from './admin/users/manage-sign/manage-sign.compo
 import { MySignsComponent } from './content/my-signs/my-signs.component';
 import { ViewScheduleComponent } from './content/schedules/view-schedule/view-schedule.component';
 import { SendScheduleComponent } from './content/schedules/send-schedule/send-schedule.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 export function tokenGetter() {
   return localStorage.getItem('access-token');
 }
@@ -127,7 +128,8 @@ const customNotifierOptions: NotifierOptions = {
     ManageSignComponent,
     MySignsComponent,
     ViewScheduleComponent,
-    SendScheduleComponent
+    SendScheduleComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,
