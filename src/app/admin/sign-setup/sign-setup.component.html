@@ -1,142 +1,91 @@
-<app-admin-header></app-admin-header>
-
-<!-- Page container -->
-<div class="page-container">
-
-  <!-- Page content -->
-  <div class="page-content">
+<!-- Main content -->
+<div class="content-wrapper">
 
 
-    <!-- Main sidebar -->
-    <div class="sidebar sidebar-main">
-      <div class="sidebar-content">
+  <!-- Page header -->
+  <div class="page-header page-header-default">
+    <div class="page-header-content">
+      <div class="page-title">
+        <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Home</span> - Sign-Setup</h4>
+      </div>
 
-        <!-- User menu -->
-        <div class="sidebar-user">
-          <div class="category-content">
-            <div class="media">
-              <a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
-              <div class="media-body">
-                <span class="media-heading text-semibold">{{ user_name }}</span>
-                <div class="text-size-mini text-muted">
-                  <i class="icon-user3 text-size-small"></i> &nbsp;{{ user_role }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- /user menu -->
-
-
-        <!-- Main navigation -->
-        <div class="sidebar-category sidebar-category-visible">
-          <div class="category-content no-padding">
-            <ul class="navigation navigation-main navigation-accordion">
-
-              <!-- Main -->
-              <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
-              <li><a href="" routerLink="/admin/dashboard"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
-              <li><a href="" routerLink="/admin/users"><i class="icon-user-tie"></i> <span>Users</span></a></li>
-              <li class="active"><a href="" routerLink="/admin/sign-setup"><i class="icon-cog3"></i> <span>Sign Setup</span></a></li>
-              <!-- /main -->
-
-            </ul>
-          </div>
-        </div>
-        <!-- /main navigation -->
+      <div class="heading-elements">
 
       </div>
     </div>
-    <!-- /main sidebar -->
 
-    <!-- Main content -->
-    <div class="content-wrapper">
+    <div class="breadcrumb-line">
+      <ul class="breadcrumb">
+        <li><a href="" routerLink="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+        <li class="active">Sign-Setup</li>
+      </ul>
 
+      <ul class="breadcrumb-elements">
 
-      <!-- Page header -->
-      <div class="page-header page-header-default">
-        <div class="page-header-content">
-          <div class="page-title">
-            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Home</span> - Sign-Setup</h4>
-          </div>
+      </ul>
+    </div>
+  </div>
+  <!-- /page header -->
 
-          <div class="heading-elements">
+  <!-- Content area -->
+  <div class="content">
 
-          </div>
-        </div>
-
-        <div class="breadcrumb-line">
-          <ul class="breadcrumb">
-            <li><a href="" routerLink="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
-            <li class="active">Sign-Setup</li>
-          </ul>
-
-          <ul class="breadcrumb-elements">
-
+    <div class="panel panel-flat">
+      <div class="panel-heading">
+        <h5 class="panel-title">Manage Sign</h5>
+        <div class="heading-elements">
+          <ul class="icons-list">
+            <!-- <li><a data-action="collapse"></a></li> -->
+            <li><a href="" routerLink="/admin/sign-setup/add">
+                <button class="btn btn-primary">Add New Setup</button></a></li>
+            <!-- <li><a data-action="close"></a></li> -->
           </ul>
         </div>
       </div>
-      <!-- /page header -->
 
-      <!-- Content area -->
-      <div class="content">
-
-        <div class="panel panel-flat">
-          <div class="panel-heading">
-            <h5 class="panel-title">Manage Sign</h5>
-            <div class="heading-elements">
-              <ul class="icons-list">
-                <!-- <li><a data-action="collapse"></a></li> -->
-                <li><a href="" routerLink="/admin/sign-setup/add">
-                    <button class="btn btn-primary">Add New Setup</button></a></li>
-                <!-- <li><a data-action="close"></a></li> -->
-              </ul>
-            </div>
-          </div>
-
-          <div class="panel-body">
-            <div>
-              <table datatable [dtOptions]="dtOptions" class="row-border hover">
-                <thead>
-                  <tr>
-                    <th>Sign Name</th>
-                    <th>Type</th>
-                    <th>IP</th>
-                    <th>Port</th>
-                    <th>Time-Zone</th>
-                    <th>Screen Size</th>
-                    <th class="text-center">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let sign of data ; let i = index">
-                    <td>{{ sign.name }}</td>
-                    <td>{{ sign.type }}</td>
-                    <td class="text-right">{{ sign.ipaddress }}</td>
-                    <td class="text-right">{{ sign.port }}</td>
-                    <td>{{ sign.timezone }}</td>
-                    <td class="text-right">{{ sign.sizeX }} x {{ sign.sizeY }}</td>
-                    <td class="text-center">
-                      <ul class="icons-list">
-                        <li class="dropdown">
-                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-menu9"></i>
-                          </a>
-                          <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="" routerLink="/admin/sign-setup/edit/{{ sign.id }}"><i class="icon-pencil4"></i>
-                                Edit</a></li>
-                            <li (click)="deleteSign(sign.id)"><a><i class=" icon-trash-alt"></i> Delete</a></li>
-                          </ul>
-                        </li>
+      <div class="panel-body">
+        <div>
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+            <thead>
+              <tr>
+                <th>Sign Name</th>
+                <th>Type</th>
+                <th>IP</th>
+                <th>Port</th>
+                <th>Time-Zone</th>
+                <th>Screen Size</th>
+                <th class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let sign of data ; let i = index">
+                <td>{{ sign.name }} ({{ sign.serial_number }})</td>
+                <td>{{ sign.type }}</td>
+                <td class="text-right">{{ sign.ipaddress }}</td>
+                <td class="text-right">{{ sign.port }}</td>
+                <td>{{ sign.timezone }}</td>
+                <td class="text-right">{{ sign.sizeX }} x {{ sign.sizeY }}</td>
+                <td class="text-center">
+                  <ul class="icons-list">
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-menu9"></i>
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="" routerLink="/admin/sign-setup/edit/{{ sign.id }}"><i class="icon-pencil4"></i>
+                            Edit</a></li>
+                        <li (click)="deleteSign(sign.id)"><a><i class=" icon-trash-alt"></i> Delete</a></li>
                       </ul>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-          <!-- <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
+      <!-- <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
             <thead>
               <tr>
                 <th style="width: 20%">
@@ -178,9 +127,7 @@
             </tfoot>
           </table> -->
 
-        </div>
-
-      </div>
     </div>
+
   </div>
 </div>

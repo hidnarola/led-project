@@ -26,11 +26,7 @@ export class SendScheduleComponent implements OnInit {
   }
 
   getSchedule() {
-    // this.service.getSchedulesByUserId(localStorage.getItem('userid')).subscribe(res => {
-    //   this.mySchedules = res;
-    //   console.log(res);
-    // });
-    this.service.getFilesByUserId(1).subscribe(res => {
+    this.service.getFilesByUserId(localStorage.getItem('userid')).subscribe(res => {
       this.mySchedules = res;
       console.log(res);
     });

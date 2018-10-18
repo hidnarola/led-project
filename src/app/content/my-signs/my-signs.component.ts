@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserSignService } from '../../shared/user-sign.service';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-my-signs',
   templateUrl: './my-signs.component.html',
   styleUrls: ['./my-signs.component.css']
 })
-export class MySignsComponent implements OnInit {
+export class MySignsComponent implements OnDestroy, OnInit {
   dtOptions: DataTables.Settings = {};
+  dtTrigger = new Subject();
   userid: string;
   signArray: any = [];
   user_name: string;
@@ -19,14 +21,41 @@ export class MySignsComponent implements OnInit {
     this.userid = localStorage.getItem('userid');
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 5
+      pageLength: 5,
+      order: [0, 'asc']
+      // ajax: this.signArray,
+      // columns: [{
+      //   title: 'Serial',
+      //   data: 'serial_number'
+      // }, {
+      //   title: 'Name',
+      //   data: 'name'
+      // }, {
+      //   title: 'Host',
+      //   data: 'ipaddress'
+      // }]
     };
     this.getSignByUser();
+    // setTimeout(() => {
+
+    // }, 500);
   }
+
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
+  }
+
+  // private extractData(res: Response) {
+  //   const body = res.json();
+  //   return body.data || {};
+  // }
 
   getSignByUser() {
     this.service.getSignByUserId_user(this.userid).subscribe(res => {
       this.signArray = res;
+      // Calling the DT trigger to manually render the table
+      this.dtTrigger.next();
       console.log(res);
     });
   }

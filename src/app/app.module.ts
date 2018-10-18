@@ -2,19 +2,15 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { DataTableModule } from 'angular-6-datatable';
 import { DataTablesModule } from 'angular-datatables';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
-// import { FileSelectDirective } from 'ng2-file-upload';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
-import { ContentComponent } from './content/content.component';
+import { HeaderComponent } from './_layouts/header/header.component';
+import { FooterComponent } from './_layouts/footer/footer.component';
 import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './content/home/home.component';
 import { ForgotPasswordComponent } from './login/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './login/forgot-password/reset-password/reset-password.component';
@@ -50,7 +46,10 @@ import { ManageSignComponent } from './admin/users/manage-sign/manage-sign.compo
 import { MySignsComponent } from './content/my-signs/my-signs.component';
 import { ViewScheduleComponent } from './content/schedules/view-schedule/view-schedule.component';
 import { SendScheduleComponent } from './content/schedules/send-schedule/send-schedule.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
+import { SidebarComponent } from './_layouts/sidebar/sidebar.component';
+import { AdminLayoutComponent } from './_layouts/admin-layout/admin-layout.component';
+import { UserLayoutComponent } from './_layouts/user-layout/user-layout.component';
+
 export function tokenGetter() {
   return localStorage.getItem('access-token');
 }
@@ -106,9 +105,7 @@ const customNotifierOptions: NotifierOptions = {
     // FileSelectDirective,
     HeaderComponent,
     FooterComponent,
-    ContentComponent,
     LoginComponent,
-    SignupComponent,
     HomeComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
@@ -129,7 +126,9 @@ const customNotifierOptions: NotifierOptions = {
     MySignsComponent,
     ViewScheduleComponent,
     SendScheduleComponent,
-    SidebarComponent
+    SidebarComponent,
+    AdminLayoutComponent,
+    UserLayoutComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,

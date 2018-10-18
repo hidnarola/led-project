@@ -1,113 +1,59 @@
-<app-admin-header></app-admin-header>
+<!-- Main content -->
+<div class="content-wrapper">
 
 
+  <!-- Page header -->
+  <div class="page-header page-header-default">
+    <div class="page-header-content">
+      <div class="page-title">
+        <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Users</span> - Edit User</h4>
+      </div>
 
-
-<!-- Page container -->
-<div class="page-container">
-
-  <!-- Page content -->
-  <div class="page-content">
-
-
-    <!-- Main sidebar -->
-    <div class="sidebar sidebar-main">
-      <div class="sidebar-content">
-
-        <!-- User menu -->
-        <div class="sidebar-user">
-          <div class="category-content">
-            <div class="media">
-              <a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
-              <div class="media-body">
-                <span class="media-heading text-semibold">{{ user_name }}</span>
-                <div class="text-size-mini text-muted">
-                  <i class="icon-user3 text-size-small"></i> &nbsp;{{ user_role }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- /user menu -->
-
-
-        <!-- Main navigation -->
-        <div class="sidebar-category sidebar-category-visible">
-          <div class="category-content no-padding">
-            <ul class="navigation navigation-main navigation-accordion">
-
-              <!-- Main -->
-              <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
-              <li><a href="" routerLink="/admin/dashboard"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
-              <li class="active"><a href="" routerLink="/admin/users"><i class="icon-user-tie"></i> <span>Users</span></a></li>
-              <li><a href="" routerLink="/admin/sign-setup"><i class="icon-cog3"></i> <span>Sign Setup</span></a></li>
-              <!-- /main -->
-
-            </ul>
-          </div>
-        </div>
-        <!-- /main navigation -->
+      <div class="heading-elements">
 
       </div>
     </div>
-    <!-- /main sidebar -->
 
-    <!-- Main content -->
-    <div class="content-wrapper">
+    <div class="breadcrumb-line">
+      <ul class="breadcrumb">
+        <li><a href="" routerLink="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+        <li><a href="" routerLink="/admin/users"><i class="icon-user-tie position-left"></i>Users</a></li>
+        <li class="active">Edit User</li>
+      </ul>
 
+      <ul class="breadcrumb-elements">
 
-      <!-- Page header -->
-      <div class="page-header page-header-default">
-        <div class="page-header-content">
-          <div class="page-title">
-            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Users</span> - Edit User</h4>
-          </div>
+      </ul>
+    </div>
+  </div>
+  <!-- /page header -->
 
-          <div class="heading-elements">
+  <!-- Content area -->
+  <div class="content">
 
-          </div>
-        </div>
-
-        <div class="breadcrumb-line">
-          <ul class="breadcrumb">
-            <li><a href="" routerLink="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
-            <li><a href="" routerLink="/admin/users"><i class="icon-user-tie position-left"></i>Users</a></li>
-            <li class="active">Edit User</li>
-          </ul>
-
-          <ul class="breadcrumb-elements">
-
+    <!-- Individual column searching (text inputs) -->
+    <div class="panel panel-flat">
+      <div class="panel-heading">
+        <h5 class="panel-title">Edit User</h5>
+        <div class="heading-elements">
+          <ul class="icons-list">
+            <!-- <li><a data-action="collapse"></a></li> -->
+            <!-- <li><a data-action="reload"></a></li> -->
+            <!-- <li><a data-action="close"></a></li> -->
           </ul>
         </div>
       </div>
-      <!-- /page header -->
 
-      <!-- Content area -->
-      <div class="content">
+      <div class="panel-body">
+        <!-- Registration form -->
+        <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
 
-        <!-- Individual column searching (text inputs) -->
-        <div class="panel panel-flat">
-          <div class="panel-heading">
-            <h5 class="panel-title">Edit User</h5>
-            <div class="heading-elements">
-              <ul class="icons-list">
-                <!-- <li><a data-action="collapse"></a></li> -->
-                <!-- <li><a data-action="reload"></a></li> -->
-                <!-- <li><a data-action="close"></a></li> -->
-              </ul>
-            </div>
-          </div>
-
-          <div class="panel-body">
-            <!-- Registration form -->
-            <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
-
-              <!-- <div class="text-center">
+          <!-- <div class="text-center">
                 <div class="icon-object border-success text-success"><i class="icon-plus3"></i></div>
                 <h5 class="content-group-lg">Create account <small class="display-block">All fields are required</small></h5>
               </div> -->
 
-              <!-- <div class="form-group has-feedback">
+          <!-- <div class="form-group has-feedback">
           <input type="text" class="form-control" placeholder="Choose username" name="username" [(ngModel)]="model.username"
             #username="ngModel" [ngClass]="{ 'is-invalid': f.submitted && username.invalid }" required>
           <div class="form-control-feedback">
@@ -118,90 +64,90 @@
           </div>
         </div> -->
 
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <input type="text" class="form-control" placeholder="First name" name="firstname" [(ngModel)]="model.firstname"
-                      #firstname="ngModel" required>
-                    <div class="form-control-feedback">
-                      <i class="icon-user-check text-muted"></i>
-                    </div>
-
-                  </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group has-feedback">
+                <input type="text" class="form-control" placeholder="First name" name="firstname" [(ngModel)]="model.firstname"
+                  #firstname="ngModel" required>
+                <div class="form-control-feedback">
+                  <i class="icon-user-check text-muted"></i>
                 </div>
 
-                <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <input type="text" class="form-control" placeholder="Last name" name="lastname" [(ngModel)]="model.lastname"
-                      #lastname="ngModel" required>
-                    <div class="form-control-feedback">
-                      <i class="icon-user-check text-muted"></i>
-                    </div>
+              </div>
+            </div>
 
-                  </div>
+            <div class="col-md-6">
+              <div class="form-group has-feedback">
+                <input type="text" class="form-control" placeholder="Last name" name="lastname" [(ngModel)]="model.lastname"
+                  #lastname="ngModel" required>
+                <div class="form-control-feedback">
+                  <i class="icon-user-check text-muted"></i>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group has-feedback">
+                <input type="text" disabled placeholder="Email" class="form-control" name="email" [(ngModel)]="model.email"
+                  #email="ngModel" required email />
+                <div class="form-control-feedback">
+                  <i class="icon-mention text-muted"></i>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group has-feedback">
+                <input type="text" placeholder="Company Name" class="form-control" name="companyname" [(ngModel)]="model.companyname"
+                  #comapanyname="ngModel" required />
+                <div class="form-control-feedback">
+                  <i class="icon-briefcase text-muted"></i>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group has-feedback">
+                <input type="text" placeholder="City" class="form-control" name="city" [(ngModel)]="model.city" #city="ngModel"
+                  required />
+                <div class="form-control-feedback">
+                  <i class="icon-city text-muted"></i>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group has-feedback">
+                <input type="text" placeholder="State" class="form-control" name="state" [(ngModel)]="model.state"
+                  #state="ngModel" required />
+                <div class="form-control-feedback">
+                  <i class="icon-map text-muted"></i>
                 </div>
               </div>
+            </div>
+          </div>
 
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <input type="text" disabled placeholder="Email" class="form-control" name="email" [(ngModel)]="model.email"
-                      #email="ngModel" required email />
-                    <div class="form-control-feedback">
-                      <i class="icon-mention text-muted"></i>
-                    </div>
-
-                  </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group has-feedback">
+                <input type="tel" placeholder="Phone" class="form-control" name="mobno" [(ngModel)]="model.mobno"
+                  #mobno="ngModel" required />
+                <div class="form-control-feedback">
+                  <i class="icon-phone text-muted"></i>
                 </div>
 
-                <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <input type="text" placeholder="Company Name" class="form-control" name="companyname" [(ngModel)]="model.companyname"
-                      #comapanyname="ngModel" required />
-                    <div class="form-control-feedback">
-                      <i class="icon-briefcase text-muted"></i>
-                    </div>
-
-                  </div>
-                </div>
               </div>
+            </div>
 
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <input type="text" placeholder="City" class="form-control" name="city" [(ngModel)]="model.city"
-                      #city="ngModel" required />
-                    <div class="form-control-feedback">
-                      <i class="icon-city text-muted"></i>
-                    </div>
-
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <input type="text" placeholder="State" class="form-control" name="state" [(ngModel)]="model.state"
-                      #state="ngModel" required />
-                    <div class="form-control-feedback">
-                      <i class="icon-map text-muted"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <input type="tel" placeholder="Phone" class="form-control" name="mobno" [(ngModel)]="model.mobno"
-                      #mobno="ngModel" required />
-                    <div class="form-control-feedback">
-                      <i class="icon-phone text-muted"></i>
-                    </div>
-
-                  </div>
-                </div>
-
-                <!-- <div class="col-md-6">
+            <!-- <div class="col-md-6">
                   <div class="form-group">
                     <label class="radio-inline">
                       <input type="radio" name="role" [(ngModel)]="model.isAdmin" [value]="false" #isAdmin="ngModel"
@@ -216,24 +162,22 @@
                     </label>
                   </div>
                 </div> -->
-              </div>
-
-              <div class="text-right">
-                <!-- <a href="" routerLink='/login' class="btn btn-link"><i class="icon-arrow-left13 position-left"></i>
-            Back
-            to login form</a> -->
-                <button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10"><b><i class="icon-plus3"></i></b>
-                  Update account</button>
-
-              </div>
-            </form>
-            <!-- /registration form -->
           </div>
 
-        </div>
-        <!-- /individual column searching (text inputs) -->
+          <div class="text-right">
+            <!-- <a href="" routerLink='/login' class="btn btn-link"><i class="icon-arrow-left13 position-left"></i>
+            Back
+            to login form</a> -->
+            <button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10"><b><i class="icon-plus3"></i></b>
+              Update account</button>
 
+          </div>
+        </form>
+        <!-- /registration form -->
       </div>
+
     </div>
+    <!-- /individual column searching (text inputs) -->
+
   </div>
 </div>

@@ -4,6 +4,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 // import { first } from 'rxjs/operators';
 import { AccountService } from '../shared/account.service';
 import { NotifierService } from 'angular-notifier';
+import { Config } from '../shared/config';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -13,12 +14,13 @@ export class LoginComponent implements OnInit {
 
   model: any = {};
   constructor(private notifier: NotifierService, private service: AccountService,
-    private router: Router, private helper: JwtHelperService) {
+    private router: Router, private helper: JwtHelperService,
+    private config: Config) {
   }
   ngOnInit() {
     if (localStorage.getItem('access-token')) {
       if (localStorage.getItem('authorities') === 'ROLE_USER') {
-        this.router.navigate(['home']);
+        this.router.navigate(['user/home']);
       } else if (localStorage.getItem('authorities') === 'ROLE_ADMIN') {
         this.router.navigate(['admin/dashboard']);
       } else {
@@ -51,10 +53,10 @@ export class LoginComponent implements OnInit {
         localStorage.setItem((s[0]).trim(), s[1]);
       });
       localStorage.setItem('USER', JSON.stringify(arr));
-
+      // this.config.isLoggedIn = true;
       // CHECK USER ROLE
       if (localStorage.getItem('authorities') === 'ROLE_USER') {
-        this.router.navigate(['home']);
+        this.router.navigate(['user/home']);
       } else if (localStorage.getItem('authorities') === 'ROLE_ADMIN') {
         this.router.navigate(['admin/dashboard']);
       } else {

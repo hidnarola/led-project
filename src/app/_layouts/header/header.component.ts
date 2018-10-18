@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+// import { Config } from '../shared/config';
 
 @Component({
   selector: 'app-header',
@@ -7,11 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   user_name: string;
-
-  constructor() { }
+  isLoggedIn: boolean;
+  constructor(
+    // private config: Config
+    ) { }
 
   ngOnInit() {
     this.user_name = localStorage.getItem('name');
+    // this.isLoggedIn = this.config.isLoggedIn;
   }
 
 }

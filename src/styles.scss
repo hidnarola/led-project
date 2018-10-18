@@ -98,21 +98,44 @@ h2 {
   height: calc(100% - 48px);
 }
 
-.page-content {
-  display: flex;
-  height: 100%;
-}
-
 @media (min-width: 769px) {
+  .page-content {
+    height: 100%;
+    display: inline-block;
+    width: 100%;
+    vertical-align:top; 
+  }
+  .content-wrapper {
+    display:inline-block;
+    vertical-align: top;
+    width: calc(100% - 260px);
+  }
+  .sidebar-xs .content-wrapper {
+    width: calc(100% - 60px);
+  }
   .sidebar {
-    display: block;
+    display:inline-block;
     vertical-align: top;
     width: 260px;
+    min-height: 100%;
   }
 }
 
-.content-wrapper {
-  display: block;
-  vertical-align: top;
-  width: calc(100%);
+@media (max-width: 450px) {
+  .page-content {
+    display: table-row;
+  }
+
+  .content-wrapper {
+    display: table-cell;
+  }
 }
+
+
+
+
+// .page-content {
+//   display: flex;
+//   height: 100%;
+//   width: 100%;
+// }
