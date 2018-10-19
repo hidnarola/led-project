@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, ExtraOptions } from '@angular/router';
 
 // User
 import { LoginComponent } from './login/login.component';
@@ -47,8 +47,7 @@ const routes: Routes = [
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
-      { path: '', redirectTo: 'login', pathMatch: 'full' },
-      { path: 'login', component: AdminLoginComponent },
+      { path: '', redirectTo: 'admin/login', pathMatch: 'full' },
       { path: 'dashboard', component: AdminHomeComponent, canActivate: [AdminAuthGuard] },
       { path: 'sign-setup', component: SignSetupComponent, canActivate: [AdminAuthGuard] },
       { path: 'sign-setup/add', component: CreateSetupComponent, canActivate: [AdminAuthGuard] },
@@ -135,12 +134,17 @@ const routes: Routes = [
   //   path: 'user',
   //   loadChildren: './content/content.module#ContentModule'
   // },
+  { path: 'admin/login', component: AdminLoginComponent },
   { path: 'logout', component: AdminLogoutComponent },
   { path: '**', redirectTo: 'login' }
 ];
 
+const config: ExtraOptions = {
+  useHash: true,
+};
+
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, config)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

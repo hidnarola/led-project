@@ -3,3 +3,8 @@
   vertical-align: top;
   width: 100%;
 }
+
+.footer {
+  position: unset;
+  bottom: 30px;
+}
