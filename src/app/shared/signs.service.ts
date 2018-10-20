@@ -18,7 +18,7 @@ export class SignsService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -30,7 +30,7 @@ export class SignsService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -56,7 +56,7 @@ export class SignsService {
     return this.http
       .post(uri, signs)
       .map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       );
@@ -79,7 +79,7 @@ export class SignsService {
     return this.http
       .put(uri, signs)
       .map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       );
@@ -90,7 +90,7 @@ export class SignsService {
     return this.http
       .delete(uri)
       .map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       );

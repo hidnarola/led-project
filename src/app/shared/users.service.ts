@@ -18,7 +18,7 @@ export class UsersService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        console.log(res);
+        // console.log(res);
         return res;
       }
       ));
@@ -30,7 +30,7 @@ export class UsersService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -44,7 +44,7 @@ export class UsersService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -64,11 +64,11 @@ export class UsersService {
       password: data.password,
       email: data.email
     };
-    console.log(profile);
+    // console.log(profile);
     return this.http
       .put(uri, profile)
       .map(res => {
-        console.log(res);
+        // console.log(res);
         return res;
       }
       );

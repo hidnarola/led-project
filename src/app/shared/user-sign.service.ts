@@ -19,7 +19,7 @@ export class UserSignService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -32,7 +32,7 @@ export class UserSignService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -47,7 +47,7 @@ export class UserSignService {
     return this.http
       .post(uri, us)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -70,7 +70,7 @@ export class UserSignService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));

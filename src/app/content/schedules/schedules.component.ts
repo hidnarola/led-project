@@ -33,11 +33,11 @@ export class SchedulesComponent implements OnDestroy, OnInit {
     this.getSchedules();
   }
   getSchedules() {
-    // console.log(localStorage.getItem('userid'));
+    // // console.log(localStorage.getItem('userid'));
     this.service.getSchedulesByUserId(localStorage.getItem('userid')).subscribe(res => {
       this.schedules = res;
       this.dtTrigger.next();
-      console.log(res);
+      // console.log(res);
     });
   }
   sendSchedule() {
@@ -48,7 +48,7 @@ export class SchedulesComponent implements OnDestroy, OnInit {
     }, error => {
       if (error.status === 200) {
         this.notification.notify('success', error.error.text);
-        // console.log();
+        // // console.log();
         this.getSchedules();
       } else if (error.status === 0) {
         this.notification.notify('error', 'ER: ' + 'API Disconnected');

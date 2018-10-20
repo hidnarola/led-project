@@ -36,7 +36,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.service.getAllUsers().subscribe(res => {
       this.data = res;
       this.dtTrigger.next();
-      console.log(res);
+      // console.log(res);
     });
   }
 

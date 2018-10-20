@@ -56,7 +56,7 @@ export class MySignsComponent implements OnDestroy, OnInit {
       this.signArray = res;
       // Calling the DT trigger to manually render the table
       this.dtTrigger.next();
-      console.log(res);
+      // console.log(res);
     });
   }
 }

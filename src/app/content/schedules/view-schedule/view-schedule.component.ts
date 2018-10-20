@@ -30,7 +30,7 @@ export class ViewScheduleComponent implements OnInit {
     this.user_name = localStorage.getItem('name');
     this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
     this.route.params.subscribe(params => {
-      console.log(params['id']);
+      // console.log(params['id']);
       this.service.getScheduleById(params['id']).subscribe(res => {
         this.res = res;
         this.repeat = this.res.type;
@@ -45,9 +45,9 @@ export class ViewScheduleComponent implements OnInit {
         if (this.CONFIG.SCHE_MONT === this.repeat) {
           // this.dto.scheduleMonthDays = this.service.getValueOfScheduleMonthDays(this.dto.scheduleMonthDays).toString();
         }
-        console.log(res);
+        // console.log(res);
       }, error => {
-        console.log(error.error.message);
+        // console.log(error.error.message);
       });
     });
   }
@@ -55,13 +55,13 @@ export class ViewScheduleComponent implements OnInit {
   imagePreview(filename) {
     // this.isPreview = true;
     this.service.getImageForPreview(filename, localStorage.getItem('userid')).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       this.binaryToFile(res);
       // this.imageUrl = 'data:image/png;base64,' + res;
       // this.showImagePreview(res);
     }, error => {
       // const baseData = window.btoa(unescape(encodeURIComponent(error.error.text)));
-      console.log(error);
+      // console.log(error);
       // this.imageUrl =
       //   this.domSanitizer.bypassSecurityTrustUrl(
       //   'data:image/png;base64,' + baseData
@@ -94,7 +94,7 @@ export class ViewScheduleComponent implements OnInit {
 
     // Now we write the typed array to the Blob instead of the string
     const blob = new Blob([bytes], { type: 'image/png' });
-    // console.log(blob);
+    // // console.log(blob);
     // saveAs(blob, 'myImage.png');
     this.showImagePreview(blob);
   }
@@ -120,7 +120,7 @@ export class ViewScheduleComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = (event: any) => {
       this.imageUrl = event.target.result;
-      console.log(this.imageUrl);
+      // console.log(this.imageUrl);
     };
     reader.readAsDataURL(file);
     // reader.readAsBinaryString(file);

@@ -17,7 +17,7 @@ export class ForgotPasswordComponent implements OnInit {
   onSubmit() {
     // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.model));
     this.service.forgot_password(this.model.email).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       this.notifier.notify('success', 'Instructions are sent to your Email ID');
     },
       error => {

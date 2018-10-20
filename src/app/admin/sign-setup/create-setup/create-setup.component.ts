@@ -27,7 +27,7 @@ export class CreateSetupComponent implements OnInit, AfterViewChecked {
   onSubmit() {
     //  alert(JSON.stringify(this.model));
     this.service.addSign(this.model).subscribe(res => {
-      // console.log(res);
+      // // console.log(res);
       this.notifier.notify('success', 'Added Successfully');
       this.model = {};
       this.model.signtype = this.signType[0];

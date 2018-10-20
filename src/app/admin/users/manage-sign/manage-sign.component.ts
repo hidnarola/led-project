@@ -59,7 +59,7 @@ export class ManageSignComponent implements OnInit {
 
     this.service.getAllSigns().subscribe(res => {
       this.allSign = res;
-      // console.log(res);
+      // // console.log(res);
     });
 
   }
@@ -67,20 +67,20 @@ export class ManageSignComponent implements OnInit {
   getSignByUser() {
     this.usservice.getSignByUserId_admin(this.userid).subscribe(res => {
       this.fieldArray = res;
-      console.log(res);
+      // console.log(res);
     });
   }
 
   onfocusSign(id) {
     // this.notifier.notify('info', event.target.value);
-    console.log('old : ' + id);
+    // console.log('old : ' + id);
     this.oldChoice = id;
   }
 
   onchangeSign(id) {
     // this.notifier.notify('info', event.target.value);
-    console.log('old : ' + this.oldChoice);
-    console.log('new : ' + id);
+    // console.log('old : ' + this.oldChoice);
+    // console.log('new : ' + id);
 
     this.newChoice = id;
     if (this.oldChoice !== 0 || this.oldChoice) {
@@ -89,7 +89,7 @@ export class ManageSignComponent implements OnInit {
           // this.notifier.notify('info', '');
         }, error => {
           // this.notifier.notify('error', error.message);
-          console.log(error.message);
+          // console.log(error.message);
         });
 
       // this.deleteFieldValue(this.oldChoice);
@@ -102,7 +102,7 @@ export class ManageSignComponent implements OnInit {
         if (error.status === 500) {
           this.notifier.notify('error', 'Already Exist.');
         } else {
-          console.log(error);
+          // console.log(error);
         }
       });
     this.oldChoice = id;
@@ -110,7 +110,7 @@ export class ManageSignComponent implements OnInit {
   }
 
   addUserSign(id) {
-    console.log(id.toString().substr(3, 1));
+    // console.log(id.toString().substr(3, 1));
     this.usservice.addUserSign(id.toString().substr(3, 1), this.userid)
       .subscribe(res => {
         this.notifier.notify('success', 'Added Successfully');
@@ -119,7 +119,7 @@ export class ManageSignComponent implements OnInit {
         if (error.status === 500) {
           this.notifier.notify('error', 'Already Exist.');
         } else {
-          console.log(error);
+          // console.log(error);
         }
       });
     this.addFieldValue();

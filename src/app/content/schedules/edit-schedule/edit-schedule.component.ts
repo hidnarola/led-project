@@ -33,11 +33,11 @@ export class EditScheduleComponent implements OnInit {
     // this.model.monthorweek = 'week';
     this.model.myfiles = [];
     for (let i: any = new Date().getFullYear(); this.years.length < 100; i++) {
-      // console.log(this.years.length + ' : ' + i);
+      // // console.log(this.years.length + ' : ' + i);
       this.years.push({ 'value': i });
     }
     this.route.params.subscribe(params => {
-      // console.log(params['id']);
+      // // console.log(params['id']);
       this.service.getScheduleById(params['id']).subscribe(res => {
         this.res = res;
         this.repeat = this.res.type;
@@ -74,7 +74,7 @@ export class EditScheduleComponent implements OnInit {
           this.model.onDate = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) +
             '-' + ('0' + (now.getDate())).slice(-2);
         }
-        console.log(this.res.schduleDTO);
+        // console.log(this.res.schduleDTO);
       });
     });
     // document.getElementById('mydate').value = '2001-01-10';
@@ -85,7 +85,7 @@ export class EditScheduleComponent implements OnInit {
     if (this.fileToUpload.length > 0 && file.length > 0) {
       this.fileToUpload.forEach(files => {
         if (file.item(0).name === files.name) {
-          console.log('matched');
+          // console.log('matched');
           this.notifier.notify('info', 'Rename Filename if you want to add');
           this.notifier.notify('warning', 'Same File Name Exist.');
           isMatched = true;
@@ -107,13 +107,13 @@ export class EditScheduleComponent implements OnInit {
       }
       isMatched = false;
     }
-    console.log(this.fileToUpload);
+    // console.log(this.fileToUpload);
   }
 
   imagePreview(filename) {
     this.isPreview = true;
     this.service.getImageForPreview(filename, localStorage.getItem('userid')).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       const blob = new Blob([res], { type: 'image/png' });
       this.showImagePreview(blob);
     });
@@ -137,7 +137,7 @@ export class EditScheduleComponent implements OnInit {
 
   onSubmit() {
 
-    // console.log(this.model);
+    // // console.log(this.model);
 
     // if (this.repeat === this.config.SCHE_CONT) {
     if (this.model.monthorweek === 'week') {
@@ -160,8 +160,8 @@ export class EditScheduleComponent implements OnInit {
       }
     });
     // } else {
-    //   console.log(this.repeat);
-    //   console.log(this.model);
+    //   // console.log(this.repeat);
+    //   // console.log(this.model);
     // }
   }
 

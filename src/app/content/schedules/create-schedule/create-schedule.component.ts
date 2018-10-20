@@ -50,15 +50,15 @@ export class CreateScheduleComponent implements OnInit {
 
     // // Years [First and Last Year  Drop Down Loop]
     // for (let i: any = new Date().getFullYear(); this.years.length < 100; i++) {
-    //   // console.log(this.years.length + ' : ' + i);
+    //   // // console.log(this.years.length + ' : ' + i);
     //   this.years.push({ 'value': i });
     // }
-    // console.log(this.years);
+    // // console.log(this.years);
     this.route.queryParams
       .filter(params => params.repeat)
       .subscribe(params => {
-        console.log(params);
-        // console.log(params.repeat);
+        // console.log(params);
+        // // console.log(params.repeat);
         this.repeat = params.repeat;
       });
   }
@@ -69,7 +69,7 @@ export class CreateScheduleComponent implements OnInit {
     if (this.fileToUpload.length > 0 && file.length > 0) {
       this.fileToUpload.forEach(files => {
         if (file.item(0).name === files.name) {
-          console.log('matched');
+          // console.log('matched');
           this.notifier.notify('info', 'Rename Filename if you want to add');
           this.notifier.notify('warning', 'Same File Name Exist.');
           isMatched = true;
@@ -94,9 +94,9 @@ export class CreateScheduleComponent implements OnInit {
       isMatched = false;
     }
 
-    console.log(this.fileToUpload);
+    // console.log(this.fileToUpload);
 
-    console.log(this.filesToUpload);
+    // console.log(this.filesToUpload);
   }
 
   showImagePreview(file: File) {
@@ -117,7 +117,7 @@ export class CreateScheduleComponent implements OnInit {
 
   onSubmit() {
 
-    // console.log(this.model);
+    // // console.log(this.model);
 
     // if (this.repeat === this.config.SCHE_CONT) {
     this.service.createSchedule(this.model, this.fileToUpload, this.repeat).subscribe(res => {
@@ -135,40 +135,40 @@ export class CreateScheduleComponent implements OnInit {
       }
     });
     // } else {
-    //   console.log(this.repeat);
-    //   console.log(this.model);
+    //   // console.log(this.repeat);
+    //   // console.log(this.model);
     // }
   }
   // myUploader(event) {
-  //   console.log('myUploader: ' + JSON.stringify(event.files));
+  //   // console.log('myUploader: ' + JSON.stringify(event.files));
   //   this.model.myfiles = event.files;
   // }
 
   // onselectedFiles(event) {
-  //   console.log('onselectedFiles: ' + JSON.stringify(event.files));
+  //   // console.log('onselectedFiles: ' + JSON.stringify(event.files));
   //   this.selectedFiles = event.files;
   //   // this.model.myfiles.push(this.selectedFiles);
-  //   // console.log('onselectedFiles: ' + this.selectedFiles);
+  //   // // console.log('onselectedFiles: ' + this.selectedFiles);
   // }
 
   // onUpload(event): void {
-  //   console.log('onUpload');
+  //   // console.log('onUpload');
   //   for (const file of event.files) {
   //     this.uploadedFiles.push(file);
   //   }
-  //   console.log('onUpload' + this.uploadedFiles);
+  //   // console.log('onUpload' + this.uploadedFiles);
   // }
 
   // selectFiles(event) {
   //   this.selectedFiles = event.target.files;
   //   this.model.myfiles = this.selectedFiles;
-  //   console.log(event.target.files);
+  //   // console.log(event.target.files);
   // }
 
   // // Converting into array of DataURL
   // // ================================
   // onSelectFile(data) {
-  //   console.log(data.target.files);
+  //   // console.log(data.target.files);
   //   event = data;
   //   if (event.target.files && event.target.files[0]) {
   //     const filesAmount = event.target.files.length;
@@ -176,7 +176,7 @@ export class CreateScheduleComponent implements OnInit {
   //       const reader = new FileReader();
 
   //       reader.onload = (event) => {
-  //         console.log(event.target.result);
+  //         // console.log(event.target.result);
   //         this.myfiles.push(event.target.result);
   //         // this.model.myfiles.push(event.target.files[i]);
   //       };

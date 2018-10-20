@@ -44,7 +44,7 @@ export class AccountService {
     return this.http
       .post(uri, user)
       .map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       );
@@ -69,7 +69,7 @@ export class AccountService {
     return this.http
       .post(uri, user)
       .map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       );
@@ -86,7 +86,7 @@ export class AccountService {
     return this.http
       .post(uri, user)
       .map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       );
@@ -113,7 +113,7 @@ export class AccountService {
           const token = str.replace('Bearer ', '');
           localStorage.setItem('user_email', uname);
           localStorage.setItem('access-token', token);
-          // console.log(token);
+          // // console.log(token);
         }
 
         return res.headers.get('Authorization');

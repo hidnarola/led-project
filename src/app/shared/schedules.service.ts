@@ -17,7 +17,7 @@ export class SchedulesService {
 
   convertToOnDate(date) {
     const dt = new Date(date);
-    console.log(date + ' : ' + dt.getDate() + '-' + dt.getMonth());
+    // console.log(date + ' : ' + dt.getDate() + '-' + dt.getMonth());
     return dt.getDate() + '-' + dt.getMonth();
   }
 
@@ -156,7 +156,7 @@ export class SchedulesService {
       //   '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
     }
     // this.schedule = scheduleData.toString();
-    console.log(this.scheduleData);
+    // console.log(this.scheduleData);
     const headers = new HttpHeaders();
     // this is the important step. You need to set content type as null
     headers.set('Content-Type', null);
@@ -176,10 +176,10 @@ export class SchedulesService {
       .http
       .post(uri, this.formdata, { headers })
       .map(res => {
-        console.log(res);
+        // console.log(res);
         return res;
       }, error => {
-        console.log(error);
+        // console.log(error);
       });
 
 
@@ -264,10 +264,10 @@ export class SchedulesService {
       .http
       .put(uri, this.formdata, { headers })
       .map(res => {
-        console.log(res);
+        // console.log(res);
         return res;
       }, error => {
-        console.log(error.error.message);
+        // console.log(error.error.message);
       });
   }
 
@@ -278,7 +278,7 @@ export class SchedulesService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -290,7 +290,7 @@ export class SchedulesService {
     return this.http
       .delete(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -303,7 +303,7 @@ export class SchedulesService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -315,7 +315,7 @@ export class SchedulesService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -327,7 +327,7 @@ export class SchedulesService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -339,7 +339,7 @@ export class SchedulesService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -355,10 +355,10 @@ export class SchedulesService {
       .http
       .post(uri, filedata)
       .map(res => {
-        console.log(res);
+        // console.log(res);
         return res;
       }, error => {
-        console.log(error);
+        // console.log(error);
       });
 
   }
@@ -372,7 +372,7 @@ export class SchedulesService {
         , { responseType: 'arraybuffer' }
       )
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -382,7 +382,7 @@ export class SchedulesService {
   getValueOfScheduleMonthDays(days) {
     let day = 0;
     for (let i = 0; days !== 1; i++) {
-      // console.log('days: ' + days);
+      // // console.log('days: ' + days);
       days = days / 2;
       day++;
     }

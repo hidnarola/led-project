@@ -23,7 +23,7 @@ export class CreateUserComponent implements OnInit {
   onSubmit() {
     // alert(JSON.stringify(this.model));
     this.service.register(this.model).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       this.notifier.notify('success', 'Account Created Successfully');
     },
     error => {

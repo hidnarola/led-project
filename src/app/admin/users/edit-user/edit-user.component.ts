@@ -16,16 +16,16 @@ export class EditUserComponent implements OnInit {
     this.user_name = localStorage.getItem('name');
     this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
     this.route.params.subscribe(params => {
-      // console.log(params['id']);
+      // // console.log(params['id']);
       this.service.getUserProfile(params['id']).subscribe(res => {
         this.model = res;
-        console.log(res);
+        // console.log(res);
       });
     });
   }
 
   onSubmit() {
-    // console.log(this.model);
+    // // console.log(this.model);
     this.service.updateProfile(this.model).subscribe(res => {
       this.router.navigate(['/admin/users']);
     });

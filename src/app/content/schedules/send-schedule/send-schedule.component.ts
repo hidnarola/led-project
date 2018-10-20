@@ -28,7 +28,7 @@ export class SendScheduleComponent implements OnInit {
   getSchedule() {
     this.service.getFilesByUserId(localStorage.getItem('userid')).subscribe(res => {
       this.mySchedules = res;
-      console.log(res);
+      // console.log(res);
     });
 
   }
@@ -36,7 +36,7 @@ export class SendScheduleComponent implements OnInit {
   getSigns() {
     this.usservice.getSignByUserId_user(localStorage.getItem('userid')).subscribe(res => {
       this.mySigns = res;
-      console.log(res);
+      // console.log(res);
     });
   }
 
@@ -47,9 +47,9 @@ export class SendScheduleComponent implements OnInit {
       this.model.entryIPList[i].selection = true;
     }
 
-    console.log(this.model);
+    // console.log(this.model);
     this.service.sendFileByUserId(this.model, localStorage.getItem('userid')).subscribe(res => {
-      console.log(res);
+      // console.log(res);
     }, error => {
       if (error.status === 200) {
         this.notifier.notify('success', 'Send Successfully');

@@ -37,13 +37,13 @@ export class SignSetupComponent implements OnInit, OnDestroy {
     this.service.getAllSigns().subscribe(res => {
       this.data = res;
       this.dtTrigger.next();
-      console.log(res);
+      // console.log(res);
     });
   }
   deleteSign(id) {
-    // console.log(id);
+    // // console.log(id);
     this.service.deleteSign(id).subscribe(res => {
-      console.log(res);
+      // console.log(res);
     });
   }
 }

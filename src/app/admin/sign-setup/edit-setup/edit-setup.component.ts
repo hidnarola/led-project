@@ -22,16 +22,16 @@ export class EditSetupComponent implements OnInit {
     this.signType = this.config.signType;
     this.timezones = this.config.timeZone;
     this.route.params.subscribe(params => {
-      // console.log(params['id']);
+      // // console.log(params['id']);
       this.service.getSingleSign(params['id']).subscribe(res => {
         this.model = res;
-        console.log(res);
+        // console.log(res);
       });
     });
   }
 
   onSubmit() {
-    // console.log(this.model);
+    // // console.log(this.model);
     this.service.updateSign(this.model).subscribe(res => {
       this.router.navigate(['/admin/sign-setup']);
     });
