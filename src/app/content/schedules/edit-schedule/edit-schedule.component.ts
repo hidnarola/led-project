@@ -28,8 +28,8 @@ export class EditScheduleComponent implements OnInit {
     private config: Config) { }
 
   ngOnInit() {
-    this.user_name = localStorage.getItem('name');
-    this.user_role = (localStorage.getItem('user_role')).replace('ROLE_', '');
+    // this.user_name = localStorage.getItem('name');
+    // this.user_role = (localStorage.getItem('user_role')).replace('ROLE_', '');
     // this.model.monthorweek = 'week';
     this.model.myfiles = [];
     for (let i: any = new Date().getFullYear(); this.years.length < 100; i++) {

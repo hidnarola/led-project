@@ -16,8 +16,8 @@ export class MySignsComponent implements OnDestroy, OnInit {
   constructor(private service: UserSignService) { }
 
   ngOnInit() {
-    this.user_name = localStorage.getItem('name');
-    this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
+    // this.user_name = localStorage.getItem('name');
+    // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
     this.userid = localStorage.getItem('userid');
     this.dtOptions = {
       pagingType: 'full_numbers',

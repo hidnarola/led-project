@@ -11,7 +11,7 @@ export class AdminHeaderComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.user_name = localStorage.getItem('name');
+    // this.user_name = localStorage.getItem('name');
   }
 
   logout() {

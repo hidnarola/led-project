@@ -32,8 +32,8 @@ export class ManageSignComponent implements OnInit {
   oldChoice: Number = 0;
   newChoice: Number;
   ngOnInit() {
-    this.user_name = localStorage.getItem('name');
-    this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
+    // this.user_name = localStorage.getItem('name');
+    // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
 
     // this.manageSign = this._fb.group(
     //   {

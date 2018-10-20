@@ -68,6 +68,8 @@ export class LoginComponent implements OnInit {
       // // console.log(error);
       if (error.status === 403 && error.statusText  === 'OK') {
         this.notifier.notify('error', 'Invalid Email or Password');
+      } else {
+        this.notifier.notify('error', error.message);
       }
     });
 

@@ -27,8 +27,8 @@ export class ViewScheduleComponent implements OnInit {
     private config: Config, private domSanitizer: DomSanitizer) { }
 
   ngOnInit() {
-    this.user_name = localStorage.getItem('name');
-    this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
+    // this.user_name = localStorage.getItem('name');
+    // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
     this.route.params.subscribe(params => {
       // console.log(params['id']);
       this.service.getScheduleById(params['id']).subscribe(res => {

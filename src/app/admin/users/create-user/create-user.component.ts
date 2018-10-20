@@ -14,8 +14,8 @@ export class CreateUserComponent implements OnInit {
   constructor(private notifier: NotifierService, private service: AccountService) { }
 
   ngOnInit() {
-    this.user_name = localStorage.getItem('name');
-    this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
+    // this.user_name = localStorage.getItem('name');
+    // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
     this.model.isAdmin = false;
   }
 

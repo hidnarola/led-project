@@ -19,8 +19,8 @@ export class SendScheduleComponent implements OnInit {
     private notifier: NotifierService) { }
 
   ngOnInit() {
-    this.user_name = localStorage.getItem('name');
-    this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
+    // this.user_name = localStorage.getItem('name');
+    // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
     this.getSchedule();
     this.getSigns();
   }

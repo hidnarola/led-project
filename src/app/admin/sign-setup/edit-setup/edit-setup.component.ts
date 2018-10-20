@@ -17,8 +17,8 @@ export class EditSetupComponent implements OnInit {
   constructor(private config: Config, private route: ActivatedRoute, private router: Router, private service: SignsService) { }
 
   ngOnInit() {
-    this.user_name = localStorage.getItem('name');
-    this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
+    // this.user_name = localStorage.getItem('name');
+    // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
     this.signType = this.config.signType;
     this.timezones = this.config.timeZone;
     this.route.params.subscribe(params => {

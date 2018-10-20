@@ -17,8 +17,8 @@ export class CreateSetupComponent implements OnInit, AfterViewChecked {
   constructor(private notifier: NotifierService, private service: SignsService, private config: Config) { }
 
   ngOnInit() {
-    this.user_name = localStorage.getItem('name');
-    this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
+    // this.user_name = localStorage.getItem('name');
+    // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
     this.signType = this.config.signType;
     this.timezones = this.config.timeZone;
     this.model.signtype = this.signType[0];

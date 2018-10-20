@@ -13,8 +13,8 @@ export class EditUserComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private service: UsersService) { }
 
   ngOnInit() {
-    this.user_name = localStorage.getItem('name');
-    this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
+    // this.user_name = localStorage.getItem('name');
+    // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
     this.route.params.subscribe(params => {
       // // console.log(params['id']);
       this.service.getUserProfile(params['id']).subscribe(res => {

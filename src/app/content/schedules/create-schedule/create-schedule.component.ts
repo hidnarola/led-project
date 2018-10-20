@@ -40,8 +40,8 @@ export class CreateScheduleComponent implements OnInit {
     // this.maxYearDate = new Date(new Date().setFullYear(new Date().getFullYear()));
     // this.dobYearRange = '1900:' + (new Date().getFullYear() - 12);
 
-    this.user_name = localStorage.getItem('name');
-    this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
+    // this.user_name = localStorage.getItem('name');
+    // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
     this.model.monthorweek = 'week';
     // this.model.ondate = new Date();
     this.model.myfiles = [];

@@ -17,8 +17,8 @@ export class SignSetupComponent implements OnInit, OnDestroy {
   constructor(private service: SignsService) { }
 
   ngOnInit() {
-    this.user_name = localStorage.getItem('name');
-    this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
+    // this.user_name = localStorage.getItem('name');
+    // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
 
     this.dtOptions = {
       pagingType: 'full_numbers',
