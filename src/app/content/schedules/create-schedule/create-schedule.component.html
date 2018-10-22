@@ -275,8 +275,9 @@
               <!-- <p-fileUpload name="myfile" [showUploadButton]="false" customUpload="true" auto="auto" (onUpload)="onUpload($event)" 
                     (uploadHandler)="myUploader($event)" multiple="multiple" required="required"></p-fileUpload> -->
 
-              <input type="file" ([ngModel])="myfile" name="myfile" class="file-styled" #Image (change)="handleFileInput($event.target.files)"
+              <input type="file" ([ngModel])="myfile" name="myfile" class="file-styled" #Image (change)="handleFileInput($event)"
                 required>
+                <!-- <div id="files"></div> -->
             </div>
           </div>
           <table class="table table-hover" *ngIf="fileToUpload.length">
@@ -291,7 +292,7 @@
               <tr *ngFor="let file of fileToUpload; let i = index">
                 <td> {{ i + 1 }} </td>
                 <td> {{file.name}} </td>
-                <td class="text-right"><button type="button" class="btn btn-primary" (click)="showImagePreview(file)"><i
+                <td class="text-right"><button type="button" class="btn btn-primary" (click)="showImagePreview(file, i)"><i
                       class="icon icon-display"></i>
                     Preview</button>
                   <button type="button" class="btn btn-danger" (click)="deleteImage(i)"><i class="icon icon-trash"></i>
@@ -301,7 +302,7 @@
             <tfoot>
               <tr>
                 <td colspan="3" align="center">
-                  <img *ngIf="isPreview" [src]="imageUrl" style="max-width:100%;width:auto;height:100px">
+                  <img *ngIf="isPreviewImage" [src]="imageUrl" style="max-width:100%;width:auto;height:100px">
                 </td>
               </tr>
             </tfoot>

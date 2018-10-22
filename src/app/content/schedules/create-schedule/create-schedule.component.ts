@@ -24,13 +24,15 @@ export class CreateScheduleComponent implements OnInit {
   // fileToUpload: FileList;
   // fileToUpload: File;
   imageUrl = '/assets/images/signature.png';
-  isPreview: boolean;
+  isPreviewImage: boolean;
+  isPreviewVideo: boolean;
   model: any = {};
   // selectedFiles: FileList;
   // uploadedFiles: any[] = [];
   CONFIG = this.config;
   user_name: string;
   user_role: string;
+  uploads = [];
   constructor(private notifier: NotifierService, private route: ActivatedRoute,
     private config: Config, private service: SchedulesService) { }
   // public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'myfile'});
@@ -63,8 +65,9 @@ export class CreateScheduleComponent implements OnInit {
       });
   }
 
-  handleFileInput(file: FileList) {
-
+  handleFileInput(event) {
+    this.onChangeInput(event);
+    const file = event.target.files;
     let isMatched = false;
     if (this.fileToUpload.length > 0 && file.length > 0) {
       this.fileToUpload.forEach(files => {
@@ -99,19 +102,24 @@ export class CreateScheduleComponent implements OnInit {
     // console.log(this.filesToUpload);
   }
 
-  showImagePreview(file: File) {
-    this.isPreview = true;
+  showImagePreview(file: File, index) {
+    if ((this.uploads[index].filetype) === 'video/mp4') {
+      this.isPreviewVideo = true;
+    } else {
+      this.isPreviewImage = true;
+    }
     // Show image preview
     const reader = new FileReader();
     reader.onload = (event: any) => {
       this.imageUrl = event.target.result;
     };
     reader.readAsDataURL(file);
+    console.log(this.imageUrl);
   }
 
   deleteImage(index) {
     this.fileToUpload.splice(index, 1);
-    this.isPreview = false;
+    this.isPreviewImage = false;
     this.myfile = '';
   }
 
@@ -129,7 +137,7 @@ export class CreateScheduleComponent implements OnInit {
       } else if (error.status === 500) {
         this.notifier.notify('error', error.error.message);
       } else if (error.status === 400) {
-        this.notifier.notify('warning', 'Select Image To upload');
+        this.notifier.notify('warning', 'Select File To upload');
       } else {
         this.notifier.notify('error', error.error);
       }
@@ -139,51 +147,67 @@ export class CreateScheduleComponent implements OnInit {
     //   // console.log(this.model);
     // }
   }
-  // myUploader(event) {
-  //   // console.log('myUploader: ' + JSON.stringify(event.files));
-  //   this.model.myfiles = event.files;
-  // }
+  onChangeInput(event) {
+    const that = this;
+    // console.time('FileOpen');
+    const file = event.target.files[0];
+    const filereader = new FileReader();
+    filereader.onloadend = function (evt: any) {
+      // if (evt.target.readyState === FileReader.DONE) {
+      const uint = new Uint8Array(evt.target.result);
+      const bytes = [];
+      uint.forEach((byte) => {
+        bytes.push(byte.toString(16));
+      });
+      const hex = bytes.join('').toUpperCase();
+      that.uploads.push({
+        filename: file.name,
+        filetype: file.type ? file.type : 'Unknown/Extension missing',
+        binaryFileType: that.getMimetype(hex),
+        hex: hex
+      });
+      that.render();
+      // }
+      // console.timeEnd('FileOpen');
+    };
+    const blob = file.slice(0, 4);
+    filereader.readAsArrayBuffer(blob);
+  }
 
-  // onselectedFiles(event) {
-  //   // console.log('onselectedFiles: ' + JSON.stringify(event.files));
-  //   this.selectedFiles = event.files;
-  //   // this.model.myfiles.push(this.selectedFiles);
-  //   // // console.log('onselectedFiles: ' + this.selectedFiles);
-  // }
+  render() {
+    const container = document.getElementById('files');
+    const uploadedFiles = this.uploads.map((file) => {
+      return `<div>
+                <strong>${file.filename}</strong><br>
+                Filetype from file object: ${file.filetype}<br>
+                Filetype from binary: ${file.binaryFileType}<br>
+                Hex: <em>${file.hex}</em>
+                </div>`;
+    });
+    // container.innerHTML = uploadedFiles.join('');
+  }
 
-  // onUpload(event): void {
-  //   // console.log('onUpload');
-  //   for (const file of event.files) {
-  //     this.uploadedFiles.push(file);
-  //   }
-  //   // console.log('onUpload' + this.uploadedFiles);
-  // }
-
-  // selectFiles(event) {
-  //   this.selectedFiles = event.target.files;
-  //   this.model.myfiles = this.selectedFiles;
-  //   // console.log(event.target.files);
-  // }
-
-  // // Converting into array of DataURL
-  // // ================================
-  // onSelectFile(data) {
-  //   // console.log(data.target.files);
-  //   event = data;
-  //   if (event.target.files && event.target.files[0]) {
-  //     const filesAmount = event.target.files.length;
-  //     for (let i = 0; i < filesAmount; i++) {
-  //       const reader = new FileReader();
-
-  //       reader.onload = (event) => {
-  //         // console.log(event.target.result);
-  //         this.myfiles.push(event.target.result);
-  //         // this.model.myfiles.push(event.target.files[i]);
-  //       };
-
-  //       reader.readAsDataURL(event.target.files[i]);
-  //     }
-  //   }
-  // }
+  getMimetype = (signature) => {
+    switch (signature) {
+      case '89504E47':
+        return 'image/png';
+      case '47494638':
+        return 'image/gif';
+      case 'FFD8FFDB':
+      case 'FFD8FFE0':
+        return 'image/jpeg';
+      case '3C3F786D':
+        return 'image/svg+xml';
+      case '00018':
+        return 'video/mp4';
+      case '504B0304':
+      case '504B34':
+        return 'application/zip';
+      case '25504446':
+        return 'application/pdf';
+      default:
+        return 'Unknown filetype';
+    }
+  }
 
 }

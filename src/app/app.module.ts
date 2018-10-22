@@ -145,7 +145,7 @@ const customNotifierOptions: NotifierOptions = {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['192.168.100.42:8080', '192.168.100.42:8081', 'clientapp.narola.online:2220'],
+        whitelistedDomains: ['192.168.100.42:8080', '192.168.100.42:2220', 'clientapp.narola.online:2220', '123.201.110.194:2220'],
         blacklistedRoutes: ['localhost:4000/api/auth']
       }
     }),
