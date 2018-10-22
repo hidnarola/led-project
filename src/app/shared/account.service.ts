@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import 'rxjs/add/operator/map';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { AES, enc } from 'crypto-ts';
 import { Config } from '../shared/config';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -93,7 +94,7 @@ export class AccountService {
 
   }
 
-  login(uname, pass) {
+  login(uname, pass): Observable<HttpResponse<Object>> {
     const uri = this.apiURL + 'login';
     const user = {
       username: uname,
@@ -103,22 +104,41 @@ export class AccountService {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response' as 'response'
     };
-    return this.http
-      .post(uri, user, httpOptions)
-      .pipe(map(res => {
-        // login successful if there's a jwt token in the response
+
+    return this.http.post<HttpResponse<Object>>(uri, user, httpOptions).pipe(
+      tap(res => {
         if (res) {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           const str = res.headers.get('Authorization');
+          // console.log(res.headers.get('Authorization'));
           const token = str.replace('Bearer ', '');
           localStorage.setItem('user_email', uname);
           localStorage.setItem('access-token', token);
-          // // console.log(token);
+          console.log(token);
         }
 
         return res.headers.get('Authorization');
       }
-      ));
+      )
+    );
+
+    // return this.http
+    //   .post(uri, user, httpOptions)
+    //   .pipe(map(res => {
+    //     // login successful if there's a jwt token in the response
+    //     if (res) {
+    //       // store user details and jwt token in local storage to keep user logged in between page refreshes
+    //       const str = res.headers.get('Authorization');
+    //       console.log(res.headers.get('Authorization'));
+    //       const token = str.replace('Bearer ', '');
+    //       localStorage.setItem('user_email', uname);
+    //       localStorage.setItem('access-token', token);
+    //       console.log(token);
+    //     }
+
+    //     return res.headers.get('Authorization');
+    //   }
+    //   ));
 
   }
 

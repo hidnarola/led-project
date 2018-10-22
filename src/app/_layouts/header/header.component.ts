@@ -8,13 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   user_name: string;
-  isLoggedIn: boolean;
+  // isLoggedIn: boolean;
   constructor(
     // private config: Config
     ) { }
 
   ngOnInit() {
-    // this.user_name = localStorage.getItem('name');
+    this.user_name = localStorage.getItem('name');
     // this.isLoggedIn = this.config.isLoggedIn;
   }
 
