@@ -345,11 +345,14 @@ export class SchedulesService {
       ));
   }
 
-  sendFileByUserId(fileList, uid) {
+  sendFileByUserId(data, uid) {
     // const uri = 'http://192.168.100.42:8081/leddesigner/schedule/send?userid=' + uid;
     const uri = this.apiURL + 'leddesigner/schedule/send?userid=' + uid;
     const filedata = {
-      fileTransferDTO: fileList
+      entryIPList:
+        data.entryIPList,
+      filePropertiesList:
+        data.filePropertiesList
     };
     return this
       .http

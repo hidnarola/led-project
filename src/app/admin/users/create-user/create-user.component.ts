@@ -24,12 +24,21 @@ export class CreateUserComponent implements OnInit {
     // alert(JSON.stringify(this.model));
     this.service.register(this.model).subscribe(res => {
       // console.log(res);
-      this.notifier.notify('success', 'Account Created Successfully');
+      this.notifier.notify('success', res.toString());
+      this.model = {};
+      this.model.isAdmin = false;
     },
-    error => {
-      this.notifier.notify('error', error.message);
-    }
+      error => {
+        if (error.status === 200) {
+          this.notifier.notify('success', 'Credential is sent on email : ' + this.model.email);
+          this.model = {};
+          this.model.isAdmin = false;
+        } else {
+          this.notifier.notify('error', error.error.message);
+        }
+      }
     );
+
   }
 
 }

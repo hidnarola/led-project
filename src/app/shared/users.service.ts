@@ -53,6 +53,18 @@ export class UsersService {
   updateProfile(data) {
     const uri = this.apiURL + 'leddesigner/user/updateProfile';
     const profile = {
+      // userid: data.userid,
+      // email: data.email,
+      // firstname: data.firstname,
+      // lastname: data.lastname,
+      // mobno: data.mobno,
+      // companyname: data.companyname,
+      // city: data.city,
+      // state: data.state,
+      // // lastModifiedDate: new Date().toLocaleString(),
+      // // resetDate: new Date().toLocaleString(),
+      // authorities: data.authorities
+
       authorities: data.authorities,
       firstname: data.firstname,
       lastname: data.lastname,

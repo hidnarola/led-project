@@ -139,7 +139,7 @@
             <div class="col-md-6">
               <div class="form-group has-feedback">
                 <input type="tel" placeholder="Phone" class="form-control" name="mobno" [(ngModel)]="model.mobno"
-                  #mobno="ngModel" required />
+                  #mobno="ngModel" required maxlength="10" />
                 <div class="form-control-feedback">
                   <i class="icon-phone text-muted"></i>
                 </div>

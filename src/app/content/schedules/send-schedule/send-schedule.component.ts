@@ -49,12 +49,14 @@ export class SendScheduleComponent implements OnInit {
 
     // console.log(this.model);
     this.service.sendFileByUserId(this.model, localStorage.getItem('userid')).subscribe(res => {
-      // console.log(res);
+      this.notifier.notify('success', 'Send Schedule Successfully');
+      this.model = {};
     }, error => {
       if (error.status === 200) {
-        this.notifier.notify('success', 'Send Successfully');
+        this.notifier.notify('success', 'Send Schedule Successfully');
+        this.model = {};
       } else if (error.status === 500) {
-        this.notifier.notify('error', 'Error to sending schedule');
+        this.notifier.notify('error', 'Error sending schedule');
       } else {
         this.notifier.notify('error', error.error.message);
       }

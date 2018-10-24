@@ -30,6 +30,7 @@ export class AccountService {
     }
 
     const user = {
+      userid: null,
       email: data.email,
       // username: data.username,
       firstname: data.firstname,
@@ -37,12 +38,12 @@ export class AccountService {
       mobno: data.phone,
       // password: this.encPwd(data.password),
       // password: data.password,
-      company: data.company,
+      companyname: data.company,
       city: data.city,
       state: data.state,
-      lastModifiedDate: new Date().toLocaleString(),
-      resetDate: new Date().toLocaleString(),
-      activated: false,
+      // lastModifiedDate: new Date().toLocaleString(),
+      // resetDate: new Date().toLocaleString(),
+      // activated: false,
       authorities: [
         { name: this.role }
       ]
