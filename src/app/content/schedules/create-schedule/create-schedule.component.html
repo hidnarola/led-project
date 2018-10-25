@@ -276,8 +276,8 @@
                     (uploadHandler)="myUploader($event)" multiple="multiple" required="required"></p-fileUpload> -->
 
               <input type="file" ([ngModel])="myfile" name="myfile" class="file-styled" #Image (change)="handleFileInput($event)"
-                required>
-                <!-- <div id="files"></div> -->
+                accept="image/*,video/*,application/x-shockwave-flash" required>
+              <!-- <div id="files"></div> -->
             </div>
           </div>
           <table class="table table-hover" *ngIf="fileToUpload.length">
@@ -292,7 +292,7 @@
               <tr *ngFor="let file of fileToUpload; let i = index">
                 <td> {{ i + 1 }} </td>
                 <td> {{file.name}} </td>
-                <td class="text-right"><button type="button" class="btn btn-primary" (click)="showImagePreview(file, i)"><i
+                <td class="text-right"><button type="button" class="btn btn-primary" (click)="showImagePreview(file)"><i
                       class="icon icon-display"></i>
                     Preview</button>
                   <button type="button" class="btn btn-danger" (click)="deleteImage(i)"><i class="icon icon-trash"></i>
@@ -302,7 +302,14 @@
             <tfoot>
               <tr>
                 <td colspan="3" align="center">
-                  <img *ngIf="isPreviewImage" [src]="imageUrl" style="max-width:100%;width:auto;height:100px">
+                  <object *ngIf="isPreviewObject" [data]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></object>
+                  <!-- <embed *ngIf="isPreviewObject" [attr.src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px" /> -->
+                  <!-- <iframe *ngIf="isPreviewObject" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></iframe> -->
+                  <img *ngIf="isPreviewImage" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px">
+                  <video *ngIf="isPreviewVideo" height="auto" style="max-width:100%;width:auto;max-height:300px"
+                    autoplay>
+                    <source [src]="imageUrl" [type]="videoType">
+                    Your browser does not support the video tag.</video>
                 </td>
               </tr>
             </tfoot>
@@ -330,7 +337,8 @@
 
     <!-- Footer -->
     <div class="footer text-muted text-center">
-      &copy; 2018. <a href="" [routerLink]="['/login']"> LED Project</a> by <a href="http://www.narolainfotech.com" target="_blank">Narola Infotech</a>
+      &copy; 2018. <a href="" [routerLink]="['/login']"> LED Project</a> by <a href="http://www.narolainfotech.com"
+        target="_blank">Narola Infotech</a>
     </div>
     <!-- /footer -->
 

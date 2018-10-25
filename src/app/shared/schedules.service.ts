@@ -104,7 +104,7 @@ export class SchedulesService {
         '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
-        '"weekDays": [' + ((data.weekDays) ? data.weekDays : 0) + '],' +
+        '"weekDays": [' + ((data.weekDays) ? data.weekDays : 7) + '],' +
         '"moduloWeek": ' + ((data.moduloWeek) ? data.moduloWeek : 0) + ',' +
         '"type": "' + type + '",' +
         '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
@@ -116,9 +116,9 @@ export class SchedulesService {
         '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
-        '"scheduleMonthDays": ' + ((data.scheduleMonthDays) ? data.scheduleMonthDays : 0) + ',' +
+        '"scheduleMonthDays": ' + ((data.scheduleMonthDays) ? data.scheduleMonthDays : 31) + ',' +
         '"scheduleMonths": [' + ((data.scheduleMonths) ? data.scheduleMonths : '') + '],' +
-        '"weekDays": [' + ((data.weekDays) ? data.weekDays : '') + '],' +
+        '"weekDays": [' + ((data.weekDays) ? data.weekDays : 7) + '],' +
         '"type": "' + type + '",' +
         '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
     } else if (type === this.config.SCHE_YEAR) {

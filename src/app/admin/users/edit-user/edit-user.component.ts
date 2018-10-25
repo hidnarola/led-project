@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '../../../shared/users.service';
+import { NotifierService } from 'angular-notifier';
 @Component({
   selector: 'app-edit-user',
   templateUrl: './edit-user.component.html',
@@ -10,7 +11,8 @@ export class EditUserComponent implements OnInit {
   model: any = {};
   user_name: string;
   user_role: string;
-  constructor(private route: ActivatedRoute, private router: Router, private service: UsersService) { }
+  constructor(private route: ActivatedRoute, private router: Router,
+    private service: UsersService, private notify: NotifierService) { }
 
   ngOnInit() {
     // this.user_name = localStorage.getItem('name');
@@ -27,6 +29,7 @@ export class EditUserComponent implements OnInit {
   onSubmit() {
     // // console.log(this.model);
     this.service.updateProfile(this.model).subscribe(res => {
+      this.notify.notify('success', 'Updated Successfully');
       this.router.navigate(['/admin/users']);
     });
   }

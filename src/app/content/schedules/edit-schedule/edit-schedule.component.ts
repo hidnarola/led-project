@@ -5,6 +5,8 @@ import { SchedulesService } from '../../../shared/schedules.service';
 import { Config } from '../../../shared/config';
 
 import { NotifierService } from 'angular-notifier';
+import { DomSanitizer } from '@angular/platform-browser';
+
 @Component({
   selector: 'app-edit-schedule',
   templateUrl: './edit-schedule.component.html',
@@ -19,13 +21,16 @@ export class EditScheduleComponent implements OnInit {
   myfile: any;
   fileToUpload: File[] = [];
   res: any;
-  imageUrl = '/assets/images/signature.png';
-  isPreview: boolean;
+  imageUrl = this.sanitizer.bypassSecurityTrustUrl('/assets/images/signature.png');
   model: any = {};
   CONFIG = this.config;
+  isPreviewImage: boolean;
+  isPreviewObject: boolean;
+  isPreviewVideo: boolean;
+  videoType: string;
   constructor(private notifier: NotifierService, private route: ActivatedRoute,
     private service: SchedulesService, private router: Router,
-    private config: Config) { }
+    private config: Config, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     // this.user_name = localStorage.getItem('name');
@@ -110,28 +115,112 @@ export class EditScheduleComponent implements OnInit {
     // console.log(this.fileToUpload);
   }
 
+  // imagePreview(filename) {
+  //   this.isPreview = true;
+  //   this.service.getImageForPreview(filename, localStorage.getItem('userid')).subscribe(res => {
+  //     // console.log(res);
+  //     const blob = new Blob([res], { type: 'image/png' });
+  //     this.showImagePreview(blob);
+  //   });
+  // }
+
   imagePreview(filename) {
-    this.isPreview = true;
+    // this.isPreview = true;
     this.service.getImageForPreview(filename, localStorage.getItem('userid')).subscribe(res => {
       // console.log(res);
-      const blob = new Blob([res], { type: 'image/png' });
-      this.showImagePreview(blob);
+      const uint = new Uint8Array(res.slice(0, 4));
+      const bytes = [];
+      uint.forEach((byte) => {
+        bytes.push(byte.toString(16));
+      });
+      const hex = bytes.join('').toUpperCase();
+      const binaryFileType = this.getMimetype(hex);
+      // console.log(binaryFileType + ' ' + hex);
+      if (binaryFileType === 'Unknown filetype') {
+        this.notifier.notify('warning', 'Unknown File Type or Currupted File');
+      } else {
+        const file = new Blob([new Uint8Array(res)], { type: binaryFileType });
+        this.showImagePreview(file);
+      }
+    }, error => {
+      console.log(error);
     });
   }
 
-  showImagePreview(file) {
-    this.isPreview = true;
+  // showImagePreview(file) {
+  //   this.isPreview = true;
+  //   // Show image preview
+  //   const reader = new FileReader();
+  //   reader.onload = (event: any) => {
+  //     this.imageUrl = event.target.result;
+  //   };
+  //   reader.readAsDataURL(file);
+  // }
+
+  showImagePreview(file: Blob) {
+
     // Show image preview
     const reader = new FileReader();
     reader.onload = (event: any) => {
-      this.imageUrl = event.target.result;
+      // this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(event.target.result);
+      this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
+      if (file.type.substr(0, 5) === 'video') {
+        this.isPreviewImage = false;
+        this.isPreviewObject = false;
+        this.isPreviewVideo = true;
+        this.videoType = file.type;
+        console.log('video file selected');
+      } else if (file.type.substr(0, 5) === 'image') {
+        this.isPreviewVideo = false;
+        this.isPreviewObject = false;
+        this.isPreviewImage = true;
+        console.log('Image file selected');
+      } else {
+        this.isPreviewVideo = false;
+        this.isPreviewImage = false;
+        this.isPreviewObject = true;
+        console.log('Animation file selected');
+      }
+
+      // window.open(event.target.result, '_blank');
+      // console.log(this.imageUrl);
     };
     reader.readAsDataURL(file);
+    // reader.readAsBinaryString(file);
+  }
+
+  getMimetype = (signature) => {
+    switch (signature) {
+      case '89504E47':
+        return 'image/png';
+      case '47494638':
+        return 'image/gif';
+      case 'FFD8FFDB':
+      case 'FFD8FFE0':
+        return 'image/jpeg';
+      case '3C3F786D':
+        return 'image/svg+xml';
+      case '00018':
+        return 'video/mp4';
+      case '1A45DFA3':
+        return 'video/webm';
+      case '4357539':
+        return 'application/x-shockwave-flash';
+      case '504B0304':
+      case '504B34':
+        return 'application/zip';
+      case '25504446':
+        return 'application/pdf';
+      default:
+        return 'Unknown filetype';
+    }
   }
 
   deleteImage(index) {
     this.fileToUpload.splice(index, 1);
-    this.isPreview = false;
+    this.isPreviewImage = false;
+    this.isPreviewVideo = false;
+    this.isPreviewObject = false;
     this.myfile = '';
   }
 

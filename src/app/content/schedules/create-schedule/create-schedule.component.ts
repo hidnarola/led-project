@@ -4,10 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import { SchedulesService } from '../../../shared/schedules.service';
 import { NotifierService } from 'angular-notifier';
-
+import { DomSanitizer } from '@angular/platform-browser';
 // import {  FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 
-// const URL = 'http://localhost:3000/api/upload';
+
 @Component({
   selector: 'app-create-schedule',
   templateUrl: './create-schedule.component.html',
@@ -23,9 +23,11 @@ export class CreateScheduleComponent implements OnInit {
   filesToUpload: FileList;
   // fileToUpload: FileList;
   // fileToUpload: File;
-  imageUrl = '/assets/images/signature.png';
+  imageUrl = this.sanitizer.bypassSecurityTrustUrl('/assets/images/signature.png');
   isPreviewImage: boolean;
   isPreviewVideo: boolean;
+  isPreviewObject: boolean;
+  videoType: string;
   model: any = {};
   // selectedFiles: FileList;
   // uploadedFiles: any[] = [];
@@ -34,7 +36,8 @@ export class CreateScheduleComponent implements OnInit {
   user_role: string;
   uploads = [];
   constructor(private notifier: NotifierService, private route: ActivatedRoute,
-    private config: Config, private service: SchedulesService) { }
+    private config: Config, private service: SchedulesService,
+    private sanitizer: DomSanitizer) { }
   // public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'myfile'});
 
   ngOnInit() {
@@ -66,7 +69,7 @@ export class CreateScheduleComponent implements OnInit {
   }
 
   handleFileInput(event) {
-    this.onChangeInput(event);
+    // this.onChangeInput(event);
     const file = event.target.files;
     let isMatched = false;
     if (this.fileToUpload.length > 0 && file.length > 0) {
@@ -102,20 +105,61 @@ export class CreateScheduleComponent implements OnInit {
     // console.log(this.filesToUpload);
   }
 
-  showImagePreview(file: File, index) {
-    if ((this.uploads[index].filetype) === 'video/mp4') {
-      this.isPreviewVideo = true;
-    } else {
-      this.isPreviewImage = true;
-    }
+  showImagePreview(file: File) {
     // Show image preview
     const reader = new FileReader();
     reader.onload = (event: any) => {
-      this.imageUrl = event.target.result;
+      this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(event.target.result);
+      if ((this.imageUrl.toString().substr(this.imageUrl.toString().indexOf('data'), 10) === 'data:video')) {
+        this.isPreviewImage = false;
+        this.isPreviewObject = false;
+        this.isPreviewVideo = true;
+        this.videoType = file.type;
+        console.log('video file selected');
+      } else if ((this.imageUrl.toString().substr(this.imageUrl.toString().indexOf('data'), 10) === 'data:image')) {
+        this.isPreviewVideo = false;
+        this.isPreviewObject = false;
+        this.isPreviewImage = true;
+      } else {
+        // const blob = this.b64toBlob((event.target.result)
+        //   .replace('data:application/x-shockwave-flash;base64,', ''), 'application/x-shockwave-flash');
+        // const blobUrl = URL.createObjectURL(blob);
+        // this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(blobUrl);
+        this.isPreviewVideo = false;
+        this.isPreviewImage = false;
+        this.isPreviewObject = true;
+        console.log('Animation File Found');
+      }
     };
     reader.readAsDataURL(file);
     console.log(this.imageUrl);
+
   }
+
+  // b64toBlob(b64Data, contentType, sliceSize?) {
+  //   contentType = contentType || '';
+  //   sliceSize = sliceSize || 512;
+
+  //   const byteCharacters = atob(b64Data);
+  //   const byteArrays = [];
+
+  //   for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+  //     const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+  //     const byteNumbers = new Array(slice.length);
+  //     for (let i = 0; i < slice.length; i++) {
+  //       byteNumbers[i] = slice.charCodeAt(i);
+  //     }
+
+  //     const byteArray = new Uint8Array(byteNumbers);
+
+  //     byteArrays.push(byteArray);
+  //   }
+
+  //   const blob = new Blob(byteArrays, { type: contentType });
+  //   return blob;
+  // }
+
 
   deleteImage(index) {
     this.fileToUpload.splice(index, 1);
@@ -135,79 +179,81 @@ export class CreateScheduleComponent implements OnInit {
         this.model = {};
         this.fileToUpload = [];
       } else if (error.status === 500) {
-        this.notifier.notify('error', error.error.message);
+        // this.notifier.notify('error', error.message);
+        this.notifier.notify('error', 'Invalid File selected');
       } else if (error.status === 400) {
         this.notifier.notify('warning', 'Select File To upload');
       } else {
         this.notifier.notify('error', error.error);
       }
+      console.log(error);
     });
     // } else {
     //   // console.log(this.repeat);
     //   // console.log(this.model);
     // }
   }
-  onChangeInput(event) {
-    const that = this;
-    // console.time('FileOpen');
-    const file = event.target.files[0];
-    const filereader = new FileReader();
-    filereader.onloadend = function (evt: any) {
-      // if (evt.target.readyState === FileReader.DONE) {
-      const uint = new Uint8Array(evt.target.result);
-      const bytes = [];
-      uint.forEach((byte) => {
-        bytes.push(byte.toString(16));
-      });
-      const hex = bytes.join('').toUpperCase();
-      that.uploads.push({
-        filename: file.name,
-        filetype: file.type ? file.type : 'Unknown/Extension missing',
-        binaryFileType: that.getMimetype(hex),
-        hex: hex
-      });
-      that.render();
-      // }
-      // console.timeEnd('FileOpen');
-    };
-    const blob = file.slice(0, 4);
-    filereader.readAsArrayBuffer(blob);
-  }
+  // onChangeInput(event) {
+  //   const that = this;
+  //   // console.time('FileOpen');
+  //   const file = event.target.files[0];
+  //   const filereader = new FileReader();
+  //   filereader.onloadend = function (evt: any) {
+  //     // if (evt.target.readyState === FileReader.DONE) {
+  //     const uint = new Uint8Array(evt.target.result);
+  //     const bytes = [];
+  //     uint.forEach((byte) => {
+  //       bytes.push(byte.toString(16));
+  //     });
+  //     const hex = bytes.join('').toUpperCase();
+  //     that.uploads.push({
+  //       filename: file.name,
+  //       filetype: file.type ? file.type : 'Unknown/Extension missing',
+  //       binaryFileType: that.getMimetype(hex),
+  //       hex: hex
+  //     });
+  //     that.render();
+  //     // }
+  //     // console.timeEnd('FileOpen');
+  //   };
+  //   const blob = file.slice(0, 4);
+  //   filereader.readAsArrayBuffer(blob);
+  // }
 
-  render() {
-    const container = document.getElementById('files');
-    const uploadedFiles = this.uploads.map((file) => {
-      return `<div>
-                <strong>${file.filename}</strong><br>
-                Filetype from file object: ${file.filetype}<br>
-                Filetype from binary: ${file.binaryFileType}<br>
-                Hex: <em>${file.hex}</em>
-                </div>`;
-    });
-    // container.innerHTML = uploadedFiles.join('');
-  }
+  // render() {
+  //   const container = document.getElementById('files');
+  //   const uploadedFiles = this.uploads.map((file) => {
+  //     return `<div>
+  //               <strong>${file.filename}</strong><br>
+  //               Filetype from file object: ${file.filetype}<br>
+  //               Filetype from binary: ${file.binaryFileType}<br>
+  //               Hex: <em>${file.hex}</em>
+  //               </div>`;
+  //   });
+  //   // container.innerHTML = uploadedFiles.join('');
+  // }
 
-  getMimetype = (signature) => {
-    switch (signature) {
-      case '89504E47':
-        return 'image/png';
-      case '47494638':
-        return 'image/gif';
-      case 'FFD8FFDB':
-      case 'FFD8FFE0':
-        return 'image/jpeg';
-      case '3C3F786D':
-        return 'image/svg+xml';
-      case '00018':
-        return 'video/mp4';
-      case '504B0304':
-      case '504B34':
-        return 'application/zip';
-      case '25504446':
-        return 'application/pdf';
-      default:
-        return 'Unknown filetype';
-    }
-  }
+  // getMimetype = (signature) => {
+  //   switch (signature) {
+  //     case '89504E47':
+  //       return 'image/png';
+  //     case '47494638':
+  //       return 'image/gif';
+  //     case 'FFD8FFDB':
+  //     case 'FFD8FFE0':
+  //       return 'image/jpeg';
+  //     case '3C3F786D':
+  //       return 'image/svg+xml';
+  //     case '00018':
+  //       return 'video/mp4';
+  //     case '504B0304':
+  //     case '504B34':
+  //       return 'application/zip';
+  //     case '25504446':
+  //       return 'application/pdf';
+  //     default:
+  //       return 'Unknown filetype';
+  //   }
+  // }
 
 }
