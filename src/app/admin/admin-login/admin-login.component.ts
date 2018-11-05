@@ -4,6 +4,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { AccountService } from '../../shared/account.service';
 import { Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-admin-login',
   templateUrl: './admin-login.component.html',
@@ -13,10 +14,10 @@ export class AdminLoginComponent implements OnInit {
 
   model: any = {};
   constructor(private notifier: NotifierService, private service: AccountService,
-    private router: Router, private helper: JwtHelperService) { }
+    private router: Router, private helper: JwtHelperService, private spinner: NgxSpinnerService) { }
 
   onSubmit() {
-
+    this.spinner.show();
     this.service.login(this.model.email, this.model.password).subscribe(res => {
       // // console.log(JSON.stringify(res));
       const decodedToken = this.helper.decodeToken(localStorage.getItem('access-token'));
@@ -50,10 +51,11 @@ export class AdminLoginComponent implements OnInit {
       } else {
         this.notifier.notify('warning', 'ACCESS DENIED');
       }
-
+      this.spinner.hide();
     }, error => {
       // console.log(error);
       this.notifier.notify('error', error.message);
+      this.spinner.hide();
     });
 
     // // For Bypass Login : Testing Purpose

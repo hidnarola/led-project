@@ -1,7 +1,7 @@
 import timezones from 'google-timezones-json';
 export class Config {
     apiURL = 'http://clientapp.narola.online:2220/';
-    // apiURL = 'http://192.168.100.42:8080/';
+    // apiURL = 'http://192.168.1.243:2220/';
     signType = ['RGB', 'GRAYSCALE'];
     // isLoggedIn = false;
     userRole = ['ROLE_USER', 'ROLE_ADMIN'];

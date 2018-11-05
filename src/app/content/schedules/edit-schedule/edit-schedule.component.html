@@ -283,46 +283,73 @@
           </div>
           <div class="row">
             <div> Uploaded Image(s) :
-              <ul *ngFor="let file of files; let i = index">
+              <!-- <ul *ngFor="let file of files; let i = index">
                 <li (click)="imagePreview(file.path)"> <i class="icon icon-display"></i> {{file.path}}</li>
-              </ul>
+              </ul> -->
+              <i>[<small>Note: Please upload all file(s) again. Uploaded File(s) will removed.</small>]</i>
+              <table class=" table table-strip table-responsive" *ngIf="files.length > 0">
+                <thead>
+                  <tr>
+                    <th>SR</th>
+                    <th>Image Name</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let file of files; let i = index">
+                    <td>{{i + 1}}</td>
+                    <td> {{file.path}} </td>
+                    <td>
+                      <a class="btn btn-primary" (click)="imagePreview(file.path)">
+                        <i class="icon icon-display">
+                          Preview
+                        </i></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <hr />
             </div>
           </div>
-          <table class="table table-hover" *ngIf="fileToUpload.length">
-            <thead>
-              <tr>
-                <th>Sr</th>
-                <th>Image Name</th>
-                <th class="text-right">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let file of fileToUpload; let i = index">
-                <td> {{ i + 1 }} </td>
-                <td> {{file.name}} </td>
-                <td class="text-right"><button type="button" class="btn btn-primary" (click)="showImagePreview(file)"><i
-                      class="icon icon-display"></i>
-                    Preview</button>
-                  <button type="button" class="btn btn-danger" (click)="deleteImage(i)"><i class="icon icon-trash"></i>
-                    Delete</button></td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="3" align="center">
-                  <!-- <img *ngIf="isPreview" [src]="imageUrl" style="max-width:100%;width:auto;height:100px"> -->
-                  <object *ngIf="isPreviewObject" [data]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></object>
-                  <!-- <embed *ngIf="isPreviewObject" [attr.src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px" /> -->
-                  <!-- <iframe *ngIf="isPreviewObject" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></iframe> -->
-                  <img *ngIf="isPreviewImage" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px">
-                  <video *ngIf="isPreviewVideo" height="auto" style="max-width:100%;width:auto;max-height:300px"
-                    autoplay loop>
-                    <source [src]="imageUrl" [type]="videoType">
-                    Your browser does not support the video tag.</video>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
+          <div class="row" *ngIf="fileToUpload.length">
+            <div> New Added File(s) :
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Sr</th>
+                    <th>Image Name</th>
+                    <th class="text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let file of fileToUpload; let i = index">
+                    <td> {{ i + 1 }} </td>
+                    <td> {{file.name}} </td>
+                    <td class="text-right"><button type="button" class="btn btn-primary" (click)="showImagePreview(file)"><i
+                          class="icon icon-display"></i>
+                        Preview</button>
+                      <button type="button" class="btn btn-danger" (click)="deleteImage(i)"><i class="icon icon-trash"></i>
+                        Delete</button></td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="3" align="center">
+                      <!-- <img *ngIf="isPreview" [src]="imageUrl" style="max-width:100%;width:auto;height:100px"> -->
+                      <object *ngIf="isPreviewObject" [data]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></object>
+                      <!-- <embed *ngIf="isPreviewObject" [attr.src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px" /> -->
+                      <!-- <iframe *ngIf="isPreviewObject" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></iframe> -->
+                      <img *ngIf="isPreviewImage" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px">
+                      <video *ngIf="isPreviewVideo" height="auto" style="max-width:100%;width:auto;max-height:300px"
+                        autoplay loop>
+                        <source [src]="imageUrl" [type]="videoType">
+                        Your browser does not support the video tag.</video>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
           <div align="center" *ngIf="!fileToUpload.length">
             <!-- <img *ngIf="isPreview" [src]="imageUrl" style="max-width:100%;width:auto;height:100px"> -->
             <object *ngIf="isPreviewObject" [data]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></object>

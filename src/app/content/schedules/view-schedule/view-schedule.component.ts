@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SchedulesService } from '../../../shared/schedules.service';
 import { Config } from '../../../shared/config';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NotifierService } from 'angular-notifier';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-view-schedule',
   templateUrl: './view-schedule.component.html',
@@ -27,11 +28,12 @@ export class ViewScheduleComponent implements OnInit {
   imageUrl = this.sanitizer.bypassSecurityTrustUrl('/assets/images/signature.png');
   constructor(private route: ActivatedRoute, private service: SchedulesService,
     private config: Config, private sanitizer: DomSanitizer,
-    private notifier: NotifierService) { }
+    private notifier: NotifierService, private router: Router, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     // this.user_name = localStorage.getItem('name');
     // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
+    this.spinner.show();
     this.route.params.subscribe(params => {
       // console.log(params['id']);
       this.service.getScheduleById(params['id']).subscribe(res => {
@@ -49,14 +51,19 @@ export class ViewScheduleComponent implements OnInit {
           // this.dto.scheduleMonthDays = this.service.getValueOfScheduleMonthDays(this.dto.scheduleMonthDays).toString();
         }
         // console.log(res);
+        this.spinner.hide();
       }, error => {
-        // console.log(error.error.message);
+        this.notifier.notify('error', error.error.message);
+        console.log(error.error.message);
+        this.spinner.hide();
+        this.router.navigate(['/user/schedules']);
       });
     });
   }
 
   imagePreview(filename) {
     // this.isPreview = true;
+    this.spinner.show();
     this.service.getImageForPreview(filename, localStorage.getItem('userid')).subscribe(res => {
       // console.log(res);
       const uint = new Uint8Array(res.slice(0, 4));
@@ -73,7 +80,9 @@ export class ViewScheduleComponent implements OnInit {
         const file = new Blob([new Uint8Array(res)], { type: binaryFileType });
         this.showImagePreview(file);
       }
+      this.spinner.hide();
     }, error => {
+      this.spinner.hide();
       console.log(error);
       // const baseData = window.btoa(unescape(encodeURIComponent(error.error.text)));
       // console.log(error);
@@ -130,7 +139,7 @@ export class ViewScheduleComponent implements OnInit {
   // **************************************
 
   showImagePreview(file: Blob) {
-
+    this.spinner.show();
     // Show image preview
     const reader = new FileReader();
     reader.onload = (event: any) => {
@@ -141,19 +150,19 @@ export class ViewScheduleComponent implements OnInit {
         this.isPreviewObject = false;
         this.isPreviewVideo = true;
         this.videoType = file.type;
-        console.log('video file selected');
+        // console.log('video file selected');
       } else if (file.type.substr(0, 5) === 'image') {
         this.isPreviewVideo = false;
         this.isPreviewObject = false;
         this.isPreviewImage = true;
-        console.log('Image file selected');
+        // console.log('Image file selected');
       } else {
         this.isPreviewVideo = false;
         this.isPreviewImage = false;
         this.isPreviewObject = true;
-        console.log('Animation file selected');
+        // console.log('Animation file selected');
       }
-
+      this.spinner.hide();
       // window.open(event.target.result, '_blank');
       // console.log(this.imageUrl);
     };

@@ -23,7 +23,7 @@
     </div>
   </div>
   <!-- /page header -->
-
+  <p-confirmDialog></p-confirmDialog>
   <!-- Content area -->
   <div class="content">
     <div class="panel panel-flat">
@@ -36,8 +36,8 @@
                 <button type="button" class="btn btn-primary btn-rounded dropdown-toggle" data-toggle="dropdown"><i
                     class="icon-plus3 position-left"></i> Add Schedules <span class="caret"></span></button>
                 <ul class="dropdown-menu dropdown-menu-right">
-                  <li><a [routerLink]="['./../schedule/add']" [queryParams]="{ repeat: 'Continuous' }" queryParamsHandling="merge"><i
-                        class="icon-loop3"></i> Continuous</a></li>
+                  <li><a [routerLink]="['./../schedule/add']" [queryParams]="{ repeat: 'Continuous' }"
+                      queryParamsHandling="merge"><i class="icon-loop3"></i> Continuous</a></li>
                   <li><a [routerLink]="['./../schedule/add']" [queryParams]="{ repeat: 'Daily' }" queryParamsHandling="merge"><i
                         class="icon-loop3"></i> Daily</a></li>
                   <li><a [routerLink]="['./../schedule/add']" [queryParams]="{ repeat: 'Weekly' }" queryParamsHandling="merge"><i
@@ -90,7 +90,7 @@
                           View</a></li>
                       <li><a href="" routerLink="/user/schedule/edit/{{schedule.id}}"><i class="icon-pencil4"></i>
                           Edit</a></li>
-                      <li><a (click)="deleteSchedule(schedule.id)"><i class="icon-trash"></i> Delete</a></li>
+                      <li (click)="deleteSchedule(schedule.id)"><a><i class="icon-trash"></i> Delete</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -106,7 +106,8 @@
 
     <!-- Footer -->
     <div class="footer text-muted text-center">
-      &copy; 2018. <a href="" [routerLink]="['/login']"> LED Project</a> by <a href="http://www.narolainfotech.com" target="_blank">Narola Infotech</a>
+      &copy; 2018. <a href="" [routerLink]="['/login']"> LED Project</a> by <a href="http://www.narolainfotech.com"
+        target="_blank">Narola Infotech</a>
     </div>
     <!-- /footer -->
 

@@ -3,6 +3,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { NotifierService } from 'angular-notifier';
 import { SignsService } from '../../shared/signs.service';
+import { ConfirmationService } from 'primeng/api';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-sign-setup',
   templateUrl: './sign-setup.component.html',
@@ -14,16 +16,17 @@ export class SignSetupComponent implements OnInit, OnDestroy {
   dtTrigger = new Subject();
   user_name: string;
   user_role: string;
-  constructor(private service: SignsService) { }
+  constructor(private service: SignsService, private notifier: NotifierService,
+    private confirmationService: ConfirmationService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     // this.user_name = localStorage.getItem('name');
     // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
 
     this.dtOptions = {
-      pagingType: 'full_numbers',
+      pagingType: 'full_numbers', destroy: true,
       pageLength: 10,
-      order: [0, 'asc']
+      order: [0, 'desc']
     };
 
     this.getSigns();
@@ -34,16 +37,41 @@ export class SignSetupComponent implements OnInit, OnDestroy {
     this.dtTrigger.unsubscribe();
   }
   getSigns() {
+    this.spinner.show();
     this.service.getAllSigns().subscribe(res => {
       this.data = res;
       this.dtTrigger.next();
+      setTimeout(() => {
+        /** spinner ends after 5 seconds */
+        this.spinner.hide();
+      }, 1000);
       // console.log(res);
+    }, error => {
+      console.log(error);
     });
   }
   deleteSign(id) {
     // // console.log(id);
-    this.service.deleteSign(id).subscribe(res => {
-      // console.log(res);
+    this.confirmationService.confirm({
+      message: 'Do you want to delete this record?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.service.deleteSign(id).subscribe(res => {
+          this.notifier.notify('success', 'Deleted Successfully');
+          this.getSigns();
+        }, error => {
+          if (error.status === 200) {
+            this.notifier.notify('error', error.error.text);
+            this.getSigns();
+          } else {
+            console.log(error);
+          }
+        });
+      },
+      reject: () => {
+        this.notifier.notify('info', 'Request Rejected For Delete');
+      }
     });
   }
 }

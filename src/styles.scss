@@ -97,11 +97,12 @@ h2 {
 .page-container {
   height: calc(100% - 48px);
 }
-
+.size_th{    width: 110px;}
+.sign_table{    min-width: 500px;}
 @media (min-width: 769px) {
   .page-content {
     height: 100%;
-    display: inline-block;
+
     width: 100%;
     vertical-align:top; 
   }

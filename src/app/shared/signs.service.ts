@@ -86,8 +86,9 @@ export class SignsService {
   }
 
   deleteSign(id) {
+    // /leddesigner/signsn/deleteSignSN?signId=25
     const uri = this.apiURL + 'leddesigner/signsn/deleteSignSN?signId=' + id;
-    return this.http
+        return this.http
       .delete(uri)
       .map(res => {
         // // console.log(res);

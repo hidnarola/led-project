@@ -6,6 +6,7 @@ import { Config } from '../../../shared/config';
 
 import { NotifierService } from 'angular-notifier';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-edit-schedule',
@@ -30,12 +31,13 @@ export class EditScheduleComponent implements OnInit {
   videoType: string;
   constructor(private notifier: NotifierService, private route: ActivatedRoute,
     private service: SchedulesService, private router: Router,
-    private config: Config, private sanitizer: DomSanitizer) { }
+    private config: Config, private sanitizer: DomSanitizer, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     // this.user_name = localStorage.getItem('name');
     // this.user_role = (localStorage.getItem('user_role')).replace('ROLE_', '');
     // this.model.monthorweek = 'week';
+    this.spinner.show();
     this.model.myfiles = [];
     for (let i: any = new Date().getFullYear(); this.years.length < 100; i++) {
       // // console.log(this.years.length + ' : ' + i);
@@ -80,6 +82,12 @@ export class EditScheduleComponent implements OnInit {
             '-' + ('0' + (now.getDate())).slice(-2);
         }
         // console.log(this.res.schduleDTO);
+        this.spinner.hide();
+      }, error => {
+        this.notifier.notify('error', error.error.message);
+        console.log(error.error.message);
+        this.spinner.hide();
+        this.router.navigate(['/user/schedules']);
       });
     });
     // document.getElementById('mydate').value = '2001-01-10';
@@ -126,6 +134,7 @@ export class EditScheduleComponent implements OnInit {
 
   imagePreview(filename) {
     // this.isPreview = true;
+    this.spinner.show();
     this.service.getImageForPreview(filename, localStorage.getItem('userid')).subscribe(res => {
       // console.log(res);
       const uint = new Uint8Array(res.slice(0, 4));
@@ -142,8 +151,10 @@ export class EditScheduleComponent implements OnInit {
         const file = new Blob([new Uint8Array(res)], { type: binaryFileType });
         this.showImagePreview(file);
       }
+      this.spinner.hide();
     }, error => {
       console.log(error);
+      this.spinner.hide();
     });
   }
 
@@ -158,7 +169,7 @@ export class EditScheduleComponent implements OnInit {
   // }
 
   showImagePreview(file: Blob) {
-
+    this.spinner.show();
     // Show image preview
     const reader = new FileReader();
     reader.onload = (event: any) => {
@@ -169,19 +180,19 @@ export class EditScheduleComponent implements OnInit {
         this.isPreviewObject = false;
         this.isPreviewVideo = true;
         this.videoType = file.type;
-        console.log('video file selected');
+        // console.log('video file selected');
       } else if (file.type.substr(0, 5) === 'image') {
         this.isPreviewVideo = false;
         this.isPreviewObject = false;
         this.isPreviewImage = true;
-        console.log('Image file selected');
+        // console.log('Image file selected');
       } else {
         this.isPreviewVideo = false;
         this.isPreviewImage = false;
         this.isPreviewObject = true;
-        console.log('Animation file selected');
+        // console.log('Animation file selected');
       }
-
+      this.spinner.hide();
       // window.open(event.target.result, '_blank');
       // console.log(this.imageUrl);
     };
@@ -225,7 +236,7 @@ export class EditScheduleComponent implements OnInit {
   }
 
   onSubmit() {
-
+    this.spinner.show();
     // // console.log(this.model);
 
     // if (this.repeat === this.config.SCHE_CONT) {
@@ -241,17 +252,16 @@ export class EditScheduleComponent implements OnInit {
         this.notifier.notify('success', 'Scheduled Updated Successfully');
         this.model = {};
         this.fileToUpload = [];
+        this.spinner.hide();
         this.router.navigate(['/schedules']);
       } else if (error.status === 400) {
         this.notifier.notify('warning', 'Select Image To upload');
       } else {
         this.notifier.notify('error', error.error.message);
       }
+      this.spinner.hide();
     });
-    // } else {
-    //   // console.log(this.repeat);
-    //   // console.log(this.model);
-    // }
+
   }
 
   convertToDate(day, mon, yr) {

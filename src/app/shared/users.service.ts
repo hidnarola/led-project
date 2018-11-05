@@ -36,13 +36,13 @@ export class UsersService {
       ));
   }
 
-  deleteProfile(id) {
+  deleteUser(id) {
 
     // Not implemented
-    const uri = this.apiURL + 'leddesigner/user/deleteProfile?userid=' + id;
+    const uri = this.apiURL + 'leddesigner/user/delete?id=' + id;
 
     return this.http
-      .get(uri)
+      .delete(uri)
       .pipe(map(res => {
         // // console.log(res);
         return res;

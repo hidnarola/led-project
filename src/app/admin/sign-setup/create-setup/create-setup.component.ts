@@ -3,6 +3,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { SignsService } from '../../../shared/signs.service';
 import { Config } from '../../../shared/config';
 import { NotifierService } from 'angular-notifier';
+import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-create-setup',
   templateUrl: './create-setup.component.html',
@@ -14,7 +16,8 @@ export class CreateSetupComponent implements OnInit, AfterViewChecked {
   timezones: any;
   user_name: string;
   user_role: string;
-  constructor(private notifier: NotifierService, private service: SignsService, private config: Config) { }
+  constructor(private notifier: NotifierService, private service: SignsService, private config: Config,
+    private router: Router, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     // this.user_name = localStorage.getItem('name');
@@ -25,14 +28,21 @@ export class CreateSetupComponent implements OnInit, AfterViewChecked {
     this.model.timezone = 'America/Los_Angeles : (GMT-08:00) Pacific Time';
   }
   onSubmit() {
+    this.spinner.show();
     //  alert(JSON.stringify(this.model));
     this.service.addSign(this.model).subscribe(res => {
       // // console.log(res);
       this.notifier.notify('success', 'Added Successfully');
-      this.model = {};
-      this.model.signtype = this.signType[0];
-      this.model.timezone = 'America/Los_Angeles : (GMT-08:00) Pacific Time';
-    });
+      // this.model = {};
+      // this.model.signtype = this.signType[0];
+      // this.model.timezone = 'America/Los_Angeles : (GMT-08:00) Pacific Time';
+      this.spinner.hide();
+      this.router.navigate(['/admin/sign-setup']);
+    }, error => {
+      console.log(error);
+      this.spinner.hide();
+    }
+    );
   }
 
   ngAfterViewChecked(): void {

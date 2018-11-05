@@ -28,6 +28,12 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { FileUploadModule } from 'primeng/fileupload';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CheckboxModule } from 'primeng/checkbox';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+// import { ProgressSpinnerModule } from 'primeng/progressspinner';
+
+// Spinner
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 // Notification or Alert
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
@@ -135,6 +141,9 @@ const customNotifierOptions: NotifierOptions = {
     CheckboxModule, RadioButtonModule,
     CalendarModule, FileUploadModule,
     DropdownModule, MultiSelectModule,
+    ConfirmDialogModule,
+    NgxSpinnerModule,
+    // ProgressSpinnerModule,
     // DataTableModule,
     DataTablesModule,
     FormsModule,
@@ -151,7 +160,7 @@ const customNotifierOptions: NotifierOptions = {
     }),
     NotifierModule.withConfig(customNotifierOptions)
   ],
-  providers: [Config,
+  providers: [Config, ConfirmationService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

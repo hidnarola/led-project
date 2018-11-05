@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Config } from '../../../shared/config';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import { SchedulesService } from '../../../shared/schedules.service';
 import { NotifierService } from 'angular-notifier';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NgxSpinnerService } from 'ngx-spinner';
 // import {  FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 
 
@@ -35,30 +36,28 @@ export class CreateScheduleComponent implements OnInit {
   user_name: string;
   user_role: string;
   uploads = [];
+  date = new Date();
   constructor(private notifier: NotifierService, private route: ActivatedRoute,
     private config: Config, private service: SchedulesService,
-    private sanitizer: DomSanitizer) { }
+    private sanitizer: DomSanitizer, private router: Router, private spinner: NgxSpinnerService) { }
   // public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'myfile'});
 
   ngOnInit() {
+    this.model.priority = 1;
+    this.model.scheduleName = 'NewSchedule';
 
-    // this.maxYearDate = new Date(new Date().setFullYear(new Date().getFullYear()));
-    // this.dobYearRange = '1900:' + (new Date().getFullYear() - 12);
-
-    // this.user_name = localStorage.getItem('name');
-    // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
+    this.model.startDate = this.date.toISOString().slice(0, 10);
+    this.model.startTime = this.date.toTimeString().slice(0, 5);
+    this.model.firstYear = this.date.getFullYear();
+    this.model.lastYear = Number(this.date.getFullYear() + 1);
+    const currentYear = this.date.getFullYear();
+    this.date.setFullYear(currentYear + 1, 11, 29);
+    this.model.endDate = this.date.toISOString().slice(0, 10);
+    this.model.endTime = '23:59';
     this.model.monthorweek = 'week';
     // this.model.ondate = new Date();
     this.model.myfiles = [];
-    // this.model.firstYear = this.currentYear;
-    // this.model.lastYear = this.currentYear;
 
-    // // Years [First and Last Year  Drop Down Loop]
-    // for (let i: any = new Date().getFullYear(); this.years.length < 100; i++) {
-    //   // // console.log(this.years.length + ' : ' + i);
-    //   this.years.push({ 'value': i });
-    // }
-    // // console.log(this.years);
     this.route.queryParams
       .filter(params => params.repeat)
       .subscribe(params => {
@@ -107,6 +106,7 @@ export class CreateScheduleComponent implements OnInit {
 
   showImagePreview(file: File) {
     // Show image preview
+    this.spinner.show();
     const reader = new FileReader();
     reader.onload = (event: any) => {
       this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(event.target.result);
@@ -115,7 +115,7 @@ export class CreateScheduleComponent implements OnInit {
         this.isPreviewObject = false;
         this.isPreviewVideo = true;
         this.videoType = file.type;
-        console.log('video file selected');
+        // console.log('video file selected');
       } else if ((this.imageUrl.toString().substr(this.imageUrl.toString().indexOf('data'), 10) === 'data:image')) {
         this.isPreviewVideo = false;
         this.isPreviewObject = false;
@@ -128,38 +128,14 @@ export class CreateScheduleComponent implements OnInit {
         this.isPreviewVideo = false;
         this.isPreviewImage = false;
         this.isPreviewObject = true;
-        console.log('Animation File Found');
+        // console.log('Animation File Found');
       }
+      this.spinner.hide();
     };
     reader.readAsDataURL(file);
-    console.log(this.imageUrl);
+    // console.log(this.imageUrl);
 
   }
-
-  // b64toBlob(b64Data, contentType, sliceSize?) {
-  //   contentType = contentType || '';
-  //   sliceSize = sliceSize || 512;
-
-  //   const byteCharacters = atob(b64Data);
-  //   const byteArrays = [];
-
-  //   for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-  //     const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-  //     const byteNumbers = new Array(slice.length);
-  //     for (let i = 0; i < slice.length; i++) {
-  //       byteNumbers[i] = slice.charCodeAt(i);
-  //     }
-
-  //     const byteArray = new Uint8Array(byteNumbers);
-
-  //     byteArrays.push(byteArray);
-  //   }
-
-  //   const blob = new Blob(byteArrays, { type: contentType });
-  //   return blob;
-  // }
-
 
   deleteImage(index) {
     this.fileToUpload.splice(index, 1);
@@ -170,7 +146,7 @@ export class CreateScheduleComponent implements OnInit {
   onSubmit() {
 
     // // console.log(this.model);
-
+    this.spinner.show();
     // if (this.repeat === this.config.SCHE_CONT) {
     this.service.createSchedule(this.model, this.fileToUpload, this.repeat).subscribe(res => {
     }, error => {
@@ -178,6 +154,8 @@ export class CreateScheduleComponent implements OnInit {
         this.notifier.notify('success', 'Scheduled Stored Successfully');
         this.model = {};
         this.fileToUpload = [];
+        this.spinner.hide();
+        this.router.navigate(['/user/schedules']);
       } else if (error.status === 500) {
         // this.notifier.notify('error', error.message);
         this.notifier.notify('error', 'Invalid File selected');
@@ -187,73 +165,10 @@ export class CreateScheduleComponent implements OnInit {
         this.notifier.notify('error', error.error);
       }
       console.log(error);
+      this.spinner.hide();
     });
-    // } else {
-    //   // console.log(this.repeat);
-    //   // console.log(this.model);
-    // }
+
   }
-  // onChangeInput(event) {
-  //   const that = this;
-  //   // console.time('FileOpen');
-  //   const file = event.target.files[0];
-  //   const filereader = new FileReader();
-  //   filereader.onloadend = function (evt: any) {
-  //     // if (evt.target.readyState === FileReader.DONE) {
-  //     const uint = new Uint8Array(evt.target.result);
-  //     const bytes = [];
-  //     uint.forEach((byte) => {
-  //       bytes.push(byte.toString(16));
-  //     });
-  //     const hex = bytes.join('').toUpperCase();
-  //     that.uploads.push({
-  //       filename: file.name,
-  //       filetype: file.type ? file.type : 'Unknown/Extension missing',
-  //       binaryFileType: that.getMimetype(hex),
-  //       hex: hex
-  //     });
-  //     that.render();
-  //     // }
-  //     // console.timeEnd('FileOpen');
-  //   };
-  //   const blob = file.slice(0, 4);
-  //   filereader.readAsArrayBuffer(blob);
-  // }
 
-  // render() {
-  //   const container = document.getElementById('files');
-  //   const uploadedFiles = this.uploads.map((file) => {
-  //     return `<div>
-  //               <strong>${file.filename}</strong><br>
-  //               Filetype from file object: ${file.filetype}<br>
-  //               Filetype from binary: ${file.binaryFileType}<br>
-  //               Hex: <em>${file.hex}</em>
-  //               </div>`;
-  //   });
-  //   // container.innerHTML = uploadedFiles.join('');
-  // }
-
-  // getMimetype = (signature) => {
-  //   switch (signature) {
-  //     case '89504E47':
-  //       return 'image/png';
-  //     case '47494638':
-  //       return 'image/gif';
-  //     case 'FFD8FFDB':
-  //     case 'FFD8FFE0':
-  //       return 'image/jpeg';
-  //     case '3C3F786D':
-  //       return 'image/svg+xml';
-  //     case '00018':
-  //       return 'video/mp4';
-  //     case '504B0304':
-  //     case '504B34':
-  //       return 'application/zip';
-  //     case '25504446':
-  //       return 'application/pdf';
-  //     default:
-  //       return 'Unknown filetype';
-  //   }
-  // }
 
 }
