@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import { map } from 'rxjs/operators';
 
 import { Config } from '../shared/config';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -321,6 +322,38 @@ export class SchedulesService {
       ));
   }
 
+  // from Delete Sign
+  getScheduleBySignId(userid, signId) {
+    const uri = this.apiURL + 'leddesigner/schedule/schedules?signId=' + signId + '&userid=' + userid;
+
+    return this.http
+      .get(uri)
+      .map(res => {
+        return res;
+      }
+      );
+
+  }
+
+  deleteScheduleByUserId(userid, data) {
+    const uri = this.apiURL + 'leddesigner/schedule/deleteSchedule?userid=' + userid;
+
+    const filedata = {
+      entryIPList:
+        data.entryIPList,
+      filePropertiesList:
+        data.filePropertiesList
+    };
+    return this.http
+      .post(uri, filedata)
+      .map(res => {
+        return res;
+      }
+      );
+
+  }
+
+
   getScheduleByUserIdandType(userid, type) {
     const uri = this.apiURL + 'leddesigner/schedule/getSchedulesByUseridAndType?userid=' + userid + '&type=' + type;
 
@@ -381,6 +414,113 @@ export class SchedulesService {
       ));
   }
 
+  getAnimationLibrary() {
+    // const uri = this.apiURL + 'leddesigner/schedule/allmovies';
+    const uri = this.apiURL + 'leddesigner/schedule/getallvideos';
+    return this.http
+      .get(uri
+        // , { responseType: 'blob' }
+        // , { responseType: 'arraybuffer' }
+      )
+      .pipe(map(res => {
+        // // console.log(res);
+        return res;
+      }
+      ));
+  }
+
+  getImageLibrary() {
+    const uri = this.apiURL + 'leddesigner/schedule/getallimages';
+    return this.http
+      .get(uri
+        // , { responseType: 'blob' }
+        // , { responseType: 'arraybuffer' }
+      )
+      .pipe(map(res => {
+        // // console.log(res);
+        return res;
+      }
+      ));
+  }
+
+  getImageFromUrl(url) {
+
+    return this.http
+      .get(url
+        // , { responseType: 'blob' }
+        , { responseType: 'arraybuffer' }
+      )
+      .pipe(map(res => {
+        // // console.log(res);
+        return res;
+      }
+      ));
+  }
+
+  getMyImages(id) {
+    const uri = this.apiURL + 'leddesigner/schedule/myimages?id=' + id;
+    return this.http
+      .get(uri
+        // , { responseType: 'blob' }
+        // , { responseType: 'arraybuffer' }
+      )
+      .pipe(map(res => {
+        // // console.log(res);
+        return res;
+      }
+      ));
+  }
+  getMyAnimations(id) {
+    const uri = this.apiURL + 'leddesigner/schedule/mymovies?id=' + id;
+    return this.http
+      .get(uri
+        // , { responseType: 'blob' }
+        // , { responseType: 'arraybuffer' }
+      )
+      .pipe(map(res => {
+        // // console.log(res);
+        return res;
+      }
+      ));
+  }
+
+  uploadImage(file) {
+
+    const uri = this.apiURL + 'leddesigner/schedule/uploadAllImages';
+
+    const headers = new HttpHeaders();
+    // this is the important step. You need to set content type as null
+    headers.set('Content-Type', null);
+    headers.set('Accept', 'multipart/form-data');
+    this.formdata = new FormData();
+    this.formdata.append('file', file);
+    return this
+      .http
+      .post(uri, this.formdata, { headers })
+      .map(res => {
+        // console.log(res);
+        return res;
+      });
+  }
+
+  uploadAnimation(file) {
+
+    const uri = this.apiURL + 'leddesigner/schedule/uploadAllMovies';
+
+    const headers = new HttpHeaders();
+    // this is the important step. You need to set content type as null
+    headers.set('Content-Type', null);
+    headers.set('Accept', 'multipart/form-data');
+    this.formdata = new FormData();
+    this.formdata.append('file', file);
+    return this
+      .http
+      .post(uri, this.formdata, { headers })
+      .map(res => {
+        // console.log(res);
+        return res;
+      });
+  }
   // Functions
   getValueOfScheduleMonthDays(days) {
     let day = 0;
@@ -391,4 +531,5 @@ export class SchedulesService {
     }
     return day;
   }
+
 }

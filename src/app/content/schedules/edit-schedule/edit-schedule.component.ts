@@ -200,32 +200,6 @@ export class EditScheduleComponent implements OnInit {
     // reader.readAsBinaryString(file);
   }
 
-  getMimetype = (signature) => {
-    switch (signature) {
-      case '89504E47':
-        return 'image/png';
-      case '47494638':
-        return 'image/gif';
-      case 'FFD8FFDB':
-      case 'FFD8FFE0':
-        return 'image/jpeg';
-      case '3C3F786D':
-        return 'image/svg+xml';
-      case '00018':
-        return 'video/mp4';
-      case '1A45DFA3':
-        return 'video/webm';
-      case '4357539':
-        return 'application/x-shockwave-flash';
-      case '504B0304':
-      case '504B34':
-        return 'application/zip';
-      case '25504446':
-        return 'application/pdf';
-      default:
-        return 'Unknown filetype';
-    }
-  }
 
   deleteImage(index) {
     this.fileToUpload.splice(index, 1);
@@ -276,5 +250,34 @@ export class EditScheduleComponent implements OnInit {
     time.setHours(HH, MM, SS);
     return time;
   }
+  getMimetype = (signature) => {
+    switch (signature) {
+      case '89504E47':
+        return 'image/png';
+      case '47494638':
+        return 'image/gif';
+      case 'FFD8FFDB':
+      case 'FFD8FFE0':
+      case 'FFD8FFE1':
+        return 'image/jpeg';
+      case '3C3F786D':
+        return 'image/svg+xml';
+      case '00018':
+      case '0001C':
+        return 'video/mp4';
+      case '1A45DFA3':
+        return 'video/webm';
+      case '4357539':
+        return 'application/x-shockwave-flash';
+      case '504B0304':
+      case '504B34':
+        return 'application/zip';
+      case '25504446':
+        return 'application/pdf';
+      default:
+        return 'Unknown filetype';
+    }
+  }
+
 
 }

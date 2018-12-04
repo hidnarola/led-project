@@ -30,10 +30,16 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { StepsModule } from 'primeng/steps';
+import { DialogModule } from 'primeng/dialog';
+
 // import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ImageLazyLoadModule, WebWorkerService } from 'ng2-image-lazy-load';
 
 // Spinner
 import { NgxSpinnerModule } from 'ngx-spinner';
+// Pagination
+import { NgxPaginationModule } from 'ngx-pagination';
 
 // Notification or Alert
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
@@ -55,6 +61,8 @@ import { SendScheduleComponent } from './content/schedules/send-schedule/send-sc
 import { SidebarComponent } from './_layouts/sidebar/sidebar.component';
 import { AdminLayoutComponent } from './_layouts/admin-layout/admin-layout.component';
 import { UserLayoutComponent } from './_layouts/user-layout/user-layout.component';
+import { DeleteScheduleComponent } from './content/schedules/delete-schedule/delete-schedule.component';
+import { FileManagerComponent } from './admin/file-manager/file-manager.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access-token');
@@ -132,17 +140,20 @@ const customNotifierOptions: NotifierOptions = {
     MySignsComponent,
     ViewScheduleComponent,
     SendScheduleComponent,
+    DeleteScheduleComponent,
     SidebarComponent,
     AdminLayoutComponent,
-    UserLayoutComponent
+    UserLayoutComponent,
+    FileManagerComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,
     CheckboxModule, RadioButtonModule,
     CalendarModule, FileUploadModule,
     DropdownModule, MultiSelectModule,
-    ConfirmDialogModule,
-    NgxSpinnerModule,
+    ConfirmDialogModule, StepsModule,
+    DialogModule,
+    NgxSpinnerModule, NgxPaginationModule,
     // ProgressSpinnerModule,
     // DataTableModule,
     DataTablesModule,

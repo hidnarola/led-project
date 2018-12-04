@@ -24,6 +24,7 @@ import { CreateSetupComponent } from './admin/sign-setup/create-setup/create-set
 import { EditSetupComponent } from './admin/sign-setup/edit-setup/edit-setup.component';
 import { EditUserComponent } from './admin/users/edit-user/edit-user.component';
 import { ManageSignComponent } from './admin/users/manage-sign/manage-sign.component';
+import { FileManagerComponent } from './admin/file-manager/file-manager.component';
 
 // Guard
 import { AuthGuard } from './auth.guard';
@@ -32,6 +33,8 @@ import { AdminAuthGuard } from './admin-auth.guard';
 // Layout
 import { UserLayoutComponent } from './_layouts/user-layout/user-layout.component';
 import { AdminLayoutComponent } from './_layouts/admin-layout/admin-layout.component';
+import { DeleteScheduleComponent } from './content/schedules/delete-schedule/delete-schedule.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -50,6 +53,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'admin/login', pathMatch: 'full' },
       { path: 'dashboard', component: AdminHomeComponent, canActivate: [AdminAuthGuard] },
       { path: 'sign-setup', component: SignSetupComponent, canActivate: [AdminAuthGuard] },
+      { path: 'file-manager', component: FileManagerComponent, canActivate: [AdminAuthGuard] },
       { path: 'sign-setup/add', component: CreateSetupComponent, canActivate: [AdminAuthGuard] },
       { path: 'sign-setup/edit/:id', component: EditSetupComponent, canActivate: [AdminAuthGuard] },
       { path: 'users', component: UsersComponent, canActivate: [AdminAuthGuard] },
@@ -91,6 +95,10 @@ const routes: Routes = [
       },
       {
         path: 'schedule/send', component: SendScheduleComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'signs/deleteSchedule', component: DeleteScheduleComponent,
         canActivate: [AuthGuard]
       },
       {

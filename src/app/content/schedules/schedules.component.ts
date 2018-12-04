@@ -1,21 +1,27 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { NotifierService } from 'angular-notifier';
 import { SchedulesService } from '../../shared/schedules.service';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { ConfirmationService } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DataTableDirective } from 'angular-datatables';
+
 @Component({
   selector: 'app-schedules',
   templateUrl: './schedules.component.html',
   styleUrls: ['./schedules.component.css']
 })
-export class SchedulesComponent implements OnDestroy, OnInit {
+export class SchedulesComponent implements OnDestroy, OnInit, AfterViewInit {
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger = new Subject();
   schedules: any = [];
   user_name: string;
   user_role: string;
+  // dtElement: DataTableDirective;
+
   // We use this trigger because fetching the list of schedules can be quite long,
   // thus we ensure the data is fetched before rendering
   // dtTrigger: Subject<any> = new Subject();
@@ -24,36 +30,47 @@ export class SchedulesComponent implements OnDestroy, OnInit {
     private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
-
-    // this.user_name = localStorage.getItem('name');
-    // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
     this.dtOptions = {
       pagingType: 'full_numbers',
       destroy: true,
       pageLength: 10,
       order: [0, 'desc']
     };
-    // this.schedules = [];
     this.getSchedules();
+  }
+  rerender(): void {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      // Destroy the table first
+      dtInstance.destroy();
+      // Call the dtTrigger to rerender again
+      this.dtTrigger.next();
+    });
+    // this.dtTrigger.next();
   }
   getSchedules() {
     this.spinner.show();
-    // // console.log(localStorage.getItem('userid'));
+    // this.dtTrigger = new Subject();
     this.service.getSchedulesByUserId(localStorage.getItem('userid')).subscribe(res => {
+      this.schedules = [];
       this.schedules = res;
+      // this.rerender();
       this.dtTrigger.next();
+
       this.spinner.hide();
-      console.log(res);
     }, error => {
       console.log(error);
       this.spinner.hide();
     });
+    // this.dtTrigger.next();
+  }
+  ngAfterViewInit(): void {
+    // this.dtTrigger = new Subject();
+    // this.dtTrigger.next();
   }
   sendSchedule() {
     this.notification.notify('success', 'Schedule Sent Successfully');
   }
   deleteSchedule(id) {
-    // console.log(id);
     this.confirmationService.confirm({
       message: 'Do you want to delete this record?',
       header: 'Delete Confirmation',
@@ -62,16 +79,20 @@ export class SchedulesComponent implements OnDestroy, OnInit {
         this.spinner.show();
         this.service.deleteScheduleById(id).subscribe(res => {
           this.notification.notify('success', 'Deleted Successfully');
-          // this.dtTrigger.next();
           this.spinner.hide();
+          // this.rerender();
+          // this.dtTrigger.next();
+          this.rerender();
           this.getSchedules();
         }, error => {
           if (error.status === 200) {
             this.notification.notify('success', error.error.text);
-            // // console.log();
-            // this.dtTrigger.next();
             this.spinner.hide();
+            // this.dtTrigger.next();
+            this.rerender();
             this.getSchedules();
+            // this.rerender();
+            // this.dtTrigger.next();
           } else if (error.status === 0) {
             this.notification.notify('error', 'ER: ' + 'API Disconnected');
             this.spinner.hide();

@@ -7,10 +7,13 @@ import { CreateScheduleComponent } from './schedules/create-schedule/create-sche
 import { EditScheduleComponent } from './schedules/edit-schedule/edit-schedule.component';
 import { ViewScheduleComponent } from './schedules/view-schedule/view-schedule.component';
 import { SendScheduleComponent } from './schedules/send-schedule/send-schedule.component';
+// import { DeleteScheduleComponent } from './schedules/delete-schedule/delete-schedule.component';
 import { MySignsComponent } from './my-signs/my-signs.component';
+
 import { AuthGuard } from '../auth.guard';
 
 import { UserLayoutComponent } from '../_layouts/user-layout/user-layout.component';
+
 
 const routes: Routes = [
   {
@@ -22,7 +25,7 @@ const routes: Routes = [
     {
       path: 'home', component: HomeComponent,
     },
-    {
+   {
       path: 'schedules', component: SchedulesComponent,
     },
     {

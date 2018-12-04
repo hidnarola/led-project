@@ -48,6 +48,7 @@ export class SignSetupComponent implements OnInit, OnDestroy {
       // console.log(res);
     }, error => {
       console.log(error);
+      this.spinner.hide();
     });
   }
   deleteSign(id) {
@@ -66,6 +67,7 @@ export class SignSetupComponent implements OnInit, OnDestroy {
             this.getSigns();
           } else {
             console.log(error);
+            this.spinner.hide();
           }
         });
       },

@@ -80,37 +80,53 @@ export class SendScheduleComponent implements OnInit {
       this.model.filePropertiesList[i] = this.mySchedules[this.filePropertiesList[i]];
     }
     // console.log(this.model);
-    this.service.sendFileByUserId(this.model, localStorage.getItem('userid')).subscribe(res => {
-      this.notifier.notify('success', 'Send Schedule Successfully');
-      this.model = {};
-      setTimeout(() => {
-        /** spinner ends after 1 seconds */
-        this.spinner.hide();
+
+    setTimeout(() => {
+
+      this.notifier.notify('success', 'connecting...');
     }, 1000);
-      this.router.navigate(['/user/schedules']);
-    }, error => {
-      if (error.status === 200) {
-        this.notifier.notify('success', 'Send Schedule Successfully');
+
+    setTimeout(() => {
+
+      this.notifier.notify('success', 'Loading...');
+    }, 1000);
+
+    setTimeout(() => {
+
+      this.service.sendFileByUserId(this.model, localStorage.getItem('userid')).subscribe(res => {
+        this.notifier.notify('success', 'Updated');
         this.model = {};
         setTimeout(() => {
           /** spinner ends after 1 seconds */
           this.spinner.hide();
-      }, 1000);
+        }, 1000);
         this.router.navigate(['/user/schedules']);
-      } else if (error.status === 500) {
-        this.notifier.notify('error', 'Error sending schedule');
-        setTimeout(() => {
-          /** spinner ends after 1 seconds */
-          this.spinner.hide();
-      }, 1000);
-      } else {
-        this.notifier.notify('error', error.error.message);
-        setTimeout(() => {
-          /** spinner ends after 1 seconds */
-          this.spinner.hide();
-      }, 1000);
-      }
-    });
+      }, error => {
+        if (error.status === 200) {
+          this.notifier.notify('success', 'Updated');
+          this.model = {};
+          setTimeout(() => {
+            /** spinner ends after 1 seconds */
+            this.spinner.hide();
+          }, 1000);
+          this.router.navigate(['/user/schedules']);
+        } else if (error.status === 500) {
+          this.notifier.notify('error', 'Failed');
+          setTimeout(() => {
+            /** spinner ends after 1 seconds */
+            this.spinner.hide();
+          }, 1000);
+        } else {
+          this.notifier.notify('error', 'Failed');
+          setTimeout(() => {
+            /** spinner ends after 1 seconds */
+            this.spinner.hide();
+          }, 1000);
+        }
+        console.log(error);
+      });
+
+    }, 1000);
   }
 
 }
