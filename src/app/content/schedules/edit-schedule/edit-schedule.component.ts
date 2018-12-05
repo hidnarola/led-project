@@ -331,30 +331,30 @@ export class EditScheduleComponent implements OnInit {
     // console.log(this.filesToUpload);
   }
   imagePreview(filename) {
-    // // this.isPreview = true;
-    // this.spinner.show();
-    // this.service.getImageForPreview(filename, localStorage.getItem('userid')).subscribe(res => {
-    //   // console.log(res);
-    //   const uint = new Uint8Array(res.slice(0, 4));
-    //   const bytes = [];
-    //   uint.forEach((byte) => {
-    //     bytes.push(byte.toString(16));
-    //   });
-    //   const hex = bytes.join('').toUpperCase();
-    //   const binaryFileType = this.getMimetype(hex);
-    //   // console.log(binaryFileType + ' ' + hex);
-    //   if (binaryFileType === 'Unknown filetype') {
-    //     this.notifier.notify('warning', 'Unknown File Type or Currupted File');
-    //   } else {
-    //     const file = new Blob([new Uint8Array(res)], { type: binaryFileType });
-    //     this.showImagePreview(file);
-    //   }
-    //   this.spinner.hide();
-    // }, error => {
-    //   console.log(error.error);
-    //   this.notifier.notify('error', error.error);
-    //   this.spinner.hide();
-    // });
+    // this.isPreview = true;
+    this.spinner.show();
+    this.service.getImageForPreview(filename, localStorage.getItem('userid')).subscribe(res => {
+      // console.log(res);
+      const uint = new Uint8Array(res.slice(0, 4));
+      const bytes = [];
+      uint.forEach((byte) => {
+        bytes.push(byte.toString(16));
+      });
+      const hex = bytes.join('').toUpperCase();
+      const binaryFileType = this.getMimetype(hex);
+      // console.log(binaryFileType + ' ' + hex);
+      if (binaryFileType === 'Unknown filetype') {
+        this.notifier.notify('warning', 'Unknown File Type or Currupted File');
+      } else {
+        const file = new Blob([new Uint8Array(res)], { type: binaryFileType });
+        this.showImagePreview(file);
+      }
+      this.spinner.hide();
+    }, error => {
+      console.log(error.error);
+      this.notifier.notify('error', error.error);
+      this.spinner.hide();
+    });
   }
 
   // showImagePreview(file) {

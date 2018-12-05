@@ -71,6 +71,7 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
     this.model.monthorweek = 'week';
     this.model.moduloYDay = '1';
     this.model.moduloWeek = '1';
+    this.model.duration = '00:00:06';
     this.model.scheduleMonthDays = '1';
     // this.model.ondate = new Date();
     this.model.myfiles = [];
