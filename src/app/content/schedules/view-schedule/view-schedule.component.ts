@@ -96,6 +96,11 @@ export class ViewScheduleComponent implements OnInit {
 
       // this.imageUrl = btoa(error.error.text);
     });
+    // this.service.getImageForPreview(filename, localStorage.getItem('userid')).subscribe(res => {
+    //   console.log('res => ', res);
+    // }, error => {
+    //   console.log('error => ', error);
+    // });
   }
 
   // byteArrayToBase64(binary) {
@@ -226,6 +231,7 @@ export class ViewScheduleComponent implements OnInit {
         return 'image/svg+xml';
       case '00018':
       case '0001C':
+      case '00020':
         return 'video/mp4';
       case '1A45DFA3':
         return 'video/webm';

@@ -10,14 +10,13 @@ import { NgxSpinnerService } from 'ngx-spinner';
 // declare var jwplayer: any;
 // declare var videojs: any;
 import { DateTime } from 'luxon';
-import { IfStmt } from '@angular/compiler';
 @Component({
   selector: 'app-create-schedule',
   templateUrl: './create-schedule.component.html',
   styleUrls: ['./create-schedule.component.css']
 })
 export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy {
-
+  ms24 = 86400000;
   // private videoJSplayer: any;
   myAnimationFile: boolean;
   myImageFile: boolean;
@@ -84,7 +83,6 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
         this.repeat = params.repeat;
       });
     // this.videoJSplayer = videojs('video_player');
-
     // this.getImageFromServer('http://192.168.1.243:2220/leddesigner/schedule/getImageLibrary/1.bmp');
   }
   // jwPlayer() {
@@ -400,6 +398,7 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
         return 'image/svg+xml';
       case '00018':
       case '0001C':
+      case '00020':
         return 'video/mp4';
       case '1A45DFA3':
         return 'video/webm';

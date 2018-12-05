@@ -18,11 +18,15 @@ export class FileManagerComponent implements OnInit {
   isPreviewVideo: boolean;
   videoType: string;
   fileToUpload: File;
+  fileExplorer: any;
   constructor(private spinner: NgxSpinnerService, private sanitizer: DomSanitizer,
     private service: SchedulesService, private notify: NotifierService) { }
 
   ngOnInit() {
     this.mediaType = 'image';
+    this.fileExplorer = [];
+    this.getAnimationLibrary();
+    this.getImageLibrary();
   }
   handleFileInput(file) {
     this.showImagePreview(file);
@@ -64,6 +68,34 @@ export class FileManagerComponent implements OnInit {
     // console.log(this.imageUrl);
   }
 
+  getImageLibrary() {
+
+    this.spinner.show();
+    this.service.getImageLibrary().subscribe(res => {
+      // this.fileExplorer = [];
+      this.fileExplorer.images = res;
+      // console.log(res);
+      this.spinner.hide();
+    }, error => {
+      console.log(error);
+      this.spinner.hide();
+    });
+  }
+
+  getAnimationLibrary() {
+
+    this.spinner.show();
+    this.service.getAnimationLibrary().subscribe(res => {
+      // this.fileExplorer = [];
+      this.fileExplorer.animations = res;
+      console.log(res);
+      this.spinner.hide();
+    }, error => {
+      console.log(error);
+      this.spinner.hide();
+    });
+  }
+
   uploadFile() {
     // console.log('fileToUpload => ', this.fileToUpload);
     if (this.fileToUpload) {
@@ -98,6 +130,8 @@ export class FileManagerComponent implements OnInit {
           }
         });
       }
+      this.getImageLibrary();
+      this.getAnimationLibrary();
     } else {
       this.notify.notify('info', 'Select a file');
     }

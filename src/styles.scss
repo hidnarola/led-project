@@ -142,6 +142,11 @@ body .ui-steps .ui-steps-item .ui-menuitem-link .ui-steps-number {
   box-shadow: 1px 2px 9px #00acea;
 }
 
+.ui-tabview .ui-tabview-panels {
+  float: left;
+  width: 100%;
+}
+
 @media (max-width: 991px) {
   .footer {
     position: relative;
@@ -152,6 +157,7 @@ body .ui-steps .ui-steps-item .ui-menuitem-link .ui-steps-number {
   .my-pagination[_ngcontent-c5] .ngx-pagination {
     margin-top: 12px;
   }
+
   .img_container {
     border: 1px solid #ddd;
     padding: 15px 15px 0 15px;
@@ -160,7 +166,7 @@ body .ui-steps .ui-steps-item .ui-menuitem-link .ui-steps-number {
     text-align: center;
     width: 300px;
     margin: 0 auto 20px auto;
-}
+  }
 }
 
 @media (min-width: 769px) {
@@ -259,7 +265,7 @@ body .ui-steps .ui-steps-item .ui-menuitem-link .ui-steps-number {
   background: #f1ecec;
   border-radius: 5px;
   text-align: center;
-  max-width:100%;
+  max-width: 100%;
 }
 
 body .ui-dialog .ui-dialog-content {
@@ -300,7 +306,14 @@ body .ui-dialog {
   height: auto;
   margin: 0 auto 10px auto;
 }
-
+.img_box{
+  -webkit-column-count: 3;
+  -moz-column-count: 3;
+  column-count: 3;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
 .img_container label {
   text-align: center;
   display: block;
@@ -309,102 +322,121 @@ body .ui-dialog {
   font-size: 18px;
   border-top: 1px solid #ddd;
 }
-.img_box img{max-width:100%;   }
-.img_lib{
-  margin-bottom: 20px;}
+
+.img_box img {
+  max-width: 100%;
+}
+
+.img_lib {
+  margin-bottom: 20px;
+  width: 100%;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
 // .page-content {
 //   display: flex;
 //   height: 100%;
 //   width: 100%;
 // }
-.img_lib h4{
+.img_lib h4 {
   text-align: center;
   color: #0a7bdc;
   font-size: 24px;
 }
-.img_lib >div {
+
+.img_lib>div {
   background: #efefef;
-  padding: 5px;
-  height: 194px;
+  padding: 10px;
   width: 100%;
 }
-.img_lib >div img {
+
+.img_lib>div img {
   max-width: 100%;
-  max-height: 100%;
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%,-50%);
   width: 100%;
-  /* height: 200px; */
-  width: 81%;
 }
-.img_lib >div h4{
+
+.img_lib>div h4 {
   margin-top: 0;
   text-align: left;
   padding: 4px 10px;
   color: #000;
-  font-size: 19px;
+  font-size: 16px;
   margin-bottom: 5px;
-  position: absolute;
-  bottom: 0;
-  left: 12px;
-  right: 12px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  margin-bottom: 0;
+  padding-top: 10px;
+}
+
+@media (max-width: 1024px) {
+  .img_box {
+    -webkit-column-count: 2;
+    column-count: 2;
+  }
+
 }
 @media (max-width: 767px) {
 
-  body .ui-dialog{
+  body .ui-dialog {
     bottom: 0 !important;
     overflow: auto !important;
     top: 0 !important;
 
   }
-  body .ui-dialog .ui-dialog-titlebar{
+
+  body .ui-dialog .ui-dialog-titlebar {
     position: absolute !important;
-    top:  0!important;
-    z-index: 999!important;
-    right: 0!important;
-    width: 100%!important;
+    top: 0 !important;
+    z-index: 999 !important;
+    right: 0 !important;
+    width: 100% !important;
   }
-  body .ui-dialog .ui-dialog-content{
-    margin-top: 60px!important;
+
+  body .ui-dialog .ui-dialog-content {
+    margin-top: 60px !important;
   }
+
   body .ui-dialog .ui-dialog-content {
     max-height: unset;
   }
-  .img_lib > div {
+
+  .img_lib>div {
     height: auto;
     width: 100%;
-}
-.img_lib > div img {
-  position: relative;
-  top: unset;
-  left: unset;
-  -webkit-transform: translate(-50%, -50%);
-  transform: unset;
+  }
 
-  width: 100%;
-}
-.img_lib > div h4 {
-  position: relative;
-  margin-top: 10px;
-}
-.img_lib {
-  width: 50%;
-}
+  .img_lib>div img {
+    position: relative;
+    top: unset;
+    left: unset;
+    -webkit-transform: translate(-50%, -50%);
+    transform: unset;
+
+    width: 100%;
+  }
+
+  .img_lib>div h4 {
+    position: relative;
+    margin-top: 10px;
+  }
+
+  .img_box {
+    -webkit-column-count: 2;
+    column-count: 2;
+  }
 }
 
 @media (max-width: 480px) {
-  .img_lib{
-    width:90%;
-    margin:0 auto 20px auto;
-    float: unset;
+  .img_box {
+    -webkit-column-count: 1;
+    column-count: 1;
   }
-  .img_lib h4{
-    font-size:20px;
+  .img_lib h4 {
+    font-size: 20px;
   }
 
 }

@@ -14,6 +14,17 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./edit-schedule.component.css']
 })
 export class EditScheduleComponent implements OnInit {
+  myAnimationFile: boolean;
+  myImageFile: boolean;
+  animationLibraryFile: boolean;
+  imageLibraryFile: boolean;
+  myFile: boolean;
+  rootFile: boolean;
+  libraryFile: boolean;
+  display = false;
+  fileExplorer: any;
+  fileNamesList: any = [];
+  currentYear = Number(new Date().getFullYear());
   user_name: string;
   user_role: string;
   repeat = 'None';
@@ -21,6 +32,7 @@ export class EditScheduleComponent implements OnInit {
   files = [];
   myfile: any;
   fileToUpload: File[] = [];
+  filesToUpload: FileList;
   res: any;
   imageUrl = this.sanitizer.bypassSecurityTrustUrl('/assets/images/signature.png');
   model: any = {};
@@ -50,6 +62,7 @@ export class EditScheduleComponent implements OnInit {
         this.repeat = this.res.type;
         this.model = this.res.schduleDTO;
         this.files = this.res.multipartImages;
+
         // Set Date to datepicker
         let year = this.model.startDate.year;
         let month = ('0' + this.model.startDate.monthValue).slice(-2);
@@ -81,6 +94,8 @@ export class EditScheduleComponent implements OnInit {
           this.model.onDate = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) +
             '-' + ('0' + (now.getDate())).slice(-2);
         }
+        this.model.duration = this.msToTime(this.model.duration);
+        // console.log('this.model => ', res);
         // console.log(this.res.schduleDTO);
         this.spinner.hide();
       }, error => {
@@ -93,35 +108,174 @@ export class EditScheduleComponent implements OnInit {
     // document.getElementById('mydate').value = '2001-01-10';
   }
 
-  handleFileInput(file: FileList) {
-    let isMatched = false;
-    if (this.fileToUpload.length > 0 && file.length > 0) {
-      this.fileToUpload.forEach(files => {
-        if (file.item(0).name === files.name) {
-          // console.log('matched');
-          this.notifier.notify('info', 'Rename Filename if you want to add');
-          this.notifier.notify('warning', 'Same File Name Exist.');
-          isMatched = true;
-        }
-      });
-    } else {
-      isMatched = true;
-      if (file.length > 0) {
-        this.fileToUpload.push(file.item(0));
-      } else {
-        this.notifier.notify('info', 'No File Selected');
-      }
-    }
-    if (!isMatched) {
-      if (file.length > 0) {
-        this.fileToUpload.push(file.item(0));
-      } else {
-        this.notifier.notify('info', 'No File Selected');
-      }
-      isMatched = false;
-    }
-    // console.log(this.fileToUpload);
+  myFolder_click() {
+    this.myFile = true;
+    this.rootFile = false;
+    this.myImageFile = false;
+    this.myAnimationFile = false;
   }
+  showDialog() {
+    this.display = true;
+    this.rootFiles();
+  }
+  myLibrary_click() {
+    this.libraryFile = true;
+    this.rootFile = false;
+    this.imageLibraryFile = false;
+    this.animationLibraryFile = false;
+  }
+  rootFiles() {
+    this.rootFile = true;
+    this.libraryFile = false;
+    this.myFile = false;
+    this.imageLibraryFile = false;
+    this.animationLibraryFile = false;
+    this.myImageFile = false;
+    this.myAnimationFile = false;
+  }
+  ImageLibrary() {
+    this.libraryFile = false;
+    this.imageLibraryFile = true;
+  }
+  AnimationLibrary() {
+    this.libraryFile = false;
+    this.animationLibraryFile = true;
+  }
+  myImage() {
+    this.myFile = false;
+    this.myImageFile = true;
+  }
+  myAnimation() {
+    this.myFile = false;
+    this.myAnimationFile = true;
+  }
+
+  getMyImagesLibrary() {
+    this.myImage();
+    this.spinner.show();
+    this.service.getMyImages(localStorage.getItem('userid')).subscribe(res => {
+      this.fileExplorer = [];
+      this.fileExplorer = res;
+      // console.log(res);
+      this.spinner.hide();
+    }, error => {
+      console.log(error);
+      this.spinner.hide();
+    });
+  }
+
+  getMyAnimationLibrary() {
+    this.myAnimation();
+    this.spinner.show();
+    this.service.getMyAnimations(localStorage.getItem('userid')).subscribe(res => {
+      this.fileExplorer = [];
+      this.fileExplorer = res;
+      console.log(res);
+      this.spinner.hide();
+    }, error => {
+      console.log(error);
+      this.spinner.hide();
+    });
+  }
+
+  getImageLibrary() {
+    this.ImageLibrary();
+    this.spinner.show();
+    this.service.getImageLibrary().subscribe(res => {
+      this.fileExplorer = [];
+      this.fileExplorer = res;
+      // console.log(res);
+      this.spinner.hide();
+    }, error => {
+      console.log(error);
+      this.spinner.hide();
+    });
+  }
+
+  getAnimationLibrary() {
+    this.AnimationLibrary();
+    this.spinner.show();
+    this.service.getAnimationLibrary().subscribe(res => {
+      this.fileExplorer = [];
+      this.fileExplorer = res;
+      console.log(res);
+      this.spinner.hide();
+    }, error => {
+      console.log(error);
+      this.spinner.hide();
+    });
+  }
+
+  pickFile(file, filename) {
+    // console.log(this.dataURItoBlob(base64));
+    // this.handleFileInput(base64);
+    // this.handleFileInput(this.blobToFile(this.dataURItoBlob(base64), filename));
+    // this.handleFileInput(new File(this.dataURItoBlob(base64), 'uploaded_file.jpg', { type: 'image/jpeg', lastModified: Date.now() }));
+    // this.fileToUpload.push(this.blobToFile(this.dataURItoBlob(base64), filename));
+    // console.log(this.blobToFile(this.dataURItoBlob(base64), filename));
+    this.service.getImageFromUrl(file).subscribe(res => {
+      // const Image = new File([res], filename);
+      // this.handleFileInput(res);
+      // console.log('res => ', res);
+
+      const uint = new Uint8Array(res.slice(0, 4));
+      const bytes = [];
+      uint.forEach((byte) => {
+        bytes.push(byte.toString(16));
+      });
+      const hex = bytes.join('').toUpperCase();
+      const binaryFileType = this.getMimetype(hex);
+      console.log(binaryFileType + ' ' + hex);
+      if (binaryFileType === 'Unknown filetype') {
+        this.notifier.notify('warning', 'Unknown File Type or Currupted File');
+      } else {
+        // const file = new Blob([new Uint8Array(res)], { type: binaryFileType });
+        const Image = new File([res], filename, { type: binaryFileType });
+        this.handleFileInput(Image);
+        // console.log('1 => ', 1);
+      }
+
+
+    }, error => {
+      if (error.status === 200) {
+        // const Image = new File([error.error.text], filename, { type: 'image/png' });
+        // this.handleFileInput(Image);
+        console.log('error with success => ', error);
+      } else {
+        console.log('error => ', error);
+      }
+    });
+
+  }
+  // handleFileInput(file: FileList) {
+  //   let isMatched = false;
+  //   if (this.fileToUpload.length > 0 && file.length > 0) {
+  //     this.fileToUpload.forEach(files => {
+  //       if (file.item(0).name === files.name) {
+  //         // console.log('matched');
+  //         this.notifier.notify('info', 'Rename Filename if you want to add');
+  //         this.notifier.notify('warning', 'Same File Name Exist.');
+  //         isMatched = true;
+  //       }
+  //     });
+  //   } else {
+  //     isMatched = true;
+  //     if (file.length > 0) {
+  //       this.fileToUpload.push(file.item(0));
+  //     } else {
+  //       this.notifier.notify('info', 'No File Selected');
+  //     }
+  //   }
+  //   if (!isMatched) {
+  //     if (file.length > 0) {
+  //       this.fileToUpload.push(file.item(0));
+  //     } else {
+  //       this.notifier.notify('info', 'No File Selected');
+  //     }
+  //     isMatched = false;
+  //   }
+  //   // console.log(this.fileToUpload);
+  // }
 
   // imagePreview(filename) {
   //   this.isPreview = true;
@@ -132,30 +286,75 @@ export class EditScheduleComponent implements OnInit {
   //   });
   // }
 
+  handleFileInput(file) {
+    // let isMatched = false;
+    // console.log('this.fileNamesList.indexOf(file.name) => ', this.fileNamesList.indexOf(file.name));
+    if (this.fileNamesList.indexOf(file.name) >= 0) {
+      this.notifier.notify('warning', 'Same File Name Exist.');
+      // isMatched = true;
+    } else {
+      this.fileToUpload.push(file);
+      this.fileNamesList.push(file.name);
+      this.filesToUpload = file;
+      // this.notifier.notify('info', 'Unique.');
+      // isMatched = false;
+    }
+    // this.fileToUpload.forEach(files => {
+    //   if (file.name === files.name) {
+    //     // console.log('matched');
+    //     // this.notifier.notify('info', 'Rename Filename if you want to add');
+    //   }
+    // });
+    // }
+    // else {
+    // isMatched = true;
+    // if (file.length > 0) {
+    // this.fileToUpload.push(file.item(0));
+    // this.filesToUpload = file;
+    // } else {
+    // this.notifier.notify('info', 'No File Selected');
+    // }
+    // }
+    // if (!isMatched) {
+    //   if (file) {
+    //     this.fileToUpload.push(file);
+    //     this.fileNamesList.push(file.name);
+    //     this.filesToUpload = file;
+    //   } else {
+    //     this.notifier.notify('info', 'No File Selected');
+    //   }
+    //   isMatched = false;
+    // }
+
+    // console.log(this.fileToUpload);
+    this.display = false;
+    // console.log(this.filesToUpload);
+  }
   imagePreview(filename) {
-    // this.isPreview = true;
-    this.spinner.show();
-    this.service.getImageForPreview(filename, localStorage.getItem('userid')).subscribe(res => {
-      // console.log(res);
-      const uint = new Uint8Array(res.slice(0, 4));
-      const bytes = [];
-      uint.forEach((byte) => {
-        bytes.push(byte.toString(16));
-      });
-      const hex = bytes.join('').toUpperCase();
-      const binaryFileType = this.getMimetype(hex);
-      // console.log(binaryFileType + ' ' + hex);
-      if (binaryFileType === 'Unknown filetype') {
-        this.notifier.notify('warning', 'Unknown File Type or Currupted File');
-      } else {
-        const file = new Blob([new Uint8Array(res)], { type: binaryFileType });
-        this.showImagePreview(file);
-      }
-      this.spinner.hide();
-    }, error => {
-      console.log(error);
-      this.spinner.hide();
-    });
+    // // this.isPreview = true;
+    // this.spinner.show();
+    // this.service.getImageForPreview(filename, localStorage.getItem('userid')).subscribe(res => {
+    //   // console.log(res);
+    //   const uint = new Uint8Array(res.slice(0, 4));
+    //   const bytes = [];
+    //   uint.forEach((byte) => {
+    //     bytes.push(byte.toString(16));
+    //   });
+    //   const hex = bytes.join('').toUpperCase();
+    //   const binaryFileType = this.getMimetype(hex);
+    //   // console.log(binaryFileType + ' ' + hex);
+    //   if (binaryFileType === 'Unknown filetype') {
+    //     this.notifier.notify('warning', 'Unknown File Type or Currupted File');
+    //   } else {
+    //     const file = new Blob([new Uint8Array(res)], { type: binaryFileType });
+    //     this.showImagePreview(file);
+    //   }
+    //   this.spinner.hide();
+    // }, error => {
+    //   console.log(error.error);
+    //   this.notifier.notify('error', error.error);
+    //   this.spinner.hide();
+    // });
   }
 
   // showImagePreview(file) {
@@ -250,6 +449,23 @@ export class EditScheduleComponent implements OnInit {
     time.setHours(HH, MM, SS);
     return time;
   }
+  pad(n, width) {
+    const z = '0';
+    n = n + '';
+    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+  }
+
+  msToTime(s) {
+    const ms = s % 1000;
+    s = (s - ms) / 1000;
+    const secs = s % 60;
+    s = (s - secs) / 60;
+    const mins = s % 60;
+    const hrs = (s - mins) / 60;
+
+    return this.pad(hrs, 2) + ':' + this.pad(mins, 2) + ':' + this.pad(secs, 2);
+  }
+
   getMimetype = (signature) => {
     switch (signature) {
       case '89504E47':
@@ -264,6 +480,7 @@ export class EditScheduleComponent implements OnInit {
         return 'image/svg+xml';
       case '00018':
       case '0001C':
+      case '00020':
         return 'video/mp4';
       case '1A45DFA3':
         return 'video/webm';

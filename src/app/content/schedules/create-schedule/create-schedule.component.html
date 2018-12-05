@@ -238,7 +238,8 @@
                 <div>
                   <span *ngFor="let day of CONFIG.DAYS; let i = index">
                     {{ day }} <p-checkbox name="days" value="{{i}}" [(ngModel)]="model.weekDays"></p-checkbox>&nbsp;
-                  </span></div>
+                  </span>
+                </div>
               </div>
             </div>
             <div class="col-md-6" *ngIf="model.monthorweek === 'month'">
@@ -266,7 +267,8 @@
                 <div>
                   <span *ngFor="let month of CONFIG.MONTHS; let i = index">
                     {{ month }} <p-checkbox name="months" value="{{i}}" [(ngModel)]="model.scheduleMonths"></p-checkbox>&nbsp;
-                  </span></div>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -280,6 +282,19 @@
             </div>
             <div class="col-md-6" *ngIf="model.onDate">
               <i>On Date: {{ model.onDate | date: ' dd-MMMM' }}</i>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label">Duration</label>
+                <!-- <input type="time" class="form-control" placeholder="HH:mm:ss" name="duration" [(ngModel)]="model.duration"
+                  #duration="ngModel" [ngClass]="{ 'is-invalid': f.submitted && duration.invalid }" required> -->
+                <div>
+                  <p-inputMask [(ngModel)]="model.duration" name="duration" mask="99:99:99"
+                    placeholder="HH:mm:ss"></p-inputMask>
+                </div>
+              </div>
             </div>
           </div>
           <div class="row">

@@ -87,8 +87,50 @@
           </div>
         </div>
       </div>
+
+
     </div>
 
+    <p-tabView>
+      <p-tabPanel header="Image Library">
+        <ng-template pTemplate="content">
+          <div class="col-sm-12">
+            <div>
+              <div class="img_box">
+                <div class="img_lib" *ngFor="let image of fileExplorer.images| keyvalue; let i = index">
+                  <div>
+                    <img [attr.src]="image.value">
+                    <h4>{{image.key}}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-tabPanel>
+      <p-tabPanel header="Animation Library">
+        <ng-template pTemplate="content">
+          <div class="col-sm-12">
+            <div>
+              <div class="row img_box">
+                <div class="img_lib" *ngFor="let video of fileExplorer.animations| keyvalue; let i = index">
+                  <div>
+                    <video controls loop class="video-js vjs-big-play-centered" preload="auto" data-setup="{}" style="max-width:100%;width:auto;max-height:300px">
+                      <source [src]="video.value" type="video/mp4">
+                      <source [src]="video.value" type="video/mp4">
+                      Your browser does not support the video tag.</video>
+                    <h4><span>{{video.key}}</span></h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-tabPanel>
+
+    </p-tabView>
+
   </div>
+
 
 </div>

@@ -32,6 +32,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { StepsModule } from 'primeng/steps';
 import { DialogModule } from 'primeng/dialog';
+import { InputMaskModule } from 'primeng/inputmask';
+import { TabViewModule } from 'primeng/tabview';
 
 // import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ImageLazyLoadModule, WebWorkerService } from 'ng2-image-lazy-load';
@@ -152,7 +154,8 @@ const customNotifierOptions: NotifierOptions = {
     CalendarModule, FileUploadModule,
     DropdownModule, MultiSelectModule,
     ConfirmDialogModule, StepsModule,
-    DialogModule,
+    DialogModule, InputMaskModule,
+    TabViewModule,
     NgxSpinnerModule, NgxPaginationModule,
     // ProgressSpinnerModule,
     // DataTableModule,
