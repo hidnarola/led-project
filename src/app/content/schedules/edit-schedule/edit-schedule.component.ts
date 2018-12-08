@@ -14,6 +14,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./edit-schedule.component.css']
 })
 export class EditScheduleComponent implements OnInit {
+  ms24 = 86400000;
+  durationList: any = [];
   myAnimationFile: boolean;
   myImageFile: boolean;
   animationLibraryFile: boolean;
@@ -31,8 +33,9 @@ export class EditScheduleComponent implements OnInit {
   years = [];
   files = [];
   myfile: any;
-  fileToUpload: File[] = [];
-  filesToUpload: FileList;
+  // fileToUpload: File[] = [];
+  fileToUpload: any[] = [];
+  filesToUpload: any[] = [];
   res: any;
   imageUrl = this.sanitizer.bypassSecurityTrustUrl('/assets/images/signature.png');
   model: any = {};
@@ -293,9 +296,10 @@ export class EditScheduleComponent implements OnInit {
       this.notifier.notify('warning', 'Same File Name Exist.');
       // isMatched = true;
     } else {
+      file.duration = '00:00:06';
       this.fileToUpload.push(file);
       this.fileNamesList.push(file.name);
-      this.filesToUpload = file;
+      // this.filesToUpload = file;
       // this.notifier.notify('info', 'Unique.');
       // isMatched = false;
     }
@@ -402,16 +406,26 @@ export class EditScheduleComponent implements OnInit {
 
   deleteImage(index) {
     this.fileToUpload.splice(index, 1);
+    this.fileNamesList.splice(index, 1);
     this.isPreviewImage = false;
     this.isPreviewVideo = false;
     this.isPreviewObject = false;
     this.myfile = '';
   }
-
+  timeToMS(strtime) {
+    let ms = 0;
+    const HH = strtime.split(':')[0] * 60 * 60 * 1000;
+    const mm = strtime.split(':')[1] * 60 * 1000;
+    const ss = strtime.split(':')[2] * 1000;
+    ms = HH + mm + ss;
+    return ms;
+  }
   onSubmit() {
     this.spinner.show();
     // // console.log(this.model);
 
+    // console.log('this.model.durationList => ', this.model.durationList);
+    // console.log('this.fileToUpload => ', this.fileToUpload);
     // if (this.repeat === this.config.SCHE_CONT) {
     if (this.model.monthorweek === 'week') {
       this.model.weekDays = this.model.weekDays;
@@ -419,7 +433,17 @@ export class EditScheduleComponent implements OnInit {
     } else {
       this.model.weekDays = [];
     }
+    this.durationList = [];
+    this.fileToUpload.forEach(file => {
+      const dura: any = {};
+      dura.name = file.name;
+      dura.regex = this.timeToMS(file.duration);
+      this.durationList.push(dura);
+    });
+    this.model.durationList = this.durationList;
     this.service.updateSChedule(this.model, this.fileToUpload, this.repeat).subscribe(res => {
+      console.log('res => ', res);
+      this.spinner.hide();
     }, error => {
       if (error.status === 200) {
         this.notifier.notify('success', 'Scheduled Updated Successfully');
@@ -432,6 +456,7 @@ export class EditScheduleComponent implements OnInit {
       } else {
         this.notifier.notify('error', error.error.message);
       }
+      // this.notifier.notify('error', error);
       this.spinner.hide();
     });
 
@@ -456,14 +481,18 @@ export class EditScheduleComponent implements OnInit {
   }
 
   msToTime(s) {
-    const ms = s % 1000;
-    s = (s - ms) / 1000;
-    const secs = s % 60;
-    s = (s - secs) / 60;
-    const mins = s % 60;
-    const hrs = (s - mins) / 60;
+    if (s) {
+      const ms = s % 1000;
+      s = (s - ms) / 1000;
+      const secs = s % 60;
+      s = (s - secs) / 60;
+      const mins = s % 60;
+      const hrs = (s - mins) / 60;
 
-    return this.pad(hrs, 2) + ':' + this.pad(mins, 2) + ':' + this.pad(secs, 2);
+      return this.pad(hrs, 2) + ':' + this.pad(mins, 2) + ':' + this.pad(secs, 2);
+    } else {
+      return '';
+    }
   }
 
   getMimetype = (signature) => {

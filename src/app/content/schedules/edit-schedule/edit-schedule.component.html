@@ -329,6 +329,7 @@
                   <tr>
                     <th>SR</th>
                     <th>Image Name</th>
+                    <th>Duration (HH:mm:ss)</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -336,6 +337,10 @@
                   <tr *ngFor="let file of files; let i = index">
                     <td>{{i + 1}}</td>
                     <td> {{file.path}} </td>
+                    <td>
+                      {{msToTime(file.duration)}}
+                    </td>
+
                     <td>
                       <a class="btn btn-primary" (click)="imagePreview(file.path)">
                         <i class="icon icon-display">
@@ -355,6 +360,7 @@
                   <tr>
                     <th>Sr</th>
                     <th>Image Name</th>
+                    <th>Duration</th>
                     <th class="text-right">Action</th>
                   </tr>
                 </thead>
@@ -362,6 +368,11 @@
                   <tr *ngFor="let file of fileToUpload; let i = index">
                     <td> {{ i + 1 }} </td>
                     <td> {{file.name}} </td>
+                    <td *ngIf="file.type.substr(0,5) === 'image'">
+                      <p-inputMask [(ngModel)]="file.duration" name="duration" mask="99:99:99" placeholder="HH:mm:ss"></p-inputMask>
+                    </td>
+                    <td *ngIf="file.type.substr(0,5) === 'video'">
+                    </td>
                     <td class="text-right"><button type="button" class="btn btn-primary" (click)="showImagePreview(file)"><i
                           class="icon icon-display"></i>
                         Preview</button>

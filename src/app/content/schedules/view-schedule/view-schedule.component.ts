@@ -142,7 +142,26 @@ export class ViewScheduleComponent implements OnInit {
   // }
 
   // **************************************
+  pad(n, width) {
+    const z = '0';
+    n = n + '';
+    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+  }
 
+  msToTime(s) {
+    if (s) {
+      const ms = s % 1000;
+      s = (s - ms) / 1000;
+      const secs = s % 60;
+      s = (s - secs) / 60;
+      const mins = s % 60;
+      const hrs = (s - mins) / 60;
+
+      return this.pad(hrs, 2) + ':' + this.pad(mins, 2) + ':' + this.pad(secs, 2);
+    } else {
+      return '';
+    }
+  }
   showImagePreview(file: Blob) {
     this.spinner.show();
     // Show image preview

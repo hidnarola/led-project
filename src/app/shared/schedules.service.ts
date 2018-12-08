@@ -29,8 +29,25 @@ export class SchedulesService {
     ms = HH + mm + ss;
     return ms;
   }
-  mstoTime(mstime) {
+  pad(n, width) {
+    const z = '0';
+    n = n + '';
+    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+  }
 
+  msToTime(s) {
+    if (s) {
+      const ms = s % 1000;
+      s = (s - ms) / 1000;
+      const secs = s % 60;
+      s = (s - secs) / 60;
+      const mins = s % 60;
+      const hrs = (s - mins) / 60;
+
+      return this.pad(hrs, 2) + ':' + this.pad(mins, 2) + ':' + this.pad(secs, 2);
+    } else {
+      return '';
+    }
   }
   createSchedule(data, file: File[], type) {
     // const uri = this.apiURL + 'leddesigner/schedule/continuous';
@@ -86,6 +103,7 @@ export class SchedulesService {
     // *******OLDER ********
     // {"priority": 1,"scheduleName": "myFirstContinueSchedule.yml","startDate": "2018-01-02",
     // "endDate": "2018-01-01","startTime": "01:00","endTime": "01:00","userid": 5 }
+
     if (type === this.config.SCHE_CONT) {
       this.scheduleData = '{' +
         '"priority": ' + Number(data.priority) + ',' +
@@ -171,6 +189,8 @@ export class SchedulesService {
       //   '"type": "' + type + '",' +
       //   '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
     }
+
+
     // this.schedule = scheduleData.toString();
     // console.log(this.scheduleData);
     const headers = new HttpHeaders();
@@ -182,7 +202,18 @@ export class SchedulesService {
       this.formdata.append('multipartFiles', file[i]);
     }
     // this.formdata.append('multipartFiles', file);
+    console.log('file => ', file);
+    let dura = '{"map":{';
+    for (let i = 0; i < data.durationList.length; i++) {
+      if (i < data.durationList.length - 1) {
+        dura += '"' + data.durationList[i].name + '":"' + data.durationList[i].regex + '"' + ',';
+      } else {
+        dura += '"' + data.durationList[i].name + '":"' + data.durationList[i].regex + '"}}';
+      }
+    }
     this.formdata.append('scheduleStr', this.scheduleData);
+    this.formdata.append('durationList', dura);
+
     // this.formdata.append('priority', data.priority);
     // this.formdata.append('startdate', data.startdate);
     // this.formdata.append('enddate', data.enddate);
@@ -278,8 +309,18 @@ export class SchedulesService {
     for (let i = 0; i < file.length; i++) {
       this.formdata.append('multipartFiles', file[i]);
     }
+    console.log('file => ', file);
     // this.formdata.append('multipartFiles', file);
+    let dura = '{"map":{';
+    for (let i = 0; i < data.durationList.length; i++) {
+      if (i < data.durationList.length - 1) {
+        dura += '"' + data.durationList[i].name + '":"' + data.durationList[i].regex + '"' + ',';
+      } else {
+        dura += '"' + data.durationList[i].name + '":"' + data.durationList[i].regex + '"}}';
+      }
+    }
     this.formdata.append('scheduleStr', this.scheduleData);
+    this.formdata.append('durationList', dura);
 
     return this
       .http

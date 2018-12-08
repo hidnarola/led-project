@@ -10,6 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 // declare var jwplayer: any;
 // declare var videojs: any;
 import { DateTime } from 'luxon';
+import { stringify } from '@angular/compiler/src/util';
 @Component({
   selector: 'app-create-schedule',
   templateUrl: './create-schedule.component.html',
@@ -17,6 +18,7 @@ import { DateTime } from 'luxon';
 })
 export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy {
   ms24 = 86400000;
+  durationList: any = [];
   // private videoJSplayer: any;
   myAnimationFile: boolean;
   myImageFile: boolean;
@@ -31,8 +33,9 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
   // maxYearDate: Date;
   // dobYearRange = '';
   myfile: any;
-  fileToUpload: File[] = [];
-  filesToUpload: FileList;
+  // fileToUpload: File[] = [];
+  fileToUpload: any[] = [];
+  filesToUpload: any = [];
   // fileToUpload: FileList;
   // fileToUpload: File;
   imageUrl = this.sanitizer.bypassSecurityTrustUrl('/assets/images/signature.png');
@@ -281,9 +284,12 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
       this.notifier.notify('warning', 'Same File Name Exist.');
       // isMatched = true;
     } else {
+      file.duration = '00:00:06';
       this.fileToUpload.push(file);
       this.fileNamesList.push(file.name);
-      this.filesToUpload = file;
+      // console.log('file => ', file);
+      // this.filesToUpload.duration.push('00:00:06');
+      // this.filesToUpload.files.push(file);
       // this.notifier.notify('info', 'Unique.');
       // isMatched = false;
     }
@@ -354,16 +360,45 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
 
   deleteImage(index) {
     this.fileToUpload.splice(index, 1);
+    this.fileNamesList.splice(index, 1);
+    // this.filesToUpload.splice(index, 1);
     this.isPreviewImage = false;
     this.myfile = '';
   }
-
+  timeToMS(strtime) {
+    let ms = 0;
+    const HH = strtime.split(':')[0] * 60 * 60 * 1000;
+    const mm = strtime.split(':')[1] * 60 * 1000;
+    const ss = strtime.split(':')[2] * 1000;
+    ms = HH + mm + ss;
+    return ms;
+  }
   onSubmit() {
 
-    // // console.log(this.model);
     this.spinner.show();
-    // if (this.repeat === this.config.SCHE_CONT) {
+    // const dura = new Map<string, string>();
+    // let dura = '{';
+    this.durationList = [];
+    this.fileToUpload.forEach(file => {
+      // console.log('file.duration => ', file.duration);
+      // dura.push({
+      //   ['"' + file.name + '"']: this.timeToMS(file.duration)
+      // });
+      // dura += '"' + file.name + '":' + '"' + this.timeToMS(file.duration) + '"';
+
+      const dura: any = {};
+      dura.name = file.name;
+      dura.regex = this.timeToMS(file.duration);
+      this.durationList.push(dura);
+      // dura.set(file.name, this.timeToMS(file.duration).toString());
+    });
+    // dura += '}';
+    this.model.durationList = this.durationList;
+    // console.log('fileToUpload => ', this.fileToUpload);
+    // console.log('model => ', this.model);
     this.service.createSchedule(this.model, this.fileToUpload, this.repeat).subscribe(res => {
+      console.log('res => ', res);
+      this.spinner.hide();
     }, error => {
       if (error.status === 201) {
         this.notifier.notify('success', 'Scheduled Stored Successfully');

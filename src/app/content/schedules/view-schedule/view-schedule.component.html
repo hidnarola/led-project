@@ -108,6 +108,7 @@
                   <tr>
                     <th>SR</th>
                     <th>Image Name</th>
+                    <th>Duration (HH:mm:ss)</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -115,6 +116,9 @@
                   <tr *ngFor="let file of files; let i = index">
                     <td>{{i + 1}}</td>
                     <td> {{file.path}} </td>
+                    <td>
+                      {{msToTime(file.duration)}}
+                    </td>
                     <td>
                       <button class="btn btn-primary" (click)="imagePreview(file.path)"><i class="icon icon-display">
                           Preview</i></button>
