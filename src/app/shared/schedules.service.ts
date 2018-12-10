@@ -321,7 +321,7 @@ export class SchedulesService {
     }
     this.formdata.append('scheduleStr', this.scheduleData);
     this.formdata.append('durationList', dura);
-
+    this.formdata.append('oldFileName', data.oldScheduleName);
     return this
       .http
       .post(uri, this.formdata, { headers })

@@ -14,6 +14,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./edit-schedule.component.css']
 })
 export class EditScheduleComponent implements OnInit {
+  oldScheduleName: string;
   ms24 = 86400000;
   durationList: any = [];
   myAnimationFile: boolean;
@@ -62,10 +63,11 @@ export class EditScheduleComponent implements OnInit {
       // // console.log(params['id']);
       this.service.getScheduleById(params['id']).subscribe(res => {
         this.res = res;
+        console.log('this.res => ', this.res);
         this.repeat = this.res.type;
         this.model = this.res.schduleDTO;
         this.files = this.res.multipartImages;
-
+        this.oldScheduleName = this.res.schduleDTO.scheduleName;
         // Set Date to datepicker
         let year = this.model.startDate.year;
         let month = ('0' + this.model.startDate.monthValue).slice(-2);
@@ -475,6 +477,7 @@ export class EditScheduleComponent implements OnInit {
       this.durationList.push(dura);
     });
     this.model.durationList = this.durationList;
+    this.model.oldScheduleName = this.oldScheduleName;
     this.service.updateSChedule(this.model, this.fileToUpload, this.repeat).subscribe(res => {
       console.log('res => ', res);
       this.spinner.hide();
