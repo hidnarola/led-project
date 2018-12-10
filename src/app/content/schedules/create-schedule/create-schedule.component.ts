@@ -287,6 +287,13 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
       file.duration = '00:00:06';
       this.fileToUpload.push(file);
       this.fileNamesList.push(file.name);
+      if (file.type.substr(0, 5) === 'video') {
+        this.service.addForPreview(file).subscribe(res => {
+          console.log('addForPreview -> res => ', res);
+        }, error => {
+          console.log('addForPreview -> error => ', error);
+        });
+      }
       // console.log('file => ', file);
       // this.filesToUpload.duration.push('00:00:06');
       // this.filesToUpload.files.push(file);
@@ -325,7 +332,30 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
     // console.log(this.filesToUpload);
   }
 
-  showImagePreview(file: File) {
+  getConvertedFile(filename) {
+    this.service.getForPreview(filename).subscribe(res => {
+      const uint = new Uint8Array(res.slice(0, 4));
+      const bytes = [];
+      uint.forEach((byte) => {
+        bytes.push(byte.toString(16));
+      });
+      const hex = bytes.join('').toUpperCase();
+      const binaryFileType = this.getMimetype(hex);
+      // console.log(binaryFileType + ' ' + hex);
+      if (binaryFileType === 'Unknown filetype') {
+        this.notifier.notify('warning', 'Unknown File Type or Currupted File');
+      } else {
+        const file = new Blob([new Uint8Array(res)], { type: binaryFileType });
+        this.showImagePreview(file);
+      }
+      this.spinner.hide();
+    },
+      error => {
+        console.log('getConvertedFile: Eroor => ', error);
+      });
+  }
+
+  showImagePreview(file: Blob) {
     // Show image preview
     this.spinner.show();
     const reader = new FileReader();

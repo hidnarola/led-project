@@ -299,6 +299,13 @@ export class EditScheduleComponent implements OnInit {
       file.duration = '00:00:06';
       this.fileToUpload.push(file);
       this.fileNamesList.push(file.name);
+      if (file.type.substr(0, 5) === 'video') {
+        this.service.addForPreview(file).subscribe(res => {
+          console.log('addForPreview -> res => ', res);
+        }, error => {
+          console.log('addForPreview -> error => ', error);
+        });
+      }
       // this.filesToUpload = file;
       // this.notifier.notify('info', 'Unique.');
       // isMatched = false;
@@ -370,7 +377,28 @@ export class EditScheduleComponent implements OnInit {
   //   };
   //   reader.readAsDataURL(file);
   // }
-
+  getConvertedFile(filename) {
+    this.service.getForPreview(filename).subscribe(res => {
+      const uint = new Uint8Array(res.slice(0, 4));
+      const bytes = [];
+      uint.forEach((byte) => {
+        bytes.push(byte.toString(16));
+      });
+      const hex = bytes.join('').toUpperCase();
+      const binaryFileType = this.getMimetype(hex);
+      // console.log(binaryFileType + ' ' + hex);
+      if (binaryFileType === 'Unknown filetype') {
+        this.notifier.notify('warning', 'Unknown File Type or Currupted File');
+      } else {
+        const file = new Blob([new Uint8Array(res)], { type: binaryFileType });
+        this.showImagePreview(file);
+      }
+      this.spinner.hide();
+    },
+      error => {
+        console.log('getConvertedFile: Eroor => ', error);
+      });
+  }
   showImagePreview(file: Blob) {
     this.spinner.show();
     // Show image preview
@@ -412,6 +440,9 @@ export class EditScheduleComponent implements OnInit {
     this.isPreviewObject = false;
     this.myfile = '';
   }
+  edeleteImage(index) {
+    this.files.splice(index, 1);
+  }
   timeToMS(strtime) {
     let ms = 0;
     const HH = strtime.split(':')[0] * 60 * 60 * 1000;
@@ -434,6 +465,9 @@ export class EditScheduleComponent implements OnInit {
       this.model.weekDays = [];
     }
     this.durationList = [];
+    // this.files.forEach(file => {
+    //   this.fileToUpload.push(file);
+    // });
     this.fileToUpload.forEach(file => {
       const dura: any = {};
       dura.name = file.name;

@@ -280,18 +280,16 @@
               <i>On Date: {{ model.onDate | date: ' dd-MMMM' }}</i>
             </div>
           </div>
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-md-6">
               <div class="form-group">
                 <label class="form-label">Duration</label>
-                <!-- <input type="time" class="form-control" placeholder="HH:mm:ss" name="duration" [(ngModel)]="model.duration"
-                    #duration="ngModel" [ngClass]="{ 'is-invalid': f.submitted && duration.invalid }" required> -->
                 <div>
                   <p-inputMask [(ngModel)]="model.duration" max="24:00:00" name="duration" mask="99:99:99" placeholder="HH:mm:ss"></p-inputMask>
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="row">
             <div class="col-md-12">
               <!-- <input type='file' (change)="onSelectFile($event)" multiple> -->
@@ -346,6 +344,8 @@
                         <i class="icon icon-display">
                           Preview
                         </i></a>
+                      <button type="button" class="btn btn-danger" (click)="edeleteImage(i)"><i class="icon icon-trash"></i>
+                        Delete</button>
                     </td>
                   </tr>
                 </tbody>
@@ -373,8 +373,13 @@
                     </td>
                     <td *ngIf="file.type.substr(0,5) === 'video'">
                     </td>
-                    <td class="text-right"><button type="button" class="btn btn-primary" (click)="showImagePreview(file)"><i
-                          class="icon icon-display"></i>
+                    <td class="text-right" *ngIf="file.type.substr(0,5) === 'image'"><button type="button" class="btn btn-primary"
+                        (click)="showImagePreview(file)"><i class="icon icon-display"></i>
+                        Preview</button>
+                      <button type="button" class="btn btn-danger" (click)="deleteImage(i)"><i class="icon icon-trash"></i>
+                        Delete</button></td>
+                    <td class="text-right" *ngIf="file.type.substr(0,5) === 'video'"><button type="button" class="btn btn-primary"
+                        (click)="getConvertedFile(file.name)"><i class="icon icon-display"></i>
                         Preview</button>
                       <button type="button" class="btn btn-danger" (click)="deleteImage(i)"><i class="icon icon-trash"></i>
                         Delete</button></td>

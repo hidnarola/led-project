@@ -324,7 +324,7 @@ export class SchedulesService {
 
     return this
       .http
-      .put(uri, this.formdata, { headers })
+      .post(uri, this.formdata, { headers })
       .map(res => {
         // console.log(res);
         return res;
@@ -581,6 +581,38 @@ export class SchedulesService {
         // console.log(res);
         return res;
       });
+  }
+
+  addForPreview(file) {
+    const uri = this.apiURL + 'leddesigner/schedule/addPreview';
+
+    const headers = new HttpHeaders();
+    // this is the important step. You need to set content type as null
+    headers.set('Content-Type', null);
+    headers.set('Accept', 'multipart/form-data');
+    this.formdata = new FormData();
+    this.formdata.append('file', file);
+    return this
+      .http
+      .post(uri, this.formdata, { headers })
+      .map(res => {
+        // console.log(res);
+        return res;
+      });
+  }
+  getForPreview(filename) {
+    const uri = this.apiURL + 'leddesigner/schedule/addfilePreview?fileName=' + filename;
+
+    return this.http
+      .get(uri
+        // , { responseType: 'blob' }
+        , { responseType: 'arraybuffer' }
+      )
+      .pipe(map(res => {
+        // // console.log(res);
+        return res;
+      }
+      ));
   }
   // Functions
   getValueOfScheduleMonthDays(days) {
