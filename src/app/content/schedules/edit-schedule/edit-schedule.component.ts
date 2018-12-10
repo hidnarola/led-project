@@ -403,6 +403,7 @@ export class EditScheduleComponent implements OnInit {
   }
   showImagePreview(file: Blob) {
     this.spinner.show();
+    this.isPreviewVideo = false;
     // Show image preview
     const reader = new FileReader();
     reader.onload = (event: any) => {

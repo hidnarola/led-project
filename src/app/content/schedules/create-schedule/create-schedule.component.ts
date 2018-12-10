@@ -358,6 +358,7 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
   showImagePreview(file: Blob) {
     // Show image preview
     this.spinner.show();
+    this.isPreviewVideo = false;
     this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(null);
     const reader = new FileReader();
     reader.onload = (event: any) => {
@@ -394,6 +395,8 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
     this.fileNamesList.splice(index, 1);
     // this.filesToUpload.splice(index, 1);
     this.isPreviewImage = false;
+    this.isPreviewVideo = false;
+    this.isPreviewObject = false;
     this.myfile = '';
   }
   timeToMS(strtime) {
