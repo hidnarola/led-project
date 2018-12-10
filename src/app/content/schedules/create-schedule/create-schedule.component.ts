@@ -358,6 +358,7 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
   showImagePreview(file: Blob) {
     // Show image preview
     this.spinner.show();
+    this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(null);
     const reader = new FileReader();
     reader.onload = (event: any) => {
       this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(event.target.result);

@@ -112,7 +112,7 @@ export class SchedulesService {
         '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
-        '"duration": "' + this.timeToMS(data.duration) + '",' +
+        // // '"duration": "' + this.timeToMS(data.duration) + '",' +
         '"type": "' + type + '",' +
         '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
     } else if (type === this.config.SCHE_DAYL) {
@@ -123,7 +123,7 @@ export class SchedulesService {
         '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
-        '"duration": "' + this.timeToMS(data.duration) + '",' +
+        // '"duration": "' + this.timeToMS(data.duration) + '",' +
         '"moduloYDay": ' + ((data.moduloYDay) ? data.moduloYDay : 0) + ',' +
         '"type": "' + type + '",' +
         '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
@@ -135,7 +135,7 @@ export class SchedulesService {
         '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
-        '"duration": "' + this.timeToMS(data.duration) + '",' +
+        // '"duration": "' + this.timeToMS(data.duration) + '",' +
         '"weekDays": [' + ((data.weekDays) ? data.weekDays : 7) + '],' +
         '"moduloWeek": ' + ((data.moduloWeek) ? data.moduloWeek : 0) + ',' +
         '"type": "' + type + '",' +
@@ -148,7 +148,7 @@ export class SchedulesService {
         '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
-        '"duration": "' + this.timeToMS(data.duration) + '",' +
+        // '"duration": "' + this.timeToMS(data.duration) + '",' +
         '"scheduleMonthDays": ' + ((data.scheduleMonthDays) ? data.scheduleMonthDays : 31) + ',' +
         '"scheduleMonths": [' + ((data.scheduleMonths) ? data.scheduleMonths : '') + '],' +
         '"weekDays": [' + ((data.weekDays) ? data.weekDays : 7) + '],' +
@@ -163,7 +163,7 @@ export class SchedulesService {
         '"lastYear": "' + ((data.lastYear) ? data.lastYear : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
-        '"duration": "' + this.timeToMS(data.duration) + '",' +
+        // '"duration": "' + this.timeToMS(data.duration) + '",' +
         '"onDate": "' + ((data.onDate) ? data.onDate : '') + '",' +
         '"type": "' + type + '",' +
         '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
@@ -243,7 +243,7 @@ export class SchedulesService {
         '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
-        '"duration": "' + this.timeToMS(data.duration) + '",' +
+        // '"duration": "' + this.timeToMS(data.duration) + '",' +
         '"type": "' + type + '",' +
         '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
     } else if (type === this.config.SCHE_DAYL) {
@@ -254,7 +254,7 @@ export class SchedulesService {
         '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
-        '"duration": "' + this.timeToMS(data.duration) + '",' +
+        // '"duration": "' + this.timeToMS(data.duration) + '",' +
         '"moduloYDay": ' + ((data.moduloYDay) ? data.moduloYDay : 0) + ',' +
         '"type": "' + type + '",' +
         '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
@@ -266,7 +266,7 @@ export class SchedulesService {
         '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
-        '"duration": "' + this.timeToMS(data.duration) + '",' +
+        // '"duration": "' + this.timeToMS(data.duration) + '",' +
         '"weekDays": [' + ((data.weekDays) ? data.weekDays : 0) + '],' +
         '"moduloWeek": ' + ((data.moduloWeek) ? data.moduloWeek : 0) + ',' +
         '"type": "' + type + '",' +
@@ -279,7 +279,7 @@ export class SchedulesService {
         '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
-        '"duration": "' + this.timeToMS(data.duration) + '",' +
+        // '"duration": "' + this.timeToMS(data.duration) + '",' +
         '"scheduleMonthDays": ' + ((data.scheduleMonthDays) ? data.scheduleMonthDays : 0) + ',' +
         '"scheduleMonths": [' + ((data.scheduleMonths) ? data.scheduleMonths : '') + '],' +
         '"weekDays": [' + ((data.weekDays) ? data.weekDays : '') + '],' +
@@ -294,7 +294,7 @@ export class SchedulesService {
         '"lastYear": "' + ((data.lastYear) ? data.lastYear : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
-        '"duration": "' + this.timeToMS(data.duration) + '",' +
+        // '"duration": "' + this.timeToMS(data.duration) + '",' +
         '"onDate": "' + ((data.onDate) ? data.onDate : '') + '",' +
         '"type": "' + type + '",' +
         '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
