@@ -1,188 +1,159 @@
-<!-- <div *ngIf="CONFIG.SCHE_CONT === repeat">Continue</div>
-<div *ngIf="CONFIG.SCHE_DAYL === repeat">Daily</div> -->
+<!-- Main content -->
+<div class="content-wrapper">
 
-<app-header></app-header>
 
-<!-- Page container -->
-<div class="page-container">
+  <!-- Page header -->
+  <div class="page-header page-header-default">
+    <div class="page-header-content">
+      <div class="page-title">
+        <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Schedules</span> - View
+          Schedule ( {{repeat}} )</h4>
+      </div>
 
-  <!-- Page content -->
-  <div class="page-content">
-
-    <!-- Main sidebar -->
-    <div class="sidebar sidebar-main">
-      <div class="sidebar-content">
-
-        <!-- User menu -->
-        <div class="sidebar-user">
-          <div class="category-content">
-            <div class="media">
-              <a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
-              <div class="media-body">
-                <span class="media-heading text-semibold">{{ user_name }}</span>
-                <div class="text-size-mini text-muted">
-                  <i class="icon-user3 text-size-small"></i> &nbsp;{{ user_role }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- /user menu -->
-
-        <!-- Main navigation -->
-        <div class="sidebar-category sidebar-category-visible">
-          <div class="category-content no-padding">
-            <ul class="navigation navigation-main navigation-accordion">
-
-              <!-- Main -->
-              <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
-              <li><a href="" routerLink="/home"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
-              <li class="active"><a href="" routerLink="/schedules"><i class="icon-calendar5"></i> <span>Schedules</span></a></li>
-              <li><a href="" routerLink="/signs"><i class="icon-display"></i> <span>My Signs</span></a></li>
-              <!-- /main -->
-
-            </ul>
-          </div>
-        </div>
-        <!-- /main navigation -->
+      <div class="heading-elements">
 
       </div>
     </div>
-    <!-- /main sidebar -->
 
+    <div class="breadcrumb-line">
+      <ul class="breadcrumb">
+        <li><a href="" routerLink="/home"><i class="icon-home2 position-left"></i> Home</a></li>
+        <li><a href="" routerLink="/user/schedules"><i class="icon-task position-left"></i> Schedule</a></li>
+        <li class="active">View Schedule ( {{ repeat }} ) </li>
+      </ul>
 
-    <!-- Main content -->
-    <div class="content-wrapper">
+    </div>
+  </div>
+  <!-- /page header -->
 
+  <!-- Content area -->
+  <div class="content">
 
-      <!-- Page header -->
-      <div class="page-header page-header-default">
-        <div class="page-header-content">
-          <div class="page-title">
-            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Schedules</span> - View
-              Schedule ( {{repeat}} )</h4>
-          </div>
-
-          <div class="heading-elements">
-
-          </div>
-        </div>
-
-        <div class="breadcrumb-line">
-          <ul class="breadcrumb">
-            <li><a href="" routerLink="/home"><i class="icon-home2 position-left"></i> Home</a></li>
-            <li><a href="" routerLink="/schedules"><i class="icon-task position-left"></i> Schedule</a></li>
-            <li class="active">View Schedule ( {{ repeat }} ) </li>
-          </ul>
+    <div class="panel panel-flat">
+      <div class="panel-heading">
+        <h5 class="panel-title">{{ repeat }} Schedule</h5>
+        <div class="heading-elements">
 
         </div>
       </div>
-      <!-- /page header -->
 
-      <!-- Content area -->
-      <div class="content">
-
-        <div class="panel panel-flat">
-          <div class="panel-heading">
-            <h5 class="panel-title">{{ repeat }} Schedule</h5>
-            <div class="heading-elements">
-
-            </div>
-          </div>
-
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="panel panel-body border-top-info">
-                  <!-- <h6 class="no-margin text-semibold">Horizontal description list</h6>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-body border-top-info">
+              <!-- <h6 class="no-margin text-semibold">Horizontal description list</h6>
                   <p class="content-group-sm text-muted">Horizontal list of terms with their associated descriptions.</p> -->
 
-                  <div class="well">
-                    <dl class="dl-horizontal">
-                      <dt>Schedule Name</dt>
-                      <dd>{{ dto?.scheduleName }}</dd>
-                      <dt>Priority</dt>
-                      <dd>{{ dto?.priority }}</dd>
-                      <hr />
-                      <div *ngIf="CONFIG.SCHE_YEAR === repeat">
-                        <dt>First Year</dt>
-                        <dd>{{dto?.startDate.year}}</dd>
-                        <dt>Last Year</dt>
-                        <dd>{{dto?.endDate.year}}</dd>
-                        <dt>On Date</dt>
-                        <dd>{{ dto?.scheduleMonthDays - 1 }} {{ CONFIG.MONTHS[dto?.scheduleMonths - 1 ] }}</dd>
-                      </div>
-                      <div *ngIf="CONFIG.SCHE_YEAR !== repeat">
-                        <dt>Start Date</dt>
-                        <dd>{{ dto?.startDate.dayOfMonth }} {{ dto?.startDate.month }} {{dto?.startDate.year}}</dd>
-                        <dt>End Date</dt>
-                        <dd>{{ dto?.endDate.dayOfMonth }} {{ dto?.endDate.month }} {{dto?.endDate.year}}</dd>
-                      </div>
-                      <hr />
-                      <dt>Start Time</dt>
-                      <dd>{{ dto?.startTime }}</dd>
-                      <dt>End Time</dt>
-                      <dd>{{ dto?.endTime }}</dd>
-                      <div *ngIf="CONFIG.SCHE_DAYL === repeat">
-                        <hr />
-                        <dt>N-th Day</dt>
-                        <dd>{{ dto?.moduloYDay }}</dd>
-                      </div>
-                      <div *ngIf="CONFIG.SCHE_WEEK === repeat">
-                        <hr />
-                        <dt>Every N-th Week</dt>
-                        <dd>{{ dto.moduloWeek }}</dd>
-                        <dt>Week Days</dt>
-                        <dd><span *ngFor="let day of dto?.weekDays">{{ CONFIG.DAYS[day] }}&nbsp;</span></dd>
-                      </div>
-                      <div *ngIf="CONFIG.SCHE_MONT === repeat">
-                        <hr />
-                        <dt>On Month Day</dt>
-                        <dd>{{ dto?.scheduleMonthDays === 1 ? '-' : dto?.scheduleMonthDays }}</dd>
-                        <!-- <dt>Week / Month Days</dt>
-                        <dd></dd> -->
-                        <dt>On Week Days</dt>
-                        <dd><i *ngIf="dto?.weekDays.length === 0">-</i>
-                          <span *ngFor="let day of dto?.weekDays">{{
-                            CONFIG.DAYS[day] }}&nbsp;</span></dd>
-                        <dt>On Month</dt>
-                        <dd><span *ngFor="let month of dto?.scheduleMonths">{{ CONFIG.MONTHS[month] }}&nbsp;</span></dd>
-                      </div>
-                    </dl>
+              <div class="well">
+                <dl class="dl-horizontal">
+                  <dt>Schedule Name</dt>
+                  <dd>{{ dto?.scheduleName }}</dd>
+                  <dt>Priority</dt>
+                  <dd>{{ dto?.priority }}</dd>
+                  <hr />
+                  <div *ngIf="CONFIG.SCHE_YEAR === repeat">
+                    <dt>First Year</dt>
+                    <dd>{{dto?.startDate.year}}</dd>
+                    <dt>Last Year</dt>
+                    <dd>{{dto?.endDate.year}}</dd>
+                    <dt>On Date</dt>
+                    <dd>{{ dto?.scheduleMonthDays - 1 }} {{ CONFIG.MONTHS[dto?.scheduleMonths - 1 ] }}</dd>
                   </div>
-                  <!-- <div *ngFor="let file of files; let i = index">
+                  <div *ngIf="CONFIG.SCHE_YEAR !== repeat">
+                    <dt>Start Date</dt>
+                    <dd>{{ dto?.startDate.dayOfMonth }} {{ dto?.startDate.month }} {{dto?.startDate.year}}</dd>
+                    <dt>End Date</dt>
+                    <dd>{{ dto?.endDate.dayOfMonth }} {{ dto?.endDate.month }} {{dto?.endDate.year}}</dd>
+                  </div>
+                  <hr />
+                  <dt>Start Time</dt>
+                  <dd>{{ dto?.startTime }}</dd>
+                  <dt>End Time</dt>
+                  <dd>{{ dto?.endTime }}</dd>
+                  <div *ngIf="CONFIG.SCHE_DAYL === repeat">
+                    <hr />
+                    <dt>N-th Day</dt>
+                    <dd>{{ dto?.moduloYDay }}</dd>
+                  </div>
+                  <div *ngIf="CONFIG.SCHE_WEEK === repeat">
+                    <hr />
+                    <dt>Every N-th Week</dt>
+                    <dd>{{ dto.moduloWeek }}</dd>
+                    <dt>Week Days</dt>
+                    <dd><span *ngFor="let day of dto?.weekDays">{{ CONFIG.DAYS[day] }}&nbsp;</span></dd>
+                  </div>
+                  <div *ngIf="CONFIG.SCHE_MONT === repeat">
+                    <hr />
+                    <dt>On Month Day</dt>
+                    <dd>{{ dto?.scheduleMonthDays ? dto?.scheduleMonthDays : '-' }}</dd>
+                    <!-- <dt>Week / Month Days</dt>
+                        <dd></dd> -->
+                    <dt>On Week Days</dt>
+                    <dd><i *ngIf="dto?.weekDays.length === 0">-</i>
+                      <span *ngFor="let day of dto?.weekDays">{{
+                        CONFIG.DAYS[day] }}&nbsp;</span></dd>
+                    <dt>On Month</dt>
+                    <dd><span *ngFor="let month of dto?.scheduleMonths">{{ CONFIG.MONTHS[month] }}&nbsp;</span></dd>
+                  </div>
+                </dl>
+              </div>
+              <!-- <div *ngFor="let file of files; let i = index">
                     <img [src]="file.path" style="max-width:100%;width:auto;height:100px" alt={{file.path}}>&nbsp;
                   </div> -->
-                  <ul *ngFor="let file of files; let i = index">
-                    <li (click)="imagePreview(file.path)">{{file.path}}</li>
-                  </ul>
-                  <i><small>Note: Click on image name to show preview</small></i>
-                  <div class="text-center">
-                    <img *ngIf="isPreview" [src]="imageUrl" alt="image" style="width:auto;height:auto">
-                  </div>
-                  <!-- Get File Types -->
-                  <!-- <input type="file" id="file-selector" (change)="onChangeInput($event)">
-                  <div id="files"></div> -->
-                </div>
+              <!-- <ul *ngFor="let file of files; let i = index">
+                <li (click)="imagePreview(file.path)"><i class="icon icon-display"></i> {{file.path}} </li>
+              </ul> -->
+              <table class=" table table-strip table-responsive" *ngIf="files.length > 0">
+                <thead>
+                  <tr>
+                    <th>SR</th>
+                    <th>Image Name</th>
+                    <th>Duration (HH:mm:ss)</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let file of files; let i = index">
+                    <td>{{i + 1}}</td>
+                    <td> {{file.path}} </td>
+                    <td>
+                      {{msToTime(file.duration)}}
+                    </td>
+                    <td>
+                      <button class="btn btn-primary" (click)="imagePreview(file.path)"><i class="icon icon-display">
+                          Preview</i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- <i><small>Note: Click on image name to show preview</small></i> -->
+              <div class="text-center">
+                <object *ngIf="isPreviewObject" [data]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></object>
+                <!-- <embed *ngIf="isPreviewObject" [attr.src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px" /> -->
+                <!-- <iframe *ngIf="isPreviewObject" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></iframe> -->
+                <img *ngIf="isPreviewImage" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px">
+                <video *ngIf="isPreviewVideo" height="auto" style="max-width:100%;width:auto;max-height:300px" autoplay
+                  loop>
+                  <source [src]="imageUrl" [type]="videoType">
+                  Your browser does not support the video tag.</video>
               </div>
+              <!-- Get File Types -->
+              <!-- <input type="file" id="file-selector" (change)="onChangeInput($event.target.files)">
+              <div id="files"></div> -->
             </div>
           </div>
-
         </div>
-
-
-        <!-- Footer -->
-        <app-footer></app-footer>
-        <!-- /footer -->
-
       </div>
-      <!-- /content area -->
 
     </div>
-    <!-- /main content -->
+
+
+    <!-- Footer -->
+    <app-footer></app-footer>
+    <!-- /footer -->
 
   </div>
-  <!-- /page content -->
+  <!-- /content area -->
 
 </div>
-<!-- /page container -->
+<!-- /main content -->

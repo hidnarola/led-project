@@ -1,0 +1,38 @@
+
+.my-pagination /deep/ .ngx-pagination .current {
+    background: #007ad9 !important;
+    width: 30px;
+    text-align: center
+}
+.my-pagination /deep/ .ngx-pagination .disabled {
+    padding: 3px 16px;
+    color: #cacaca;
+    cursor: default;
+    background: #e4e4e4;
+    color: #7f7f7f;
+  }
+  .my-pagination /deep/ .ngx-pagination li {
+    margin: 0 5px;
+  }
+  .my-pagination /deep/ .ngx-pagination {
+    text-align: center !important;
+    padding-left: 0;
+}
+
+.select_schedule_section .button{
+    color: #007ad9;
+    font-size: 16px;
+    background: #eaeaea;
+    padding: 4px 20px;
+    margin-bottom: 20px;
+    margin-left: 30px;
+}
+.select_schedule_section .button i{
+    margin-right: 7px;
+}
+@media (max-width: 767px){
+
+  .my-pagination /deep/ .ngx-pagination {
+    margin-top: 12px;
+  }
+  }

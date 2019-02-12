@@ -3460,7 +3460,7 @@ li + .dropdown-header.highlight,
 .navbar-btn {
   margin-left: 20px;
 }
- + .navbar-btn {
+ .navbar-btn {
   margin-left: 0;
 }
 .navbar-btn,

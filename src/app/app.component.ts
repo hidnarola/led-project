@@ -7,11 +7,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'led-project';
+  isLoggedin: boolean;
   mobileMenuActive: boolean;
 
   onMobileMenuButton(event) {
     this.mobileMenuActive = !this.mobileMenuActive;
     event.preventDefault();
+  }
+
+  setIsLoggedin(value) {
+    this.isLoggedin = value;
   }
 
   hideMobileMenu(event) {

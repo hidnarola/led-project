@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import { map } from 'rxjs/operators';
 
 import { Config } from '../shared/config';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,10 +18,37 @@ export class SchedulesService {
 
   convertToOnDate(date) {
     const dt = new Date(date);
-    console.log(date + ' : ' + dt.getDate() + '-' + dt.getMonth());
+    // console.log(date + ' : ' + dt.getDate() + '-' + dt.getMonth());
     return dt.getDate() + '-' + dt.getMonth();
   }
+  timeToMS(strtime) {
+    let ms = 0;
+    const HH = strtime.split(':')[0] * 60 * 60 * 1000;
+    const mm = strtime.split(':')[1] * 60 * 1000;
+    const ss = strtime.split(':')[2] * 1000;
+    ms = HH + mm + ss;
+    return ms;
+  }
+  pad(n, width) {
+    const z = '0';
+    n = n + '';
+    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+  }
 
+  msToTime(s) {
+    if (s) {
+      const ms = s % 1000;
+      s = (s - ms) / 1000;
+      const secs = s % 60;
+      s = (s - secs) / 60;
+      const mins = s % 60;
+      const hrs = (s - mins) / 60;
+
+      return this.pad(hrs, 2) + ':' + this.pad(mins, 2) + ':' + this.pad(secs, 2);
+    } else {
+      return '';
+    }
+  }
   createSchedule(data, file: File[], type) {
     // const uri = this.apiURL + 'leddesigner/schedule/continuous';
     const uri = this.apiURL + 'leddesigner/schedule/add';
@@ -75,6 +103,7 @@ export class SchedulesService {
     // *******OLDER ********
     // {"priority": 1,"scheduleName": "myFirstContinueSchedule.yml","startDate": "2018-01-02",
     // "endDate": "2018-01-01","startTime": "01:00","endTime": "01:00","userid": 5 }
+
     if (type === this.config.SCHE_CONT) {
       this.scheduleData = '{' +
         '"priority": ' + Number(data.priority) + ',' +
@@ -83,6 +112,7 @@ export class SchedulesService {
         '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
+        // // '"duration": "' + this.timeToMS(data.duration) + '",' +
         '"type": "' + type + '",' +
         '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
     } else if (type === this.config.SCHE_DAYL) {
@@ -93,6 +123,7 @@ export class SchedulesService {
         '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
+        // '"duration": "' + this.timeToMS(data.duration) + '",' +
         '"moduloYDay": ' + ((data.moduloYDay) ? data.moduloYDay : 0) + ',' +
         '"type": "' + type + '",' +
         '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
@@ -104,7 +135,8 @@ export class SchedulesService {
         '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
-        '"weekDays": [' + ((data.weekDays) ? data.weekDays : 0) + '],' +
+        // '"duration": "' + this.timeToMS(data.duration) + '",' +
+        '"weekDays": [' + ((data.weekDays) ? data.weekDays : 7) + '],' +
         '"moduloWeek": ' + ((data.moduloWeek) ? data.moduloWeek : 0) + ',' +
         '"type": "' + type + '",' +
         '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
@@ -116,9 +148,10 @@ export class SchedulesService {
         '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
-        '"scheduleMonthDays": ' + ((data.scheduleMonthDays) ? data.scheduleMonthDays : 0) + ',' +
+        // '"duration": "' + this.timeToMS(data.duration) + '",' +
+        '"scheduleMonthDays": ' + ((data.scheduleMonthDays) ? data.scheduleMonthDays : 31) + ',' +
         '"scheduleMonths": [' + ((data.scheduleMonths) ? data.scheduleMonths : '') + '],' +
-        '"weekDays": [' + ((data.weekDays) ? data.weekDays : '') + '],' +
+        '"weekDays": [' + ((data.weekDays) ? data.weekDays : 7) + '],' +
         '"type": "' + type + '",' +
         '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
     } else if (type === this.config.SCHE_YEAR) {
@@ -130,6 +163,7 @@ export class SchedulesService {
         '"lastYear": "' + ((data.lastYear) ? data.lastYear : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
+        // '"duration": "' + this.timeToMS(data.duration) + '",' +
         '"onDate": "' + ((data.onDate) ? data.onDate : '') + '",' +
         '"type": "' + type + '",' +
         '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
@@ -155,8 +189,10 @@ export class SchedulesService {
       //   '"type": "' + type + '",' +
       //   '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
     }
+
+
     // this.schedule = scheduleData.toString();
-    console.log(this.scheduleData);
+    // console.log(this.scheduleData);
     const headers = new HttpHeaders();
     // this is the important step. You need to set content type as null
     headers.set('Content-Type', null);
@@ -166,7 +202,18 @@ export class SchedulesService {
       this.formdata.append('multipartFiles', file[i]);
     }
     // this.formdata.append('multipartFiles', file);
+    console.log('file => ', file);
+    let dura = '{"map":{';
+    for (let i = 0; i < data.durationList.length; i++) {
+      if (i < data.durationList.length - 1) {
+        dura += '"' + data.durationList[i].name + '":"' + data.durationList[i].regex + '"' + ',';
+      } else {
+        dura += '"' + data.durationList[i].name + '":"' + data.durationList[i].regex + '"}}';
+      }
+    }
     this.formdata.append('scheduleStr', this.scheduleData);
+    this.formdata.append('durationList', dura);
+
     // this.formdata.append('priority', data.priority);
     // this.formdata.append('startdate', data.startdate);
     // this.formdata.append('enddate', data.enddate);
@@ -176,10 +223,10 @@ export class SchedulesService {
       .http
       .post(uri, this.formdata, { headers })
       .map(res => {
-        console.log(res);
+        // console.log(res);
         return res;
       }, error => {
-        console.log(error);
+        // console.log(error);
       });
 
 
@@ -196,6 +243,7 @@ export class SchedulesService {
         '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
+        // '"duration": "' + this.timeToMS(data.duration) + '",' +
         '"type": "' + type + '",' +
         '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
     } else if (type === this.config.SCHE_DAYL) {
@@ -206,6 +254,7 @@ export class SchedulesService {
         '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
+        // '"duration": "' + this.timeToMS(data.duration) + '",' +
         '"moduloYDay": ' + ((data.moduloYDay) ? data.moduloYDay : 0) + ',' +
         '"type": "' + type + '",' +
         '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
@@ -217,6 +266,7 @@ export class SchedulesService {
         '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
+        // '"duration": "' + this.timeToMS(data.duration) + '",' +
         '"weekDays": [' + ((data.weekDays) ? data.weekDays : 0) + '],' +
         '"moduloWeek": ' + ((data.moduloWeek) ? data.moduloWeek : 0) + ',' +
         '"type": "' + type + '",' +
@@ -229,6 +279,7 @@ export class SchedulesService {
         '"endDate": "' + ((data.endDate) ? data.endDate : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
+        // '"duration": "' + this.timeToMS(data.duration) + '",' +
         '"scheduleMonthDays": ' + ((data.scheduleMonthDays) ? data.scheduleMonthDays : 0) + ',' +
         '"scheduleMonths": [' + ((data.scheduleMonths) ? data.scheduleMonths : '') + '],' +
         '"weekDays": [' + ((data.weekDays) ? data.weekDays : '') + '],' +
@@ -243,6 +294,7 @@ export class SchedulesService {
         '"lastYear": "' + ((data.lastYear) ? data.lastYear : '') + '",' +
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
+        // '"duration": "' + this.timeToMS(data.duration) + '",' +
         '"onDate": "' + ((data.onDate) ? data.onDate : '') + '",' +
         '"type": "' + type + '",' +
         '"userid": ' + Number(localStorage.getItem('userid')) + ' }';
@@ -257,17 +309,27 @@ export class SchedulesService {
     for (let i = 0; i < file.length; i++) {
       this.formdata.append('multipartFiles', file[i]);
     }
+    console.log('file => ', file);
     // this.formdata.append('multipartFiles', file);
+    let dura = '{"map":{';
+    for (let i = 0; i < data.durationList.length; i++) {
+      if (i < data.durationList.length - 1) {
+        dura += '"' + data.durationList[i].name + '":"' + data.durationList[i].regex + '"' + ',';
+      } else {
+        dura += '"' + data.durationList[i].name + '":"' + data.durationList[i].regex + '"}}';
+      }
+    }
     this.formdata.append('scheduleStr', this.scheduleData);
-
+    this.formdata.append('durationList', dura);
+    this.formdata.append('oldFileName', data.oldScheduleName);
     return this
       .http
-      .put(uri, this.formdata, { headers })
+      .post(uri, this.formdata, { headers })
       .map(res => {
-        console.log(res);
+        // console.log(res);
         return res;
       }, error => {
-        console.log(error.error.message);
+        // console.log(error.error.message);
       });
   }
 
@@ -278,7 +340,7 @@ export class SchedulesService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -290,7 +352,7 @@ export class SchedulesService {
     return this.http
       .delete(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -303,7 +365,7 @@ export class SchedulesService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -315,11 +377,43 @@ export class SchedulesService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
   }
+
+  // from Delete Sign
+  getScheduleBySignId(userid, signId) {
+    const uri = this.apiURL + 'leddesigner/schedule/schedules?signId=' + signId + '&userid=' + userid;
+
+    return this.http
+      .get(uri)
+      .map(res => {
+        return res;
+      }
+      );
+
+  }
+
+  deleteScheduleByUserId(userid, data) {
+    const uri = this.apiURL + 'leddesigner/schedule/deleteSchedule?userid=' + userid;
+
+    const filedata = {
+      entryIPList:
+        data.entryIPList,
+      filePropertiesList:
+        data.filePropertiesList
+    };
+    return this.http
+      .post(uri, filedata)
+      .map(res => {
+        return res;
+      }
+      );
+
+  }
+
 
   getScheduleByUserIdandType(userid, type) {
     const uri = this.apiURL + 'leddesigner/schedule/getSchedulesByUseridAndType?userid=' + userid + '&type=' + type;
@@ -327,7 +421,7 @@ export class SchedulesService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -339,26 +433,29 @@ export class SchedulesService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
   }
 
-  sendFileByUserId(fileList, uid) {
+  sendFileByUserId(data, uid) {
     // const uri = 'http://192.168.100.42:8081/leddesigner/schedule/send?userid=' + uid;
     const uri = this.apiURL + 'leddesigner/schedule/send?userid=' + uid;
     const filedata = {
-      fileTransferDTO: fileList
+      entryIPList:
+        data.entryIPList,
+      filePropertiesList:
+        data.filePropertiesList
     };
     return this
       .http
       .post(uri, filedata)
       .map(res => {
-        console.log(res);
+        // console.log(res);
         return res;
       }, error => {
-        console.log(error);
+        // console.log(error);
       });
 
   }
@@ -372,20 +469,160 @@ export class SchedulesService {
         , { responseType: 'arraybuffer' }
       )
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
   }
 
+  getAnimationLibrary() {
+    // const uri = this.apiURL + 'leddesigner/schedule/allmovies';
+    const uri = this.apiURL + 'leddesigner/schedule/getallvideos';
+    return this.http
+      .get(uri
+        // , { responseType: 'blob' }
+        // , { responseType: 'arraybuffer' }
+      )
+      .pipe(map(res => {
+        // // console.log(res);
+        return res;
+      }
+      ));
+  }
+
+  getImageLibrary() {
+    const uri = this.apiURL + 'leddesigner/schedule/getallimages';
+    return this.http
+      .get(uri
+        // , { responseType: 'blob' }
+        // , { responseType: 'arraybuffer' }
+      )
+      .pipe(map(res => {
+        // // console.log(res);
+        return res;
+      }
+      ));
+  }
+
+  getImageFromUrl(url) {
+
+    return this.http
+      .get(url
+        // , { responseType: 'blob' }
+        , { responseType: 'arraybuffer' }
+      )
+      .pipe(map(res => {
+        // // console.log(res);
+        return res;
+      }
+      ));
+  }
+
+  getMyImages(id) {
+    const uri = this.apiURL + 'leddesigner/schedule/myimages?id=' + id;
+    return this.http
+      .get(uri
+        // , { responseType: 'blob' }
+        // , { responseType: 'arraybuffer' }
+      )
+      .pipe(map(res => {
+        // // console.log(res);
+        return res;
+      }
+      ));
+  }
+  getMyAnimations(id) {
+    const uri = this.apiURL + 'leddesigner/schedule/mymovies?id=' + id;
+    return this.http
+      .get(uri
+        // , { responseType: 'blob' }
+        // , { responseType: 'arraybuffer' }
+      )
+      .pipe(map(res => {
+        // // console.log(res);
+        return res;
+      }
+      ));
+  }
+
+  uploadImage(file) {
+
+    const uri = this.apiURL + 'leddesigner/schedule/uploadAllImages';
+
+    const headers = new HttpHeaders();
+    // this is the important step. You need to set content type as null
+    headers.set('Content-Type', null);
+    headers.set('Accept', 'multipart/form-data');
+    this.formdata = new FormData();
+    this.formdata.append('file', file);
+    return this
+      .http
+      .post(uri, this.formdata, { headers })
+      .map(res => {
+        // console.log(res);
+        return res;
+      });
+  }
+
+  uploadAnimation(file) {
+
+    const uri = this.apiURL + 'leddesigner/schedule/uploadAllMovies';
+
+    const headers = new HttpHeaders();
+    // this is the important step. You need to set content type as null
+    headers.set('Content-Type', null);
+    headers.set('Accept', 'multipart/form-data');
+    this.formdata = new FormData();
+    this.formdata.append('file', file);
+    return this
+      .http
+      .post(uri, this.formdata, { headers })
+      .map(res => {
+        // console.log(res);
+        return res;
+      });
+  }
+
+  addForPreview(file) {
+    const uri = this.apiURL + 'leddesigner/schedule/addPreview';
+
+    const headers = new HttpHeaders();
+    // this is the important step. You need to set content type as null
+    headers.set('Content-Type', null);
+    headers.set('Accept', 'multipart/form-data');
+    this.formdata = new FormData();
+    this.formdata.append('file', file);
+    return this
+      .http
+      .post(uri, this.formdata, { headers })
+      .map(res => {
+        // console.log(res);
+        return res;
+      });
+  }
+  getForPreview(filename) {
+    const uri = this.apiURL + 'leddesigner/schedule/addfilePreview?fileName=' + filename;
+
+    return this.http
+      .get(uri
+        // , { responseType: 'blob' }
+        , { responseType: 'arraybuffer' }
+      )
+      .pipe(map(res => {
+        // // console.log(res);
+        return res;
+      }
+      ));
+  }
   // Functions
   getValueOfScheduleMonthDays(days) {
     let day = 0;
     for (let i = 0; days !== 1; i++) {
-      // console.log('days: ' + days);
+      // // console.log('days: ' + days);
       days = days / 2;
       day++;
     }
     return day;
   }
+
 }

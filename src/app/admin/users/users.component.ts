@@ -1,86 +1,100 @@
-import { Component, OnInit, AfterViewChecked } from '@angular/core';
-// import $ from 'jquery';
+import { Component, OnInit, OnDestroy, } from '@angular/core';
 import { UsersService } from '../../shared/users.service';
-
+import { Subject } from 'rxjs';
+import { NotifierService } from 'angular-notifier';
+import { ConfirmationService } from 'primeng/api';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { DataTableDirective } from 'angular-datatables';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
-export class UsersComponent implements OnInit, AfterViewChecked {
-
+export class UsersComponent implements OnInit, OnDestroy {
+  dtTrigger = new Subject();
+  dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   data: any;
   user_name: string;
   user_role: string;
-  constructor(private service: UsersService) { }
+  constructor(private service: UsersService, private notifier: NotifierService,
+    private confirmationService: ConfirmationService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
-    this.user_name = localStorage.getItem('name');
-    this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
+    // this.user_name = localStorage.getItem('name');
+    // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 10
+      destroy: true,
+      pageLength: 10,
+      order: [5, 'asc']
     };
     this.getUsers();
-
   }
 
-  ngAfterViewChecked(): void {
-    // this.loadDatatable();
-    // $('.datatable-basic').DataTable();
-  }
-
-  loadDatatable() {
-    // $.extend($.fn.dataTable.defaults, {
-    //   autoWidth: false,
-    //   columnDefs: [{
-    //     orderable: false,
-    //     width: '100px',
-    //     targets: [5]
-    //   }],
-    //   dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
-    //   language: {
-    //     search: '<span>Filter:</span> _INPUT_',
-    //     lengthMenu: '<span>Show:</span> _MENU_',
-    //     paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
-    //   },
-    //   drawCallback: function () {
-    //     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
-    //   },
-    //   preDrawCallback: function () {
-    //     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
-    //   }
-    // });
-
-
-    // // Basic datatable
-    // $('.datatable-basic').DataTable();
-
-
-    // // Alternative pagination
-    // $('.datatable-pagination').DataTable({
-    //   pagingType: 'simple',
-    //   language: {
-    //     paginate: { 'next': 'Next &rarr;', 'previous': '&larr; Prev' }
-    //   }
-    // });
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
   }
 
   getUsers() {
+    this.spinner.show();
     this.service.getAllUsers().subscribe(res => {
       this.data = res;
-      console.log(res);
+      this.dtTrigger.next();
+      // this.getUsers();
+      this.spinner.hide();
+      // console.log(res);
+    }, error => {
+      this.spinner.hide();
+      console.log(error);
     });
   }
-
+  rerender(): void {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      // Destroy the table first
+      dtInstance.destroy();
+      // Call the dtTrigger to rerender again
+      this.dtTrigger.next();
+    });
+    // this.dtTrigger.next();
+  }
   deleteUser(id) {
     // this.service.deleteProfile(id).subscribe(res => {
     //   alert('Not Allowed');
     // });
+    // this.notifier.notify('info', 'Not Allowed');
+    // alert('Not Allowed');
 
-    alert('Not Allowed');
+    this.confirmationService.confirm({
+      message: 'Do you want to delete all records of this user?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        // this.notifier.notify('info', 'Not Allowed Now');
+        this.spinner.show();
+        this.service.deleteUser(id).subscribe(res => {
+          this.notifier.notify('success', 'User Deleted Successfully');
+          this.spinner.hide();
+          // this.rerender();
+          this.getUsers();
+        }, error => {
+          if (error.status === 200) {
+            this.notifier.notify('success', 'User Deleted Successfully');
+            this.spinner.hide();
+            // this.rerender();
+            this.getUsers();
+          } else {
+            console.log(error);
+            this.spinner.hide();
+          }
+        });
+      },
+      reject: () => {
+        this.notifier.notify('info', 'Request Rejected For Delete');
+      }
+    });
   }
 
 }

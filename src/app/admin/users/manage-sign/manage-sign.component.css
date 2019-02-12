@@ -1,3 +1,7 @@
 i {
-    cursor: pointer;
-  }
+  cursor: pointer;
+}
+
+.sign_table {
+  margin-bottom: 20px !important;
+}

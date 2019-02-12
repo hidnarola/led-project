@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
       } else {
         // Time Out Session
         this.notifier.notify('info', 'Session Time-Out. Please Login Again');
-        console.log('session Time-out');
+        // console.log('session Time-out');
         localStorage.removeItem('access-token');
       }
     }

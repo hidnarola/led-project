@@ -1,183 +1,117 @@
-<app-header></app-header>
+<!-- Main content -->
+<div class="content-wrapper">
 
-<!-- Page container -->
-<div class="page-container">
 
-  <!-- Page content -->
-  <div class="page-content">
+  <!-- Page header -->
+  <div class="page-header page-header-default">
+    <div class="page-header-content">
+      <div class="page-title">
+        <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Home</span> - Schedules</h4>
+      </div>
 
-    <!-- Main sidebar -->
-    <div class="sidebar sidebar-main">
-      <div class="sidebar-content">
+      <div class="heading-elements">
 
-        <!-- User menu -->
-        <div class="sidebar-user">
-          <div class="category-content">
-            <div class="media">
-              <a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
-              <div class="media-body">
-                <span class="media-heading text-semibold">{{ user_name }}</span>
-                <div class="text-size-mini text-muted">
-                  <i class="icon-user3 text-size-small"></i> &nbsp;{{ user_role }}
-                </div>
+      </div>
+    </div>
+
+    <div class="breadcrumb-line">
+      <ul class="breadcrumb">
+        <li><a href="" routerLink="/home"><i class="icon-home2 position-left"></i> Home</a></li>
+        <li class="active">Schedules</li>
+      </ul>
+
+    </div>
+  </div>
+  <!-- /page header -->
+  <p-confirmDialog></p-confirmDialog>
+  <!-- Content area -->
+  <div class="content">
+    <div class="panel panel-flat">
+      <div class="panel-heading">
+        <h5 class="panel-title">Schedules</h5>
+        <div class="heading-elements">
+          <ul class="icons-list">
+            <li>
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary btn-rounded dropdown-toggle" data-toggle="dropdown"><i
+                    class="icon-plus3 position-left"></i> Add Schedules <span class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li><a [routerLink]="['./../schedule/add']" [queryParams]="{ repeat: 'Continuous' }"
+                      queryParamsHandling="merge"><i class="icon-loop3"></i> Continuous</a></li>
+                  <li><a [routerLink]="['./../schedule/add']" [queryParams]="{ repeat: 'Daily' }" queryParamsHandling="merge"><i
+                        class="icon-loop3"></i> Daily</a></li>
+                  <li><a [routerLink]="['./../schedule/add']" [queryParams]="{ repeat: 'Weekly' }" queryParamsHandling="merge"><i
+                        class="icon-loop3"></i> Weekly</a></li>
+                  <li><a [routerLink]="['./../schedule/add']" [queryParams]="{ repeat: 'Monthly' }" queryParamsHandling="merge"><i
+                        class="icon-loop3"></i> Monthly</a></li>
+                  <li><a [routerLink]="['./../schedule/add']" [queryParams]="{ repeat: 'Yearly' }" queryParamsHandling="merge"><i
+                        class="icon-loop3"></i> Yearly</a></li>
+                  <!-- <li class="divider"></li>
+                                  <li><a href="#"><i class="icon-gear"></i> Separated line</a></li> -->
+                </ul>
               </div>
+            </li>
+            <li>
+              <button type="button" (click)="redirectToSend()" class="btn bg-purple btn-rounded"><i class="icon-paperplane position-left"></i>
+                Send Schedule</button>
+            </li>
+          </ul>
+        </div>
+      </div>
 
-              <!-- <div class="media-right media-middle">
+      <div class="panel-body">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+          <thead>
+            <tr>
+              <th>SR</th>
+              <th>Schedule name</th>
+              <th>Type</th>
+              <!-- <th>Status</th> -->
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let schedule of schedules; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ schedule.scheduleName }}</td>
+              <td><span class="label label-{{schedule.type==='Yearly'?'danger':schedule.type==='Monthly'?'warning':schedule.type==='Weekly'?'info':schedule.type==='Daily'?'primary':'success'}}">{{
+                  schedule.type }}</span></td>
+              <!-- <td><span class="label label-{{schedule.type==='Yearly'?'success':'default'}}">{{schedule.type==='Yearly'?'Sent':'Pending'}}</span></td> -->
+              <td class="text-center">
                 <ul class="icons-list">
-                  <li>
-                    <a href="#"><i class="icon-cog3"></i></a>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      <i class="icon-menu9"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                      <!-- <li *ngIf="schedule.type!=='Yearly'" (click)="sendSchedule()"><a><i class="icon-paperplane"></i>Send</a></li> -->
+                      <li><a href="" routerLink="/user/schedule/{{schedule.id}}"><i class="icon-eye2"></i>
+                          View</a></li>
+                      <li><a href="" routerLink="/user/schedule/edit/{{schedule.id}}"><i class="icon-pencil4"></i>
+                          Edit</a></li>
+                      <li (click)="deleteSchedule(schedule.id)"><a><i class="icon-trash"></i> Delete</a></li>
+                    </ul>
                   </li>
                 </ul>
-              </div> -->
-            </div>
-          </div>
-        </div>
-        <!-- /user menu -->
-
-        <!-- Main navigation -->
-        <div class="sidebar-category sidebar-category-visible">
-          <div class="category-content no-padding">
-            <ul class="navigation navigation-main navigation-accordion">
-
-              <!-- Main -->
-              <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
-              <li><a href="" routerLink="/home"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
-              <li class="active"><a href="" routerLink="/schedules"><i class="icon-calendar5"></i> <span>Schedules</span></a></li>
-              <li><a href="" routerLink="/signs"><i class="icon-display"></i> <span>My Signs</span></a></li>
-              <!-- /main -->
-
-            </ul>
-          </div>
-        </div>
-        <!-- /main navigation -->
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
       </div>
-    </div>
-    <!-- /main sidebar -->
 
-
-    <!-- Main content -->
-    <div class="content-wrapper">
-
-
-      <!-- Page header -->
-      <div class="page-header page-header-default">
-        <div class="page-header-content">
-          <div class="page-title">
-            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Home</span> - Schedules</h4>
-          </div>
-
-          <div class="heading-elements">
-
-          </div>
-        </div>
-
-        <div class="breadcrumb-line">
-          <ul class="breadcrumb">
-            <li><a href="" routerLink="/home"><i class="icon-home2 position-left"></i> Home</a></li>
-            <li class="active">Schedules</li>
-          </ul>
-
-        </div>
-      </div>
-      <!-- /page header -->
-
-      <!-- Content area -->
-      <div class="content">
-
-        <div class="panel panel-flat">
-          <div class="panel-heading">
-            <h5 class="panel-title">Schedules</h5>
-            <div class="heading-elements">
-              <ul class="icons-list">
-                <li>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-primary btn-rounded dropdown-toggle" data-toggle="dropdown"><i
-                        class="icon-plus3 position-left"></i> Add Schedules <span class="caret"></span></button>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                      <li><a [routerLink]="['/schedule/add']" [queryParams]="{ repeat: 'Continuous' }"
-                          queryParamsHandling="merge"><i class="icon-loop3"></i> Continuous</a></li>
-                      <li><a [routerLink]="['/schedule/add']" [queryParams]="{ repeat: 'Daily' }" queryParamsHandling="merge"><i
-                            class="icon-loop3"></i> Daily</a></li>
-                      <li><a [routerLink]="['/schedule/add']" [queryParams]="{ repeat: 'Weekly' }" queryParamsHandling="merge"><i
-                            class="icon-loop3"></i> Weekly</a></li>
-                      <li><a [routerLink]="['/schedule/add']" [queryParams]="{ repeat: 'Monthly' }" queryParamsHandling="merge"><i
-                            class="icon-loop3"></i> Monthly</a></li>
-                      <li><a [routerLink]="['/schedule/add']" [queryParams]="{ repeat: 'Yearly' }" queryParamsHandling="merge"><i
-                            class="icon-loop3"></i> Yearly</a></li>
-                      <!-- <li class="divider"></li>
-                              <li><a href="#"><i class="icon-gear"></i> Separated line</a></li> -->
-                    </ul>
-                  </div>
-                </li>
-                <li>
-                  <button type="button" (click)="redirectToSend()" class="btn bg-purple btn-rounded"><i class="icon-paperplane position-left"></i>
-                    Send Schedule</button>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="panel-body">
-
-            <table datatable [dtOptions]="dtOptions" class="row-border hover">
-              <thead>
-                <tr>
-                  <th>SR</th>
-                  <th>Schedule name</th>
-                  <th>Type</th>
-                  <!-- <th>Status</th> -->
-                  <th class="text-center">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let schedule of schedules; let i = index">
-                  <td>{{ i + 1 }}</td>
-                  <td>{{ schedule.scheduleName }}</td>
-                  <td><span class="label label-{{schedule.type==='Yearly'?'danger':schedule.type==='Monthly'?'warning':schedule.type==='Weekly'?'info':schedule.type==='Daily'?'primary':'success'}}">{{
-                      schedule.type }}</span></td>
-                  <!-- <td><span class="label label-{{schedule.type==='Yearly'?'success':'default'}}">{{schedule.type==='Yearly'?'Sent':'Pending'}}</span></td> -->
-                  <td class="text-center">
-                    <ul class="icons-list">
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                          <i class="icon-menu9"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                          <!-- <li *ngIf="schedule.type!=='Yearly'" (click)="sendSchedule()"><a><i class="icon-paperplane"></i>Send</a></li> -->
-                          <li><a href="" routerLink="/schedule/{{schedule.id}}"><i class="icon-eye2"></i>
-                              View</a></li>
-                          <li><a href="" routerLink="/schedule/edit/{{schedule.id}}"><i class="icon-pencil4"></i>
-                              Edit</a></li>
-                          <li><a (click)="deleteSchedule(schedule.id)"><i class="icon-trash"></i> Delete</a></li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
-          </div>
-
-
-        </div>
-
-
-        <!-- Footer -->
-        <div class="footer text-muted text-center">
-          &copy; 2018. <a href="#"> LED ADVT</a> by <a href="#" target="_blank">Narola Infotech</a>
-        </div>
-        <!-- /footer -->
-
-      </div>
-      <!-- /content area -->
 
     </div>
-    <!-- /main content -->
+
+    <!-- Footer -->
+    <div class="footer text-muted text-center">
+      &copy; 2018. <a href="" [routerLink]="['/login']"> LED Project</a> by <a href="http://www.narolainfotech.com"
+        target="_blank">Narola Infotech</a>
+    </div>
+    <!-- /footer -->
 
   </div>
-  <!-- /page content -->
+  <!-- /content area -->
 
 </div>
-<!-- /page container -->
+<!-- /main content -->

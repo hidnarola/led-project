@@ -1,190 +1,137 @@
-<app-admin-header></app-admin-header>
-
-<!-- Page container -->
-<div class="page-container">
-
-  <!-- Page content -->
-  <div class="page-content">
+<!-- Main content -->
+<div class="content-wrapper">
 
 
-    <!-- Main sidebar -->
-    <div class="sidebar sidebar-main">
-      <div class="sidebar-content">
+  <!-- Page header -->
+  <div class="page-header page-header-default">
+    <div class="page-header-content">
+      <div class="page-title">
+        <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Sign Setup</span> - Add New
+          Setup</h4>
+      </div>
 
-        <!-- User menu -->
-        <div class="sidebar-user">
-          <div class="category-content">
-            <div class="media">
-              <a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
-              <div class="media-body">
-                <span class="media-heading text-semibold">{{ user_name }}</span>
-                <div class="text-size-mini text-muted">
-                  <i class="icon-user3 text-size-small"></i> &nbsp;{{ user_role }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- /user menu -->
-
-
-        <!-- Main navigation -->
-        <div class="sidebar-category sidebar-category-visible">
-          <div class="category-content no-padding">
-            <ul class="navigation navigation-main navigation-accordion">
-
-              <!-- Main -->
-              <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
-              <li><a href="" routerLink="/admin/dashboard"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
-              <li><a href="" routerLink="/admin/users"><i class="icon-user-tie"></i> <span>Users</span></a></li>
-              <li class="active"><a href="" routerLink="/admin/sign-setup"><i class="icon-cog3"></i> <span>Sign Setup</span></a></li>
-              <!-- /main -->
-
-            </ul>
-          </div>
-        </div>
-        <!-- /main navigation -->
+      <div class="heading-elements">
 
       </div>
     </div>
-    <!-- /main sidebar -->
 
-    <!-- Main content -->
-    <div class="content-wrapper">
+    <div class="breadcrumb-line">
+      <ul class="breadcrumb">
+        <li><a href="" routerLink="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+        <li><a href="" routerLink="/admin/sign-setup"><i class="icon-cog3 position-left"></i>Sign-Setup</a></li>
+        <li class="active">Add</li>
+      </ul>
 
+      <ul class="breadcrumb-elements">
 
-      <!-- Page header -->
-      <div class="page-header page-header-default">
-        <div class="page-header-content">
-          <div class="page-title">
-            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Sign Setup</span> - Add New
-              Setup</h4>
-          </div>
+      </ul>
+    </div>
+  </div>
+  <!-- /page header -->
 
-          <div class="heading-elements">
+  <!-- Content area -->
+  <div class="content">
 
-          </div>
-        </div>
-
-        <div class="breadcrumb-line">
-          <ul class="breadcrumb">
-            <li><a href="" routerLink="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
-            <li><a href="" routerLink="/admin/sign-setup"><i class="icon-cog3 position-left"></i>Sign-Setup</a></li>
-            <li class="active">Add</li>
-          </ul>
-
-          <ul class="breadcrumb-elements">
-
+    <div class="panel panel-flat">
+      <div class="panel-heading">
+        <h5 class="panel-title">Add New Setup</h5>
+        <div class="heading-elements">
+          <ul class="icons-list">
+            <!-- <li><a data-action="collapse"></a></li> -->
+            <!-- <li><a data-action="reload"></a></li> -->
+            <!-- <li><a data-action="close"></a></li> -->
           </ul>
         </div>
       </div>
-      <!-- /page header -->
 
-      <!-- Content area -->
-      <div class="content">
+      <div class="panel-body">
+        <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group has-feedback">
+                <input type="text" class="form-control" placeholder="Sign Name" name="signname" [(ngModel)]="model.signname"
+                  #signname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && signname.invalid }" required>
+                <div class="form-control-feedback">
+                  <i class="icon-display text-muted"></i>
+                </div>
+                <div *ngIf="f.submitted && signname.invalid" class="invalid-feedback">
+                  <div *ngIf="signname.errors.required">Sign Name is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group has-feedback">
+                <input type="number" placeholder="Sign S/N" class="form-control" name="signsn" [(ngModel)]="model.signsn"
+                  #signsn="ngModel" [ngClass]="{ 'is-invalid': f.submitted && signsn.invalid }" required />
+                <div class="form-control-feedback">
+                  <i class="icon-list-numbered text-muted"></i>
+                </div>
+                <div *ngIf="f.submitted && signsn.invalid" class="invalid-feedback">
+                  <div *ngIf="signsn.errors.required">Sign S/N is required</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group has-feedback">
+                <input type="text" class="form-control" placeholder="Host / IP" name="ip" [(ngModel)]="model.ip" #ip="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && ip.invalid }" required>
+                <div class="form-control-feedback">
+                  <i class="icon-screen3 text-muted"></i>
+                </div>
+                <div *ngIf="f.submitted && ip.invalid" class="invalid-feedback">
+                  <div *ngIf="ip.errors.required">Host / IP is required</div>
+                </div>
+              </div>
+            </div>
 
-        <div class="panel panel-flat">
-          <div class="panel-heading">
-            <h5 class="panel-title">Add New Setup</h5>
-            <div class="heading-elements">
-              <ul class="icons-list">
-                <!-- <li><a data-action="collapse"></a></li> -->
-                <!-- <li><a data-action="reload"></a></li> -->
-                <!-- <li><a data-action="close"></a></li> -->
-              </ul>
+            <div class="col-md-6">
+              <div class="form-group has-feedback">
+                <input type="text" class="form-control" placeholder="Port" name="port" [(ngModel)]="model.port" #port="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && port.invalid }" required>
+                <div class="form-control-feedback">
+                  <i class="icon-hyperlink text-muted"></i>
+                </div>
+                <div *ngIf="f.submitted && port.invalid" class="invalid-feedback">
+                  <div *ngIf="port.errors.required">port is required</div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="panel-body">
-            <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <input type="text" class="form-control" placeholder="Sign Name" name="signname" [(ngModel)]="model.signname"
-                      #signname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && signname.invalid }" required>
-                    <div class="form-control-feedback">
-                      <i class="icon-display text-muted"></i>
-                    </div>
-                    <div *ngIf="f.submitted && signname.invalid" class="invalid-feedback">
-                      <div *ngIf="signname.errors.required">Sign Name is required</div>
-                    </div>
-                  </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group has-feedback">
+                <input type="text" placeholder="Screen Width (pixels)" class="form-control" name="widthx" [(ngModel)]="model.widthx"
+                  #widthx="ngModel" [ngClass]="{ 'is-invalid': f.submitted && widthx.invalid }" required />
+                <div class="form-control-feedback">
+                  <i class="icon-move-horizontal text-muted"></i>
                 </div>
-                <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <input type="number" placeholder="Sign S/N" class="form-control" name="signsn" [(ngModel)]="model.signsn"
-                      #signsn="ngModel" [ngClass]="{ 'is-invalid': f.submitted && signsn.invalid }" required />
-                    <div class="form-control-feedback">
-                      <i class="icon-list-numbered text-muted"></i>
-                    </div>
-                    <div *ngIf="f.submitted && signsn.invalid" class="invalid-feedback">
-                      <div *ngIf="signsn.errors.required">Sign S/N is required</div>
-                    </div>
-                  </div>
+                <div *ngIf="f.submitted && widthx.invalid" class="invalid-feedback">
+                  <div *ngIf="widthx.errors.required">Screen Width is required</div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <input type="text" class="form-control" placeholder="Host / IP" name="ip" [(ngModel)]="model.ip"
-                      #ip="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ip.invalid }" required>
-                    <div class="form-control-feedback">
-                      <i class="icon-screen3 text-muted"></i>
-                    </div>
-                    <div *ngIf="f.submitted && ip.invalid" class="invalid-feedback">
-                      <div *ngIf="ip.errors.required">Host / IP is required</div>
-                    </div>
-                  </div>
-                </div>
+            </div>
 
-                <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <input type="text" class="form-control" placeholder="Port" name="port" [(ngModel)]="model.port"
-                      #port="ngModel" [ngClass]="{ 'is-invalid': f.submitted && port.invalid }" required>
-                    <div class="form-control-feedback">
-                      <i class="icon-hyperlink text-muted"></i>
-                    </div>
-                    <div *ngIf="f.submitted && port.invalid" class="invalid-feedback">
-                      <div *ngIf="port.errors.required">port is required</div>
-                    </div>
-                  </div>
+            <div class="col-md-6">
+              <div class="form-group has-feedback">
+                <input type="text" placeholder="Screen Height (pixels)" class="form-control" name="heighty" [(ngModel)]="model.heighty"
+                  #heighty="ngModel" [ngClass]="{ 'is-invalid': f.submitted && heighty.invalid }" required />
+                <div class="form-control-feedback">
+                  <i class=" icon-move-vertical text-muted"></i>
+                </div>
+                <div *ngIf="f.submitted && heighty.invalid" class="invalid-feedback">
+                  <div *ngIf="heighty.errors.required">Screen Height is required</div>
                 </div>
               </div>
+            </div>
+          </div>
 
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <input type="text" placeholder="Screen Width (pixels)" class="form-control" name="widthx"
-                      [(ngModel)]="model.widthx" #widthx="ngModel" [ngClass]="{ 'is-invalid': f.submitted && widthx.invalid }"
-                      required />
-                    <div class="form-control-feedback">
-                      <i class="icon-move-horizontal text-muted"></i>
-                    </div>
-                    <div *ngIf="f.submitted && widthx.invalid" class="invalid-feedback">
-                      <div *ngIf="widthx.errors.required">Screen Width is required</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <input type="text" placeholder="Screen Height (pixels)" class="form-control" name="heighty"
-                      [(ngModel)]="model.heighty" #heighty="ngModel" [ngClass]="{ 'is-invalid': f.submitted && heighty.invalid }"
-                      required />
-                    <div class="form-control-feedback">
-                      <i class=" icon-move-vertical text-muted"></i>
-                    </div>
-                    <div *ngIf="f.submitted && heighty.invalid" class="invalid-feedback">
-                      <div *ngIf="heighty.errors.required">Screen Height is required</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <!-- <input type="tel" placeholder="Phone" class="form-control" name="phone" [(ngModel)]="model.phone"
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group has-feedback">
+                <!-- <input type="tel" placeholder="Phone" class="form-control" name="phone" [(ngModel)]="model.phone"
                       #phone="ngModel" [ngClass]="{ 'is-invalid': f.submitted && phone.invalid }" required />
                     <div class="form-control-feedback">
                       <i class="icon-watch2 text-muted"></i>
@@ -193,20 +140,20 @@
                       <div *ngIf="phone.errors.required">Phone is required</div>
                     </div> -->
 
-                    <select data-placeholder="Select Time-Zone..." class="form-control select" name="timezone"
-                      [(ngModel)]="model.timezone" #timezone="ngModel" required>
-                      <option *ngFor="let zone of timezones | keyvalue" [value]="zone.key + ' : ' + zone.value">{{
-                        zone.key + ' : ' + zone.value }}</option>
-                    </select>
-                    <div class="form-control-feedback">
-                      <i class="icon-watch2 text-muted"></i>
-                    </div>
-                    <div *ngIf="f.submitted && timezone.invalid" class="invalid-feedback">
-                      <div *ngIf="timezone.errors.required">Time Zone is required</div>
-                    </div>
-                  </div>
+                <select data-placeholder="Select Time-Zone..." class="form-control select" name="timezone" [(ngModel)]="model.timezone"
+                  #timezone="ngModel" required>
+                  <option *ngFor="let zone of timezones | keyvalue" [value]="zone.key + ' : ' + zone.value">{{
+                    zone.key + ' : ' + zone.value }}</option>
+                </select>
+                <div class="form-control-feedback">
+                  <i class="icon-watch2 text-muted"></i>
                 </div>
-                <!-- <div class="col-md-6">
+                <div *ngIf="f.submitted && timezone.invalid" class="invalid-feedback">
+                  <div *ngIf="timezone.errors.required">Time Zone is required</div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-md-6">
                   <div class="form-group has-feedback">
                     <input type="text" placeholder="Sign S/N" class="form-control" name="signsn"
                       [(ngModel)]="model.signsn" #signsn="ngModel" [ngClass]="{ 'is-invalid': f.submitted && signsn.invalid }"
@@ -219,44 +166,40 @@
                     </div>
                   </div>
                 </div> -->
-                <div class="col-md-6">
-                  <div class="form-group has-feedback">
+            <div class="col-md-6">
+              <div class="form-group has-feedback">
 
-                    <select data-placeholder="Select Sign type" class="form-control select" name="signtype" [(ngModel)]="model.signtype"
-                      #signtype="ngModel" required>
-                      <optgroup label="Select Sign type">
-                        <option *ngFor="let sign of signType" [value]="sign">{{sign}}</option>
-                      </optgroup>
-                    </select>
+                <select data-placeholder="Select Sign type" class="form-control select" name="signtype" [(ngModel)]="model.signtype"
+                  #signtype="ngModel" required>
+                  <optgroup label="Select Sign type">
+                    <option *ngFor="let sign of signType" [value]="sign">{{sign}}</option>
+                  </optgroup>
+                </select>
 
-                    <!-- <p-dropdown [options]="signType" [(ngModel)]="model.signtype" #signtype="ngModel" required [filter]="true" filterBy="value"></p-dropdown> -->
+                <!-- <p-dropdown [options]="signType" [(ngModel)]="model.signtype" #signtype="ngModel" required [filter]="true" filterBy="value"></p-dropdown> -->
 
-                    <!-- <ng-select [items]="cities" bindLabel="name" class="select" placeholder="Select Sign type" [(ngModel)]="model.signtype">
+                <!-- <ng-select [items]="cities" bindLabel="name" class="select" placeholder="Select Sign type" [(ngModel)]="model.signtype">
                     </ng-select> -->
-                    <div class="form-control-feedback">
-                      <i class="text-muted"></i>
-                    </div>
-
-                  </div>
+                <div class="form-control-feedback">
+                  <i class="text-muted"></i>
                 </div>
 
-
               </div>
+            </div>
 
-              <div class="text-right">
-                <!-- <a href="" routerLink='/login' class="btn btn-link"><i class="icon-arrow-left13 position-left"></i>
+
+          </div>
+
+          <div class="text-right">
+            <!-- <a href="" routerLink='/login' class="btn btn-link"><i class="icon-arrow-left13 position-left"></i>
                 Back
                 to login form</a> -->
-                <button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10"><b><i class="icon-plus3"></i></b>
-                  Create Setup</button>
+            <button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10"><b><i class="icon-plus3"></i></b>
+              Create Setup</button>
 
-              </div>
-            </form>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
 </div>
-
-<script type="text/javascript" src="/assets/js/pages/form_select2.js"></script>

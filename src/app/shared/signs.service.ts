@@ -18,7 +18,7 @@ export class SignsService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -30,7 +30,7 @@ export class SignsService {
     return this.http
       .get(uri)
       .pipe(map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       ));
@@ -56,7 +56,7 @@ export class SignsService {
     return this.http
       .post(uri, signs)
       .map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       );
@@ -79,18 +79,19 @@ export class SignsService {
     return this.http
       .put(uri, signs)
       .map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       );
   }
 
   deleteSign(id) {
+    // /leddesigner/signsn/deleteSignSN?signId=25
     const uri = this.apiURL + 'leddesigner/signsn/deleteSignSN?signId=' + id;
-    return this.http
+        return this.http
       .delete(uri)
       .map(res => {
-        // console.log(res);
+        // // console.log(res);
         return res;
       }
       );

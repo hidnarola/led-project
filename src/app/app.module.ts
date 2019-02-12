@@ -2,19 +2,15 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { DataTableModule } from 'angular-6-datatable';
 import { DataTablesModule } from 'angular-datatables';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
-// import { FileSelectDirective } from 'ng2-file-upload';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
-import { ContentComponent } from './content/content.component';
+import { HeaderComponent } from './_layouts/header/header.component';
+import { FooterComponent } from './_layouts/footer/footer.component';
 import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './content/home/home.component';
 import { ForgotPasswordComponent } from './login/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './login/forgot-password/reset-password/reset-password.component';
@@ -32,6 +28,20 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { FileUploadModule } from 'primeng/fileupload';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CheckboxModule } from 'primeng/checkbox';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+import { StepsModule } from 'primeng/steps';
+import { DialogModule } from 'primeng/dialog';
+import { InputMaskModule } from 'primeng/inputmask';
+import { TabViewModule } from 'primeng/tabview';
+
+// import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ImageLazyLoadModule, WebWorkerService } from 'ng2-image-lazy-load';
+
+// Spinner
+import { NgxSpinnerModule } from 'ngx-spinner';
+// Pagination
+import { NgxPaginationModule } from 'ngx-pagination';
 
 // Notification or Alert
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
@@ -40,16 +50,27 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { JwtInterceptor } from './shared/jwt.intersepter';
 import { CreateUserComponent } from './admin/users/create-user/create-user.component';
 import { Config } from './shared/config';
+
+import { SidebarComponent } from './_layouts/sidebar/sidebar.component';
+import { AdminLayoutComponent } from './_layouts/admin-layout/admin-layout.component';
+import { UserLayoutComponent } from './_layouts/user-layout/user-layout.component';
+
 import { SchedulesComponent } from './content/schedules/schedules.component';
 import { CreateScheduleComponent } from './content/schedules/create-schedule/create-schedule.component';
 import { EditScheduleComponent } from './content/schedules/edit-schedule/edit-schedule.component';
+import { MySignsComponent } from './content/my-signs/my-signs.component';
+import { ViewScheduleComponent } from './content/schedules/view-schedule/view-schedule.component';
+import { SendScheduleComponent } from './content/schedules/send-schedule/send-schedule.component';
+import { DeleteScheduleComponent } from './content/schedules/delete-schedule/delete-schedule.component';
+import { ProfileComponent } from './content/profile/profile.component';
+
+import { FileManagerComponent } from './admin/file-manager/file-manager.component';
 import { EditUserComponent } from './admin/users/edit-user/edit-user.component';
 import { CreateSetupComponent } from './admin/sign-setup/create-setup/create-setup.component';
 import { EditSetupComponent } from './admin/sign-setup/edit-setup/edit-setup.component';
 import { ManageSignComponent } from './admin/users/manage-sign/manage-sign.component';
-import { MySignsComponent } from './content/my-signs/my-signs.component';
-import { ViewScheduleComponent } from './content/schedules/view-schedule/view-schedule.component';
-import { SendScheduleComponent } from './content/schedules/send-schedule/send-schedule.component';
+import { AdminProfileComponent } from './admin/admin-profile/admin-profile.component';
+
 export function tokenGetter() {
   return localStorage.getItem('access-token');
 }
@@ -105,9 +126,7 @@ const customNotifierOptions: NotifierOptions = {
     // FileSelectDirective,
     HeaderComponent,
     FooterComponent,
-    ContentComponent,
     LoginComponent,
-    SignupComponent,
     HomeComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
@@ -127,13 +146,25 @@ const customNotifierOptions: NotifierOptions = {
     ManageSignComponent,
     MySignsComponent,
     ViewScheduleComponent,
-    SendScheduleComponent
+    SendScheduleComponent,
+    DeleteScheduleComponent,
+    SidebarComponent,
+    AdminLayoutComponent,
+    UserLayoutComponent,
+    FileManagerComponent,
+    ProfileComponent,
+    AdminProfileComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,
     CheckboxModule, RadioButtonModule,
     CalendarModule, FileUploadModule,
     DropdownModule, MultiSelectModule,
+    ConfirmDialogModule, StepsModule,
+    DialogModule, InputMaskModule,
+    TabViewModule,
+    NgxSpinnerModule, NgxPaginationModule,
+    // ProgressSpinnerModule,
     // DataTableModule,
     DataTablesModule,
     FormsModule,
@@ -144,13 +175,13 @@ const customNotifierOptions: NotifierOptions = {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['192.168.100.42:8080', '192.168.100.42:8081', 'clientapp.narola.online:2220'],
+        whitelistedDomains: ['192.168.100.42:8080', '192.168.100.42:2220', 'clientapp.narola.online:2220', '123.201.110.194:2220'],
         blacklistedRoutes: ['localhost:4000/api/auth']
       }
     }),
     NotifierModule.withConfig(customNotifierOptions)
   ],
-  providers: [Config,
+  providers: [Config, ConfirmationService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

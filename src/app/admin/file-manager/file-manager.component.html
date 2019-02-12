@@ -1,0 +1,181 @@
+<!-- Main content -->
+<div class="content-wrapper">
+
+
+  <!-- Page header -->
+  <div class="page-header page-header-default">
+    <div class="page-header-content">
+      <div class="page-title">
+        <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Home</span> - File Manager</h4>
+      </div>
+      <div class="heading-elements">
+      </div>
+    </div>
+    <div class="breadcrumb-line">
+      <ul class="breadcrumb">
+        <li><a routerLink="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+        <li class="active">FileManager</li>
+      </ul>
+      <ul class="breadcrumb-elements">
+      </ul>
+    </div>
+  </div>
+  <!-- /page header -->
+  <p-confirmDialog></p-confirmDialog>
+  <!-- Content area -->
+  <div class="content">
+
+    <!-- Individual column searching (text inputs) -->
+    <div class="panel panel-flat">
+      <div class="panel-heading">
+        <h5 class="panel-title">File Manager</h5>
+        <!-- <div class="heading-elements">
+          <ul class="icons-list">
+
+            <li> <a href="" routerLink="/admin/user/add">
+                <button class="btn btn-primary">Add File
+                </button>
+              </a>
+            </li>
+
+          </ul>
+        </div> -->
+      </div>
+
+      <div class="panel-body">
+        <div class="col-md-12">
+          <div>
+            <label>Upload File</label>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <p-radioButton name="mediaType" value="image" label="Image" [(ngModel)]="mediaType"></p-radioButton>
+            &nbsp;
+            <p-radioButton name="mediaType" value="video" label="Animation" [(ngModel)]="mediaType"></p-radioButton>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <div class="col-md-8">
+              <div *ngIf="mediaType==='image'">
+                <input type="file" ([ngModel])="myfile" name="myfile" class="form-control file-styled" #image (change)="handleFileInput($event.target.files.item(0))"
+                  accept="image/*" required>
+              </div>
+              <div *ngIf="mediaType==='video'">
+                <input type="file" ([ngModel])="myfile" name="myfile" class="form-control file-styled" #image (change)="handleFileInput($event.target.files.item(0))"
+                  accept="video/*" required>
+              </div>
+
+            </div>
+            <div class="col-md-4">
+              <button class="btn btn-primary" (click)="uploadFile()">Upload</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group img_holder">
+            <object *ngIf="isPreviewObject" [data]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></object>
+            <!-- <embed *ngIf="isPreviewObject" [attr.src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px" /> -->
+            <!-- <iframe *ngIf="isPreviewObject" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></iframe> -->
+            <img *ngIf="isPreviewImage" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px">
+            <video id="video_player" *ngIf="isPreviewVideo" class="video-js vjs-big-play-centered" preload="auto"
+              data-setup="{}" height="auto" style="max-width:100%;width:auto;max-height:300px" autoplay loop>
+              <source [src]="imageUrl" [type]="videoType">
+              Your browser does not support the video.
+              <p class="vjs-no-js">
+                To view this video please enable JavaScript, and consider upgrading to a web browser that
+                <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+              </p></video>
+            <div id="player"></div>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <p-tabView>
+      <p-tabPanel header="Image Library">
+        <ng-template pTemplate="content">
+          <div class="row">
+            <div class="col-sm-12">
+              <div>
+                <div class="img_box d-flex">
+                  <div class="img_lib" *ngFor="let image of fileExplorer.images| keyvalue; let i = index">
+                    <div class="img_lib-img">
+                      <img [attr.src]="image.value">
+                    </div>
+                    <div class="img_lib-body">
+                      <h4>{{image.key}}</h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="row">
+            <div class="col-sm-12">
+              <div>
+                <div class="img_box">
+                  <div class="img_lib" *ngFor="let image of fileExplorer.images| keyvalue; let i = index">
+                    <div>
+                      <img [attr.src]="image.value">
+                      <h4>{{image.key}}</h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+        </ng-template>
+      </p-tabPanel>
+      <p-tabPanel header="Animation Library">
+        <ng-template pTemplate="content">
+          <div class="row">
+            <div class="col-sm-12">
+              <div>
+                <div class="img_box d-flex">
+                  <div class="img_lib" *ngFor="let video of fileExplorer.animations| keyvalue; let i = index">
+                    <div class="img_lib-img">
+                      <video controls loop class="video-js vjs-big-play-centered" preload="auto" data-setup="{}" style="max-width:100%;width:auto;max-height:300px">
+                        <source [src]="video.value" type="video/mp4">
+                        <source [src]="video.value" type="video/mp4">
+                        Your browser does not support the video tag.</video>
+                    </div>
+                    <div class="img_lib-body">
+                      <h4>{{video.key}}</h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="row">
+            <div class="col-sm-12">
+              <div>
+                <div class="row img_box">
+                  <div class="img_lib" *ngFor="let video of fileExplorer.animations| keyvalue; let i = index">
+                    <div>
+                      <video controls loop class="video-js vjs-big-play-centered" preload="auto" data-setup="{}" style="max-width:100%;width:auto;max-height:300px">
+                        <source [src]="video.value" type="video/mp4">
+                        <source [src]="video.value" type="video/mp4">
+                        Your browser does not support the video tag.</video>
+                      <h4><span>{{video.key}}</span></h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+        </ng-template>
+      </p-tabPanel>
+
+    </p-tabView>
+
+  </div>
+
+
+</div>
