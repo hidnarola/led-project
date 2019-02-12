@@ -50,6 +50,21 @@ export class UsersService {
       ));
   }
 
+  changePassword(data) {
+    const uri = this.apiURL + 'leddesigner/user/changePassword';
+    const profile = {
+      userId: data.userId,
+      oldPassword: data.oldPassword,
+      newPassword: data.newPassword
+    };
+    return this.http
+      .put(uri, profile)
+      .map(res => {
+        return res;
+      }
+      );
+  }
+
   updateProfile(data) {
     const uri = this.apiURL + 'leddesigner/user/updateProfile';
     const profile = {

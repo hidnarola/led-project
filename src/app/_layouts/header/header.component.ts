@@ -8,13 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   user_name: string;
+  user_role: string;
+  isAdmin: boolean;
   // isLoggedIn: boolean;
   constructor(
     // private config: Config
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.user_name = localStorage.getItem('name');
+    this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
+    if (this.user_role === 'ADMIN') {
+      this.isAdmin = true;
+    }
     // this.isLoggedIn = this.config.isLoggedIn;
   }
 

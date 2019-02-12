@@ -77,13 +77,13 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.service.deleteUser(id).subscribe(res => {
           this.notifier.notify('success', 'User Deleted Successfully');
           this.spinner.hide();
-          this.rerender();
+          // this.rerender();
           this.getUsers();
         }, error => {
           if (error.status === 200) {
             this.notifier.notify('success', 'User Deleted Successfully');
             this.spinner.hide();
-            this.rerender();
+            // this.rerender();
             this.getUsers();
           } else {
             console.log(error);

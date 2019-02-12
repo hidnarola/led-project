@@ -50,21 +50,26 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { JwtInterceptor } from './shared/jwt.intersepter';
 import { CreateUserComponent } from './admin/users/create-user/create-user.component';
 import { Config } from './shared/config';
+
+import { SidebarComponent } from './_layouts/sidebar/sidebar.component';
+import { AdminLayoutComponent } from './_layouts/admin-layout/admin-layout.component';
+import { UserLayoutComponent } from './_layouts/user-layout/user-layout.component';
+
 import { SchedulesComponent } from './content/schedules/schedules.component';
 import { CreateScheduleComponent } from './content/schedules/create-schedule/create-schedule.component';
 import { EditScheduleComponent } from './content/schedules/edit-schedule/edit-schedule.component';
+import { MySignsComponent } from './content/my-signs/my-signs.component';
+import { ViewScheduleComponent } from './content/schedules/view-schedule/view-schedule.component';
+import { SendScheduleComponent } from './content/schedules/send-schedule/send-schedule.component';
+import { DeleteScheduleComponent } from './content/schedules/delete-schedule/delete-schedule.component';
+import { ProfileComponent } from './content/profile/profile.component';
+
+import { FileManagerComponent } from './admin/file-manager/file-manager.component';
 import { EditUserComponent } from './admin/users/edit-user/edit-user.component';
 import { CreateSetupComponent } from './admin/sign-setup/create-setup/create-setup.component';
 import { EditSetupComponent } from './admin/sign-setup/edit-setup/edit-setup.component';
 import { ManageSignComponent } from './admin/users/manage-sign/manage-sign.component';
-import { MySignsComponent } from './content/my-signs/my-signs.component';
-import { ViewScheduleComponent } from './content/schedules/view-schedule/view-schedule.component';
-import { SendScheduleComponent } from './content/schedules/send-schedule/send-schedule.component';
-import { SidebarComponent } from './_layouts/sidebar/sidebar.component';
-import { AdminLayoutComponent } from './_layouts/admin-layout/admin-layout.component';
-import { UserLayoutComponent } from './_layouts/user-layout/user-layout.component';
-import { DeleteScheduleComponent } from './content/schedules/delete-schedule/delete-schedule.component';
-import { FileManagerComponent } from './admin/file-manager/file-manager.component';
+import { AdminProfileComponent } from './admin/admin-profile/admin-profile.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access-token');
@@ -146,7 +151,9 @@ const customNotifierOptions: NotifierOptions = {
     SidebarComponent,
     AdminLayoutComponent,
     UserLayoutComponent,
-    FileManagerComponent
+    FileManagerComponent,
+    ProfileComponent,
+    AdminProfileComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,

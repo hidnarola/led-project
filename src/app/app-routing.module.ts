@@ -34,6 +34,8 @@ import { AdminAuthGuard } from './admin-auth.guard';
 import { UserLayoutComponent } from './_layouts/user-layout/user-layout.component';
 import { AdminLayoutComponent } from './_layouts/admin-layout/admin-layout.component';
 import { DeleteScheduleComponent } from './content/schedules/delete-schedule/delete-schedule.component';
+import { ProfileComponent } from './content/profile/profile.component';
+import { AdminProfileComponent } from './admin/admin-profile/admin-profile.component';
 
 
 const routes: Routes = [
@@ -52,6 +54,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'admin/login', pathMatch: 'full' },
       { path: 'dashboard', component: AdminHomeComponent, canActivate: [AdminAuthGuard] },
+      { path: 'profile', component: AdminProfileComponent, canActivate: [AdminAuthGuard] },
       { path: 'sign-setup', component: SignSetupComponent, canActivate: [AdminAuthGuard] },
       { path: 'file-manager', component: FileManagerComponent, canActivate: [AdminAuthGuard] },
       { path: 'sign-setup/add', component: CreateSetupComponent, canActivate: [AdminAuthGuard] },
@@ -80,6 +83,9 @@ const routes: Routes = [
     children: [
       {
         path: 'home', component: HomeComponent, canActivate: [AuthGuard],
+      },
+      {
+        path: 'profile', component: ProfileComponent, canActivate: [AuthGuard],
       },
       {
         path: 'schedules', component: SchedulesComponent,

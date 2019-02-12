@@ -292,6 +292,7 @@ export class EditScheduleComponent implements OnInit {
   // }
 
   handleFileInput(file) {
+    this.spinner.show();
     // let isMatched = false;
     // console.log('this.fileNamesList.indexOf(file.name) => ', this.fileNamesList.indexOf(file.name));
     if (this.fileNamesList.indexOf(file.name) >= 0) {
@@ -304,10 +305,13 @@ export class EditScheduleComponent implements OnInit {
       if (file.type.substr(0, 5) === 'video') {
         this.service.addForPreview(file).subscribe(res => {
           console.log('addForPreview -> res => ', res);
+          this.spinner.hide();
         }, error => {
           console.log('addForPreview -> error => ', error);
+          this.spinner.hide();
         });
       }
+      this.spinner.hide();
       // this.filesToUpload = file;
       // this.notifier.notify('info', 'Unique.');
       // isMatched = false;

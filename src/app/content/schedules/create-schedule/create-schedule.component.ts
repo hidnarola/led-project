@@ -280,6 +280,7 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
   handleFileInput(file) {
     // let isMatched = false;
     // console.log('this.fileNamesList.indexOf(file.name) => ', this.fileNamesList.indexOf(file.name));
+    this.spinner.show();
     if (this.fileNamesList.indexOf(file.name) >= 0) {
       this.notifier.notify('warning', 'Same File Name Exist.');
       // isMatched = true;
@@ -290,10 +291,13 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
       if (file.type.substr(0, 5) === 'video') {
         this.service.addForPreview(file).subscribe(res => {
           console.log('addForPreview -> res => ', res);
+          this.spinner.hide();
         }, error => {
           console.log('addForPreview -> error => ', error);
+          this.spinner.hide();
         });
       }
+      this.spinner.hide();
       // console.log('file => ', file);
       // this.filesToUpload.duration.push('00:00:06');
       // this.filesToUpload.files.push(file);
@@ -333,6 +337,7 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   getConvertedFile(filename) {
+    this.spinner.show();
     this.service.getForPreview(filename).subscribe(res => {
       const uint = new Uint8Array(res.slice(0, 4));
       const bytes = [];
