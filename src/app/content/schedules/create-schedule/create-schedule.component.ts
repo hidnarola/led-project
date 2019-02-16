@@ -235,8 +235,8 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
         this.notifier.notify('warning', 'Unknown File Type or Currupted File');
       } else {
         // const file = new Blob([new Uint8Array(res)], { type: binaryFileType });
-        const Image = new File([res], filename, { type: binaryFileType });
-        this.handleFileInput(Image);
+        const newFile = new File([res], filename, { type: binaryFileType });
+        this.handleFileInput(newFile);
         // console.log('1 => ', 1);
       }
 
@@ -356,7 +356,7 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
       this.spinner.hide();
     },
       error => {
-        console.log('getConvertedFile: Eroor => ', error);
+        console.log('getConvertedFile: Error => ', error);
       });
   }
 

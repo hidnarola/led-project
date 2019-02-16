@@ -492,7 +492,7 @@ export class EditScheduleComponent implements OnInit {
         this.model = {};
         this.fileToUpload = [];
         this.spinner.hide();
-        this.router.navigate(['/schedules']);
+        this.router.navigate(['/user/schedules']);
       } else if (error.status === 400) {
         this.notifier.notify('warning', 'Select Image To upload');
       } else {

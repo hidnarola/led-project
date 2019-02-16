@@ -429,3 +429,32 @@ body .ui-dialog {
     max-height: unset;
   }
 }
+
+
+
+@media all and (-ms-high-contrast:none) {
+  .sidebar {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .content-wrapper {
+    width: calc(100% - 0px);
+    padding-left: 260px;
+  }
+
+}
+
+@supports (-ms-ime-align:auto) {
+  .sidebar {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .content-wrapper {
+    width: calc(100% - 0px);
+    padding-left: 260px;
+  }
+}

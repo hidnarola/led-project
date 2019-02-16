@@ -104,6 +104,9 @@ export class SchedulesService {
     // {"priority": 1,"scheduleName": "myFirstContinueSchedule.yml","startDate": "2018-01-02",
     // "endDate": "2018-01-01","startTime": "01:00","endTime": "01:00","userid": 5 }
 
+    // '"startDate": "' + ((data.startDate) ? new Date(data.startDate) : '') + '",' +
+    // '"endDate": "' + ((data.endDate) ? new Date(data.endDate) : '') + '",' +
+
     if (type === this.config.SCHE_CONT) {
       this.scheduleData = '{' +
         '"priority": ' + Number(data.priority) + ',' +

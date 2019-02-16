@@ -17,6 +17,7 @@ export class DeleteScheduleComponent implements OnInit {
   config: any = {};
   p1 = 1;
   p2 = 1;
+  sign: any;
   mySigns: any = [];
   mySchedules: any = [];
   entryIPList = [];
@@ -39,7 +40,7 @@ export class DeleteScheduleComponent implements OnInit {
     this.spinner.show();
     this.usservice.getSignByUserId_user(localStorage.getItem('userid')).subscribe(res => {
       this.mySigns = res;
-      console.log('mySigns', res);
+      // console.log('mySigns', res);
       this.spinner.hide();
     }, error => {
       this.spinner.hide();
@@ -52,15 +53,17 @@ export class DeleteScheduleComponent implements OnInit {
   }
   getSchedules(sign) {
     this.spinner.show();
+    this.filePropertiesList = [];
+    this.sign = sign;
     this.entryIPList.push(sign);
     this.service.getScheduleBySignId(localStorage.getItem('userid'), sign.id).subscribe(res => {
       this.mySchedules = res;
-      console.log('mySchedules', res);
+      // console.log('mySchedules', res);
       this.spinner.hide();
     }, error => {
       this.spinner.hide();
     });
-    console.log('sign => ', sign);
+    // console.log('sign => ', sign);
     this.activeIndex = 1;
 
   }
@@ -85,7 +88,8 @@ export class DeleteScheduleComponent implements OnInit {
       this.notifier.notify('success', 'Deleted Successfully');
       this.model = {};
       this.spinner.hide();
-      this.BakcToSign();
+      this.getSchedules(this.sign);
+      // this.BakcToSign();
       // this.router.navigate(['/user/signs/deleteSchedule']);
     }, error => {
       if (error.status === 200) {
@@ -94,8 +98,9 @@ export class DeleteScheduleComponent implements OnInit {
         setTimeout(() => {
           /** spinner ends after 1 seconds */
           this.spinner.hide();
-        }, 1000);
-        this.BakcToSign();
+        }, 2000);
+        this.getSchedules(this.sign);
+        // this.BakcToSign();
         // this.router.navigate(['/user/signs/deleteSchedule']);
       } else if (error.status === 500) {
         this.notifier.notify('error', 'Failed');
@@ -110,8 +115,8 @@ export class DeleteScheduleComponent implements OnInit {
           this.spinner.hide();
         }, 1000);
       }
-      console.log(error);
-      this.spinner.hide();
+      // console.log(error);
+      // this.spinner.hide();
     });
   }
 
