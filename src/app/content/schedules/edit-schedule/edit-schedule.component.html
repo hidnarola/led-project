@@ -474,7 +474,7 @@
       <div class="img_container">
         <img src="assets/images/folder/blank.png" height="120px" width="120px" (click)="image.click()" alt="This PC" />
         <label>This PC</label>
-        <input type="file" ([ngModel])="myfile" name="myfile" class="file-styled custom_file_select" #image (change)="handleFileInput($event.target.files.item(0))"
+        <input type="file" ([ngModel])="myfile" name="myfile" class="file-styled custom_file_select" #image (change)="handleFileInput($event.target.files.item(0), 'PC')"
           accept="image/*,video/*" required>
       </div>
     </div>
@@ -523,7 +523,7 @@
         <div class="row img_box">
           <div class="col-sm-4 col-xs-4 img_lib" *ngFor="let image of fileExplorer| keyvalue; let i = index">
             <div>
-              <img (click)="pickFile(image.value,image.key)" [attr.src]="image.value">
+              <img (click)="pickFile(image.value,image.key, 'folder')" [attr.src]="image.value">
               <h4>{{image.key}}</h4>
             </div>
           </div>
@@ -546,7 +546,7 @@
                 <source [src]="video.value" type="video/mp4">
                 <source [src]="video.value" type="video/mp4">
                 Your browser does not support the video tag.</video>
-              <h4><span (click)="pickFile(video.value,video.key)">{{video.key}}</span></h4>
+              <h4><span (click)="pickFile(video.value,video.key, 'folder')">{{video.key}}</span></h4>
             </div>
           </div>
         </div>
@@ -564,7 +564,7 @@
           <div class="col-sm-4 col-xs-4 img_lib" *ngFor="let image of fileExplorer| keyvalue; let i = index">
             <!-- <div class="col-sm-4 col-xs-4 img_lib" *ngFor="let image of fileExplorer; let i = index"> -->
             <div>
-              <img (click)="pickFile(image.value,image.key)" [attr.src]="image.value">
+              <img (click)="pickFile(image.value,image.key, 'library')" [attr.src]="image.value">
               <!-- <img (click)="pickFile(image,image)" [src]="image" [alt]="image" /> -->
               <!-- <h4>{{i+1}}</h4> -->
               <h4>{{image.key}}</h4>
@@ -588,7 +588,7 @@
                 height="auto" style="max-width:100%;width:auto;max-height:300px">
                 <source [src]="video.value" type="video/mp4">
                 Your browser does not support the video tag.</video>
-              <h4><span (click)="pickFile(video.value,video.key)">{{video.key}}</span></h4>
+              <h4><span (click)="pickFile(video.value,video.key, 'library')">{{video.key}}</span></h4>
             </div>
           </div>
         </div>

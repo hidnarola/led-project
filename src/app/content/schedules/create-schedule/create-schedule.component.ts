@@ -36,8 +36,7 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
   // fileToUpload: File[] = [];
   fileToUpload: any[] = [];
   filesToUpload: any = [];
-  // fileToUpload: FileList;
-  // fileToUpload: File;
+  fileInfo: any = [];
   imageUrl = this.sanitizer.bypassSecurityTrustUrl('/assets/images/signature.png');
   isPreviewImage: boolean;
   isPreviewVideo: boolean;
@@ -211,7 +210,7 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
     });
   }
 
-  pickFile(file, filename) {
+  pickFile(file, filename, source) {
     // console.log(this.dataURItoBlob(base64));
     // this.handleFileInput(base64);
     // this.handleFileInput(this.blobToFile(this.dataURItoBlob(base64), filename));
@@ -236,7 +235,7 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
       } else {
         // const file = new Blob([new Uint8Array(res)], { type: binaryFileType });
         const newFile = new File([res], filename, { type: binaryFileType });
-        this.handleFileInput(newFile);
+        this.handleFileInput(newFile, source);
         // console.log('1 => ', 1);
       }
 
@@ -277,7 +276,7 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
     return blob;
   }
 
-  handleFileInput(file) {
+  handleFileInput(file, source) {
     // let isMatched = false;
     // console.log('this.fileNamesList.indexOf(file.name) => ', this.fileNamesList.indexOf(file.name));
     this.spinner.show();
@@ -288,7 +287,7 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
       file.duration = '00:00:06';
       this.fileToUpload.push(file);
       this.fileNamesList.push(file.name);
-      if (file.type.substr(0, 5) === 'video') {
+      if (file.type.substr(0, 5) === 'video' && source === 'PC') {
         this.service.addForPreview(file).subscribe(res => {
           console.log('addForPreview -> res => ', res);
           this.spinner.hide();
@@ -297,48 +296,18 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
           this.spinner.hide();
         });
       }
+      this.fileInfo.push({ 'name': file.name, 'source': source });
       this.spinner.hide();
-      // console.log('file => ', file);
-      // this.filesToUpload.duration.push('00:00:06');
-      // this.filesToUpload.files.push(file);
-      // this.notifier.notify('info', 'Unique.');
-      // isMatched = false;
-    }
-    // this.fileToUpload.forEach(files => {
-    //   if (file.name === files.name) {
-    //     // console.log('matched');
-    //     // this.notifier.notify('info', 'Rename Filename if you want to add');
-    //   }
-    // });
-    // }
-    // else {
-    // isMatched = true;
-    // if (file.length > 0) {
-    // this.fileToUpload.push(file.item(0));
-    // this.filesToUpload = file;
-    // } else {
-    // this.notifier.notify('info', 'No File Selected');
-    // }
-    // }
-    // if (!isMatched) {
-    //   if (file) {
-    //     this.fileToUpload.push(file);
-    //     this.fileNamesList.push(file.name);
-    //     this.filesToUpload = file;
-    //   } else {
-    //     this.notifier.notify('info', 'No File Selected');
-    //   }
-    //   isMatched = false;
-    // }
 
-    // console.log(this.fileToUpload);
+    }
+
     this.display = false;
     // console.log(this.filesToUpload);
   }
 
-  getConvertedFile(filename) {
+  getConvertedFile(filename, index) {
     this.spinner.show();
-    this.service.getForPreview(filename).subscribe(res => {
+    this.service.previewTests(filename, this.fileInfo[index].source).subscribe(res => {
       const uint = new Uint8Array(res.slice(0, 4));
       const bytes = [];
       uint.forEach((byte) => {
@@ -357,6 +326,7 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
     },
       error => {
         console.log('getConvertedFile: Error => ', error);
+        this.spinner.hide();
       });
   }
 
@@ -433,8 +403,13 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
     });
     // dura += '}';
     this.model.durationList = this.durationList;
-    // console.log('fileToUpload => ', this.fileToUpload);
-    // console.log('model => ', this.model);
+    // const fileInfoMap = new Map<string, string>();
+
+    this.model.fileInfo = this.fileInfo;
+    console.log('fileToUpload => ', this.fileToUpload);
+    console.log('model => ', this.model);
+    console.log('fileInfo => ', this.fileInfo);
+
     this.service.createSchedule(this.model, this.fileToUpload, this.repeat).subscribe(res => {
       console.log('res => ', res);
       this.spinner.hide();
