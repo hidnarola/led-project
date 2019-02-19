@@ -391,7 +391,8 @@ export class EditScheduleComponent implements OnInit {
   //   reader.readAsDataURL(file);
   // }
   getConvertedFile(filename) {
-    this.service.getForPreview(filename).subscribe(res => {
+    // this.service.getForPreview(filename).subscribe(res => {
+    this.service.previewTests(filename, 'PC').subscribe(res => {
       const uint = new Uint8Array(res.slice(0, 4));
       const bytes = [];
       uint.forEach((byte) => {
