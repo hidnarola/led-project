@@ -37,6 +37,7 @@ export class EditScheduleComponent implements OnInit {
   fileInfo: any = [];
   myfile: any;
   // fileToUpload: File[] = [];
+  existFileToUpload: any[] = [];
   fileToUpload: any[] = [];
   filesToUpload: any[] = [];
   res: any;
@@ -72,6 +73,7 @@ export class EditScheduleComponent implements OnInit {
         console.log('files => ', this.files);
         this.files.forEach(file => {
           this.fileInfoStr.push({ name: file.path, source: 'folder' });
+          this.existFileToUpload.push(file);
         });
         this.oldScheduleName = this.res.schduleDTO.scheduleName;
         // Set Date to datepicker
@@ -490,6 +492,12 @@ export class EditScheduleComponent implements OnInit {
       const dura: any = {};
       dura.name = file.name;
       dura.regex = this.timeToMS(file.duration);
+      this.durationList.push(dura);
+    });
+    this.existFileToUpload.forEach(file => {
+      const dura: any = {};
+      dura.name = file.path;
+      dura.regex = file.duration ? file.duration : 6000;
       this.durationList.push(dura);
     });
     this.fileInfo.forEach(file => {
