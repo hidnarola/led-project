@@ -93,8 +93,11 @@ export class SendScheduleComponent implements OnInit {
 
     setTimeout(() => {
 
-      this.service.sendFileByUserId(this.model, localStorage.getItem('userid')).subscribe(res => {
-        this.notifier.notify('success', 'Updated');
+      this.service.sendFileByUserId(this.model, localStorage.getItem('userid')).subscribe((res: any) => {
+        const keys = Object.keys(res);
+        keys.forEach(key => {
+          this.notifier.notify(res[key] === 'fail' ? 'error' : 'success', key + 'is ' + res[key]);
+        });
         this.model = {};
         setTimeout(() => {
           /** spinner ends after 1 seconds */
@@ -103,7 +106,18 @@ export class SendScheduleComponent implements OnInit {
         this.router.navigate(['/user/schedules']);
       }, error => {
         if (error.status === 200) {
-          this.notifier.notify('success', 'Updated');
+          const res = JSON.parse(JSON.stringify(error.error.text));
+          // const res = JSON.parse(text);
+          const str = JSON.parse(res.replace(/\'/g, '\"'));
+          const keys = Object.keys(str);
+          keys.forEach(key => {
+            this.notifier.notify(str[key] === 'fail' ? 'error' : 'success', key + ' is ' + str[key]);
+          });
+          // this.notifier.notify('success', 'Updated');
+          // const keys = Object.keys(res);
+          // keys.forEach(key => {
+          //   this.notifier.notify(res[key] === 'fail' ? 'error' : 'success', res[key]);
+          // });
           this.model = {};
           setTimeout(() => {
             /** spinner ends after 1 seconds */
@@ -123,7 +137,6 @@ export class SendScheduleComponent implements OnInit {
             this.spinner.hide();
           }, 1000);
         }
-        console.log(error);
       });
 
     }, 1000);

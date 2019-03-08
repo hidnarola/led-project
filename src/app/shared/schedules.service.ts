@@ -470,7 +470,7 @@ export class SchedulesService {
       .post(uri, filedata)
       .map(res => {
         // console.log(res);
-        return res;
+        return res as any;
       }, error => {
         // console.log(error);
       });

@@ -102,8 +102,8 @@ export class EditScheduleComponent implements OnInit {
           if (this.repeat === this.CONFIG.SCHE_MONT) { this.model.scheduleMonths = this.model.scheduleMonths.toString().split(','); }
         } else if (this.repeat === this.CONFIG.SCHE_YEAR) {
           const now = new Date();
-          now.setDate(this.model.scheduleMonthDays - 1);
-          now.setMonth(this.model.scheduleMonths[0] - 1);
+          now.setDate(this.model.scheduleMonthDays);
+          now.setMonth(this.model.scheduleMonths[0]);
           this.model.onDate = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) +
             '-' + ('0' + (now.getDate())).slice(-2);
         }
@@ -318,8 +318,8 @@ export class EditScheduleComponent implements OnInit {
           console.log('addForPreview -> error => ', error);
           this.spinner.hide();
         });
-      }
-      this.spinner.hide();
+      } else { this.spinner.hide(); }
+      // this.spinner.hide();
       this.fileInfo.push({ 'name': file.name, 'source': source });
       // this.filesToUpload = file;
       // this.notifier.notify('info', 'Unique.');

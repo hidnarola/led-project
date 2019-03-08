@@ -6,11 +6,10 @@ import { SchedulesService } from '../../../shared/schedules.service';
 import { NotifierService } from 'angular-notifier';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgxSpinnerService } from 'ngx-spinner';
+import * as moment from 'moment';
 // import {  FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 // declare var jwplayer: any;
 // declare var videojs: any;
-import { DateTime } from 'luxon';
-import { stringify } from '@angular/compiler/src/util';
 @Component({
   selector: 'app-create-schedule',
   templateUrl: './create-schedule.component.html',
@@ -62,13 +61,15 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
     this.model.priority = 1;
     this.model.scheduleName = 'NewSchedule';
 
-    this.model.startDate = this.date.toISOString().slice(0, 10);
+    // this.model.startDate = this.date.toISOString().slice(0, 10);
+    this.model.startDate = moment().format('YYYY-MM-DD');
     this.model.startTime = this.date.toTimeString().slice(0, 5);
     this.model.firstYear = this.date.getFullYear();
     this.model.lastYear = Number(this.date.getFullYear() + 1);
     const currentYear = this.date.getFullYear();
     this.date.setFullYear(currentYear + 1, 11, 29);
-    this.model.endDate = this.date.toISOString().slice(0, 10);
+    // this.model.endDate = this.date.toISOString().slice(0, 10);
+    this.model.endDate = moment().add(1, 'year').endOf('year').format('YYYY-MM-DD');
     this.model.endTime = '23:59';
     this.model.monthorweek = 'week';
     this.model.moduloYDay = '1';
@@ -283,6 +284,7 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
     if (this.fileNamesList.indexOf(file.name) >= 0) {
       this.notifier.notify('warning', 'Same File Name Exist.');
       // isMatched = true;
+      this.spinner.hide();
     } else {
       file.duration = '00:00:06';
       this.fileToUpload.push(file);
@@ -295,9 +297,11 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
           console.log('addForPreview -> error => ', error);
           this.spinner.hide();
         });
+      } else {
+        this.spinner.hide();
       }
       this.fileInfo.push({ 'name': file.name, 'source': source });
-      this.spinner.hide();
+      // this.spinner.hide();
 
     }
 

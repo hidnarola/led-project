@@ -126,7 +126,7 @@
                   required>
                 <div class="form-control-feedback">
                   <i class="icon-calendar text-muted"></i>
-                </div>{{startdate.errors | json}}
+                </div>
                 <div *ngIf="f.submitted && startdate.invalid" class="invalid-feedback">
                   <div *ngIf="startdate.errors.required">Enter valid Start date</div>
                 </div>
@@ -275,14 +275,15 @@
           <div class="row" *ngIf="CONFIG.SCHE_YEAR === repeat">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="form-label">On Date</label>
+                <label class="form-label">On Date <span class="ondate-overlay">{{ model.onDate | date:
+                    ' dd MMMM' }}</span></label>
                 <input type="date" class="form-control" placeholder="On Date" name="ondate" [(ngModel)]="model.onDate"
                   #ondate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ondate.invalid }" required>
               </div>
             </div>
-            <div class="col-md-6" *ngIf="model.onDate">
+            <!-- <div class="col-md-6" *ngIf="model.onDate">
               <i>On Date: {{ model.onDate | date: ' dd-MMMM' }}</i>
-            </div>
+            </div> -->
           </div>
           <!-- <div class="row">
             <div class="col-md-6">
@@ -359,7 +360,7 @@
                   <!-- <iframe *ngIf="isPreviewObject" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></iframe> -->
                   <img *ngIf="isPreviewImage" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px">
                   <video id="video_player" *ngIf="isPreviewVideo" class="video-js vjs-big-play-centered" preload="auto"
-                    data-setup="{}" height="auto" style="max-width:100%;width:auto;max-height:300px" autoplay loop>
+                    data-setup="{}" height="auto" style="max-width:100%;width:auto;max-height:300px" autoplay>
                     <source [src]="imageUrl" [type]="videoType">
                     Your browser does not support the video.
                     <p class="vjs-no-js">
@@ -486,7 +487,7 @@
           <div class="col-sm-4 col-xs-4 img_lib" *ngFor="let image of fileExplorer| keyvalue; let i = index">
             <div>
               <img (click)="pickFile(image.value,image.key,'folder')" [attr.src]="image.value">
-              <h4>{{image.key}}</h4>
+              <h4><span>{{image.key}}</span></h4>
             </div>
           </div>
         </div>
@@ -529,7 +530,7 @@
               <img (click)="pickFile(image.value,image.key, 'library')" [attr.src]="image.value">
               <!-- <img (click)="pickFile(image,image)" [src]="image" [alt]="image" /> -->
               <!-- <h4>{{i+1}}</h4> -->
-              <h4>{{image.key}}</h4>
+              <h4><span>{{image.key}}</span></h4>
             </div>
           </div>
         </div>

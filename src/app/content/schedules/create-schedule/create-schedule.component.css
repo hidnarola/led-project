@@ -24,7 +24,12 @@
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 } */
 
-
-
-
-
+.ondate-overlay {
+  position: absolute;
+  top: 35px;
+  left: 13px;
+  background: #fff;
+  color: #333333;
+  font-weight: 400;
+  width: 100px;
+}

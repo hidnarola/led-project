@@ -57,7 +57,7 @@
                     <dt>Last Year</dt>
                     <dd>{{dto?.endDate.year}}</dd>
                     <dt>On Date</dt>
-                    <dd>{{ dto?.scheduleMonthDays - 1 }} {{ CONFIG.MONTHS[dto?.scheduleMonths - 1 ] }}</dd>
+                    <dd>{{ dto?.scheduleMonthDays }} {{ CONFIG.MONTHS[dto?.scheduleMonths] }}</dd>
                   </div>
                   <div *ngIf="CONFIG.SCHE_YEAR !== repeat">
                     <dt>Start Date</dt>
@@ -132,8 +132,7 @@
                 <!-- <embed *ngIf="isPreviewObject" [attr.src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px" /> -->
                 <!-- <iframe *ngIf="isPreviewObject" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></iframe> -->
                 <img *ngIf="isPreviewImage" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px">
-                <video *ngIf="isPreviewVideo" height="auto" style="max-width:100%;width:auto;max-height:300px" autoplay
-                  loop>
+                <video *ngIf="isPreviewVideo" height="auto" style="max-width:100%;width:auto;max-height:300px" autoplay>
                   <source [src]="imageUrl" [type]="videoType">
                   Your browser does not support the video tag.</video>
               </div>

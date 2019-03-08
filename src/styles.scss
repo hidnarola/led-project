@@ -404,6 +404,21 @@ body .ui-dialog {
   margin: 10px 0 0;
 }
 
+.img_box .img_lib h4 {
+  margin: 8px 0 0px;
+  padding: 0;
+}
+
+.img_box .img_lib h4 span {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  overflow: hidden;
+  display: block;
+  letter-spacing: .04em;
+  height: 20px;
+}
+
 @media (max-width: 767px) {
 
   body .ui-dialog {
