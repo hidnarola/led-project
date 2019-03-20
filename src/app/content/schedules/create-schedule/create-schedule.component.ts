@@ -66,8 +66,8 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
     this.model.startTime = this.date.toTimeString().slice(0, 5);
     this.model.firstYear = this.date.getFullYear();
     this.model.lastYear = Number(this.date.getFullYear() + 1);
-    const currentYear = this.date.getFullYear();
-    this.date.setFullYear(currentYear + 1, 11, 29);
+    // const currentYear = this.date.getFullYear();
+    // this.date.setFullYear(currentYear + 1, 11, 29);
     // this.model.endDate = this.date.toISOString().slice(0, 10);
     this.model.endDate = moment().add(1, 'year').endOf('year').format('YYYY-MM-DD');
     this.model.endTime = '23:59';
@@ -75,7 +75,8 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
     this.model.moduloYDay = '1';
     this.model.moduloWeek = '1';
     this.model.duration = '00:00:06';
-    this.model.scheduleMonthDays = '1';
+    this.model.scheduleMonthDays = null;
+    this.model.onDate = moment().startOf('year').format('YYYY-MM-DD');
     // this.model.ondate = new Date();
     this.model.myfiles = [];
 
@@ -280,29 +281,31 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
   handleFileInput(file, source) {
     // let isMatched = false;
     // console.log('this.fileNamesList.indexOf(file.name) => ', this.fileNamesList.indexOf(file.name));
-    this.spinner.show();
-    if (this.fileNamesList.indexOf(file.name) >= 0) {
-      this.notifier.notify('warning', 'Same File Name Exist.');
-      // isMatched = true;
-      this.spinner.hide();
-    } else {
-      file.duration = '00:00:06';
-      this.fileToUpload.push(file);
-      this.fileNamesList.push(file.name);
-      if (file.type.substr(0, 5) === 'video' && source === 'PC') {
-        this.service.addForPreview(file).subscribe(res => {
-          console.log('addForPreview -> res => ', res);
-          this.spinner.hide();
-        }, error => {
-          console.log('addForPreview -> error => ', error);
-          this.spinner.hide();
-        });
-      } else {
+    if (file) {
+      this.spinner.show();
+      if (this.fileNamesList.indexOf(file.name) >= 0) {
+        this.notifier.notify('warning', 'Same File Name Exist.');
+        // isMatched = true;
         this.spinner.hide();
-      }
-      this.fileInfo.push({ 'name': file.name, 'source': source });
-      // this.spinner.hide();
+      } else {
+        file.duration = '00:00:06';
+        this.fileToUpload.push(file);
+        this.fileNamesList.push(file.name);
+        if (file.type.substr(0, 5) === 'video' && source === 'PC') {
+          this.service.addForPreview(file).subscribe(res => {
+            console.log('addForPreview -> res => ', res);
+            this.spinner.hide();
+          }, error => {
+            console.log('addForPreview -> error => ', error);
+            this.spinner.hide();
+          });
+        } else {
+          this.spinner.hide();
+        }
+        this.fileInfo.push({ 'name': file.name, 'source': source });
+        // this.spinner.hide();
 
+      }
     }
 
     this.display = false;
@@ -310,6 +313,9 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   getConvertedFile(filename, index) {
+    this.isPreviewImage = false;
+    this.isPreviewObject = false;
+    this.isPreviewVideo = false;
     this.spinner.show();
     this.service.previewTests(filename, this.fileInfo[index].source).subscribe(res => {
       const uint = new Uint8Array(res.slice(0, 4));

@@ -152,7 +152,7 @@ export class SchedulesService {
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
         // '"duration": "' + this.timeToMS(data.duration) + '",' +
-        '"scheduleMonthDays": ' + ((data.scheduleMonthDays) ? data.scheduleMonthDays : 31) + ',' +
+        '"scheduleMonthDays": ' + ((data.scheduleMonthDays) ? data.scheduleMonthDays : null) + ',' +
         '"scheduleMonths": [' + ((data.scheduleMonths) ? data.scheduleMonths : '') + '],' +
         '"weekDays": [' + ((data.weekDays) ? data.weekDays : 7) + '],' +
         '"type": "' + type + '",' +

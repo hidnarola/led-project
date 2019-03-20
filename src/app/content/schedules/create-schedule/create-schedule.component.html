@@ -276,7 +276,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label class="form-label">On Date <span class="ondate-overlay">{{ model.onDate | date:
-                    ' dd MMMM' }}</span></label>
+                    ' dd MMM' }}</span></label>
                 <input type="date" class="form-control" placeholder="On Date" name="ondate" [(ngModel)]="model.onDate"
                   #ondate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ondate.invalid }" required>
               </div>

@@ -358,6 +358,9 @@ export class EditScheduleComponent implements OnInit {
   }
   imagePreview(filename) {
     // this.isPreview = true;
+    this.isPreviewImage = false;
+    this.isPreviewObject = false;
+    this.isPreviewVideo = false;
     this.spinner.show();
     this.service.getImageForPreview(filename, localStorage.getItem('userid')).subscribe(res => {
       // console.log(res);

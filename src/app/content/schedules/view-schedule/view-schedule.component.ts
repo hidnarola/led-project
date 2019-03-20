@@ -63,6 +63,9 @@ export class ViewScheduleComponent implements OnInit {
 
   imagePreview(filename) {
     // this.isPreview = true;
+    this.isPreviewImage = false;
+    this.isPreviewObject = false;
+    this.isPreviewVideo = false;
     this.spinner.show();
     this.service.getImageForPreview(filename, localStorage.getItem('userid')).subscribe(res => {
       // console.log(res);
@@ -163,6 +166,7 @@ export class ViewScheduleComponent implements OnInit {
     }
   }
   showImagePreview(file: Blob) {
+
     this.spinner.show();
     // Show image preview
     const reader = new FileReader();
