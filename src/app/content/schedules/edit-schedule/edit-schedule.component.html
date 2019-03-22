@@ -9,10 +9,6 @@
         <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Schedules</span> - Edit
           Schedule ( {{repeat}} )</h4>
       </div>
-
-      <div class="heading-elements">
-
-      </div>
     </div>
 
     <div class="breadcrumb-line">
@@ -47,8 +43,8 @@
               <div class="form-group has-feedback">
                 <label class="form-label">Priority</label>
                 <input type="number" class="form-control" min="1" max="5" placeholder="Priority" name="priority"
-                  [(ngModel)]="model.priority" #priority="ngModel" [ngClass]="{ 'is-invalid': f.submitted && priority.invalid }"
-                  required>
+                  [(ngModel)]="model.priority" #priority="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && priority.invalid }" required>
                 <div class="form-control-feedback">
                   <i class="icon-stairs-up text-muted"></i>
                 </div>
@@ -61,8 +57,9 @@
             <div class="col-md-6">
               <div class="form-group has-feedback">
                 <label class="form-label">Schedule Name</label>
-                <input type="text" class="form-control" placeholder="Schedule Name" name="name" [(ngModel)]="model.scheduleName"
-                  #name="ngModel" [ngClass]="{ 'is-invalid': f.submitted && name.invalid }" required>
+                <input type="text" class="form-control" placeholder="Schedule Name" name="name"
+                  [(ngModel)]="model.scheduleName" #name="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && name.invalid }" required>
                 <div class="form-control-feedback">
                   <i class="icon-screen3 text-muted"></i>
                 </div>
@@ -79,9 +76,9 @@
                 <label class="form-label">First Year</label>
                 <!-- <p-calendar [(ngModel)]="model.firstyear" name="firstyear" view="year" dateFormat="yyyy" [yearNavigator]="true" yearRange="2018:9999"></p-calendar> -->
 
-                <input type="number" class="form-control" placeholder="First year" min="{{currentYear}}" name="firstyear"
-                  [(ngModel)]="model.firstYear" #firstyear="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstyear.invalid }"
-                  required>
+                <input type="number" class="form-control" placeholder="First year" min="{{currentYear}}"
+                  name="firstyear" [(ngModel)]="model.firstYear" #firstyear="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && firstyear.invalid }" required>
                 <div class="form-control-feedback">
                   <i class="icon-calendar text-muted"></i>
                 </div>
@@ -100,8 +97,8 @@
               <div class="form-group has-feedback">
                 <label class="form-label">Last Year</label>
                 <input type="number" class="form-control" placeholder="Last year" min="{{currentYear}}" name="lastyear"
-                  [(ngModel)]="model.lastYear" #lastyear="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lastyear.invalid }"
-                  required>
+                  [(ngModel)]="model.lastYear" #lastyear="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && lastyear.invalid }" required>
 
                 <!-- <p-calendar name="ondate" dateFormat="dd-mm" placeholder="On Date (dd-mm)" [monthNavigator]="true"
                       [yearNavigator]="false" [(ngModel)]="model.ondate"></p-calendar> -->
@@ -121,9 +118,9 @@
             <div class="col-md-6">
               <div class="form-group has-feedback">
                 <label class="form-label">Start Date</label>
-                <input type="date" class="form-control" placeholder="Start Date" min="2018-01-01" max="9999-12-31" name="startdate"
-                  [(ngModel)]="model.startDate" #startdate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && startdate.invalid }"
-                  required>
+                <input type="date" class="form-control" placeholder="Start Date" min="2018-01-01" max="9999-12-31"
+                  name="startdate" [(ngModel)]="model.startDate" #startdate="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && startdate.invalid }" required>
                 <div class="form-control-feedback">
                   <i class="icon-calendar text-muted"></i>
                 </div>
@@ -136,9 +133,9 @@
             <div class="col-md-6">
               <div class="form-group has-feedback">
                 <label class="form-label">End Date</label>
-                <input type="date" class="form-control" placeholder="End Date" min="2018-01-01" max="9999-12-31" name="enddate"
-                  [(ngModel)]="model.endDate" #enddate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && enddate.invalid }"
-                  required>
+                <input type="date" class="form-control" placeholder="End Date" min="2018-01-01" max="9999-12-31"
+                  name="enddate" [(ngModel)]="model.endDate" #enddate="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && enddate.invalid }" required>
                 <div class="form-control-feedback">
                   <i class="icon-calendar text-muted"></i>
                 </div>
@@ -153,8 +150,9 @@
             <div class="col-md-6">
               <div class="form-group has-feedback">
                 <label class="form-label">Start Time</label>
-                <input type="time" placeholder="Start Time" class="form-control" name="starttime" [(ngModel)]="model.startTime"
-                  #starttime="ngModel" [ngClass]="{ 'is-invalid': f.submitted && starttime.invalid }" required />
+                <input type="time" placeholder="Start Time" class="form-control" name="starttime"
+                  [(ngModel)]="model.startTime" #starttime="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && starttime.invalid }" required />
                 <!-- <p-calendar name="starttime" [(ngModel)]="value" showTime="true" hourFormat="12"></p-calendar> -->
                 <div class="form-control-feedback">
                   <i class="icon-watch2 text-muted"></i>
@@ -168,8 +166,9 @@
             <div class="col-md-6">
               <div class="form-group has-feedback">
                 <label class="form-label">End Time</label>
-                <input type="time" placeholder="End Time" class="form-control" name="endtime" [(ngModel)]="model.endTime"
-                  #endtime="ngModel" [ngClass]="{ 'is-invalid': f.submitted && endtime.invalid }" required />
+                <input type="time" placeholder="End Time" class="form-control" name="endtime"
+                  [(ngModel)]="model.endTime" #endtime="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && endtime.invalid }" required />
                 <div class="form-control-feedback">
                   <i class=" icon-watch2 text-muted"></i>
                 </div>
@@ -183,8 +182,9 @@
             <div class="col-md-6">
               <div class="form-group has-feedback">
                 <label class="form-label">Every N-th Day</label>
-                <input type="number" placeholder="Every N-th Day" class="form-control" name="nthday" [(ngModel)]="model.moduloYDay"
-                  #nthday="ngModel" [ngClass]="{ 'is-invalid': f.submitted && nthday.invalid }" required />
+                <input type="number" placeholder="Every N-th Day" class="form-control" name="nthday"
+                  [(ngModel)]="model.moduloYDay" #nthday="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && nthday.invalid }" required />
                 <div class="form-control-feedback">
                   <i class="icon-reload-alt text-muted"></i>
                 </div>
@@ -198,8 +198,9 @@
             <div class="col-md-6">
               <div class="form-group has-feedback">
                 <label class="form-label">Every N-th Week</label>
-                <input type="number" placeholder="Every N-th Week" class="form-control" name="nthweek" [(ngModel)]="model.moduloWeek"
-                  #nthweek="ngModel" [ngClass]="{ 'is-invalid': f.submitted && nthweek.invalid }" required />
+                <input type="number" placeholder="Every N-th Week" class="form-control" name="nthweek"
+                  [(ngModel)]="model.moduloWeek" #nthweek="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && nthweek.invalid }" required />
                 <div class="form-control-feedback">
                   <i class="icon-reload-alt text-muted"></i>
                 </div>
@@ -224,9 +225,11 @@
               <div class="form-group">
                 <label class="form-label">Month/Week</label>
                 <div>
-                  <p-radioButton name="monthorweek" value="month" label="Month Day" [(ngModel)]="model.monthorweek"></p-radioButton>
+                  <p-radioButton name="monthorweek" value="month" label="Month Day" [(ngModel)]="model.monthorweek">
+                  </p-radioButton>
                   &nbsp;
-                  <p-radioButton name="monthorweek" value="week" label="Week Day" [(ngModel)]="model.monthorweek"></p-radioButton>
+                  <p-radioButton name="monthorweek" value="week" label="Week Day" [(ngModel)]="model.monthorweek">
+                  </p-radioButton>
                 </div>
               </div>
             </div>
@@ -244,8 +247,8 @@
               <div class="form-group has-feedback">
                 <label class="form-label">On Month Day</label>
                 <input type="number" placeholder="On Month Day" min="1" max="31" class="form-control" name="monthday"
-                  [(ngModel)]="model.scheduleMonthDays" #monthday="ngModel" [ngClass]="{ 'is-invalid': f.submitted && monthday.invalid }"
-                  required />
+                  [(ngModel)]="model.scheduleMonthDays" #monthday="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && monthday.invalid }" required />
                 <div class="form-control-feedback">
                   <i class="icon-calendar52 text-muted"></i>
                 </div>
@@ -262,7 +265,8 @@
                 <label class="form-label">Months</label>
                 <div>
                   <span *ngFor="let month of CONFIG.MONTHS; let i = index">
-                    {{ month }} <p-checkbox name="months" value="{{i}}" [(ngModel)]="model.scheduleMonths"></p-checkbox>&nbsp;
+                    {{ month }} <p-checkbox name="months" value="{{i}}" [(ngModel)]="model.scheduleMonths"></p-checkbox>
+                    &nbsp;
                   </span>
                 </div>
               </div>
@@ -345,7 +349,8 @@
                         <i class="icon icon-display">
                           Preview
                         </i></a>
-                      <button type="button" class="btn btn-danger" (click)="edeleteImage(i)"><i class="icon icon-trash"></i>
+                      <button type="button" class="btn btn-danger" (click)="edeleteImage(i)"><i
+                          class="icon icon-trash"></i>
                         Delete</button>
                     </td>
                   </tr>
@@ -370,19 +375,22 @@
                     <td> {{ i + 1 }} </td>
                     <td> {{file.name}} </td>
                     <td *ngIf="file.type.substr(0,5) === 'image'">
-                      <p-inputMask [(ngModel)]="file.duration" name="duration" mask="99:99:99" placeholder="HH:mm:ss"></p-inputMask>
+                      <p-inputMask [(ngModel)]="file.duration" name="duration" mask="99:99:99" placeholder="HH:mm:ss">
+                      </p-inputMask>
                     </td>
                     <td *ngIf="file.type.substr(0,5) === 'video'">
                     </td>
-                    <td class="text-right" *ngIf="file.type.substr(0,5) === 'image'"><button type="button" class="btn btn-primary"
-                        (click)="showImagePreview(file)"><i class="icon icon-display"></i>
+                    <td class="text-right" *ngIf="file.type.substr(0,5) === 'image'"><button type="button"
+                        class="btn btn-primary" (click)="showImagePreview(file)"><i class="icon icon-display"></i>
                         Preview</button>
-                      <button type="button" class="btn btn-danger" (click)="deleteImage(i)"><i class="icon icon-trash"></i>
+                      <button type="button" class="btn btn-danger" (click)="deleteImage(i)"><i
+                          class="icon icon-trash"></i>
                         Delete</button></td>
-                    <td class="text-right" *ngIf="file.type.substr(0,5) === 'video'"><button type="button" class="btn btn-primary"
-                        (click)="getConvertedFile(file.name)"><i class="icon icon-display"></i>
+                    <td class="text-right" *ngIf="file.type.substr(0,5) === 'video'"><button type="button"
+                        class="btn btn-primary" (click)="getConvertedFile(file.name)"><i class="icon icon-display"></i>
                         Preview</button>
-                      <button type="button" class="btn btn-danger" (click)="deleteImage(i)"><i class="icon icon-trash"></i>
+                      <button type="button" class="btn btn-danger" (click)="deleteImage(i)"><i
+                          class="icon icon-trash"></i>
                         Delete</button></td>
                   </tr>
                 </tbody>
@@ -390,10 +398,12 @@
                   <tr>
                     <td colspan="3" align="center">
                       <!-- <img *ngIf="isPreview" [src]="imageUrl" style="max-width:100%;width:auto;height:100px"> -->
-                      <object *ngIf="isPreviewObject" [data]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></object>
+                      <object *ngIf="isPreviewObject" [data]="imageUrl" height="auto"
+                        style="max-width:100%;width:auto;max-height:300px"></object>
                       <!-- <embed *ngIf="isPreviewObject" [attr.src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px" /> -->
                       <!-- <iframe *ngIf="isPreviewObject" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></iframe> -->
-                      <img *ngIf="isPreviewImage" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px">
+                      <img *ngIf="isPreviewImage" [src]="imageUrl" height="auto"
+                        style="max-width:100%;width:auto;max-height:300px">
                       <video *ngIf="isPreviewVideo" height="auto" style="max-width:100%;width:auto;max-height:300px"
                         autoplay>
                         <source [src]="imageUrl" [type]="videoType">
@@ -406,10 +416,12 @@
           </div>
           <div align="center" *ngIf="!fileToUpload.length">
             <!-- <img *ngIf="isPreview" [src]="imageUrl" style="max-width:100%;width:auto;height:100px"> -->
-            <object *ngIf="isPreviewObject" [data]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></object>
+            <object *ngIf="isPreviewObject" [data]="imageUrl" height="auto"
+              style="max-width:100%;width:auto;max-height:300px"></object>
             <!-- <embed *ngIf="isPreviewObject" [attr.src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px" /> -->
             <!-- <iframe *ngIf="isPreviewObject" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></iframe> -->
-            <img *ngIf="isPreviewImage" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px">
+            <img *ngIf="isPreviewImage" [src]="imageUrl" height="auto"
+              style="max-width:100%;width:auto;max-height:300px">
             <video *ngIf="isPreviewVideo" height="auto" style="max-width:100%;width:auto;max-height:300px" autoplay>
               <source [src]="imageUrl" [type]="videoType">
               Your browser does not support the video tag.</video>
@@ -421,7 +433,8 @@
 
           <br />
           <div class="text-right">
-            <button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10"><b><i class="icon-plus3"></i></b>
+            <button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10"><b><i
+                  class="icon-plus3"></i></b>
               Update Schedule</button>
           </div>
 
@@ -460,13 +473,15 @@
   <div class="row" *ngIf="rootFile">
     <div class="col-md-4 col-sm-4">
       <div class="img_container" (click)="myFolder_click()">
-        <img src="assets/images/folder/blank.png" (click)="myFolder_click()" height="120px" width="120px" alt="My Folder" />
+        <img src="assets/images/folder/blank.png" (click)="myFolder_click()" height="120px" width="120px"
+          alt="My Folder" />
         <label>My Folder</label>
       </div>
     </div>
     <div class="col-md-4 col-sm-4">
       <div class="img_container" (click)="myLibrary_click()">
-        <img src="assets/images/folder/blank.png" (click)="myLibrary_click()" height="120px" width="120px" alt="Library" />
+        <img src="assets/images/folder/blank.png" (click)="myLibrary_click()" height="120px" width="120px"
+          alt="Library" />
         <label>Library</label>
       </div>
     </div>
@@ -474,8 +489,8 @@
       <div class="img_container">
         <img src="assets/images/folder/blank.png" height="120px" width="120px" (click)="image.click()" alt="This PC" />
         <label>This PC</label>
-        <input type="file" ([ngModel])="myfile" name="myfile" class="file-styled custom_file_select" #image (change)="handleFileInput($event.target.files.item(0), 'PC')"
-          accept="image/*,video/*" required>
+        <input type="file" ([ngModel])="myfile" name="myfile" class="file-styled custom_file_select" #image
+          (change)="handleFileInput($event.target.files.item(0), 'PC')" accept="image/*,video/*" required>
       </div>
     </div>
   </div>
@@ -485,13 +500,15 @@
     </div>
     <div class="col-md-4 col-sm-4">
       <div class="img_container" (click)="getMyImagesLibrary()">
-        <img src="assets/images/folder/picture.png" (click)="getMyImagesLibrary()" height="120px" width="120px" alt="My Images" />
+        <img src="assets/images/folder/picture.png" (click)="getMyImagesLibrary()" height="120px" width="120px"
+          alt="My Images" />
         <label>My Images</label>
       </div>
     </div>
     <div class="col-md-4 col-sm-4">
       <div class="img_container">
-        <img src="assets/images/folder/video.png" (click)="getMyAnimationLibrary()" height="120px" width="120px" alt="My Animation" />
+        <img src="assets/images/folder/video.png" (click)="getMyAnimationLibrary()" height="120px" width="120px"
+          alt="My Animation" />
         <label>My Animation</label>
       </div>
     </div>
@@ -508,7 +525,8 @@
     </div>
     <div class="col-md-4 col-sm-4">
       <div class="img_container">
-        <img src="assets/images/folder/video.png" (click)="getAnimationLibrary()" height="120px" width="120px" alt="Animation Library" />
+        <img src="assets/images/folder/video.png" (click)="getAnimationLibrary()" height="120px" width="120px"
+          alt="Animation Library" />
         <label>Animation Library</label>
       </div>
     </div>
