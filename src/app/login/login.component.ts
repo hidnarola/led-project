@@ -11,7 +11,7 @@ import { Config } from '../shared/config';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
+  currentYear: any;
   model: any = {};
   constructor(private notifier: NotifierService, private service: AccountService,
     private router: Router, private helper: JwtHelperService,
@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
         localStorage.removeItem('access-token');
       }
     }
+    this.currentYear = new Date().getFullYear();
   }
   onSubmit() {
     // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.model));

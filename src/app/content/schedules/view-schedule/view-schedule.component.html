@@ -32,9 +32,6 @@
     <div class="panel panel-flat">
       <div class="panel-heading">
         <h5 class="panel-title">{{ repeat }} Schedule</h5>
-        <div class="heading-elements">
-
-        </div>
       </div>
 
       <div class="panel-body">
@@ -57,7 +54,7 @@
                     <dt>Last Year</dt>
                     <dd>{{dto?.endDate.year}}</dd>
                     <dt>On Date</dt>
-                    <dd>{{ dto?.scheduleMonthDays - 1 }} {{ CONFIG.MONTHS[dto?.scheduleMonths - 1 ] }}</dd>
+                    <dd>{{ dto?.scheduleMonthDays }} {{ CONFIG.MONTHS[dto?.scheduleMonths] }}</dd>
                   </div>
                   <div *ngIf="CONFIG.SCHE_YEAR !== repeat">
                     <dt>Start Date</dt>
@@ -128,12 +125,13 @@
               </table>
               <!-- <i><small>Note: Click on image name to show preview</small></i> -->
               <div class="text-center">
-                <object *ngIf="isPreviewObject" [data]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></object>
+                <object *ngIf="isPreviewObject" [data]="imageUrl" height="auto"
+                  style="max-width:100%;width:auto;max-height:300px"></object>
                 <!-- <embed *ngIf="isPreviewObject" [attr.src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px" /> -->
                 <!-- <iframe *ngIf="isPreviewObject" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></iframe> -->
-                <img *ngIf="isPreviewImage" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px">
-                <video *ngIf="isPreviewVideo" height="auto" style="max-width:100%;width:auto;max-height:300px" autoplay
-                  loop>
+                <img *ngIf="isPreviewImage" [src]="imageUrl" height="auto"
+                  style="max-width:100%;width:auto;max-height:300px">
+                <video *ngIf="isPreviewVideo" height="auto" style="max-width:100%;width:auto;max-height:300px" autoplay>
                   <source [src]="imageUrl" [type]="videoType">
                   Your browser does not support the video tag.</video>
               </div>

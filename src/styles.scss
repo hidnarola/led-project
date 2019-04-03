@@ -404,6 +404,21 @@ body .ui-dialog {
   margin: 10px 0 0;
 }
 
+.img_box .img_lib h4 {
+  margin: 8px 0 0px;
+  padding: 0;
+}
+
+.img_box .img_lib h4 span {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  overflow: hidden;
+  display: block;
+  letter-spacing: .04em;
+  height: 20px;
+}
+
 @media (max-width: 767px) {
 
   body .ui-dialog {
@@ -427,5 +442,34 @@ body .ui-dialog {
 
   body .ui-dialog .ui-dialog-content {
     max-height: unset;
+  }
+}
+
+
+
+@media all and (-ms-high-contrast:none) {
+  .sidebar {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .content-wrapper {
+    width: calc(100% - 0px);
+    padding-left: 260px;
+  }
+
+}
+
+@supports (-ms-ime-align:auto) {
+  .sidebar {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .content-wrapper {
+    width: calc(100% - 0px);
+    padding-left: 260px;
   }
 }

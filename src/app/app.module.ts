@@ -36,7 +36,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { TabViewModule } from 'primeng/tabview';
 
 // import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { ImageLazyLoadModule, WebWorkerService } from 'ng2-image-lazy-load';
+// import { ImageLazyLoadModule, WebWorkerService } from 'ng2-image-lazy-load';
 
 // Spinner
 import { NgxSpinnerModule } from 'ngx-spinner';

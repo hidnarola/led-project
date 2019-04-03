@@ -1,0 +1,9 @@
+.ondate-overlay {
+  position: absolute;
+  top: 35px;
+  left: 13px;
+  background: #fff;
+  color: #333333;
+  font-weight: 400;
+  width: 100px;
+}

@@ -33,8 +33,11 @@ export class EditScheduleComponent implements OnInit {
   repeat = 'None';
   years = [];
   files = [];
+  fileInfoStr: any = [];
+  fileInfo: any = [];
   myfile: any;
   // fileToUpload: File[] = [];
+  existFileToUpload: any[] = [];
   fileToUpload: any[] = [];
   filesToUpload: any[] = [];
   res: any;
@@ -67,6 +70,11 @@ export class EditScheduleComponent implements OnInit {
         this.repeat = this.res.type;
         this.model = this.res.schduleDTO;
         this.files = this.res.multipartImages;
+        console.log('files => ', this.files);
+        this.files.forEach(file => {
+          this.fileInfoStr.push({ name: file.path, source: 'folder' });
+          this.existFileToUpload.push(file);
+        });
         this.oldScheduleName = this.res.schduleDTO.scheduleName;
         // Set Date to datepicker
         let year = this.model.startDate.year;
@@ -94,8 +102,8 @@ export class EditScheduleComponent implements OnInit {
           if (this.repeat === this.CONFIG.SCHE_MONT) { this.model.scheduleMonths = this.model.scheduleMonths.toString().split(','); }
         } else if (this.repeat === this.CONFIG.SCHE_YEAR) {
           const now = new Date();
-          now.setDate(this.model.scheduleMonthDays - 1);
-          now.setMonth(this.model.scheduleMonths[0] - 1);
+          now.setDate(this.model.scheduleMonthDays);
+          now.setMonth(this.model.scheduleMonths[0]);
           this.model.onDate = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) +
             '-' + ('0' + (now.getDate())).slice(-2);
         }
@@ -211,7 +219,7 @@ export class EditScheduleComponent implements OnInit {
     });
   }
 
-  pickFile(file, filename) {
+  pickFile(file, filename, source) {
     // console.log(this.dataURItoBlob(base64));
     // this.handleFileInput(base64);
     // this.handleFileInput(this.blobToFile(this.dataURItoBlob(base64), filename));
@@ -236,7 +244,7 @@ export class EditScheduleComponent implements OnInit {
       } else {
         // const file = new Blob([new Uint8Array(res)], { type: binaryFileType });
         const Image = new File([res], filename, { type: binaryFileType });
-        this.handleFileInput(Image);
+        this.handleFileInput(Image, source);
         // console.log('1 => ', 1);
       }
 
@@ -291,7 +299,7 @@ export class EditScheduleComponent implements OnInit {
   //   });
   // }
 
-  handleFileInput(file) {
+  handleFileInput(file, source) {
     this.spinner.show();
     // let isMatched = false;
     // console.log('this.fileNamesList.indexOf(file.name) => ', this.fileNamesList.indexOf(file.name));
@@ -302,7 +310,7 @@ export class EditScheduleComponent implements OnInit {
       file.duration = '00:00:06';
       this.fileToUpload.push(file);
       this.fileNamesList.push(file.name);
-      if (file.type.substr(0, 5) === 'video') {
+      if (file.type.substr(0, 5) === 'video' && source === 'PC') {
         this.service.addForPreview(file).subscribe(res => {
           console.log('addForPreview -> res => ', res);
           this.spinner.hide();
@@ -310,8 +318,9 @@ export class EditScheduleComponent implements OnInit {
           console.log('addForPreview -> error => ', error);
           this.spinner.hide();
         });
-      }
-      this.spinner.hide();
+      } else { this.spinner.hide(); }
+      // this.spinner.hide();
+      this.fileInfo.push({ 'name': file.name, 'source': source });
       // this.filesToUpload = file;
       // this.notifier.notify('info', 'Unique.');
       // isMatched = false;
@@ -349,6 +358,9 @@ export class EditScheduleComponent implements OnInit {
   }
   imagePreview(filename) {
     // this.isPreview = true;
+    this.isPreviewImage = false;
+    this.isPreviewObject = false;
+    this.isPreviewVideo = false;
     this.spinner.show();
     this.service.getImageForPreview(filename, localStorage.getItem('userid')).subscribe(res => {
       // console.log(res);
@@ -384,7 +396,15 @@ export class EditScheduleComponent implements OnInit {
   //   reader.readAsDataURL(file);
   // }
   getConvertedFile(filename) {
-    this.service.getForPreview(filename).subscribe(res => {
+    // this.service.getForPreview(filename).subscribe(res => {
+    let source;
+    this.fileInfo.forEach(file => {
+      if (filename === file.name) {
+        source = file.source;
+      }
+    });
+
+    this.service.previewTests(filename, source).subscribe(res => {
       const uint = new Uint8Array(res.slice(0, 4));
       const bytes = [];
       uint.forEach((byte) => {
@@ -442,6 +462,7 @@ export class EditScheduleComponent implements OnInit {
   deleteImage(index) {
     this.fileToUpload.splice(index, 1);
     this.fileNamesList.splice(index, 1);
+    this.fileInfo.splice(index, 1);
     this.isPreviewImage = false;
     this.isPreviewVideo = false;
     this.isPreviewObject = false;
@@ -449,6 +470,7 @@ export class EditScheduleComponent implements OnInit {
   }
   edeleteImage(index) {
     this.files.splice(index, 1);
+    this.fileInfoStr.splice(index, 1);
   }
   timeToMS(strtime) {
     let ms = 0;
@@ -460,11 +482,7 @@ export class EditScheduleComponent implements OnInit {
   }
   onSubmit() {
     this.spinner.show();
-    // // console.log(this.model);
 
-    // console.log('this.model.durationList => ', this.model.durationList);
-    // console.log('this.fileToUpload => ', this.fileToUpload);
-    // if (this.repeat === this.config.SCHE_CONT) {
     if (this.model.monthorweek === 'week') {
       this.model.weekDays = this.model.weekDays;
       this.model.scheduleMonthDays = 0;
@@ -472,17 +490,27 @@ export class EditScheduleComponent implements OnInit {
       this.model.weekDays = [];
     }
     this.durationList = [];
-    // this.files.forEach(file => {
-    //   this.fileToUpload.push(file);
-    // });
+
     this.fileToUpload.forEach(file => {
       const dura: any = {};
       dura.name = file.name;
       dura.regex = this.timeToMS(file.duration);
       this.durationList.push(dura);
     });
+    this.existFileToUpload.forEach(file => {
+      const dura: any = {};
+      dura.name = file.path;
+      dura.regex = file.duration ? file.duration : 6000;
+      this.durationList.push(dura);
+    });
+    this.fileInfo.forEach(file => {
+      this.fileInfoStr.push({ 'name': file.name, 'source': file.source });
+    });
     this.model.durationList = this.durationList;
     this.model.oldScheduleName = this.oldScheduleName;
+    this.uniqueArray(this.fileInfoStr);
+    this.model.fileInfo = this.fileInfoStr;
+    console.log('this.model => ', this.model);
     this.service.updateSChedule(this.model, this.fileToUpload, this.repeat).subscribe(res => {
       console.log('res => ', res);
       this.spinner.hide();
@@ -492,7 +520,7 @@ export class EditScheduleComponent implements OnInit {
         this.model = {};
         this.fileToUpload = [];
         this.spinner.hide();
-        this.router.navigate(['/schedules']);
+        this.router.navigate(['/user/schedules']);
       } else if (error.status === 400) {
         this.notifier.notify('warning', 'Select Image To upload');
       } else {
@@ -503,7 +531,7 @@ export class EditScheduleComponent implements OnInit {
     });
 
   }
-
+  uniqueArray = (values) => values.filter((v, i) => values.indexOf(v) === i);
   convertToDate(day, mon, yr) {
     const date = new Date();
     date.setFullYear(yr, mon, day);

@@ -43,29 +43,23 @@ export class SchedulesComponent implements OnDestroy, OnInit, AfterViewInit {
       // Destroy the table first
       dtInstance.destroy();
       // Call the dtTrigger to rerender again
-      this.dtTrigger.next();
+      // this.dtTrigger.next();
     });
     // this.dtTrigger.next();
   }
   getSchedules() {
     this.spinner.show();
-    // this.dtTrigger = new Subject();
     this.service.getSchedulesByUserId(localStorage.getItem('userid')).subscribe(res => {
       this.schedules = [];
       this.schedules = res;
-      // this.rerender();
       this.dtTrigger.next();
 
       this.spinner.hide();
     }, error => {
-      console.log(error);
       this.spinner.hide();
     });
-    // this.dtTrigger.next();
   }
   ngAfterViewInit(): void {
-    // this.dtTrigger = new Subject();
-    // this.dtTrigger.next();
   }
   sendSchedule() {
     this.notification.notify('success', 'Schedule Sent Successfully');
@@ -80,19 +74,14 @@ export class SchedulesComponent implements OnDestroy, OnInit, AfterViewInit {
         this.service.deleteScheduleById(id).subscribe(res => {
           this.notification.notify('success', 'Deleted Successfully');
           this.spinner.hide();
-          // this.rerender();
-          // this.dtTrigger.next();
           this.rerender();
           this.getSchedules();
         }, error => {
           if (error.status === 200) {
             this.notification.notify('success', error.error.text);
-            this.spinner.hide();
-            // this.dtTrigger.next();
             this.rerender();
             this.getSchedules();
-            // this.rerender();
-            // this.dtTrigger.next();
+            this.spinner.hide();
           } else if (error.status === 0) {
             this.notification.notify('error', 'ER: ' + 'API Disconnected');
             this.spinner.hide();

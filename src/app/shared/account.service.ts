@@ -142,7 +142,7 @@ export class AccountService {
             const token = str.replace('Bearer ', '');
             localStorage.setItem('user_email', uname);
             localStorage.setItem('access-token', token);
-            console.log(token);
+            // console.log(token);
             return true;
           } else {
             console.log(res.headers);

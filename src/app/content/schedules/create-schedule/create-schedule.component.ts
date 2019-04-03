@@ -6,11 +6,10 @@ import { SchedulesService } from '../../../shared/schedules.service';
 import { NotifierService } from 'angular-notifier';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgxSpinnerService } from 'ngx-spinner';
+import * as moment from 'moment';
 // import {  FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 // declare var jwplayer: any;
 // declare var videojs: any;
-import { DateTime } from 'luxon';
-import { stringify } from '@angular/compiler/src/util';
 @Component({
   selector: 'app-create-schedule',
   templateUrl: './create-schedule.component.html',
@@ -36,8 +35,7 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
   // fileToUpload: File[] = [];
   fileToUpload: any[] = [];
   filesToUpload: any = [];
-  // fileToUpload: FileList;
-  // fileToUpload: File;
+  fileInfo: any = [];
   imageUrl = this.sanitizer.bypassSecurityTrustUrl('/assets/images/signature.png');
   isPreviewImage: boolean;
   isPreviewVideo: boolean;
@@ -63,19 +61,22 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
     this.model.priority = 1;
     this.model.scheduleName = 'NewSchedule';
 
-    this.model.startDate = this.date.toISOString().slice(0, 10);
+    // this.model.startDate = this.date.toISOString().slice(0, 10);
+    this.model.startDate = moment().format('YYYY-MM-DD');
     this.model.startTime = this.date.toTimeString().slice(0, 5);
     this.model.firstYear = this.date.getFullYear();
     this.model.lastYear = Number(this.date.getFullYear() + 1);
-    const currentYear = this.date.getFullYear();
-    this.date.setFullYear(currentYear + 1, 11, 29);
-    this.model.endDate = this.date.toISOString().slice(0, 10);
+    // const currentYear = this.date.getFullYear();
+    // this.date.setFullYear(currentYear + 1, 11, 29);
+    // this.model.endDate = this.date.toISOString().slice(0, 10);
+    this.model.endDate = moment().add(1, 'year').endOf('year').format('YYYY-MM-DD');
     this.model.endTime = '23:59';
     this.model.monthorweek = 'week';
     this.model.moduloYDay = '1';
     this.model.moduloWeek = '1';
     this.model.duration = '00:00:06';
-    this.model.scheduleMonthDays = '1';
+    this.model.scheduleMonthDays = null;
+    this.model.onDate = moment().startOf('year').format('YYYY-MM-DD');
     // this.model.ondate = new Date();
     this.model.myfiles = [];
 
@@ -211,7 +212,7 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
     });
   }
 
-  pickFile(file, filename) {
+  pickFile(file, filename, source) {
     // console.log(this.dataURItoBlob(base64));
     // this.handleFileInput(base64);
     // this.handleFileInput(this.blobToFile(this.dataURItoBlob(base64), filename));
@@ -235,8 +236,8 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
         this.notifier.notify('warning', 'Unknown File Type or Currupted File');
       } else {
         // const file = new Blob([new Uint8Array(res)], { type: binaryFileType });
-        const Image = new File([res], filename, { type: binaryFileType });
-        this.handleFileInput(Image);
+        const newFile = new File([res], filename, { type: binaryFileType });
+        this.handleFileInput(newFile, source);
         // console.log('1 => ', 1);
       }
 
@@ -277,68 +278,46 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
     return blob;
   }
 
-  handleFileInput(file) {
+  handleFileInput(file, source) {
     // let isMatched = false;
     // console.log('this.fileNamesList.indexOf(file.name) => ', this.fileNamesList.indexOf(file.name));
-    this.spinner.show();
-    if (this.fileNamesList.indexOf(file.name) >= 0) {
-      this.notifier.notify('warning', 'Same File Name Exist.');
-      // isMatched = true;
-    } else {
-      file.duration = '00:00:06';
-      this.fileToUpload.push(file);
-      this.fileNamesList.push(file.name);
-      if (file.type.substr(0, 5) === 'video') {
-        this.service.addForPreview(file).subscribe(res => {
-          console.log('addForPreview -> res => ', res);
+    if (file) {
+      this.spinner.show();
+      if (this.fileNamesList.indexOf(file.name) >= 0) {
+        this.notifier.notify('warning', 'Same File Name Exist.');
+        // isMatched = true;
+        this.spinner.hide();
+      } else {
+        file.duration = '00:00:06';
+        this.fileToUpload.push(file);
+        this.fileNamesList.push(file.name);
+        if (file.type.substr(0, 5) === 'video' && source === 'PC') {
+          this.service.addForPreview(file).subscribe(res => {
+            console.log('addForPreview -> res => ', res);
+            this.spinner.hide();
+          }, error => {
+            console.log('addForPreview -> error => ', error);
+            this.spinner.hide();
+          });
+        } else {
           this.spinner.hide();
-        }, error => {
-          console.log('addForPreview -> error => ', error);
-          this.spinner.hide();
-        });
-      }
-      this.spinner.hide();
-      // console.log('file => ', file);
-      // this.filesToUpload.duration.push('00:00:06');
-      // this.filesToUpload.files.push(file);
-      // this.notifier.notify('info', 'Unique.');
-      // isMatched = false;
-    }
-    // this.fileToUpload.forEach(files => {
-    //   if (file.name === files.name) {
-    //     // console.log('matched');
-    //     // this.notifier.notify('info', 'Rename Filename if you want to add');
-    //   }
-    // });
-    // }
-    // else {
-    // isMatched = true;
-    // if (file.length > 0) {
-    // this.fileToUpload.push(file.item(0));
-    // this.filesToUpload = file;
-    // } else {
-    // this.notifier.notify('info', 'No File Selected');
-    // }
-    // }
-    // if (!isMatched) {
-    //   if (file) {
-    //     this.fileToUpload.push(file);
-    //     this.fileNamesList.push(file.name);
-    //     this.filesToUpload = file;
-    //   } else {
-    //     this.notifier.notify('info', 'No File Selected');
-    //   }
-    //   isMatched = false;
-    // }
+        }
+        this.fileInfo.push({ 'name': file.name, 'source': source });
+        // this.spinner.hide();
 
-    // console.log(this.fileToUpload);
+      }
+    }
+
     this.display = false;
     // console.log(this.filesToUpload);
   }
 
-  getConvertedFile(filename) {
+  getConvertedFile(filename, index) {
+    this.isPreviewImage = false;
+    this.isPreviewObject = false;
+    this.isPreviewVideo = false;
     this.spinner.show();
-    this.service.getForPreview(filename).subscribe(res => {
+    this.service.previewTests(filename, this.fileInfo[index].source).subscribe(res => {
       const uint = new Uint8Array(res.slice(0, 4));
       const bytes = [];
       uint.forEach((byte) => {
@@ -356,7 +335,8 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
       this.spinner.hide();
     },
       error => {
-        console.log('getConvertedFile: Eroor => ', error);
+        console.log('getConvertedFile: Error => ', error);
+        this.spinner.hide();
       });
   }
 
@@ -433,8 +413,13 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
     });
     // dura += '}';
     this.model.durationList = this.durationList;
-    // console.log('fileToUpload => ', this.fileToUpload);
-    // console.log('model => ', this.model);
+    // const fileInfoMap = new Map<string, string>();
+
+    this.model.fileInfo = this.fileInfo;
+    console.log('fileToUpload => ', this.fileToUpload);
+    console.log('model => ', this.model);
+    console.log('fileInfo => ', this.fileInfo);
+
     this.service.createSchedule(this.model, this.fileToUpload, this.repeat).subscribe(res => {
       console.log('res => ', res);
       this.spinner.hide();

@@ -80,7 +80,7 @@
             <!-- <iframe *ngIf="isPreviewObject" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></iframe> -->
             <img *ngIf="isPreviewImage" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px">
             <video id="video_player" *ngIf="isPreviewVideo" class="video-js vjs-big-play-centered" preload="auto"
-              data-setup="{}" height="auto" style="max-width:100%;width:auto;max-height:300px" autoplay loop>
+              data-setup="{}" height="auto" style="max-width:100%;width:auto;max-height:300px" autoplay>
               <source [src]="imageUrl" [type]="videoType">
               Your browser does not support the video.
               <p class="vjs-no-js">
@@ -139,7 +139,7 @@
                 <div class="img_box d-flex">
                   <div class="img_lib" *ngFor="let video of fileExplorer.animations| keyvalue; let i = index">
                     <div class="img_lib-img">
-                      <video controls loop class="video-js vjs-big-play-centered" preload="auto" data-setup="{}" style="max-width:100%;width:auto;max-height:300px">
+                      <video controls class="video-js vjs-big-play-centered" preload="auto" data-setup="{}" style="max-width:100%;width:auto;max-height:300px">
                         <source [src]="video.value" type="video/mp4">
                         <source [src]="video.value" type="video/mp4">
                         Your browser does not support the video tag.</video>

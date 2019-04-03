@@ -104,6 +104,9 @@ export class SchedulesService {
     // {"priority": 1,"scheduleName": "myFirstContinueSchedule.yml","startDate": "2018-01-02",
     // "endDate": "2018-01-01","startTime": "01:00","endTime": "01:00","userid": 5 }
 
+    // '"startDate": "' + ((data.startDate) ? new Date(data.startDate) : '') + '",' +
+    // '"endDate": "' + ((data.endDate) ? new Date(data.endDate) : '') + '",' +
+
     if (type === this.config.SCHE_CONT) {
       this.scheduleData = '{' +
         '"priority": ' + Number(data.priority) + ',' +
@@ -149,7 +152,7 @@ export class SchedulesService {
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
         // '"duration": "' + this.timeToMS(data.duration) + '",' +
-        '"scheduleMonthDays": ' + ((data.scheduleMonthDays) ? data.scheduleMonthDays : 31) + ',' +
+        '"scheduleMonthDays": ' + ((data.scheduleMonthDays) ? data.scheduleMonthDays : null) + ',' +
         '"scheduleMonths": [' + ((data.scheduleMonths) ? data.scheduleMonths : '') + '],' +
         '"weekDays": [' + ((data.weekDays) ? data.weekDays : 7) + '],' +
         '"type": "' + type + '",' +
@@ -211,14 +214,19 @@ export class SchedulesService {
         dura += '"' + data.durationList[i].name + '":"' + data.durationList[i].regex + '"}}';
       }
     }
+    let fileInfoStr = '{';
+    for (let i = 0; i < data.fileInfo.length; i++) {
+      if (i < data.fileInfo.length - 1) {
+        fileInfoStr += '"' + data.fileInfo[i].name + '":"' + data.fileInfo[i].source + '"' + ',';
+      } else {
+        fileInfoStr += '"' + data.fileInfo[i].name + '":"' + data.fileInfo[i].source + '"}';
+      }
+    }
+
     this.formdata.append('scheduleStr', this.scheduleData);
     this.formdata.append('durationList', dura);
+    this.formdata.append('fileinfoMapStr', fileInfoStr);
 
-    // this.formdata.append('priority', data.priority);
-    // this.formdata.append('startdate', data.startdate);
-    // this.formdata.append('enddate', data.enddate);
-    // this.formdata.append('starttime', data.starttime);
-    // this.formdata.append('endtime', data.endtime);
     return this
       .http
       .post(uri, this.formdata, { headers })
@@ -280,7 +288,7 @@ export class SchedulesService {
         '"startTime": "' + data.startTime + '",' +
         '"endTime": "' + data.endTime + '",' +
         // '"duration": "' + this.timeToMS(data.duration) + '",' +
-        '"scheduleMonthDays": ' + ((data.scheduleMonthDays) ? data.scheduleMonthDays : 0) + ',' +
+        '"scheduleMonthDays": ' + ((data.scheduleMonthDays) ? data.scheduleMonthDays : null) + ',' +
         '"scheduleMonths": [' + ((data.scheduleMonths) ? data.scheduleMonths : '') + '],' +
         '"weekDays": [' + ((data.weekDays) ? data.weekDays : '') + '],' +
         '"type": "' + type + '",' +
@@ -319,8 +327,17 @@ export class SchedulesService {
         dura += '"' + data.durationList[i].name + '":"' + data.durationList[i].regex + '"}}';
       }
     }
+    let fileInfoStr = '{';
+    for (let i = 0; i < data.fileInfo.length; i++) {
+      if (i < data.fileInfo.length - 1) {
+        fileInfoStr += '"' + data.fileInfo[i].name + '":"' + data.fileInfo[i].source + '"' + ',';
+      } else {
+        fileInfoStr += '"' + data.fileInfo[i].name + '":"' + data.fileInfo[i].source + '"}';
+      }
+    }
     this.formdata.append('scheduleStr', this.scheduleData);
     this.formdata.append('durationList', dura);
+    this.formdata.append('fileinfoMapStr', fileInfoStr);
     this.formdata.append('oldFileName', data.oldScheduleName);
     return this
       .http
@@ -453,7 +470,7 @@ export class SchedulesService {
       .post(uri, filedata)
       .map(res => {
         // console.log(res);
-        return res;
+        return res as any;
       }, error => {
         // console.log(error);
       });
@@ -595,13 +612,25 @@ export class SchedulesService {
     return this
       .http
       .post(uri, this.formdata, { headers })
-      .map(res => {
-        // console.log(res);
-        return res;
-      });
+      .map(res => res);
   }
   getForPreview(filename) {
     const uri = this.apiURL + 'leddesigner/schedule/addfilePreview?fileName=' + filename;
+
+    return this.http
+      .get(uri
+        // , { responseType: 'blob' }
+        , { responseType: 'arraybuffer' }
+      )
+      .pipe(map(res => {
+        // // console.log(res);
+        return res;
+      }
+      ));
+  }
+  previewTests(filename, source) {
+    const uri = this.apiURL + 'leddesigner/schedule/addfilePreview1?fileName=' + filename +
+      '&UserId=' + Number(localStorage.getItem('userid')) + '&Source=' + source;
 
     return this.http
       .get(uri

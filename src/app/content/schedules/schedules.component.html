@@ -9,9 +9,6 @@
         <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Home</span> - Schedules</h4>
       </div>
 
-      <div class="heading-elements">
-
-      </div>
     </div>
 
     <div class="breadcrumb-line">
@@ -38,25 +35,27 @@
                 <ul class="dropdown-menu dropdown-menu-right">
                   <li><a [routerLink]="['./../schedule/add']" [queryParams]="{ repeat: 'Continuous' }"
                       queryParamsHandling="merge"><i class="icon-loop3"></i> Continuous</a></li>
-                  <li><a [routerLink]="['./../schedule/add']" [queryParams]="{ repeat: 'Daily' }" queryParamsHandling="merge"><i
-                        class="icon-loop3"></i> Daily</a></li>
-                  <li><a [routerLink]="['./../schedule/add']" [queryParams]="{ repeat: 'Weekly' }" queryParamsHandling="merge"><i
-                        class="icon-loop3"></i> Weekly</a></li>
-                  <li><a [routerLink]="['./../schedule/add']" [queryParams]="{ repeat: 'Monthly' }" queryParamsHandling="merge"><i
-                        class="icon-loop3"></i> Monthly</a></li>
-                  <li><a [routerLink]="['./../schedule/add']" [queryParams]="{ repeat: 'Yearly' }" queryParamsHandling="merge"><i
-                        class="icon-loop3"></i> Yearly</a></li>
+                  <li><a [routerLink]="['./../schedule/add']" [queryParams]="{ repeat: 'Daily' }"
+                      queryParamsHandling="merge"><i class="icon-loop3"></i> Daily</a></li>
+                  <li><a [routerLink]="['./../schedule/add']" [queryParams]="{ repeat: 'Weekly' }"
+                      queryParamsHandling="merge"><i class="icon-loop3"></i> Weekly</a></li>
+                  <li><a [routerLink]="['./../schedule/add']" [queryParams]="{ repeat: 'Monthly' }"
+                      queryParamsHandling="merge"><i class="icon-loop3"></i> Monthly</a></li>
+                  <li><a [routerLink]="['./../schedule/add']" [queryParams]="{ repeat: 'Yearly' }"
+                      queryParamsHandling="merge"><i class="icon-loop3"></i> Yearly</a></li>
                   <!-- <li class="divider"></li>
                                   <li><a href="#"><i class="icon-gear"></i> Separated line</a></li> -->
                 </ul>
               </div>
             </li>
             <li>
-              <button type="button" (click)="redirectToSend()" class="btn bg-purple btn-rounded"><i class="icon-paperplane position-left"></i>
+              <button type="button" (click)="redirectToSend()" class="btn bg-purple btn-rounded"><i
+                  class="icon-paperplane position-left"></i>
                 Send Schedule</button>
             </li>
           </ul>
         </div>
+        <a class="heading-elements-toggle"><i class="icon-more"></i></a>
       </div>
 
       <div class="panel-body">
@@ -74,7 +73,8 @@
             <tr *ngFor="let schedule of schedules; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ schedule.scheduleName }}</td>
-              <td><span class="label label-{{schedule.type==='Yearly'?'danger':schedule.type==='Monthly'?'warning':schedule.type==='Weekly'?'info':schedule.type==='Daily'?'primary':'success'}}">{{
+              <td><span
+                  class="label label-{{schedule.type==='Yearly'?'danger':schedule.type==='Monthly'?'warning':schedule.type==='Weekly'?'info':schedule.type==='Daily'?'primary':'success'}}">{{
                   schedule.type }}</span></td>
               <!-- <td><span class="label label-{{schedule.type==='Yearly'?'success':'default'}}">{{schedule.type==='Yearly'?'Sent':'Pending'}}</span></td> -->
               <td class="text-center">
