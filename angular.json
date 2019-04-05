@@ -34,7 +34,6 @@
               "node_modules/primeng/resources/themes/nova-light/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/video.js/dist/video-js.min.css"
-              
             ],
             "scripts": [
               "src/assets/js/core/libraries/jquery.min.js",
@@ -63,6 +62,21 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "server2": {
+              "fileReplacements": [{
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.server2.ts"
+              }],
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": false,
+              "namedChunks": false,
+              "aot": false,
+              "extractLicenses": false,
+              "vendorChunk": false,
+              "buildOptimizer": false
             }
           }
         },
@@ -74,6 +88,9 @@
           "configurations": {
             "production": {
               "browserTarget": "led-project:build:production"
+            },
+            "server2": {
+              "browserTarget": "led-project:build:server2"
             }
           }
         },
@@ -127,6 +144,9 @@
           "configurations": {
             "production": {
               "devServerTarget": "led-project:serve:production"
+            },
+            "server2": {
+              "devServerTarget": "led-project:serve:server2"
             }
           }
         },

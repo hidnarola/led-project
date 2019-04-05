@@ -9,11 +9,10 @@ import { Config } from '../shared/config';
   providedIn: 'root'
 })
 export class UsersService {
-  apiURL = this.config.apiURL;
   constructor(private http: HttpClient, private config: Config) { }
 
   getAllUsers() {
-    const uri = this.apiURL + 'leddesigner/user/getAllUsers';
+    const uri = '/leddesigner/user/getAllUsers';
 
     return this.http
       .get(uri)
@@ -25,7 +24,7 @@ export class UsersService {
   }
 
   getUserProfile(id) {
-    const uri = this.apiURL + 'leddesigner/user/getProfile?userid=' + id;
+    const uri = '/leddesigner/user/getProfile?userid=' + id;
 
     return this.http
       .get(uri)
@@ -39,7 +38,7 @@ export class UsersService {
   deleteUser(id) {
 
     // Not implemented
-    const uri = this.apiURL + 'leddesigner/user/delete?id=' + id;
+    const uri = '/leddesigner/user/delete?id=' + id;
 
     return this.http
       .delete(uri)
@@ -51,7 +50,7 @@ export class UsersService {
   }
 
   changePassword(data) {
-    const uri = this.apiURL + 'leddesigner/user/changePassword';
+    const uri = '/leddesigner/user/changePassword';
     const profile = {
       userId: data.userId,
       oldPassword: data.oldPassword,
@@ -66,7 +65,7 @@ export class UsersService {
   }
 
   updateProfile(data) {
-    const uri = this.apiURL + 'leddesigner/user/updateProfile';
+    const uri = '/leddesigner/user/updateProfile';
     const profile = {
       // userid: data.userid,
       // email: data.email,
