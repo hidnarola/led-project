@@ -10,7 +10,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SchedulesService {
-  apiURL = this.config.apiURL;
   formdata: any;
   scheduleData: string;
   // schedule: string;
@@ -50,8 +49,8 @@ export class SchedulesService {
     }
   }
   createSchedule(data, file: File[], type) {
-    // const uri = this.apiURL + 'leddesigner/schedule/continuous';
-    const uri = this.apiURL + 'leddesigner/schedule/add';
+    // const uri = '/leddesigner/schedule/continuous';
+    const uri = '/leddesigner/schedule/add';
 
     // Continuous :
     // {"userid" : 1,"scheduleName" : "myContinuousSchedule.yml","firstYear" : 0,"lastYear" : 0,
@@ -241,8 +240,8 @@ export class SchedulesService {
   }
 
   updateSChedule(data, file: File[], type) {
-    // const uri = this.apiURL + 'leddesigner/schedule/updateContinuous';
-    const uri = this.apiURL + 'leddesigner/schedule/update';
+    // const uri = '/leddesigner/schedule/updateContinuous';
+    const uri = '/leddesigner/schedule/update';
     if (type === this.config.SCHE_CONT) {
       this.scheduleData = '{' +
         '"priority": ' + Number(data.priority) + ',' +
@@ -351,8 +350,8 @@ export class SchedulesService {
   }
 
   getSchedulesByUserId(userid) {
-    // const uri = this.apiURL + 'leddesigner/schedule/getContinuousSchedulesByUserid?userid=' + userid;
-    const uri = this.apiURL + 'leddesigner/schedule/getSchedulesByUserid?userid=' + userid;
+    // const uri = '/leddesigner/schedule/getContinuousSchedulesByUserid?userid=' + userid;
+    const uri = '/leddesigner/schedule/getSchedulesByUserid?userid=' + userid;
 
     return this.http
       .get(uri)
@@ -364,8 +363,8 @@ export class SchedulesService {
   }
 
   deleteScheduleById(id) {
-    // const uri = this.apiURL + 'leddesigner/schedule/deleteContinuousSchedule?id=' + id;
-    const uri = this.apiURL + 'leddesigner/schedule/delete?id=' + id;
+    // const uri = '/leddesigner/schedule/deleteContinuousSchedule?id=' + id;
+    const uri = '/leddesigner/schedule/delete?id=' + id;
     return this.http
       .delete(uri)
       .pipe(map(res => {
@@ -376,8 +375,8 @@ export class SchedulesService {
   }
 
   getScheduleById(id) {
-    // const uri = this.apiURL + 'leddesigner/schedule/getSelectedContinuousSchduleInfo?id=' + id;
-    const uri = this.apiURL + 'leddesigner/schedule/getScheduleInfo?id=' + id;
+    // const uri = '/leddesigner/schedule/getSelectedContinuousSchduleInfo?id=' + id;
+    const uri = '/leddesigner/schedule/getScheduleInfo?id=' + id;
 
     return this.http
       .get(uri)
@@ -389,7 +388,7 @@ export class SchedulesService {
   }
 
   getSchedules() {
-    const uri = this.apiURL + 'leddesigner/schedule/getAllSchedules';
+    const uri = '/leddesigner/schedule/getAllSchedules';
 
     return this.http
       .get(uri)
@@ -402,7 +401,7 @@ export class SchedulesService {
 
   // from Delete Sign
   getScheduleBySignId(userid, signId) {
-    const uri = this.apiURL + 'leddesigner/schedule/schedules?signId=' + signId + '&userid=' + userid;
+    const uri = '/leddesigner/schedule/schedules?signId=' + signId + '&userid=' + userid;
 
     return this.http
       .get(uri)
@@ -414,7 +413,7 @@ export class SchedulesService {
   }
 
   deleteScheduleByUserId(userid, data) {
-    const uri = this.apiURL + 'leddesigner/schedule/deleteSchedule?userid=' + userid;
+    const uri = '/leddesigner/schedule/deleteSchedule?userid=' + userid;
 
     const filedata = {
       entryIPList:
@@ -433,7 +432,7 @@ export class SchedulesService {
 
 
   getScheduleByUserIdandType(userid, type) {
-    const uri = this.apiURL + 'leddesigner/schedule/getSchedulesByUseridAndType?userid=' + userid + '&type=' + type;
+    const uri = '/leddesigner/schedule/getSchedulesByUseridAndType?userid=' + userid + '&type=' + type;
 
     return this.http
       .get(uri)
@@ -445,7 +444,7 @@ export class SchedulesService {
   }
 
   getFilesByUserId(userid) {
-    const uri = this.apiURL + 'leddesigner/schedule/getFiles?userid=' + userid;
+    const uri = '/leddesigner/schedule/getFiles?userid=' + userid;
     // const uri = 'http://192.168.100.42:8081/leddesigner/schedule/getFiles?userid=' + userid;
     return this.http
       .get(uri)
@@ -458,7 +457,7 @@ export class SchedulesService {
 
   sendFileByUserId(data, uid) {
     // const uri = 'http://192.168.100.42:8081/leddesigner/schedule/send?userid=' + uid;
-    const uri = this.apiURL + 'leddesigner/schedule/send?userid=' + uid;
+    const uri = '/leddesigner/schedule/send?userid=' + uid;
     const filedata = {
       entryIPList:
         data.entryIPList,
@@ -478,7 +477,7 @@ export class SchedulesService {
   }
 
   getImageForPreview(filename, userid) {
-    const uri = this.apiURL + 'leddesigner/schedule/filePreview?fileName=' + filename + '&userid=' + userid;
+    const uri = '/leddesigner/schedule/filePreview?fileName=' + filename + '&userid=' + userid;
     // const uri = 'http://192.168.100.42:8080/leddesigner/schedule/filePreview?fileName=blog-website-banner.jpg&userid=7';
     return this.http
       .get(uri
@@ -493,8 +492,8 @@ export class SchedulesService {
   }
 
   getAnimationLibrary() {
-    // const uri = this.apiURL + 'leddesigner/schedule/allmovies';
-    const uri = this.apiURL + 'leddesigner/schedule/getallvideos';
+    // const uri = '/leddesigner/schedule/allmovies';
+    const uri = '/leddesigner/schedule/getallvideos';
     return this.http
       .get(uri
         // , { responseType: 'blob' }
@@ -508,7 +507,7 @@ export class SchedulesService {
   }
 
   getImageLibrary() {
-    const uri = this.apiURL + 'leddesigner/schedule/getallimages';
+    const uri = '/leddesigner/schedule/getallimages';
     return this.http
       .get(uri
         // , { responseType: 'blob' }
@@ -536,7 +535,7 @@ export class SchedulesService {
   }
 
   getMyImages(id) {
-    const uri = this.apiURL + 'leddesigner/schedule/myimages?id=' + id;
+    const uri = '/leddesigner/schedule/myimages?id=' + id;
     return this.http
       .get(uri
         // , { responseType: 'blob' }
@@ -549,7 +548,7 @@ export class SchedulesService {
       ));
   }
   getMyAnimations(id) {
-    const uri = this.apiURL + 'leddesigner/schedule/mymovies?id=' + id;
+    const uri = '/leddesigner/schedule/mymovies?id=' + id;
     return this.http
       .get(uri
         // , { responseType: 'blob' }
@@ -564,7 +563,7 @@ export class SchedulesService {
 
   uploadImage(file) {
 
-    const uri = this.apiURL + 'leddesigner/schedule/uploadAllImages';
+    const uri = '/leddesigner/schedule/uploadAllImages';
 
     const headers = new HttpHeaders();
     // this is the important step. You need to set content type as null
@@ -583,7 +582,7 @@ export class SchedulesService {
 
   uploadAnimation(file) {
 
-    const uri = this.apiURL + 'leddesigner/schedule/uploadAllMovies';
+    const uri = '/leddesigner/schedule/uploadAllMovies';
 
     const headers = new HttpHeaders();
     // this is the important step. You need to set content type as null
@@ -601,7 +600,7 @@ export class SchedulesService {
   }
 
   addForPreview(file) {
-    const uri = this.apiURL + 'leddesigner/schedule/addPreview';
+    const uri = '/leddesigner/schedule/addPreview';
 
     const headers = new HttpHeaders();
     // this is the important step. You need to set content type as null
@@ -615,7 +614,7 @@ export class SchedulesService {
       .map(res => res);
   }
   getForPreview(filename) {
-    const uri = this.apiURL + 'leddesigner/schedule/addfilePreview?fileName=' + filename;
+    const uri = '/leddesigner/schedule/addfilePreview?fileName=' + filename;
 
     return this.http
       .get(uri
@@ -629,7 +628,7 @@ export class SchedulesService {
       ));
   }
   previewTests(filename, source) {
-    const uri = this.apiURL + 'leddesigner/schedule/addfilePreview1?fileName=' + filename +
+    const uri = '/leddesigner/schedule/addfilePreview1?fileName=' + filename +
       '&UserId=' + Number(localStorage.getItem('userid')) + '&Source=' + source;
 
     return this.http
