@@ -9,11 +9,10 @@ import { Config } from '../shared/config';
   providedIn: 'root'
 })
 export class SignsService {
-  apiURL = this.config.apiURL;
   constructor(private http: HttpClient, private config: Config) { }
 
   getAllSigns() {
-    const uri = this.apiURL + 'leddesigner/signsn/getAllSignSN';
+    const uri = '/leddesigner/signsn/getAllSignSN';
 
     return this.http
       .get(uri)
@@ -25,7 +24,7 @@ export class SignsService {
   }
 
   getSingleSign(id) {
-    const uri = this.apiURL + 'leddesigner/signsn/getSignSN?signId=' + id;
+    const uri = '/leddesigner/signsn/getSignSN?signId=' + id;
 
     return this.http
       .get(uri)
@@ -39,7 +38,7 @@ export class SignsService {
 
 
   addSign(data) {
-    const uri = this.apiURL + 'leddesigner/signsn/add';
+    const uri = '/leddesigner/signsn/add';
     const signs = {
       serial_number: data.signsn,
       sizeY: Number(data.heighty),
@@ -63,7 +62,7 @@ export class SignsService {
   }
 
   updateSign(data) {
-    const uri = this.apiURL + 'leddesigner/signsn/updateSignSN';
+    const uri = '/leddesigner/signsn/updateSignSN';
     const signs = {
       id: data.id,
       serial_number: data.serial_number,
@@ -87,7 +86,7 @@ export class SignsService {
 
   deleteSign(id) {
     // /leddesigner/signsn/deleteSignSN?signId=25
-    const uri = this.apiURL + 'leddesigner/signsn/deleteSignSN?signId=' + id;
+    const uri = '/leddesigner/signsn/deleteSignSN?signId=' + id;
         return this.http
       .delete(uri)
       .map(res => {
