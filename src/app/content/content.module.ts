@@ -4,11 +4,11 @@ import { CommonModule } from '@angular/common';
 import { ContentRoutingModule } from './content-routing.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ContentRoutingModule
-  ],
-  declarations: [
-  ]
+    imports: [
+        CommonModule,
+        ContentRoutingModule
+    ],
+    declarations: [
+    ]
 })
 export class ContentModule { }

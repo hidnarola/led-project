@@ -48,10 +48,16 @@
                 </ul>
               </div>
             </li>
-            <li>
+            <!-- <li>
               <button type="button" (click)="redirectToSend()" class="btn bg-purple btn-rounded"><i
                   class="icon-paperplane position-left"></i>
                 Send Schedule</button>
+            </li> -->
+            <li>
+              <button type="button" (click)="updatePlaylist()" class="btn bg-purple btn-rounded">
+                  <i class="icon-paperplane position-left"></i>
+                  Update Playlist
+              </button>
             </li>
           </ul>
         </div>
@@ -62,6 +68,7 @@
         <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
           <thead>
             <tr>
+              <th></th>
               <th>SR</th>
               <th>Schedule name</th>
               <th>Type</th>
@@ -71,6 +78,10 @@
           </thead>
           <tbody>
             <tr *ngFor="let schedule of schedules; let i = index">
+              <td>
+                <p-checkbox name="schedule-selection" value="{{schedule.id}}" [(ngModel)]="selectedSchedules">
+                </p-checkbox>
+              </td>
               <td>{{ i + 1 }}</td>
               <td>{{ schedule.scheduleName }}</td>
               <td><span

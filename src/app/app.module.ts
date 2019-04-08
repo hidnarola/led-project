@@ -56,6 +56,7 @@ import { AdminLayoutComponent } from './_layouts/admin-layout/admin-layout.compo
 import { UserLayoutComponent } from './_layouts/user-layout/user-layout.component';
 
 import { SchedulesComponent } from './content/schedules/schedules.component';
+import { PlaylistsComponent } from './content/playlists/playlists.component';
 import { CreateScheduleComponent } from './content/schedules/create-schedule/create-schedule.component';
 import { EditScheduleComponent } from './content/schedules/edit-schedule/edit-schedule.component';
 import { MySignsComponent } from './content/my-signs/my-signs.component';
@@ -138,6 +139,7 @@ const customNotifierOptions: NotifierOptions = {
     AdminLogoutComponent,
     CreateUserComponent,
     SchedulesComponent,
+    PlaylistsComponent,
     CreateScheduleComponent,
     EditScheduleComponent,
     EditUserComponent,

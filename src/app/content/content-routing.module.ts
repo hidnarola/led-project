@@ -13,43 +13,48 @@ import { MySignsComponent } from './my-signs/my-signs.component';
 import { AuthGuard } from '../auth.guard';
 
 import { UserLayoutComponent } from '../_layouts/user-layout/user-layout.component';
+import { PlaylistsComponent } from './playlists/playlists.component';
 
 
 const routes: Routes = [
-  {
-    path: '',
-    component: UserLayoutComponent,
-    children: [{
-      path: '', redirectTo: 'home', pathMatch: 'full'
-    },
     {
-      path: 'home', component: HomeComponent,
-    },
-   {
-      path: 'schedules', component: SchedulesComponent,
-    },
-    {
-      path: 'schedule/add', component: CreateScheduleComponent,
-    },
-    {
-      path: 'schedule/edit/:id', component: EditScheduleComponent,
-    },
-    {
-      path: 'schedule/send', component: SendScheduleComponent,
-    },
-    {
-      path: 'schedule/:id', component: ViewScheduleComponent,
-    },
-    {
-      path: 'signs', component: MySignsComponent,
-    },
-    ],
-    canActivate: [AuthGuard]
-  }
+        path: '',
+        component: UserLayoutComponent,
+        children: [
+            {
+                path: '', redirectTo: 'home', pathMatch: 'full'
+            },
+            {
+                path: 'home', component: HomeComponent,
+            },
+            {
+                path: 'schedules', component: SchedulesComponent,
+            },
+            {
+                path: 'schedule/add', component: CreateScheduleComponent,
+            },
+            {
+                path: 'schedule/edit/:id', component: EditScheduleComponent,
+            },
+            {
+                path: 'schedule/send', component: SendScheduleComponent,
+            },
+            {
+                path: 'schedule/:id', component: ViewScheduleComponent,
+            },
+            {
+                path: 'signs', component: MySignsComponent,
+            },
+            {
+                path: 'playlist', component: PlaylistsComponent,
+            }
+        ],
+        canActivate: [AuthGuard]
+    }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
 export class ContentRoutingModule { }
