@@ -11,7 +11,7 @@ export class AdminLogoutComponent implements OnInit {
 
   ngOnInit() {
 
-    localStorage.removeItem('access-token');
+    localStorage.clear();
     this.router.navigate(['']);
 
   }
