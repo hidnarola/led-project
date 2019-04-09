@@ -30,6 +30,13 @@
                             <i class="icon-home4"></i> <span>Home</span>
                         </a>
                     </li>
+                    <li *ngIf="!isAdmin">
+                        <a (click)="image.click()">
+                            <i class="icon-upload"></i> <span>Upload Files</span>
+                        </a>
+                        <input type="file" ([ngModel])="myfile" name="myfile" class="file-styled custom_file_select"
+                            #image (change)="handleFileInput($event.target.files.item(0))" accept="image/*,video/*" required>
+                    </li>
                     <li *ngIf="!isAdmin" routerLinkActive="active">
                         <a routerLink="/user/schedules">
                             <i class="icon-calendar5"></i> <span>Schedules</span>
@@ -38,7 +45,6 @@
                     <li *ngIf="!isAdmin" routerLinkActive="active">
                         <a routerLink="/user/playlists">
                             <i class="icon-calendar5"></i> <span>Playlist</span>
-                        </a>
                     </li>
                     <li *ngIf="!isAdmin" routerLinkActive="active">
                         <a routerLink="/user/signs">

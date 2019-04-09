@@ -71,7 +71,7 @@ export class AdminLoginComponent implements OnInit {
         this.router.navigate(['admin/dashboard']);
       } else {
         this.notifier.notify('warning', 'ACCESS DENIED. Please Login Again.');
-        localStorage.removeItem('access-token');
+        localStorage.clear();
       }
     }
   }
