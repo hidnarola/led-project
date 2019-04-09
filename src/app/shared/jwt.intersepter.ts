@@ -11,7 +11,6 @@ export class JwtInterceptor implements HttpInterceptor {
         const apiUrl = environment.apiURL;
         const reqUrl = request.url.trim();
         const url = reqUrl[0] === '/' ? apiUrl + reqUrl : reqUrl;
-        console.log('url = ', url);
         let header = {};
         if (currentUser) {
             header = {
@@ -22,7 +21,6 @@ export class JwtInterceptor implements HttpInterceptor {
             url: url,
             setHeaders: header
         });
-        // // console.log(JSON.stringify(request));
         return next.handle(request);
     }
 }

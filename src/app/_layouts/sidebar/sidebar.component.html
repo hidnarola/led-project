@@ -1,52 +1,84 @@
 <!-- Main sidebar -->
 <div class="sidebar sidebar-main">
-  <div class="sidebar-content">
-
-    <!-- User menu -->
-    <div class="sidebar-user">
-      <div class="category-content">
-        <div class="media">
-          <span class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></span>
-          <div class="media-body">
-            <span class="media-heading text-semibold">{{ user_name }}</span>
-            <div class="text-size-mini text-muted">
-              <i class="icon-user3 text-size-small"></i> &nbsp;{{ user_role }}
+    <div class="sidebar-content">
+        <!-- User menu -->
+        <div class="sidebar-user">
+            <div class="category-content">
+                <div class="media">
+                    <span class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm"
+                            alt=""></span>
+                    <div class="media-body">
+                        <span class="media-heading text-semibold">{{ user_name }}</span>
+                        <div class="text-size-mini text-muted">
+                            <i class="icon-user3 text-size-small"></i> &nbsp;{{ user_role }}
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+        <!-- /user menu -->
+        <!-- Main navigation -->
+        <div class="sidebar-category sidebar-category-visible">
+            <div class="category-content no-padding" id="myMainNav">
+                <ul class="navigation navigation-main navigation-accordion">
+                    <!-- Main -->
+                    <li class="navigation-header">
+                        <span>Main</span> <i class="icon-menu" title="Main pages"></i>
+                    </li>
+                    <li *ngIf="!isAdmin" routerLinkActive="active">
+                        <a routerLink="/user/home">
+                            <i class="icon-home4"></i> <span>Home</span>
+                        </a>
+                    </li>
+                    <li *ngIf="!isAdmin">
+                        <a (click)="image.click()">
+                            <i class="icon-upload"></i> <span>Upload Files</span>
+                        </a>
+                        <input type="file" ([ngModel])="myfile" name="myfile" class="file-styled custom_file_select"
+                            #image (change)="handleFileInput($event.target.files.item(0))" accept="image/*,video/*" required>
+                    </li>
+                    <li *ngIf="!isAdmin" routerLinkActive="active">
+                        <a routerLink="/user/schedules">
+                            <i class="icon-calendar5"></i> <span>Schedules</span>
+                        </a>
+                    </li>
+                    <li *ngIf="!isAdmin" routerLinkActive="active">
+                        <a routerLink="/user/signs">
+                            <i class="icon-display"></i> <span>My Signs</span>
+                        </a>
+                    </li>
+                    <li *ngIf="!isAdmin" routerLinkActive="active">
+                        <a routerLink="/user/signs/deleteSchedule">
+                            <i class="icon-trash"></i> <span>Delete Schedules</span>
+                        </a>
+                    </li>
+                    <li *ngIf="isAdmin" routerLinkActive="active">
+                        <a routerLink="/admin/dashboard">
+                            <i class="icon-home4"></i> <span>Home</span>
+                        </a>
+                    </li>
+                    <li *ngIf="isAdmin" routerLinkActive="active">
+                        <a routerLink="/admin/users">
+                            <i class="icon-user-tie"></i> <span>Users</span>
+                        </a>
+                    </li>
+                    <li *ngIf="isAdmin" routerLinkActive="active">
+                        <a routerLink="/admin/sign-setup">
+                            <i class="icon-cog3"></i> <span>Sign Setup</span>
+                        </a>
+                    </li>
+                    <li *ngIf="isAdmin" routerLinkActive="active">
+                        <a routerLink="/admin/file-manager">
+                            <i class="icon-folder2"></i> <span>File Manager</span>
+                        </a>
+                    </li>
+                    <!-- /main -->
+
+                </ul>
+            </div>
+        </div>
+        <!-- /main navigation -->
+
     </div>
-    <!-- /user menu -->
-    <!-- Main navigation -->
-    <div class="sidebar-category sidebar-category-visible">
-      <div class="category-content no-padding" id="myMainNav">
-        <ul class="navigation navigation-main navigation-accordion">
-
-          <!-- Main -->
-          <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
-          <li *ngIf="!isAdmin"><a routerLinkActive="active" routerLink="/user/home"><i class="icon-home4"></i>
-              <span>Home</span></a></li>
-          <li *ngIf="!isAdmin"><a routerLinkActive="active" routerLink="/user/schedules"><i class="icon-calendar5"></i>
-              <span>Schedules</span></a></li>
-          <li *ngIf="!isAdmin"><a routerLinkActive="active" routerLink="/user/signs"><i class="icon-display"></i>
-              <span>My Signs</span></a></li>
-          <li *ngIf="!isAdmin"><a routerLinkActive="active" routerLink="/user/signs/deleteSchedule"><i class="icon-trash"></i>
-              <span>Delete Schedules</span></a></li>
-          <li *ngIf="isAdmin"><a routerLinkActive="active" routerLink="/admin/dashboard"><i class="icon-home4"></i>
-              <span>Home</span></a></li>
-          <li *ngIf="isAdmin"><a routerLinkActive="active" routerLink="/admin/users"><i class="icon-user-tie"></i>
-              <span>Users</span></a></li>
-          <li *ngIf="isAdmin"><a routerLinkActive="active" routerLink="/admin/sign-setup"><i class="icon-cog3"></i>
-              <span>Sign Setup</span></a></li>
-          <li *ngIf="isAdmin"><a routerLinkActive="active" routerLink="/admin/file-manager"><i class="icon-folder2"></i>
-              <span>File Manager</span></a></li>
-          <!-- /main -->
-
-        </ul>
-      </div>
-    </div>
-    <!-- /main navigation -->
-
-  </div>
 </div>
 <!-- /main sidebar -->
