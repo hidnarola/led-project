@@ -147,6 +147,13 @@ body .ui-steps .ui-steps-item .ui-menuitem-link .ui-steps-number {
   width: 100%;
 }
 
+.dataTable thead .sorting::before,
+.dataTable thead .sorting::after,
+.dataTable thead .sorting_asc::after,
+.dataTable thead .sorting_desc::after{
+    display: none !important;
+}
+
 @media (max-width: 991px) {
   .footer {
     position: relative;
@@ -473,3 +480,4 @@ body .ui-dialog {
     padding-left: 260px;
   }
 }
+
