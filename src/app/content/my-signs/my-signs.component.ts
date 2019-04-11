@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserSignService } from '../../shared/user-sign.service';
 import { Subject } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { NotifierService } from 'angular-notifier';
 @Component({
     selector: 'app-my-signs',
     templateUrl: './my-signs.component.html',
@@ -16,7 +17,8 @@ export class MySignsComponent implements OnDestroy, OnInit {
     user_role: string;
     constructor(
         private service: UserSignService,
-        private spinner: NgxSpinnerService
+        private spinner: NgxSpinnerService,
+        private notifier: NotifierService,
     ) { }
 
     ngOnInit() {
@@ -56,6 +58,7 @@ export class MySignsComponent implements OnDestroy, OnInit {
                 this.spinner.hide();
             }
         }).catch(error => {
+            this.notifier.notify('error', 'Diagnostic file not found!');
             this.spinner.hide();
         });
     }
