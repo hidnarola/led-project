@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiURL: 'http://localhost:8080/api'
+    apiURL: 'https://led-signer-lb-1407974322.us-east-2.elb.amazonaws.com/led-signer/api'
 };
