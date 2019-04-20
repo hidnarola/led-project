@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { Config } from '../shared/config';
 import { Observable } from 'rxjs';
+import * as moment from 'moment'; 
 @Injectable({
     providedIn: 'root'
 })
@@ -654,9 +655,11 @@ export class SchedulesService {
     }
 
     updatePlaylist(selectedSchedules) {
+		const todayDate = moment().format('YYYY-MM-DD h:mm:ss');
         const uri = '/leddesigner/schedule/update-playlist';
         const formData = new FormData();
         formData.append('scheduleIdList', selectedSchedules);
+		formData.append('currentTimestamp', todayDate);
         return this.http.post(uri, formData);
     }
 
