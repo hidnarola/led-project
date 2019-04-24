@@ -71,9 +71,10 @@ import { CreateSetupComponent } from './admin/sign-setup/create-setup/create-set
 import { EditSetupComponent } from './admin/sign-setup/edit-setup/edit-setup.component';
 import { ManageSignComponent } from './admin/users/manage-sign/manage-sign.component';
 import { AdminProfileComponent } from './admin/admin-profile/admin-profile.component';
+import { FilterPipe } from './shared/search-filter.pipe';
 
 export function tokenGetter() {
-  return localStorage.getItem('access-token');
+    return localStorage.getItem('access-token');
 }
 
 
@@ -81,111 +82,112 @@ export function tokenGetter() {
  * Custom angular notifier options
  */
 const customNotifierOptions: NotifierOptions = {
-  position: {
-    horizontal: {
-      position: 'right',
-      distance: 12
+    position: {
+        horizontal: {
+            position: 'right',
+            distance: 12
+        },
+        vertical: {
+            position: 'top',
+            distance: 12,
+            gap: 10
+        }
     },
-    vertical: {
-      position: 'top',
-      distance: 12,
-      gap: 10
+    theme: 'material',
+    behaviour: {
+        autoHide: 5000,
+        onClick: 'hide',
+        onMouseover: 'pauseAutoHide',
+        showDismissButton: true,
+        stacking: 5
+    },
+    animations: {
+        enabled: true,
+        show: {
+            preset: 'slide',
+            speed: 300,
+            easing: 'ease'
+        },
+        hide: {
+            preset: 'fade',
+            speed: 300,
+            easing: 'ease',
+            offset: 50
+        },
+        shift: {
+            speed: 300,
+            easing: 'ease'
+        },
+        overlap: 150
     }
-  },
-  theme: 'material',
-  behaviour: {
-    autoHide: 5000,
-    onClick: 'hide',
-    onMouseover: 'pauseAutoHide',
-    showDismissButton: true,
-    stacking: 5
-  },
-  animations: {
-    enabled: true,
-    show: {
-      preset: 'slide',
-      speed: 300,
-      easing: 'ease'
-    },
-    hide: {
-      preset: 'fade',
-      speed: 300,
-      easing: 'ease',
-      offset: 50
-    },
-    shift: {
-      speed: 300,
-      easing: 'ease'
-    },
-    overlap: 150
-  }
 };
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    // FileSelectDirective,
-    HeaderComponent,
-    FooterComponent,
-    LoginComponent,
-    HomeComponent,
-    ForgotPasswordComponent,
-    ResetPasswordComponent,
-    AdminLoginComponent,
-    AdminHomeComponent,
-    AdminHeaderComponent,
-    UsersComponent,
-    SignSetupComponent,
-    AdminLogoutComponent,
-    CreateUserComponent,
-    SchedulesComponent,
-    PlaylistsComponent,
-    CreateScheduleComponent,
-    EditScheduleComponent,
-    EditUserComponent,
-    CreateSetupComponent,
-    EditSetupComponent,
-    ManageSignComponent,
-    MySignsComponent,
-    ViewScheduleComponent,
-    SendScheduleComponent,
-    DeleteScheduleComponent,
-    SidebarComponent,
-    AdminLayoutComponent,
-    UserLayoutComponent,
-    FileManagerComponent,
-    ProfileComponent,
-    AdminProfileComponent
-  ],
-  imports: [
-    BrowserModule, BrowserAnimationsModule,
-    CheckboxModule, RadioButtonModule,
-    CalendarModule, FileUploadModule,
-    DropdownModule, MultiSelectModule,
-    ConfirmDialogModule, StepsModule,
-    DialogModule, InputMaskModule,
-    TabViewModule,
-    NgxSpinnerModule, NgxPaginationModule,
-    // ProgressSpinnerModule,
-    // DataTableModule,
-    DataTablesModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    HttpModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter,
-        whitelistedDomains: ['192.168.100.42:8080', '192.168.100.42:2220', 'clientapp.narola.online:2220', '123.201.110.194:2220'],
-        blacklistedRoutes: ['localhost:4000/api/auth']
-      }
-    }),
-    NotifierModule.withConfig(customNotifierOptions)
-  ],
-  providers: [Config, ConfirmationService,
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        // FileSelectDirective,
+        HeaderComponent,
+        FooterComponent,
+        LoginComponent,
+        HomeComponent,
+        ForgotPasswordComponent,
+        ResetPasswordComponent,
+        AdminLoginComponent,
+        AdminHomeComponent,
+        AdminHeaderComponent,
+        UsersComponent,
+        SignSetupComponent,
+        AdminLogoutComponent,
+        CreateUserComponent,
+        SchedulesComponent,
+        PlaylistsComponent,
+        CreateScheduleComponent,
+        EditScheduleComponent,
+        EditUserComponent,
+        CreateSetupComponent,
+        EditSetupComponent,
+        ManageSignComponent,
+        MySignsComponent,
+        ViewScheduleComponent,
+        SendScheduleComponent,
+        DeleteScheduleComponent,
+        SidebarComponent,
+        AdminLayoutComponent,
+        UserLayoutComponent,
+        FileManagerComponent,
+        ProfileComponent,
+        AdminProfileComponent,
+        FilterPipe
+    ],
+    imports: [
+        BrowserModule, BrowserAnimationsModule,
+        CheckboxModule, RadioButtonModule,
+        CalendarModule, FileUploadModule,
+        DropdownModule, MultiSelectModule,
+        ConfirmDialogModule, StepsModule,
+        DialogModule, InputMaskModule,
+        TabViewModule,
+        NgxSpinnerModule, NgxPaginationModule,
+        // ProgressSpinnerModule,
+        // DataTableModule,
+        DataTablesModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AppRoutingModule,
+        HttpClientModule,
+        HttpModule,
+        JwtModule.forRoot({
+            config: {
+                tokenGetter: tokenGetter,
+                whitelistedDomains: ['192.168.100.42:8080', '192.168.100.42:2220', 'clientapp.narola.online:2220', '123.201.110.194:2220'],
+                blacklistedRoutes: ['localhost:4000/api/auth']
+            }
+        }),
+        NotifierModule.withConfig(customNotifierOptions)
+    ],
+    providers: [Config, ConfirmationService,
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
