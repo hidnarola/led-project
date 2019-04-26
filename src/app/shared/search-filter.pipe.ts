@@ -9,8 +9,6 @@ export class FilterPipe implements PipeTransform {
         if (!images || !searchText) {
             return images;
         }
-        console.log(images);
-        
         return images.filter(image => (image.value.toLowerCase().indexOf(searchText.toLowerCase())) !== -1);
     }
 }

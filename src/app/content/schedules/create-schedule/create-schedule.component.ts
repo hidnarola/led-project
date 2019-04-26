@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Config } from '../../../shared/config';
 import { ActivatedRoute, Router } from '@angular/router';
 import 'rxjs/add/operator/filter';
@@ -12,7 +12,7 @@ import * as moment from 'moment';
     templateUrl: './create-schedule.component.html',
     styleUrls: ['./create-schedule.component.css']
 })
-export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CreateScheduleComponent implements OnInit {
     ms24 = 86400000;
     durationList: any = [];
     myAnimationFile: boolean;
@@ -56,15 +56,10 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
     ngOnInit() {
         this.model.priority = 1;
         this.model.scheduleName = 'NewSchedule';
-
-        // this.model.startDate = this.date.toISOString().slice(0, 10);
         this.model.startDate = moment().format('YYYY-MM-DD');
         this.model.startTime = this.date.toTimeString().slice(0, 5);
         this.model.firstYear = this.date.getFullYear();
         this.model.lastYear = Number(this.date.getFullYear() + 1);
-        // const currentYear = this.date.getFullYear();
-        // this.date.setFullYear(currentYear + 1, 11, 29);
-        // this.model.endDate = this.date.toISOString().slice(0, 10);
         this.model.endDate = moment().add(1, 'year').endOf('year').format('YYYY-MM-DD');
         this.model.endTime = '23:59';
         this.model.monthorweek = 'week';
@@ -73,43 +68,13 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
         this.model.duration = '00:00:06';
         this.model.scheduleMonthDays = null;
         this.model.onDate = moment().startOf('year').format('YYYY-MM-DD');
-        // this.model.ondate = new Date();
         this.model.myfiles = [];
 
-        this.route.queryParams
-            .filter(params => params.repeat)
-            .subscribe(params => {
-                // console.log(params);
-                // // console.log(params.repeat);
-                this.repeat = params.repeat;
-            });
-        // this.videoJSplayer = videojs('video_player');
-        // this.getImageFromServer('http://192.168.1.243:2220/leddesigner/schedule/getImageLibrary/1.bmp');
+        this.route.queryParams.filter(params => params.repeat).subscribe(params => {
+            this.repeat = params.repeat;
+        });
     }
-    // jwPlayer() {
-    //   const playerJw = jwplayer('player').setup({
-    //     title: 'Player Test',
-    //     playlist: 'https://cdn.jwplayer.com/v2/media/8L4m9FJB',
-    //     width: 640,
-    //     height: 360,
-    //     aspectratio: '16:9',
-    //     mute: true,
-    //     autostart: true,
-    //     primary: 'html5',
-    //   });
-    // }
-    initVideoJs() {
-        // this.videoJSplayer = videojs('video_player');
-        // // const transcript = this.videoJSplayer.transcript();
-        // // const transcriptCon = document.querySelector('#transcriptContainer');
-        // // transcriptCon.appendChild(transcript.el());
-    }
-    ngAfterViewInit(): void {
-        this.initVideoJs();
-    }
-    ngOnDestroy(): void {
-        // this.videoJSplayer.dispose();
-    }
+
     myFolder_click() {
         this.myFile = true;
         this.rootFile = false;
@@ -161,10 +126,8 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
         this.service.getMyImages(localStorage.getItem('userid')).subscribe(res => {
             this.fileExplorer = [];
             this.fileExplorer = res;
-            // console.log(res);
             this.spinner.hide();
         }, error => {
-            console.log(error);
             this.spinner.hide();
         });
     }
@@ -175,10 +138,8 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
         this.service.getMyAnimations(localStorage.getItem('userid')).subscribe(res => {
             this.fileExplorer = [];
             this.fileExplorer = res;
-            console.log(res);
             this.spinner.hide();
         }, error => {
-            console.log(error);
             this.spinner.hide();
         });
     }
@@ -189,10 +150,8 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
         this.service.getImageLibrary().subscribe(res => {
             this.fileExplorer = [];
             this.fileExplorer = res;
-            // console.log(res);
             this.spinner.hide();
         }, error => {
-            console.log(error);
             this.spinner.hide();
         });
     }
@@ -203,26 +162,14 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
         this.service.getAnimationLibrary().subscribe(res => {
             this.fileExplorer = [];
             this.fileExplorer = res;
-            console.log(res);
             this.spinner.hide();
         }, error => {
-            console.log(error);
             this.spinner.hide();
         });
     }
 
     pickFile(file, filename, source) {
-        // console.log(this.dataURItoBlob(base64));
-        // this.handleFileInput(base64);
-        // this.handleFileInput(this.blobToFile(this.dataURItoBlob(base64), filename));
-        // this.handleFileInput(new File(this.dataURItoBlob(base64), 'uploaded_file.jpg', { type: 'image/jpeg', lastModified: Date.now() }));
-        // this.fileToUpload.push(this.blobToFile(this.dataURItoBlob(base64), filename));
-        // console.log(this.blobToFile(this.dataURItoBlob(base64), filename));
         this.service.getImageFromUrl(file).subscribe(res => {
-            // const Image = new File([res], filename);
-            // this.handleFileInput(res);
-            // console.log('res => ', res);
-
             const uint = new Uint8Array(res.slice(0, 4));
             const bytes = [];
             uint.forEach((byte) => {
@@ -230,40 +177,23 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
             });
             const hex = bytes.join('').toUpperCase();
             const binaryFileType = this.getMimetype(hex);
-            console.log(binaryFileType + ' ' + hex);
             if (binaryFileType === 'Unknown filetype') {
                 this.notifier.notify('warning', 'Unknown File Type or Currupted File');
             } else {
-                // const file = new Blob([new Uint8Array(res)], { type: binaryFileType });
                 const newFile = new File([res], filename, { type: binaryFileType });
                 this.handleFileInput(newFile, source);
-                // console.log('1 => ', 1);
             }
 
 
         }, error => {
-            if (error.status === 200) {
-                // const Image = new File([error.error.text], filename, { type: 'image/png' });
-                // this.handleFileInput(Image);
-                console.log('error with success => ', error);
-            } else {
-                console.log('error => ', error);
-            }
         });
-
     }
 
     blobToFile = (theBlob, fileName: string): File => {
         const b: any = theBlob;
-        // const list: any = [];
         b.lastModifiedDate = new Date();
         b.name = fileName;
-        // list.push(<File>theBlob);
-        // return list;
-        // console.log(<File>theBlob);
         return <File>theBlob;
-        // const file = new File(theBlob, fileName, { type: 'image/jpeg', lastModified: Date.now() });
-        // return file;
     }
 
     dataURItoBlob(dataURI) {
@@ -279,7 +209,6 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
 
     handleFileInput(file, source) {
         // let isMatched = false;
-        // console.log('this.fileNamesList.indexOf(file.name) => ', this.fileNamesList.indexOf(file.name));
         if (file) {
             this.spinner.show();
             if (this.fileNamesList.indexOf(file.name) >= 0) {
@@ -292,10 +221,8 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
                 this.fileNamesList.push(file.name);
                 if (file.type.substr(0, 5) === 'video' && source === 'PC') {
                     this.service.addForPreview(file).subscribe(res => {
-                        console.log('addForPreview -> res => ', res);
                         this.spinner.hide();
                     }, error => {
-                        console.log('addForPreview -> error => ', error);
                         this.spinner.hide();
                     });
                 } else {
@@ -303,12 +230,10 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
                 }
                 this.fileInfo.push({ 'name': file.name, 'source': source });
                 // this.spinner.hide();
-
             }
         }
 
         this.display = false;
-        // console.log(this.filesToUpload);
     }
 
     getConvertedFile(filename, index) {
@@ -316,27 +241,12 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
         this.isPreviewObject = false;
         this.isPreviewVideo = false;
         this.spinner.show();
-        this.service.previewTests(filename, this.fileInfo[index].source).subscribe(res => {
-            const uint = new Uint8Array(res.slice(0, 4));
-            const bytes = [];
-            uint.forEach((byte) => {
-                bytes.push(byte.toString(16));
-            });
-            const hex = bytes.join('').toUpperCase();
-            const binaryFileType = this.getMimetype(hex);
-            // console.log(binaryFileType + ' ' + hex);
-            if (binaryFileType === 'Unknown filetype') {
-                this.notifier.notify('warning', 'Unknown File Type or Currupted File');
-            } else {
-                const file = new Blob([new Uint8Array(res)], { type: binaryFileType });
-                this.showImagePreview(file);
-            }
+        this.service.getPriview(filename, this.fileInfo[index].source).toPromise().then(res => {
             this.spinner.hide();
-        },
-            error => {
-                console.log('getConvertedFile: Error => ', error);
-                this.spinner.hide();
-            });
+            this.showImagePreview(res['body']);
+        }).catch(errorResponse => {
+            this.spinner.hide();
+        });
     }
 
     showImagePreview(file: Blob) {
@@ -352,32 +262,23 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
                 this.isPreviewObject = false;
                 this.isPreviewVideo = true;
                 this.videoType = file.type;
-                // console.log('video file selected');
             } else if ((this.imageUrl.toString().substr(this.imageUrl.toString().indexOf('data'), 10) === 'data:image')) {
                 this.isPreviewVideo = false;
                 this.isPreviewObject = false;
                 this.isPreviewImage = true;
             } else {
-                // const blob = this.b64toBlob((event.target.result)
-                //   .replace('data:application/x-shockwave-flash;base64,', ''), 'application/x-shockwave-flash');
-                // const blobUrl = URL.createObjectURL(blob);
-                // this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(blobUrl);
                 this.isPreviewVideo = false;
                 this.isPreviewImage = false;
                 this.isPreviewObject = true;
-                // console.log('Animation File Found');
             }
             this.spinner.hide();
         };
         reader.readAsDataURL(file);
-        // console.log(this.imageUrl.toString());
-
     }
 
     deleteImage(index) {
         this.fileToUpload.splice(index, 1);
         this.fileNamesList.splice(index, 1);
-        // this.filesToUpload.splice(index, 1);
         this.isPreviewImage = false;
         this.isPreviewVideo = false;
         this.isPreviewObject = false;
@@ -392,35 +293,17 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
         return ms;
     }
     onSubmit() {
-
         this.spinner.show();
-        // const dura = new Map<string, string>();
-        // let dura = '{';
         this.durationList = [];
         this.fileToUpload.forEach(file => {
-            // console.log('file.duration => ', file.duration);
-            // dura.push({
-            //   ['"' + file.name + '"']: this.timeToMS(file.duration)
-            // });
-            // dura += '"' + file.name + '":' + '"' + this.timeToMS(file.duration) + '"';
-
             const dura: any = {};
             dura.name = file.name;
             dura.regex = this.timeToMS(file.duration);
             this.durationList.push(dura);
-            // dura.set(file.name, this.timeToMS(file.duration).toString());
         });
-        // dura += '}';
         this.model.durationList = this.durationList;
-        // const fileInfoMap = new Map<string, string>();
-
         this.model.fileInfo = this.fileInfo;
-        console.log('fileToUpload => ', this.fileToUpload);
-        console.log('model => ', this.model);
-        console.log('fileInfo => ', this.fileInfo);
-
         this.service.createSchedule(this.model, this.fileToUpload, this.repeat).subscribe(res => {
-            console.log('res => ', res);
             this.spinner.hide();
         }, error => {
             if (error.status === 201) {
@@ -437,10 +320,8 @@ export class CreateScheduleComponent implements OnInit, AfterViewInit, OnDestroy
             } else {
                 this.notifier.notify('error', error.error);
             }
-            console.log(error);
             this.spinner.hide();
         });
-
     }
 
     getMimetype = (signature) => {
