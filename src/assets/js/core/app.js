@@ -60,7 +60,7 @@ $(function () {
 
 
   // Toggle visible state of heading elements
-  $('.heading-elements-toggle').on('click', function () {
+  $(document).on('click', '.heading-elements-toggle', function () {
     $(this).parent().children('.heading-elements').toggleClass('visible');
   });
 
@@ -523,28 +523,28 @@ $(function () {
   // -------------------------
 
   // Toggle main sidebar
-  $('.sidebar-mobile-main-toggle').on('click', function (e) {
+  $(document).on('click', '.sidebar-mobile-main-toggle', function (e) {
     e.preventDefault();
     $('body').toggleClass('sidebar-mobile-main').removeClass('sidebar-mobile-secondary sidebar-mobile-opposite sidebar-mobile-detached');
   });
 
 
   // Toggle secondary sidebar
-  $('.sidebar-mobile-secondary-toggle').on('click', function (e) {
+  $(document).on('click', '.sidebar-mobile-secondary-toggle', function (e) {
     e.preventDefault();
     $('body').toggleClass('sidebar-mobile-secondary').removeClass('sidebar-mobile-main sidebar-mobile-opposite sidebar-mobile-detached');
   });
 
 
   // Toggle opposite sidebar
-  $('.sidebar-mobile-opposite-toggle').on('click', function (e) {
+  $(document).on('click', '.sidebar-mobile-opposite-toggle', function (e) {
     e.preventDefault();
     $('body').toggleClass('sidebar-mobile-opposite').removeClass('sidebar-mobile-main sidebar-mobile-secondary sidebar-mobile-detached');
   });
 
 
   // Toggle detached sidebar
-  $('.sidebar-mobile-detached-toggle').on('click', function (e) {
+  $(document).on('click', '.sidebar-mobile-detached-toggle', function (e) {
     e.preventDefault();
     $('body').toggleClass('sidebar-mobile-detached').removeClass('sidebar-mobile-main sidebar-mobile-secondary sidebar-mobile-opposite');
   });
