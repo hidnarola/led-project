@@ -431,8 +431,7 @@ export class SchedulesService {
         const httpOptions = {};
         httpOptions['responseType'] = 'Blob' as 'json';
         httpOptions['observe'] = 'response';
-        const uri = '/leddesigner/schedule/preview-file?fileName=' + filename +
-            '&UserId=' + Number(localStorage.getItem('userid')) + '&Source=' + source;
+        const uri = '/leddesigner/schedule/preview-file?fileName=' + filename + '&source=' + source;
         return this.http.get(uri, httpOptions);
     }
     // Functions
