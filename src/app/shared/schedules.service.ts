@@ -200,8 +200,12 @@ export class SchedulesService {
     }
 
     getImageForPreview(filename, userid) {
+        const httpOptions = {};
+        httpOptions['responseType'] = 'Blob' as 'json';
+        httpOptions['observe'] = 'response';
+
         const uri = '/leddesigner/schedule/filePreview?fileName=' + filename + '&userid=' + userid;
-        return this.http.get(uri, { responseType: 'arraybuffer' });
+        return this.http.get(uri, httpOptions);
     }
 
     getAnimationLibrary() {
@@ -258,13 +262,6 @@ export class SchedulesService {
         this.formdata = new FormData();
         this.formdata.append('file', file);
         return this.http.post(uri, this.formdata, { headers });
-    }
-
-    previewTests(filename, source) {
-        const uri = '/leddesigner/schedule/addfilePreview1?fileName=' + filename +
-            '&UserId=' + Number(localStorage.getItem('userid')) + '&Source=' + source;
-
-        return this.http.get(uri, { responseType: 'arraybuffer' });
     }
 
     getPriview(filename, source) {

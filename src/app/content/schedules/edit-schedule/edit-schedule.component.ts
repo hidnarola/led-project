@@ -255,20 +255,8 @@ export class EditScheduleComponent implements OnInit {
         this.isPreviewVideo = false;
         this.spinner.show();
         this.service.getImageForPreview(filename, localStorage.getItem('userid')).subscribe(res => {
-            const uint = new Uint8Array(res.slice(0, 4));
-            const bytes = [];
-            uint.forEach((byte) => {
-                bytes.push(byte.toString(16));
-            });
-            const hex = bytes.join('').toUpperCase();
-            const binaryFileType = this.getMimetype(hex);
-            if (binaryFileType === 'Unknown filetype') {
-                this.notifier.notify('warning', 'Unknown File Type or Currupted File');
-            } else {
-                const file = new Blob([new Uint8Array(res)], { type: binaryFileType });
-                this.showImagePreview(file);
-            }
             this.spinner.hide();
+            this.showImagePreview(res['body']);
         }, error => {
             this.notifier.notify('error', error.error);
             this.spinner.hide();
@@ -276,7 +264,6 @@ export class EditScheduleComponent implements OnInit {
     }
 
     getConvertedFile(filename) {
-        // this.service.getForPreview(filename).subscribe(res => {
         let source;
         this.fileInfo.forEach(file => {
             if (filename === file.name) {
