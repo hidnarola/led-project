@@ -300,6 +300,6 @@ export class SchedulesService {
         const b: any = theBlob;
         b.lastModifiedDate = new Date();
         b.name = fileName;
-        return <File>theBlob;
+        return new File([b], fileName);
     }
 }

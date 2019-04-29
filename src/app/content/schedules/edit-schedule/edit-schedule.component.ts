@@ -201,8 +201,10 @@ export class EditScheduleComponent implements OnInit {
     }
 
     pickFile(file, filename, source) {
+        this.spinner.show();
         this.service.getImageFromUrl(file).subscribe(res => {
             const newFile = this.service.blobToFile(res['body'], filename);
+            this.spinner.hide();
             this.handleFileInput(newFile, source);
         }, error => {
             this.notifier.notify('error', 'Something went wrong.');

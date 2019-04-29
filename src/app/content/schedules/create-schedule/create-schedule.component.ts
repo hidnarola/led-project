@@ -169,8 +169,10 @@ export class CreateScheduleComponent implements OnInit {
     }
 
     pickFile(file, filename, source) {
+        this.spinner.show();
         this.service.getImageFromUrl(file).toPromise().then(res => {
             const newFile = this.service.blobToFile(res['body'], filename);
+            this.spinner.hide();
             this.handleFileInput(newFile, source);
         }).catch(error => {
             this.notifier.notify('error', 'Something went wrong.');
