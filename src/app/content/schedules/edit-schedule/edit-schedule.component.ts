@@ -201,29 +201,11 @@ export class EditScheduleComponent implements OnInit {
     }
 
     pickFile(file, filename, source) {
-        // this.handleFileInput(base64);
-        // this.handleFileInput(this.blobToFile(this.dataURItoBlob(base64), filename));
-        // this.handleFileInput(new File(this.dataURItoBlob(base64), 'uploaded_file.jpg', { type: 'image/jpeg', lastModified: Date.now() }));
-        // this.fileToUpload.push(this.blobToFile(this.dataURItoBlob(base64), filename));
         this.service.getImageFromUrl(file).subscribe(res => {
-            // const Image = new File([res], filename);
-            // this.handleFileInput(res);
-
-            const uint = new Uint8Array(res.slice(0, 4));
-            const bytes = [];
-            uint.forEach((byte) => {
-                bytes.push(byte.toString(16));
-            });
-            const hex = bytes.join('').toUpperCase();
-            const binaryFileType = this.getMimetype(hex);
-            if (binaryFileType === 'Unknown filetype') {
-                this.notifier.notify('warning', 'Unknown File Type or Currupted File');
-            } else {
-                // const file = new Blob([new Uint8Array(res)], { type: binaryFileType });
-                const Image = new File([res], filename, { type: binaryFileType });
-                this.handleFileInput(Image, source);
-            }
+            const newFile = this.service.blobToFile(res['body'], filename);
+            this.handleFileInput(newFile, source);
         }, error => {
+            this.notifier.notify('error', 'Something went wrong.');
         });
 
     }

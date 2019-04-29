@@ -169,31 +169,12 @@ export class CreateScheduleComponent implements OnInit {
     }
 
     pickFile(file, filename, source) {
-        this.service.getImageFromUrl(file).subscribe(res => {
-            const uint = new Uint8Array(res.slice(0, 4));
-            const bytes = [];
-            uint.forEach((byte) => {
-                bytes.push(byte.toString(16));
-            });
-            const hex = bytes.join('').toUpperCase();
-            const binaryFileType = this.getMimetype(hex);
-            if (binaryFileType === 'Unknown filetype') {
-                this.notifier.notify('warning', 'Unknown File Type or Currupted File');
-            } else {
-                const newFile = new File([res], filename, { type: binaryFileType });
-                this.handleFileInput(newFile, source);
-            }
-
-
-        }, error => {
+        this.service.getImageFromUrl(file).toPromise().then(res => {
+            const newFile = this.service.blobToFile(res['body'], filename);
+            this.handleFileInput(newFile, source);
+        }).catch(error => {
+            this.notifier.notify('error', 'Something went wrong.');
         });
-    }
-
-    blobToFile = (theBlob, fileName: string): File => {
-        const b: any = theBlob;
-        b.lastModifiedDate = new Date();
-        b.name = fileName;
-        return <File>theBlob;
     }
 
     dataURItoBlob(dataURI) {

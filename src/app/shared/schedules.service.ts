@@ -219,7 +219,10 @@ export class SchedulesService {
     }
 
     getImageFromUrl(url) {
-        return this.http.get(url, { responseType: 'arraybuffer' });
+        const httpOptions = {};
+        httpOptions['responseType'] = 'Blob' as 'json';
+        httpOptions['observe'] = 'response';
+        return this.http.get(url, httpOptions);
     }
 
     getMyImages(id) {
@@ -291,5 +294,12 @@ export class SchedulesService {
         this.formdata = new FormData();
         this.formdata.append('multipartFile', file);
         return this.http.post(uri, this.formdata, { headers });
+    }
+
+    blobToFile = (theBlob, fileName: string): File => {
+        const b: any = theBlob;
+        b.lastModifiedDate = new Date();
+        b.name = fileName;
+        return <File>theBlob;
     }
 }
