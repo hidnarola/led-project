@@ -24,10 +24,8 @@ export class CreateUserComponent implements OnInit {
 
 
   onSubmit() {
-    // alert(JSON.stringify(this.model));
     this.spinner.show();
     this.service.register(this.model).subscribe(res => {
-      // console.log(res);
       this.notifier.notify('success', res.toString());
       this.model = {};
       this.model.isAdmin = false;

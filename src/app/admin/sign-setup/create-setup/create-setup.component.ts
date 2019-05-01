@@ -29,9 +29,7 @@ export class CreateSetupComponent implements OnInit, AfterViewChecked {
   }
   onSubmit() {
     this.spinner.show();
-    //  alert(JSON.stringify(this.model));
     this.service.addSign(this.model).subscribe(res => {
-      // // console.log(res);
       this.notifier.notify('success', 'Added Successfully');
       // this.model = {};
       // this.model.signtype = this.signType[0];
@@ -39,7 +37,6 @@ export class CreateSetupComponent implements OnInit, AfterViewChecked {
       this.spinner.hide();
       this.router.navigate(['/admin/sign-setup']);
     }, error => {
-      console.log(error);
       this.spinner.hide();
     }
     );

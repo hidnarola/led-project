@@ -7,94 +7,85 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { DataTableDirective } from 'angular-datatables';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+    selector: 'app-users',
+    templateUrl: './users.component.html',
+    styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit, OnDestroy {
-  dtTrigger = new Subject();
-  dtElement: DataTableDirective;
-  dtOptions: DataTables.Settings = {};
-  data: any;
-  user_name: string;
-  user_role: string;
-  constructor(private service: UsersService, private notifier: NotifierService,
-    private confirmationService: ConfirmationService, private spinner: NgxSpinnerService) { }
+    dtTrigger = new Subject();
+    dtElement: DataTableDirective;
+    dtOptions: DataTables.Settings = {};
+    data: any;
+    user_name: string;
+    user_role: string;
+    constructor(private service: UsersService, private notifier: NotifierService,
+        private confirmationService: ConfirmationService, private spinner: NgxSpinnerService) { }
 
-  ngOnInit() {
-    // this.user_name = localStorage.getItem('name');
-    // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      destroy: true,
-      pageLength: 10,
-      order: [5, 'asc']
-    };
-    this.getUsers();
-  }
+    ngOnInit() {
+        // this.user_name = localStorage.getItem('name');
+        // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
+        this.dtOptions = {
+            pagingType: 'full_numbers',
+            destroy: true,
+            pageLength: 10,
+            order: [5, 'asc']
+        };
+        this.getUsers();
+    }
 
-  ngOnDestroy(): void {
-    // Do not forget to unsubscribe the event
-    this.dtTrigger.unsubscribe();
-  }
+    ngOnDestroy(): void {
+        // Do not forget to unsubscribe the event
+        this.dtTrigger.unsubscribe();
+    }
 
-  getUsers() {
-    this.spinner.show();
-    this.service.getAllUsers().subscribe(res => {
-      this.data = res;
-      this.dtTrigger.next();
-      // this.getUsers();
-      this.spinner.hide();
-      // console.log(res);
-    }, error => {
-      this.spinner.hide();
-      console.log(error);
-    });
-  }
-  rerender(): void {
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      // Destroy the table first
-      dtInstance.destroy();
-      // Call the dtTrigger to rerender again
-      this.dtTrigger.next();
-    });
-    // this.dtTrigger.next();
-  }
-  deleteUser(id) {
-    // this.service.deleteProfile(id).subscribe(res => {
-    //   alert('Not Allowed');
-    // });
-    // this.notifier.notify('info', 'Not Allowed');
-    // alert('Not Allowed');
-
-    this.confirmationService.confirm({
-      message: 'Do you want to delete all records of this user?',
-      header: 'Delete Confirmation',
-      icon: 'pi pi-info-circle',
-      accept: () => {
-        // this.notifier.notify('info', 'Not Allowed Now');
+    getUsers() {
         this.spinner.show();
-        this.service.deleteUser(id).subscribe(res => {
-          this.notifier.notify('success', 'User Deleted Successfully');
-          this.spinner.hide();
-          // this.rerender();
-          this.getUsers();
+        this.service.getAllUsers().subscribe(res => {
+            this.data = res;
+            this.dtTrigger.next();
+            // this.getUsers();
+            this.spinner.hide();
         }, error => {
-          if (error.status === 200) {
-            this.notifier.notify('success', 'User Deleted Successfully');
             this.spinner.hide();
-            // this.rerender();
-            this.getUsers();
-          } else {
-            console.log(error);
-            this.spinner.hide();
-          }
         });
-      },
-      reject: () => {
-        this.notifier.notify('info', 'Request Rejected For Delete');
-      }
-    });
-  }
+    }
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            // Destroy the table first
+            dtInstance.destroy();
+            // Call the dtTrigger to rerender again
+            this.dtTrigger.next();
+        });
+        // this.dtTrigger.next();
+    }
+    deleteUser(id) {
+        this.confirmationService.confirm({
+            message: 'Do you want to delete all records of this user?',
+            header: 'Delete Confirmation',
+            icon: 'pi pi-info-circle',
+            accept: () => {
+                // this.notifier.notify('info', 'Not Allowed Now');
+                this.spinner.show();
+                this.service.deleteUser(id).subscribe(res => {
+                    this.notifier.notify('success', 'User Deleted Successfully');
+                    this.spinner.hide();
+                    // this.rerender();
+                    this.getUsers();
+                }, error => {
+                    if (error.status === 200) {
+                        this.notifier.notify('success', 'User Deleted Successfully');
+                        this.spinner.hide();
+                        // this.rerender();
+                        this.getUsers();
+                    } else {
+                        this.spinner.hide();
+                    }
+                });
+            },
+            reject: () => {
+                this.notifier.notify('info', 'Request Rejected For Delete');
+            }
+        });
+    }
 
 }

@@ -168,13 +168,14 @@ export class CreateScheduleComponent implements OnInit {
         });
     }
 
-    pickFile(file, filename, source) {
+    pickFile(fileURL, filename, source) {
         this.spinner.show();
-        this.service.getImageFromUrl(file).toPromise().then(res => {
+        this.service.getImageFromUrl(fileURL).toPromise().then(res => {
             const newFile = this.service.blobToFile(res['body'], filename);
             this.spinner.hide();
             this.handleFileInput(newFile, source);
         }).catch(error => {
+            console.log(error);
             this.notifier.notify('error', 'Something went wrong.');
         });
     }
@@ -200,7 +201,9 @@ export class CreateScheduleComponent implements OnInit {
                 this.spinner.hide();
             } else {
                 file.duration = '00:00:06';
+                console.log('file = ', file);
                 this.fileToUpload.push(file);
+                this.fileInfo.push({ 'name': file.name, 'source': source });
                 this.fileNamesList.push(file.name);
                 if (file.type.substr(0, 5) === 'video' && source === 'PC') {
                     this.service.addForPreview(file).subscribe(res => {
@@ -211,7 +214,6 @@ export class CreateScheduleComponent implements OnInit {
                 } else {
                     this.spinner.hide();
                 }
-                this.fileInfo.push({ 'name': file.name, 'source': source });
                 // this.spinner.hide();
             }
         }

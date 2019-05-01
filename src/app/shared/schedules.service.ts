@@ -48,7 +48,7 @@ export class SchedulesService {
             return '';
         }
     }
-    createSchedule(data, file: File[], type) {
+    createSchedule(data, file, type) {
         const uri = '/leddesigner/schedule/add';
         const scheduleJSON = this.getScheduleRequestJSON(data, type);
         const headers = new HttpHeaders();
@@ -56,9 +56,8 @@ export class SchedulesService {
         headers.set('Accept', 'multipart/form-data');
         this.formdata = new FormData();
         for (let i = 0; i < file.length; i++) {
-            this.formdata.append('multipartFiles', file[i]);
+            this.formdata.append('multipartFiles', file[i], data['fileInfo'][i]['name']);
         }
-        // this.formdata.append('multipartFiles', file);
         let dura = '{"map":{';
         for (let i = 0; i < data.durationList.length; i++) {
             if (i < data.durationList.length - 1) {
@@ -83,7 +82,7 @@ export class SchedulesService {
         return this.http.post(uri, this.formdata, { headers });
     }
 
-    updateSChedule(data, file: File[], type) {
+    updateSChedule(data, file, type) {
         const uri = '/leddesigner/schedule/update';
         const scheduleJSON = this.getScheduleRequestJSON(data, type);
         const headers = new HttpHeaders();
@@ -91,7 +90,7 @@ export class SchedulesService {
         headers.set('Accept', 'multipart/form-data');
         this.formdata = new FormData();
         for (let i = 0; i < file.length; i++) {
-            this.formdata.append('multipartFiles', file[i]);
+            this.formdata.append('multipartFiles', file[i], data['fileInfo'][i]['name']);
         }
         let dura = '{"map":{';
         for (let i = 0; i < data.durationList.length; i++) {
@@ -221,6 +220,7 @@ export class SchedulesService {
     getImageFromUrl(url) {
         const httpOptions = {};
         httpOptions['responseType'] = 'Blob' as 'json';
+        // httpOptions['responseType'] = 'ArrayBuffer';
         httpOptions['observe'] = 'response';
         return this.http.get(url, httpOptions);
     }
@@ -296,10 +296,10 @@ export class SchedulesService {
         return this.http.post(uri, this.formdata, { headers });
     }
 
-    blobToFile = (theBlob, fileName: string): File => {
+    blobToFile(theBlob, fileName): File {
         const b: any = theBlob;
-        b.lastModifiedDate = new Date();
+        b.lastModified = Date.now();
         b.name = fileName;
-        return new File([b], fileName, {type: theBlob.type});
+        return <File>theBlob;
     }
 }

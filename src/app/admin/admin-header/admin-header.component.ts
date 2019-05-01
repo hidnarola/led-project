@@ -14,7 +14,5 @@ export class AdminHeaderComponent implements OnInit {
         this.user_name = localStorage.getItem('name');
     }
 
-    logout() {
-        alert('Logout');
-    }
+    logout() { }
 }
