@@ -36,6 +36,7 @@ import { AdminLayoutComponent } from './_layouts/admin-layout/admin-layout.compo
 import { DeleteScheduleComponent } from './content/schedules/delete-schedule/delete-schedule.component';
 import { ProfileComponent } from './content/profile/profile.component';
 import { AdminProfileComponent } from './admin/admin-profile/admin-profile.component';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 
 
 const routes: Routes = [
@@ -43,11 +44,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'forgot', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
-  // // Lazy Loading
-  // {
-  //   path: 'admin',
-  //   loadChildren: './admin/admin.module#AdminModule'
-  // },
+
   {
     path: 'admin',
     component: AdminLayoutComponent,
@@ -61,21 +58,10 @@ const routes: Routes = [
       { path: 'sign-setup/edit/:id', component: EditSetupComponent, canActivate: [AdminAuthGuard] },
       { path: 'users', component: UsersComponent, canActivate: [AdminAuthGuard] },
       { path: 'user/add', component: CreateUserComponent, canActivate: [AdminAuthGuard] },
-      { path: 'user/edit/:id', component: EditUserComponent, canActivate: [AdminAuthGuard] },
+      { path: 'user/edit/:id', component: CreateUserComponent, canActivate: [AdminAuthGuard] },
       { path: 'user/sign/:id', component: ManageSignComponent, canActivate: [AdminAuthGuard] },
     ]
   },
-  // // Old Way
-  // { path: 'admin', redirectTo: 'admin/login' },
-  // { path: 'admin/login', component: AdminLoginComponent },
-  // { path: 'admin/dashboard', component: AdminHomeComponent, canActivate: [AdminAuthGuard] },
-  // { path: 'admin/sign-setup', component: SignSetupComponent, canActivate: [AdminAuthGuard] },
-  // { path: 'admin/sign-setup/add', component: CreateSetupComponent, canActivate: [AdminAuthGuard] },
-  // { path: 'admin/sign-setup/edit/:id', component: EditSetupComponent, canActivate: [AdminAuthGuard] },
-  // { path: 'admin/users', component: UsersComponent, canActivate: [AdminAuthGuard] },
-  // { path: 'admin/user/add', component: CreateUserComponent, canActivate: [AdminAuthGuard] },
-  // { path: 'admin/user/edit/:id', component: EditUserComponent, canActivate: [AdminAuthGuard] },
-  // { path: 'admin/user/sign/:id', component: ManageSignComponent, canActivate: [AdminAuthGuard] },
   // // *** User ***
   {
     path: 'user',
@@ -89,15 +75,30 @@ const routes: Routes = [
       },
       {
         path: 'schedules', component: SchedulesComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard, NgxPermissionsGuard],
+        data: {
+          permissions: {
+            only: ['PREV_02', 'PREV_03', 'PREV_04', 'ROLE_USER'],
+          }
+        }
       },
       {
         path: 'schedule/add', component: CreateScheduleComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard, NgxPermissionsGuard],
+        data: {
+          permissions: {
+            only: ['PREV_02', 'ROLE_USER'],
+          }
+        }
       },
       {
         path: 'schedule/edit/:id', component: EditScheduleComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard, NgxPermissionsGuard],
+        data: {
+          permissions: {
+            only: ['PREV_03', 'ROLE_USER'],
+          }
+        }
       },
       {
         path: 'schedule/send', component: SendScheduleComponent,
@@ -105,7 +106,12 @@ const routes: Routes = [
       },
       {
         path: 'signs/deleteSchedule', component: DeleteScheduleComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard, NgxPermissionsGuard],
+        data: {
+          permissions: {
+            only: ['PREV_04', 'ROLE_USER'],
+          }
+        }
       },
       {
         path: 'schedule/:id', component: ViewScheduleComponent,
@@ -117,37 +123,6 @@ const routes: Routes = [
       },
     ]
   },
-  // // Old Way
-  // { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-  // {
-  //   path: 'schedules', component: SchedulesComponent,
-  //   canActivate: [AuthGuard]
-  // },
-  // {
-  //   path: 'schedule/add', component: CreateScheduleComponent,
-  //   canActivate: [AuthGuard]
-  // },
-  // {
-  //   path: 'schedule/edit/:id', component: EditScheduleComponent,
-  //   canActivate: [AuthGuard]
-  // },
-  // {
-  //   path: 'schedule/send', component: SendScheduleComponent,
-  //   canActivate: [AuthGuard]
-  // },
-  // {
-  //   path: 'schedule/:id', component: ViewScheduleComponent,
-  //   canActivate: [AuthGuard]
-  // },
-  // {
-  //   path: 'signs', component: MySignsComponent,
-  //   canActivate: [AuthGuard]
-  // },
-  // // Lazy Loading
-  // {
-  //   path: 'user',
-  //   loadChildren: './content/content.module#ContentModule'
-  // },
   { path: 'admin/login', component: AdminLoginComponent },
   { path: 'logout', component: AdminLogoutComponent },
   { path: '**', redirectTo: 'login' }

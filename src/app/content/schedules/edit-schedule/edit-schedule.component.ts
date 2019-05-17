@@ -61,13 +61,13 @@ export class EditScheduleComponent implements OnInit {
             this.service.getScheduleById(params['id']).subscribe(res => {
                 this.res = res;
                 this.repeat = this.res.type;
-                this.model = this.res.schduleDTO;
+                this.model = this.res.scheduleDTO;
                 this.files = this.res.multipartImages;
                 this.files.forEach(file => {
                     this.fileInfoStr.push({ name: file.path, source: 'folder' });
                     this.existFileToUpload.push(file);
                 });
-                this.oldScheduleName = this.res.schduleDTO.scheduleName;
+                this.oldScheduleName = this.res.scheduleDTO.scheduleName;
                 // Set Date to datepicker
                 let year = this.model.startDate.year;
                 let month = ('0' + this.model.startDate.monthValue).slice(-2);

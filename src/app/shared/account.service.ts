@@ -3,38 +3,27 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { map } from 'rxjs/operators';
 import { AES, enc } from 'crypto-ts';
-import { Config } from '../shared/config';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AccountService {
     secretKey = 'ansdu3jbduwehqdjna23dwer4g667fdfk';
-    role = 'ROLE_USER';
-    constructor(private http: HttpClient, private config: Config) { }
+    imageData :any;
+    constructor(
+        private http: HttpClient
+    ) { }
 
-    register(data) {
-        const uri = '/leddesigner/user/register';
-        if (data.isAdmin) {
-            this.role = 'ROLE_ADMIN';
+    register(data,file?:File) {
+        let uri = '/leddesigner/user/register';
+        this.imageData = new FormData();
+        this.imageData.append('profilePic', file);
+        if(!data.userid){
+            return this.http.post(uri, data);
+        } else {
+            uri = '/leddesigner/user/updateProfile';
+            return this.http.put(uri, data);
         }
-        const user = {
-            userid: null,
-            email: data.email,
-            firstname: data.firstname,
-            lastname: data.lastname,
-            mobno: data.phone,
-            companyname: data.company,
-            city: data.city,
-            state: data.state,
-            authorities: [
-                { name: this.role }
-            ]
-        };
-
-        return this.http.post(uri, user).map(res => {
-            return res;
-        });
     }
 
     activatation(activatation_key) {
@@ -105,14 +94,9 @@ export class AccountService {
 
     encPwd(str) {
         return AES.encrypt(str, this.secretKey).toString();
-        // const ciphertext = CryptoTS.AES.encrypt(str, this.secretKey).toString();
-        // return ciphertext;
     }
 
     decPwd(str) {
         return AES.decrypt(str, this.secretKey).toString(enc.Utf8);
-        // const bytes  = CryptoTS.AES.decrypt(str.toString(), this.secretKey);
-        // const plaintext = bytes.toString(CryptoTS.enc.Utf8);
-        // return plaintext;
     }
 }

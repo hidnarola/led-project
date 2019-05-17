@@ -46,6 +46,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 // Notification or Alert
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
 
+import { NgxPermissionsModule } from 'ngx-permissions';
 import { JwtModule } from '@auth0/angular-jwt';
 import { JwtInterceptor } from './shared/jwt.intersepter';
 import { CreateUserComponent } from './admin/users/create-user/create-user.component';
@@ -156,16 +157,22 @@ const customNotifierOptions: NotifierOptions = {
     AdminProfileComponent
   ],
   imports: [
-    BrowserModule, BrowserAnimationsModule,
-    CheckboxModule, RadioButtonModule,
-    CalendarModule, FileUploadModule,
-    DropdownModule, MultiSelectModule,
-    ConfirmDialogModule, StepsModule,
-    DialogModule, InputMaskModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    CheckboxModule,
+    RadioButtonModule,
+    CalendarModule,
+    FileUploadModule,
+    DropdownModule,
+    MultiSelectModule,
+    ConfirmDialogModule,
+    StepsModule,
+    DialogModule,
+    InputMaskModule,
     TabViewModule,
-    NgxSpinnerModule, NgxPaginationModule,
-    // ProgressSpinnerModule,
-    // DataTableModule,
+    NgxSpinnerModule,
+    NgxPaginationModule,
+    NgxPermissionsModule.forRoot(),
     DataTablesModule,
     FormsModule,
     ReactiveFormsModule,

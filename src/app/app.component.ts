@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,13 @@ export class AppComponent {
   isLoggedin: boolean;
   mobileMenuActive: boolean;
 
+  constructor(
+    private permissionsService: NgxPermissionsService
+  ) {
+    if (localStorage.getItem('userPermission')) {
+      permissionsService.loadPermissions(localStorage.getItem('userPermission').split(','));
+    }
+  }
   onMobileMenuButton(event) {
     this.mobileMenuActive = !this.mobileMenuActive;
     event.preventDefault();

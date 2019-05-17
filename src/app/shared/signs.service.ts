@@ -87,13 +87,35 @@ export class SignsService {
   deleteSign(id) {
     // /leddesigner/signsn/deleteSignSN?signId=25
     const uri = '/leddesigner/signsn/deleteSignSN?signId=' + id;
-        return this.http
+    return this.http
       .delete(uri)
       .map(res => {
         // // console.log(res);
         return res;
       }
       );
+  }
+
+
+  downloadSign(signId): any {
+    const httpOptions = {};
+    httpOptions['responseType'] = 'Blob' as 'json';
+    httpOptions['observe'] = 'response';
+
+    const uri = '/leddesigner/signsn/diagnostic-file?signId=' + signId;
+    return this.http.get(uri, httpOptions);
+  }
+
+  downloadFile(blob, fileName: string) {
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    window.setTimeout(function () {
+      URL.revokeObjectURL(blob);
+      document.body.removeChild(link);
+    }, 0);
   }
 
 }

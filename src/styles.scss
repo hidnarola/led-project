@@ -419,6 +419,18 @@ body .ui-dialog {
   height: 20px;
 }
 
+.label-ROLE_USER{
+  border-color: #4CAF50;
+  background: #4CAF50;
+}
+.label-ROLE_SUB_USER{
+  border-color: #2196F3;
+  background: #2196F3;
+}
+.label-ROLE_ADMIN{
+  border-color: #F44336;
+  background: #F44336;
+}
 @media (max-width: 767px) {
 
   body .ui-dialog {

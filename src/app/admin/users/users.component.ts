@@ -5,6 +5,7 @@ import { NotifierService } from 'angular-notifier';
 import { ConfirmationService } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DataTableDirective } from 'angular-datatables';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-users',
@@ -16,14 +17,15 @@ export class UsersComponent implements OnInit, OnDestroy {
     dtElement: DataTableDirective;
     dtOptions: DataTables.Settings = {};
     data: any;
-    user_name: string;
-    user_role: string;
-    constructor(private service: UsersService, private notifier: NotifierService,
-        private confirmationService: ConfirmationService, private spinner: NgxSpinnerService) { }
+   
+    constructor(
+        private service: UsersService,
+        private notifier: NotifierService,
+        private route: ActivatedRoute,
+        private confirmationService: ConfirmationService,
+        private spinner: NgxSpinnerService) { }
 
     ngOnInit() {
-        // this.user_name = localStorage.getItem('name');
-        // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
         this.dtOptions = {
             pagingType: 'full_numbers',
             destroy: true,
@@ -31,6 +33,9 @@ export class UsersComponent implements OnInit, OnDestroy {
             order: [5, 'asc']
         };
         this.getUsers();
+        this.route.url.subscribe(params => {
+            console.log(params[0].path);
+        })
     }
 
     ngOnDestroy(): void {
@@ -42,8 +47,9 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.spinner.show();
         this.service.getAllUsers().subscribe(res => {
             this.data = res;
+            console.log("user data..", this.data);
+
             this.dtTrigger.next();
-            // this.getUsers();
             this.spinner.hide();
         }, error => {
             this.spinner.hide();
@@ -51,7 +57,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
     rerender(): void {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-            // Destroy the table first
             dtInstance.destroy();
             // Call the dtTrigger to rerender again
             this.dtTrigger.next();
@@ -64,18 +69,16 @@ export class UsersComponent implements OnInit, OnDestroy {
             header: 'Delete Confirmation',
             icon: 'pi pi-info-circle',
             accept: () => {
-                // this.notifier.notify('info', 'Not Allowed Now');
                 this.spinner.show();
                 this.service.deleteUser(id).subscribe(res => {
                     this.notifier.notify('success', 'User Deleted Successfully');
                     this.spinner.hide();
-                    // this.rerender();
+              
                     this.getUsers();
                 }, error => {
                     if (error.status === 200) {
                         this.notifier.notify('success', 'User Deleted Successfully');
                         this.spinner.hide();
-                        // this.rerender();
                         this.getUsers();
                     } else {
                         this.spinner.hide();

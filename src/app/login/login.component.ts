@@ -1,22 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-// import { first } from 'rxjs/operators';
 import { AccountService } from '../shared/account.service';
 import { NotifierService } from 'angular-notifier';
-import { Config } from '../shared/config';
+
+import { NgxPermissionsService } from 'ngx-permissions';
+
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit {
     currentYear: any;
     model: any = {};
-    constructor(private notifier: NotifierService, private service: AccountService,
-        private router: Router, private helper: JwtHelperService,
-        private config: Config) {
-    }
+    permissionData = [];
+
+    constructor(private notifier: NotifierService,
+        private service: AccountService,
+        private router: Router,
+        private helper: JwtHelperService,
+        private permissionsService: NgxPermissionsService,
+    ) { }
     ngOnInit() {
         if (localStorage.getItem('access-token')) {
             if (localStorage.getItem('authorities') === 'ROLE_USER') {
@@ -41,9 +47,19 @@ export class LoginComponent implements OnInit {
                 localStorage.setItem('name', userDetail['name']);
                 localStorage.setItem('userid', userDetail['userid']);
                 localStorage.setItem('user_email', userDetail['email']);
-                localStorage.setItem('authorities', userDetail['authorities'][0]['name']);
+                // localStorage.setItem('authorities', userDetail['authorities'][0]['name']);
 
-                if (localStorage.getItem('authorities') === 'ROLE_USER') {
+                userDetail['authorities'].forEach((authorities) => {
+                    this.permissionData.push((Object.values(authorities)[0]));
+                    if (authorities['name'] === 'ROLE_USER' || authorities['name'] === 'ROLE_ADMIN' || authorities['name'] === 'ROLE_SUB_USER') {
+                        localStorage.setItem('authorities', authorities['name']);
+                    }
+                });
+                if (this.permissionData.length > 0) {
+                    this.permissionsService.addPermission(this.permissionData);
+                    localStorage.setItem('userPermission', this.permissionData.toString());
+                }
+                if (localStorage.getItem('authorities') === 'ROLE_SUB_USER' || localStorage.getItem('authorities') === 'ROLE_USER') {
                     this.router.navigate(['user/home']);
                 } else if (localStorage.getItem('authorities') === 'ROLE_ADMIN') {
                     this.router.navigate(['admin/dashboard']);

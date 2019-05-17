@@ -16,7 +16,6 @@ export class ViewScheduleComponent implements OnInit {
     files = [];
     // File Type
     uploads = [];
-    fileSelector = document.getElementById('file-selector');
     isPreviewImage: boolean;
     isPreviewVideo: boolean;
     isPreviewObject: boolean;
@@ -38,7 +37,7 @@ export class ViewScheduleComponent implements OnInit {
             this.service.getScheduleById(params['id']).subscribe(res => {
                 this.res = res;
                 this.repeat = this.res.type;
-                this.dto = this.res.schduleDTO;
+                this.dto = this.res.scheduleDTO;
                 this.files = this.res.multipartImages;
                 let HH = ('0' + this.dto.startTime.hour).slice(-2);
                 let MM = ('0' + this.dto.startTime.minute).slice(-2);

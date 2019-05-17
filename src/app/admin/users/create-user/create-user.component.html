@@ -2,211 +2,213 @@
 <div class="content-wrapper">
 
 
-  <!-- Page header -->
-  <div class="page-header page-header-default">
-    <div class="page-header-content">
-      <div class="page-title">
-        <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Users</span> - Add New User</h4>
-      </div>
-
-      <div class="heading-elements">
-
-      </div>
-    </div>
-
-    <div class="breadcrumb-line">
-      <ul class="breadcrumb">
-        <li><a href="" routerLink="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
-        <li><a href="" routerLink="/admin/users"><i class="icon-user-tie position-left"></i>Users</a></li>
-        <li class="active">Add User</li>
-      </ul>
-
-      <ul class="breadcrumb-elements">
-
-      </ul>
-    </div>
-  </div>
-  <!-- /page header -->
-
-  <!-- Content area -->
-  <div class="content">
-
-    <!-- Individual column searching (text inputs) -->
-    <div class="panel panel-flat">
-      <div class="panel-heading">
-        <h5 class="panel-title">Add User</h5>
-        <div class="heading-elements">
-          <ul class="icons-list">
-            <!-- <li><a data-action="collapse"></a></li> -->
-            <!-- <li><a data-action="reload"></a></li> -->
-            <!-- <li><a data-action="close"></a></li> -->
-          </ul>
+    <!-- Page header -->
+    <div class="page-header page-header-default">
+        <div class="page-header-content">
+            <div class="page-title">
+                <h4>
+                    <i class="icon-arrow-left52 position-left"></i>
+                    <span class="text-semibold">Users</span> - Add New User
+                </h4>
+            </div>
+            <div class="heading-elements"></div>
         </div>
-      </div>
 
-      <div class="panel-body">
-        <!-- Registration form -->
-        <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
-
-          <!-- <div class="text-center">
-                <div class="icon-object border-success text-success"><i class="icon-plus3"></i></div>
-                <h5 class="content-group-lg">Create account <small class="display-block">All fields are required</small></h5>
-              </div> -->
-
-          <!-- <div class="form-group has-feedback">
-          <input type="text" class="form-control" placeholder="Choose username" name="username" [(ngModel)]="model.username"
-            #username="ngModel" [ngClass]="{ 'is-invalid': f.submitted && username.invalid }" required>
-          <div class="form-control-feedback">
-            <i class="icon-user-plus text-muted"></i>
-          </div>
-          <div *ngIf="f.submitted && username.invalid" class="invalid-feedback">
-            <div *ngIf="username.errors.required">UserName is required</div>
-          </div>
-        </div> -->
-
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group has-feedback">
-                <input type="text" class="form-control" placeholder="First name" name="firstname" [(ngModel)]="model.firstname"
-                  #firstname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstname.invalid }" required>
-                <div class="form-control-feedback">
-                  <i class="icon-user-check text-muted"></i>
-                </div>
-                <div *ngIf="f.submitted && firstname.invalid" class="invalid-feedback">
-                  <div *ngIf="firstname.errors.required">First Name is required</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group has-feedback">
-                <input type="text" class="form-control" placeholder="Last name" name="lastname" [(ngModel)]="model.lastname"
-                  #lastname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lastname.invalid }" required>
-                <div class="form-control-feedback">
-                  <i class="icon-user-check text-muted"></i>
-                </div>
-                <div *ngIf="f.submitted && lastname.invalid" class="invalid-feedback">
-                  <div *ngIf="lastname.errors.required">Last Name is required</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group has-feedback">
-                <input type="text" placeholder="Email" class="form-control" name="email" [(ngModel)]="model.email"
-                  #email="ngModel" [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required email />
-                <div class="form-control-feedback">
-                  <i class="icon-mention text-muted"></i>
-                </div>
-                <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
-                  <div *ngIf="email.errors.required">Email is required</div>
-                  <div *ngIf="email.errors.email">Email must be a valid email address</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group has-feedback">
-                <input type="text" placeholder="Company Name" class="form-control" name="company" [(ngModel)]="model.company"
-                  #company="ngModel" [ngClass]="{ 'is-invalid': f.submitted && company.invalid }" required />
-                <div class="form-control-feedback">
-                  <i class="icon-briefcase text-muted"></i>
-                </div>
-                <div *ngIf="f.submitted && company.invalid" class="invalid-feedback">
-                  <div *ngIf="company.errors.required">Company name is required</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group has-feedback">
-                <input type="text" placeholder="City" class="form-control" name="city" [(ngModel)]="model.city" #city="ngModel"
-                  [ngClass]="{ 'is-invalid': f.submitted && city.invalid }" required />
-                <div class="form-control-feedback">
-                  <i class="icon-city text-muted"></i>
-                </div>
-                <div *ngIf="f.submitted && city.invalid" class="invalid-feedback">
-                  <div *ngIf="city.errors.required">City is required</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group has-feedback">
-                <input type="text" placeholder="State" class="form-control" name="state" [(ngModel)]="model.state"
-                  #state="ngModel" [ngClass]="{ 'is-invalid': f.submitted && state.invalid }" required />
-                <div class="form-control-feedback">
-                  <i class="icon-map text-muted"></i>
-                </div>
-                <div *ngIf="f.submitted && state.invalid" class="invalid-feedback">
-                  <div *ngIf="state.errors.required">State is required</div>
-                  <!-- <div *ngIf="cpassword.errors.minlength">Confirm Password must be at least 6 characters</div> -->
-                  <!-- <div *ngIf="cpassword.errors">Confirm Password must be same as Password</div> -->
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group has-feedback">
-                <input type="tel" placeholder="Phone" class="form-control" name="phone" [(ngModel)]="model.phone"
-                  #phone="ngModel" [ngClass]="{ 'is-invalid': f.submitted && phone.invalid }" required maxlength="10" />
-                <div class="form-control-feedback">
-                  <i class="icon-phone text-muted"></i>
-                </div>
-                <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
-                  <div *ngIf="phone.errors.required">Phone is required</div>
-                </div>
-              </div>
-            </div>
-            <!-- <div class="col-md-6">
-                  <div class="form-group has-feedback">
-                    <input type="text" placeholder="Sign S/N" class="form-control" name="signsn" [(ngModel)]="model.signsn"
-                      #signsn="ngModel" [ngClass]="{ 'is-invalid': f.submitted && signsn.invalid }" required />
-                    <div class="form-control-feedback">
-                      <i class="icon-list-numbered text-muted"></i>
-                    </div>
-                    <div *ngIf="f.submitted && signsn.invalid && isAdmin.value === false" class="invalid-feedback">
-                      <div *ngIf="signsn.errors.required">Sign S/N is required</div>
-                    </div>
-                  </div>
-                </div> -->
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="radio-inline">
-                  <input type="radio" name="role" [(ngModel)]="model.isAdmin" [value]="false" #isAdmin="ngModel" class="styled"
-                    checked="checked">
-                  User
-                </label>
-
-                <label class="radio-inline">
-                  <input type="radio" name="role" [(ngModel)]="model.isAdmin" [value]="true" #isAdmin="ngModel" class="styled">
-                  Admin
-                </label>
-              </div>
-            </div>
-          </div>
-          <div class="text-right">
-            <!-- <a href="" routerLink='/login' class="btn btn-link"><i class="icon-arrow-left13 position-left"></i>
-            Back
-            to login form</a> -->
-            <button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10"><b><i class="icon-plus3"></i></b>
-              Create account</button>
-
-          </div>
-        </form>
-        <!-- /registration form -->
-      </div>
-
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li><a href="" routerLink="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+                <li><a href="" routerLink="/admin/users"><i class="icon-user-tie position-left"></i>Users</a></li>
+                <li class="active">{{(userId) ? 'Edit User' : 'Add User'}}</li>
+            </ul>
+            <ul class="breadcrumb-elements"></ul>
+        </div>
     </div>
-    <!-- /individual column searching (text inputs) -->
+    <!-- /page header -->
 
-  </div>
+    <!-- Content area -->
+    <div class="content">
+        <div class="panel panel-flat">
+            <div class="panel-heading">
+                <h5 class="panel-title">{{(userId) ? 'Edit User' : 'Add User'}}</h5>
+                <div class="heading-elements">
+                    <ul class="icons-list"></ul>
+                </div>
+            </div>
+            <div class="panel-body">
+                <!-- Registration form -->
+                <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" enctype="multipart/form-data"  novalidate>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group" *ngIf="!userId">
+                                <ng-container *ngFor="let userType of userTypes; let i = index;">
+                                    <p-radioButton name="group1" value="{{userType.role}}" label="{{userType.label}}"
+                                        [(ngModel)]="selectedRole" inputId="userRole_{{i}}">
+                                    </p-radioButton> &nbsp;
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="selectedRole === 'ROLE_SUB_USER'">
+                        <div class="col-md-6" *ngIf="userData.length > 0">
+                            <div class="form-group has-feedback">
+                                <label class="form-label">Parent user : &nbsp;</label>
+                                <p-dropdown name="parentId" [options]="userData" #parentId="ngModel" *ngIf="!userId"
+                                    [(ngModel)]="selectedParentId" placeholder="Select a user" optionLabel="name"
+                                    [showClear]="true"></p-dropdown>
+                                <label *ngIf="userId"> : {{usersResponse[model]['parentId']}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-5">
+                                <div class="form-group has-feedback">
+                                    <input type="file" ([ngModel])="myfile" name="myfile"
+                                        class="form-control file-styled" #image
+                                        (change)="handleFileInput($event.target.files.item(0))" accept="image/*">
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group has-feedback">
+                                <label class="form-label">First name :</label>
+                                <input type="text" class="form-control" placeholder="First name" name="firstname"
+                                    [(ngModel)]="model.firstname" #firstname="ngModel"
+                                    [ngClass]="{ 'is-invalid': f.submitted && firstname.invalid }" required>
+                                <div class="form-control-feedback">
+                                    <i class="icon-user-check text-muted"></i>
+                                </div>
+                                <div *ngIf="f.submitted && firstname.invalid" class="invalid-feedback">
+                                    <div *ngIf="firstname.errors.required">First Name is required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group has-feedback">
+                                <label class="form-label">Last name :</label>
+                                <input type="text" class="form-control" placeholder="Last name" name="lastname"
+                                    [(ngModel)]="model.lastname" #lastname="ngModel"
+                                    [ngClass]="{ 'is-invalid': f.submitted && lastname.invalid }" required>
+                                <div class="form-control-feedback">
+                                    <i class="icon-user-check text-muted"></i>
+                                </div>
+                                <div *ngIf="f.submitted && lastname.invalid" class="invalid-feedback">
+                                    <div *ngIf="lastname.errors.required">Last Name is required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group has-feedback">
+                                <label class="form-label">Email :</label>
+                                <input type="text" placeholder="Email" class="form-control" name="email"
+                                    [(ngModel)]="model.email" #email="ngModel"
+                                    [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required email />
+                                <div class="form-control-feedback">
+                                    <i class="icon-mention text-muted"></i>
+                                </div>
+                                <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
+                                    <div *ngIf="email.errors.required">Email is required</div>
+                                    <div *ngIf="email.errors.email">Email must be a valid email address</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6" *ngIf="selectedRole !== 'ROLE_SUB_USER'">
+                            <div class="form-group has-feedback">
+                                <label class="form-label">Company name:</label>
+                                <input type="text" placeholder="Company Name" class="form-control" name="company"
+                                    [(ngModel)]="model.companyname" #company="ngModel"
+                                    [ngClass]="{ 'is-invalid': f.submitted && company.invalid }" required />
+                                <div class="form-control-feedback">
+                                    <i class="icon-briefcase text-muted"></i>
+                                </div>
+                                <div *ngIf="f.submitted && company.invalid" class="invalid-feedback">
+                                    <div *ngIf="company.errors.required">Company name is required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row" *ngIf="selectedRole !== 'ROLE_SUB_USER'">
+                        <div class="col-md-6">
+                            <div class="form-group has-feedback">
+                                <label class="form-label">City:</label>
+                                <input type="text" placeholder="City" class="form-control" name="city"
+                                    [(ngModel)]="model.city" #city="ngModel"
+                                    [ngClass]="{ 'is-invalid': f.submitted && city.invalid }" required />
+                                <div class="form-control-feedback">
+                                    <i class="icon-city text-muted"></i>
+                                </div>
+                                <div *ngIf="f.submitted && city.invalid" class="invalid-feedback">
+                                    <div *ngIf="city.errors.required">City is required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group has-feedback">
+                                <label class="form-label">State:</label>
+                                <input type="text" placeholder="State" class="form-control" name="state"
+                                    [(ngModel)]="model.state" #state="ngModel"
+                                    [ngClass]="{ 'is-invalid': f.submitted && state.invalid }" required />
+                                <div class="form-control-feedback">
+                                    <i class="icon-map text-muted"></i>
+                                </div>
+                                <div *ngIf="f.submitted && state.invalid" class="invalid-feedback">
+                                    <div *ngIf="state.errors.required">State is required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="selectedRole !== 'ROLE_SUB_USER'">
+                        <div class="col-md-6">
+                            <div class="form-group has-feedback">
+                                <label class="form-label">Phone:</label>
+                                <input type="tel" placeholder="Phone" class="form-control" name="phone"
+                                    [(ngModel)]="model.mobno" #phone="ngModel"
+                                    [ngClass]="{ 'is-invalid': f.submitted && phone.invalid }" required
+                                    maxlength="10" />
+                                <div class="form-control-feedback">
+                                    <i class="icon-phone text-muted"></i>
+                                </div>
+                                <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
+                                    <div *ngIf="phone.errors.required">Phone is required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="selectedRole === 'ROLE_SUB_USER'">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Allow Permission:</label>
+                                <div>
+                                    <p *ngFor="let permission of permissions">
+                                        <p-checkbox name="privileges" value="{{permission.privilegeId}}"
+                                            label="{{permission.privilegeName}}" [(ngModel)]="model.privileges">
+                                        </p-checkbox>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-right">
+                        <button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10">
+                            <b><i class="icon-plus3"></i></b>
+                            {{(userId) ? 'Edit Account' : 'Create account'}}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
