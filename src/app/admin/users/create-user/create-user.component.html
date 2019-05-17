@@ -55,7 +55,7 @@
                                 <p-dropdown name="parentId" [options]="userData" #parentId="ngModel" *ngIf="!userId"
                                     [(ngModel)]="selectedParentId" placeholder="Select a user" optionLabel="name"
                                     [showClear]="true"></p-dropdown>
-                                <label *ngIf="userId"> : {{usersResponse[model]['parentId']}}</label>
+                                <label *ngIf="userId"> : {{usersResponse[model['parentId']]}}</label>
                             </div>
                         </div>
                     </div>
