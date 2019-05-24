@@ -15,10 +15,12 @@ export class UserSignService {
 
     // Use For User Side
     getSignByUserId_user(id) {
-        const uri = '/leddesigner/signmapping/getUserSigns?userid=' + id;
-        return this.http.get(uri).pipe(map(res => {
-            return res;
-        }));
+        if(id){
+            const uri = '/leddesigner/signmapping/getUserSigns?userid=' + id;
+            return this.http.get(uri).pipe(map(res => {
+                return res;
+            }));
+        }
     }
 
     // Use For Admin Side
