@@ -45,14 +45,11 @@ export class SignSetupComponent implements OnInit, OnDestroy {
         /** spinner ends after 5 seconds */
         this.spinner.hide();
       }, 1000);
-      // console.log(res);
     }, error => {
-      console.log(error);
       this.spinner.hide();
     });
   }
   deleteSign(id) {
-    // // console.log(id);
     this.confirmationService.confirm({
       message: 'Do you want to delete this record?',
       header: 'Delete Confirmation',
@@ -66,7 +63,6 @@ export class SignSetupComponent implements OnInit, OnDestroy {
             this.notifier.notify('error', error.error.text);
             this.getSigns();
           } else {
-            console.log(error);
             this.spinner.hide();
           }
         });

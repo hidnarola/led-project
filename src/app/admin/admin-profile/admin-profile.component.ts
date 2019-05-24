@@ -44,16 +44,25 @@ export class AdminProfileComponent implements OnInit {
   onSubmit() {
     this.spinner.show();
     this.model.userId = this.userId;
-    console.log('this.model => ', this.model);
     if (this.model.newPassword !== this.model.rePassword) {
       this.misMatchPwd = true;
       this.spinner.hide();
       return;
     }
+
+    // this.service.changePassword(this.model).toPromise().then(res => {
+    //     this.notifier.notify('success', 'Password Changed successfully');
+    //     this.model = {};
+    //     this.spinner.hide();
+    //     this.router.navigate(['/user/home']);
+    // }).catch(error =>{  this.notifier.notify('error', error);
+    // this.spinner.hide(); });
+
     this.service.changePassword(this.model).subscribe(res => {
       this.notifier.notify('success', 'Password Changed successfully');
       this.model = {};
       this.spinner.hide();
+      this.router.navigate(['/user/home']);
     }, error => {
       if (error.status === 200) {
         this.notifier.notify('success', 'Password Changed successfully');
@@ -61,7 +70,6 @@ export class AdminProfileComponent implements OnInit {
         this.spinner.hide();
         this.router.navigate(['/user/home']);
       } else {
-        console.log('error: Change Password => ', error);
         this.notifier.notify('error', error.error);
         this.spinner.hide();
       }

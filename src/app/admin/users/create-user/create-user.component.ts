@@ -4,6 +4,7 @@ import { AccountService } from '../../../shared/account.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UsersService } from 'src/app/shared/users.service';
+import { UserSignService } from 'src/app/shared/user-sign.service';
 
 @Component({
     selector: 'app-create-user',
@@ -35,10 +36,14 @@ export class CreateUserComponent implements OnInit {
         }
     ];
     selectedRole = 'ROLE_SUB_USER';
-
-    constructor(
-        private notifier: NotifierService,
+    displaySigndropdown: boolean = false;
+    signData: any = [];
+    imageData: any = null;
+    selectedSigns = [];
+ 
+    constructor(private notifier: NotifierService,
         private service: AccountService,
+        private userSignservice: UserSignService,
         private route: ActivatedRoute,
         private spinner: NgxSpinnerService,
         private router: Router,
@@ -49,7 +54,7 @@ export class CreateUserComponent implements OnInit {
         this.spinner.show();
         this.route.params.subscribe(params => {
             if (params['id']) {
-                this.userservice.getUserProfile(params['id']).toPromise().then(userDetail => {
+                this.userservice.getUserProfile(params['id']).toPromise().then(async userDetail => {
                     this.userId = userDetail['userid'].toString();
                     this.model = Object.assign({}, userDetail);
                     const userPrivileges = Object.assign([], userDetail['privileges']);
@@ -60,6 +65,7 @@ export class CreateUserComponent implements OnInit {
                     });
                     this.selectedRole = this.model['authorities'][0]['name'];
                     this.spinner.hide();
+                    await this.signDropdownData(this.model['parentId']);
                 }).catch(error => {
                     this.spinner.hide();
                 });
@@ -96,41 +102,71 @@ export class CreateUserComponent implements OnInit {
         });
     }
 
+    displaySign(selectParentId) {
+        if (selectParentId && selectParentId['id']) {
+            this.signDropdownData(selectParentId['id']);
+        }
+    }
+
+    signDropdownData(pid) {
+        this.userSignservice.getSignByUserId_user(pid).toPromise().then(signList => {
+            this.displaySigndropdown = true;
+            this.signData = signList;
+            this.selectedSigns = [];
+            if (this.model['userSigns'] && this.model['userSigns'].length > 0) {
+                this.signData.forEach(signsdata => {
+                    if (this.model['userSigns'].indexOf(signsdata['id']) !== -1) {
+                        this.selectedSigns.push(signsdata);
+                    }
+                });
+            }
+        }).catch(error => {
+            this.signData = [];
+        });
+    }
+
+    handleFileInput(file) {
+        this.imageData = file ? file : null;
+    }
 
     onSubmit() {
         this.spinner.show();
-        if(this.selectedRole === 'ROLE_SUB_USER'){
+        if (this.selectedRole === 'ROLE_SUB_USER') {
             this.permissions.forEach((permissions) => {
                 if (this.model['privileges'].indexOf(permissions.privilegeId.toString()) !== -1) {
                     this.selectedpermissionValue.push(permissions);
                 }
             });
+            this.model['privileges'] = this.selectedpermissionValue;
             this.model['parentId'] = this.selectedParentId['id'];
+            this.model['userSigns'] = [];
+            if (this.selectedSigns.length > 0) {
+                this.selectedSigns.forEach(selectedSignData => {
+                    this.model['userSigns'].push(selectedSignData['id']);
+                });
+            }
         }
-        this.model['authorities'] = [
-            { name: this.selectedRole }
-        ];
-        this.model['privileges'] = this.selectedpermissionValue;
-        this.service.register(this.model).toPromise().then(res => {
-            this.model = {};
+
+        this.model['authorities'] = [{ name: this.selectedRole }];
+        const formData = new FormData();
+        if (this.imageData) {
+            formData.append('profilePic', this.imageData);
+        }
+        formData.append('userJSON', JSON.stringify(this.model));
+
+        this.service.register(formData, this.userId).toPromise().then(res => {
             this.model['isAdmin'] = false;
             this.spinner.hide();
-            this.router.navigate(['/admin/users']);
-            this.notifier.notify('success', 'Updated Successfully');
-        }, error => {
-            if (error.status === 200) {
-                this.router.navigate(['/admin/users']);
-                if (!this.userId) {
-                    this.notifier.notify('success', 'Credential is sent on email : ' + this.model['email']);
-                    this.model = {};
-                    this.model['isAdmin'] = false;
-                    this.spinner.hide();
-                }
+            if (!this.userId) {
+                this.notifier.notify('success', 'Credential is sent on email : ' + this.model['email']);
+                this.model = {};
             } else {
-                this.notifier.notify('error', error.error.message);
+                this.notifier.notify('success', 'Updated Successfully');
             }
+            this.router.navigate(['/admin/users']);
+        }).catch(error =>{
             this.spinner.hide();
-        }
-        );
+            this.notifier.notify('error', error.error);
+        });
     }
 }

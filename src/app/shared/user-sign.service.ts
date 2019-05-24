@@ -9,7 +9,9 @@ import { Config } from '../shared/config';
     providedIn: 'root'
 })
 export class UserSignService {
-    constructor(private http: HttpClient, private config: Config) { }
+    constructor(
+        private http: HttpClient,
+        private config: Config) { }
 
     // Use For User Side
     getSignByUserId_user(id) {
@@ -36,7 +38,6 @@ export class UserSignService {
         return this.http
             .post(uri, us)
             .pipe(map(res => {
-                // // console.log(res);
                 return res;
             }
             ));
@@ -59,7 +60,6 @@ export class UserSignService {
         return this.http
             .get(uri)
             .pipe(map(res => {
-                // // console.log(res);
                 return res;
             }
             ));

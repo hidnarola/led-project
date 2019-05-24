@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
@@ -7,12 +7,12 @@ import { NgxPermissionsService } from 'ngx-permissions';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'led-project';
-  isLoggedin: boolean;
-  mobileMenuActive: boolean;
+    title = 'led-project';
+    isLoggedin: boolean;
+    mobileMenuActive: boolean;
 
-  constructor(
-    private permissionsService: NgxPermissionsService
+    constructor(
+        private permissionsService: NgxPermissionsService
   ) {
     if (localStorage.getItem('userPermission')) {
       permissionsService.loadPermissions(localStorage.getItem('userPermission').split(','));

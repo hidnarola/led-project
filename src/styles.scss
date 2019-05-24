@@ -431,6 +431,30 @@ body .ui-dialog {
   border-color: #F44336;
   background: #F44336;
 }
+
+.fileUpload{
+    width: 100%;
+}
+
+.user-profile-default{
+    line-height: 32px !important;
+    text-align: center;
+    background: #fff;
+    border-radius: 50%;
+    color: #263238;
+    font-size: 24px !important;
+}
+
+.ui-multiselect .ui-multiselect-label{
+    margin-bottom: 0px;
+}
+
+.navbar .navbar-header .navbar-logo {
+    float: left;
+    padding: 5px 0 5px 10px;
+    height: 46px;
+}
+
 @media (max-width: 767px) {
 
   body .ui-dialog {

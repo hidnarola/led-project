@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AccountService } from '../shared/account.service';
 import { NotifierService } from 'angular-notifier';
-
 import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
@@ -47,8 +46,6 @@ export class LoginComponent implements OnInit {
                 localStorage.setItem('name', userDetail['name']);
                 localStorage.setItem('userid', userDetail['userid']);
                 localStorage.setItem('user_email', userDetail['email']);
-                // localStorage.setItem('authorities', userDetail['authorities'][0]['name']);
-
                 userDetail['authorities'].forEach((authorities) => {
                     this.permissionData.push((Object.values(authorities)[0]));
                     if (authorities['name'] === 'ROLE_USER' || authorities['name'] === 'ROLE_ADMIN' || authorities['name'] === 'ROLE_SUB_USER') {
@@ -70,7 +67,6 @@ export class LoginComponent implements OnInit {
                 this.notifier.notify('error', 'Can not get Token from Server');
             }
         }, error => {
-            console.log(error);
             if (error.status === 403 && error.statusText === 'OK') {
                 this.notifier.notify('error', 'Invalid Email or Password');
             } else {

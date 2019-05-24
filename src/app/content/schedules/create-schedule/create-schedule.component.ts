@@ -175,7 +175,6 @@ export class CreateScheduleComponent implements OnInit {
             this.spinner.hide();
             this.handleFileInput(newFile, source);
         }).catch(error => {
-            console.log(error);
             this.notifier.notify('error', 'Something went wrong.');
         });
     }
@@ -201,7 +200,6 @@ export class CreateScheduleComponent implements OnInit {
                 this.spinner.hide();
             } else {
                 file.duration = '00:00:06';
-                console.log('file = ', file);
                 this.fileToUpload.push(file);
                 this.fileInfo.push({ 'name': file.name, 'source': source });
                 this.fileNamesList.push(file.name);

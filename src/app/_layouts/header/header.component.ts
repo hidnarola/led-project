@@ -1,27 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-// import { Config } from '../shared/config';
+import { UsersService } from 'src/app/shared/users.service';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  user_name: string;
-  user_role: string;
-  isAdmin: boolean;
-  // isLoggedIn: boolean;
-  constructor(
-    // private config: Config
-  ) { }
+    user_name: string;
+    user_role: string;
+    isAdmin: boolean;
+    userLogo: any;
 
-  ngOnInit() {
-    this.user_name = localStorage.getItem('name');
-    this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
-    if (this.user_role === 'ADMIN') {
-      this.isAdmin = true;
+    constructor(
+        private userService: UsersService
+    ) { }
+
+    ngOnInit() {
+        this.user_name = localStorage.getItem('name');
+        this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
+        if (this.user_role === 'ADMIN') {
+            this.isAdmin = true;
+        }
+        this.userService.getProfileLink().subscribe(link => {
+            if (link) {
+                this.userLogo = link;
+            }
+        });
     }
-    // this.isLoggedIn = this.config.isLoggedIn;
-  }
-
 }

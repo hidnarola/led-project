@@ -9,20 +9,23 @@ import { AES, enc } from 'crypto-ts';
 })
 export class AccountService {
     secretKey = 'ansdu3jbduwehqdjna23dwer4g667fdfk';
-    imageData :any;
+    payloadData: any;
+
     constructor(
         private http: HttpClient
     ) { }
 
-    register(data,file?:File) {
-        let uri = '/leddesigner/user/register';
-        this.imageData = new FormData();
-        this.imageData.append('profilePic', file);
-        if(!data.userid){
-            return this.http.post(uri, data);
+    register(data, userid) {
+        let uri = '';
+        const headers = new HttpHeaders();
+        headers.set('Accept', 'application/json');
+        if (!userid) {
+            headers.set('Content-Type', 'multipart/form-data');
+            uri = '/leddesigner/user/register';
+            return this.http.post(uri, data, { headers });
         } else {
             uri = '/leddesigner/user/updateProfile';
-            return this.http.put(uri, data);
+            return this.http.post(uri, data, { headers });
         }
     }
 
@@ -38,9 +41,7 @@ export class AccountService {
         const user = {
             email: email
         };
-        return this.http.post(uri, user).map(res => {
-            return res;
-        });
+        return this.http.post(uri, user);
     }
 
     reset_password(key, newpass) {
@@ -49,9 +50,7 @@ export class AccountService {
             resetKey: key,
             newPassword: newpass
         };
-        return this.http.post(uri, user).map(res => {
-            return res;
-        });
+        return this.http.post(uri, user);
     }
 
     login(uname, pass) {
@@ -75,8 +74,6 @@ export class AccountService {
                     localStorage.setItem('user_email', uname);
                     localStorage.setItem('access-token', token);
                     return true;
-                } else {
-                    console.log(res.headers);
                 }
             }
             return false;

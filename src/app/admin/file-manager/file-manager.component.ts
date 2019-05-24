@@ -28,6 +28,19 @@ export class FileManagerComponent implements OnInit {
         this.getAnimationLibrary();
         this.getImageLibrary();
     }
+
+    // handleFileInput(file) {
+    //     this.spinner.show();
+    //     this.fileToUpload = file;
+    //     if (file.type.substr(0, 5) === 'video') {
+    //         this.service.addForPreview(file).toPromise().then(res => {
+    //             this.getConvertedFile(file.name);
+    //             this.spinner.hide();
+    //         }).catch(error =>{  this.spinner.hide();  });
+    //     }
+    // }
+
+
     handleFileInput(file) {
         // this.showImagePreview(file);
         this.spinner.show();

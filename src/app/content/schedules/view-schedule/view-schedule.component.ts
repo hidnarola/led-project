@@ -25,9 +25,13 @@ export class ViewScheduleComponent implements OnInit {
     repeat: string;
     CONFIG = this.config;
     imageUrl = this.sanitizer.bypassSecurityTrustUrl('/assets/images/signature.png');
-    constructor(private route: ActivatedRoute, private service: SchedulesService,
-        private config: Config, private sanitizer: DomSanitizer,
-        private notifier: NotifierService, private router: Router, private spinner: NgxSpinnerService) { }
+    constructor(private route: ActivatedRoute,
+        private service: SchedulesService,
+        private config: Config,
+        private sanitizer: DomSanitizer,
+        private notifier: NotifierService,
+        private router: Router,
+        private spinner: NgxSpinnerService) { }
 
     ngOnInit() {
         // this.user_name = localStorage.getItem('name');
@@ -94,7 +98,6 @@ export class ViewScheduleComponent implements OnInit {
     showImagePreview(file: Blob) {
         this.spinner.show();
         const reader = new FileReader();
-        console.log(file);
         reader.onload = (event: any) => {
             this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
             if (file.type.substr(0, 5) === 'video') {

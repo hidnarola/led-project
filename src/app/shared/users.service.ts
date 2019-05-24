@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
     providedIn: 'root'
 })
 export class UsersService {
-    formdata:any;
+    token: any;
     constructor(
         private http: HttpClient
     ) { }
@@ -16,6 +16,10 @@ export class UsersService {
     getAllUsers(): any {
         const uri = '/leddesigner/user/getAllUsers';
         return this.http.get(uri);
+    }
+    getProfileLink(userId?) {
+        const uri = userId ? '/leddesigner/user/profile-picture?id=' + userId : '/leddesigner/user/profile-picture';
+        return this.http.get(uri, { responseType: 'text' });
     }
 
     getParentUsers() {
@@ -35,23 +39,12 @@ export class UsersService {
 
     getUserProfile(id) {
         const uri = '/leddesigner/user/getProfile?userid=' + id;
-
-        return this.http
-            .get(uri)
-            .pipe(map(res => {
-                return res;
-            }
-            ));
+        return this.http.get(uri);
     }
 
     deleteUser(id) {
         const uri = '/leddesigner/user/delete?id=' + id;
-        return this.http
-            .delete(uri)
-            .pipe(map(res => {
-                return res;
-            }
-            ));
+        return this.http.delete(uri);
     }
 
     changePassword(data) {
@@ -61,14 +54,8 @@ export class UsersService {
             oldPassword: data.oldPassword,
             newPassword: data.newPassword
         };
-        return this.http
-            .put(uri, profile)
-            .map(res => {
-                return res;
-            }
-            );
+        return this.http.put(uri, profile);
     }
-    
 
     updateProfile(data) {
         const uri = '/leddesigner/user/updateProfile';
@@ -84,11 +71,7 @@ export class UsersService {
             password: data.password,
             email: data.email
         };
-        return this.http.put(uri, profile)
-            .map(res => {
-                return res;
-            }
-            );
+        return this.http.put(uri, profile);
     }
 
 }

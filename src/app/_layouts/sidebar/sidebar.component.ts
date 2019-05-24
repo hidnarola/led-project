@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SchedulesService } from 'src/app/shared/schedules.service';
 import { NotifierService } from 'angular-notifier';
+import { UsersService } from 'src/app/shared/users.service';
 
 @Component({
     selector: 'app-sidebar',
@@ -12,11 +13,13 @@ export class SidebarComponent implements OnInit {
     user_name: string;
     user_role: string;
     isAdmin: boolean;
+    userProfile: any;
 
     constructor(
         private service: SchedulesService,
         private notifier: NotifierService,
-        private spinner: NgxSpinnerService
+        private spinner: NgxSpinnerService,
+        private userService: UsersService
     ) { }
 
     ngOnInit() {
