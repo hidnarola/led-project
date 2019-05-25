@@ -56,22 +56,4 @@ export class UsersService {
         };
         return this.http.put(uri, profile);
     }
-
-    updateProfile(data) {
-        const uri = '/leddesigner/user/updateProfile';
-        const profile = {
-            authorities: data.authorities,
-            firstname: data.firstname,
-            lastname: data.lastname,
-            mobno: data.mobno,
-            companyname: data.companyname,
-            city: data.city,
-            state: data.state,
-            userid: data.userid,
-            password: data.password,
-            email: data.email
-        };
-        return this.http.put(uri, profile);
-    }
-
 }

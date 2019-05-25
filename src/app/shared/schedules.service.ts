@@ -90,7 +90,7 @@ export class SchedulesService {
         headers.set('Accept', 'multipart/form-data');
         this.formdata = new FormData();
         for (let i = 0; i < file.length; i++) {
-            this.formdata.append('multipartFiles', file[i], data['fileInfo'][i]['name']);
+            this.formdata.append('multipartFiles', file[i], file[i]['name']);
         }
         let dura = '{"map":{';
         for (let i = 0; i < data.durationList.length; i++) {

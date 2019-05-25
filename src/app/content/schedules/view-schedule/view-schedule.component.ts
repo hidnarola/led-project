@@ -38,7 +38,7 @@ export class ViewScheduleComponent implements OnInit {
         // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
         this.spinner.show();
         this.route.params.subscribe(params => {
-            this.service.getScheduleById(params['id']).subscribe(res => {
+            this.service.getScheduleById(params['id']).toPromise().then(res => {
                 this.res = res;
                 this.repeat = this.res.type;
                 this.dto = this.res.scheduleDTO;
@@ -53,7 +53,7 @@ export class ViewScheduleComponent implements OnInit {
                     // this.dto.scheduleMonthDays = this.service.getValueOfScheduleMonthDays(this.dto.scheduleMonthDays).toString();
                 }
                 this.spinner.hide();
-            }, error => {
+            }).catch(error => {
                 this.notifier.notify('error', error.error.message);
                 this.spinner.hide();
                 this.router.navigate(['/user/schedules']);

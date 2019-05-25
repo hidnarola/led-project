@@ -195,7 +195,7 @@
                                 <div>
                                     <p *ngFor="let permission of permissions">
                                         <p-checkbox name="privileges" value="{{permission.privilegeId}}"
-                                            label="{{permission.privilegeName}}" [(ngModel)]="model.privileges">
+                                            label="{{permission.privilegeName}}" [(ngModel)]="model['privileges']">
                                         </p-checkbox>
                                     </p>
                                 </div>

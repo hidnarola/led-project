@@ -40,7 +40,7 @@ export class CreateUserComponent implements OnInit {
     signData: any = [];
     imageData: any = null;
     selectedSigns = [];
- 
+
     constructor(private notifier: NotifierService,
         private service: AccountService,
         private userSignservice: UserSignService,
@@ -132,11 +132,15 @@ export class CreateUserComponent implements OnInit {
     onSubmit() {
         this.spinner.show();
         if (this.selectedRole === 'ROLE_SUB_USER') {
-            this.permissions.forEach((permissions) => {
-                if (this.model['privileges'].indexOf(permissions.privilegeId.toString()) !== -1) {
-                    this.selectedpermissionValue.push(permissions);
-                }
-            });
+            if (this.model['privileges'].length > 0) {
+                this.permissions.forEach((permissions) => {
+                    if (this.model['privileges'].indexOf(permissions.privilegeId.toString()) !== -1) {
+                        this.selectedpermissionValue.push(permissions);
+                    }
+                });
+            } else {
+                this.selectedpermissionValue = [];
+            }
             this.model['privileges'] = this.selectedpermissionValue;
             this.model['parentId'] = this.selectedParentId['id'];
             this.model['userSigns'] = [];
@@ -164,7 +168,7 @@ export class CreateUserComponent implements OnInit {
                 this.notifier.notify('success', 'Updated Successfully');
             }
             this.router.navigate(['/admin/users']);
-        }).catch(error =>{
+        }).catch(error => {
             this.spinner.hide();
             this.notifier.notify('error', error.error);
         });

@@ -33,13 +33,4 @@ export class EditUserComponent implements OnInit {
         });
     }
 
-    onSubmit() {
-        this.spinner.show();
-        this.service.updateProfile(this.model).subscribe(res => {
-            this.notify.notify('success', 'Updated Successfully');
-            this.spinner.hide();
-            this.router.navigate(['/admin/users']);
-        });
-    }
-
 }

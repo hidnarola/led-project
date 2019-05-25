@@ -71,18 +71,13 @@ export class SchedulesComponent implements OnDestroy, OnInit, AfterViewInit {
             icon: 'pi pi-info-circle',
             accept: () => {
                 this.spinner.show();
-                this.service.deleteScheduleById(id).subscribe(res => {
+                this.service.deleteScheduleById(id).toPromise().then(res => {
                     this.notification.notify('success', 'Deleted Successfully');
                     this.spinner.hide();
                     this.rerender();
                     this.getSchedules();
-                }, error => {
-                    if (error.status === 200) {
-                        this.notification.notify('success', error.error.text);
-                        this.rerender();
-                        this.getSchedules();
-                        this.spinner.hide();
-                    } else if (error.status === 0) {
+                }).catch(error => {
+                    if (error.status === 0) {
                         this.notification.notify('error', 'ER: ' + 'API Disconnected');
                         this.spinner.hide();
                     } else {

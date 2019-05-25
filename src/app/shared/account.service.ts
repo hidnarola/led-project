@@ -65,7 +65,6 @@ export class AccountService {
         };
 
         return this.http.post(uri, user, httpOptions).pipe(map(res => {
-            // login successful if there's a jwt token in the response
             if (res) {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 if (res.headers.has('Authorization')) {

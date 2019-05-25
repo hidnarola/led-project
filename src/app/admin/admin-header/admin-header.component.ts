@@ -17,11 +17,11 @@ export class AdminHeaderComponent implements OnInit {
     ngOnInit() {
         this.user_name = localStorage.getItem('name');
 
-        this.userService.getProfileLink().subscribe(link => {
+        this.userService.getProfileLink().toPromise().then(link => {
             if (link) {
                 this.userLogo = link;
             }
-        });
+        }).catch(err=>{ });
     }
 
     logout() { }

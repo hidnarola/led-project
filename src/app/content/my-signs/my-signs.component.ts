@@ -45,7 +45,6 @@ export class MySignsComponent implements OnDestroy, OnInit {
         this.signService.downloadSign(signId).toPromise().then(result => {
             if (result) {
                 const headers = result.headers.get('content-disposition');
-
                 const filename = headers.split('=')[1];
                 this.signService.downloadFile(result.body, filename);
                 this.spinner.hide();
@@ -59,11 +58,11 @@ export class MySignsComponent implements OnDestroy, OnInit {
 
     getSignByUser() {
         this.spinner.show();
-        this.service.getSignByUserId_user(this.userid).subscribe(res => {
+        this.service.getSignByUserId_user(this.userid).toPromise().then(res => {
             this.signArray = res;
             this.dtTrigger.next();
             this.spinner.hide();
-        }, error => {
+        }).catch(err => {
             this.spinner.hide();
         });
     }

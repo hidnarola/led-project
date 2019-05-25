@@ -15,14 +15,14 @@ export class AdminLoginComponent implements OnInit {
     model: any = {};
     constructor(
         private notifier: NotifierService,
-         private service: AccountService,
+        private service: AccountService,
         private router: Router,
         private helper: JwtHelperService,
-         private spinner: NgxSpinnerService) { }
+        private spinner: NgxSpinnerService) { }
 
     onSubmit() {
         this.spinner.show();
-        this.service.login(this.model.email, this.model.password).subscribe(res => {
+        this.service.login(this.model.email, this.model.password).toPromise().then(res => {
             const decodedToken = this.helper.decodeToken(localStorage.getItem('access-token'));
             let user = decodedToken.sub;
             localStorage.setItem('validity', decodedToken.exp);
@@ -50,8 +50,8 @@ export class AdminLoginComponent implements OnInit {
                 this.notifier.notify('warning', 'ACCESS DENIED');
             }
             this.spinner.hide();
-        }, error => {
-            this.notifier.notify('error', error.message);
+        }).catch(err => {
+            this.notifier.notify('error', err.error.message);
             this.spinner.hide();
         });
 

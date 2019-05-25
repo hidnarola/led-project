@@ -62,8 +62,6 @@ export class FileManagerComponent implements OnInit {
 
     getConvertedFile(filename) {
         this.spinner.show();
-        // this.service.getForPreview(filename).subscribe(res => {
-
         this.service.getPriview(filename, 'PC').toPromise().then(res => {
             this.spinner.hide();
             this.showImagePreview(res['body']);
@@ -72,6 +70,7 @@ export class FileManagerComponent implements OnInit {
             this.spinner.hide();
         });
     }
+
     changeMediaType(type) {
         this.mediaType = type;
         // this.imageUrl = null;
@@ -106,25 +105,63 @@ export class FileManagerComponent implements OnInit {
 
     getImageLibrary() {
         this.spinner.show();
-        this.service.getImageLibrary().subscribe(res => {
+        this.service.getImageLibrary().toPromise().then(res => {
             this.fileExplorer.images = res;
             this.spinner.hide();
-        }, error => {
+        }).catch(err => {
             this.spinner.hide();
         });
     }
 
     getAnimationLibrary() {
-
         this.spinner.show();
-        this.service.getAnimationLibrary().subscribe(res => {
+        this.service.getAnimationLibrary().toPromise().then(res => {
             // this.fileExplorer = [];
             this.fileExplorer.animations = res;
             this.spinner.hide();
-        }, error => {
+        }).catch(err => {
             this.spinner.hide();
         });
     }
+
+    // uploadFile() {
+    //     this.spinner.show();
+    //     if (this.fileToUpload) {
+    //         if (this.mediaType === 'image') {
+    //             this.service.uploadImage(this.fileToUpload).toPromise().then(res => {
+    //                 this.notify.notify('success', res.toString());
+    //                 this.isPreviewVideo = false;
+    //                 this.isPreviewObject = false;
+    //                 this.isPreviewImage = false;
+    //                 this.fileToUpload = null;
+    //                 this.mediaType = (this.mediaType === 'image') ? 'video' : 'image';
+    //                 this.getImageLibrary();
+    //                 this.getAnimationLibrary();
+    //                 this.spinner.hide();
+    //             }).catch(err => {
+    //                 this.notify.notify('error', 'Something went Wrong or Already Exist');
+    //                 this.spinner.hide();
+    //             });
+    //         } else {
+    //             this.service.uploadAnimation(this.fileToUpload).toPromise().then(res => {
+    //                 this.notify.notify('success', res.toString());
+    //                 this.isPreviewVideo = false;
+    //                 this.isPreviewObject = false;
+    //                 this.isPreviewImage = false;
+    //                 this.fileToUpload = null;
+    //                 this.mediaType = (this.mediaType === 'image') ? 'video' : 'image';
+    //                 this.spinner.hide();
+    //                 this.getImageLibrary();
+    //                 this.getAnimationLibrary();
+    //             }).catch(err => {
+    //                 this.notify.notify('error', 'Something went Wrong or Already Exist');
+    //                 this.spinner.hide();
+    //             });
+    //         }
+    //     } else {
+    //         this.notify.notify('info', 'Select a file');
+    //     }
+    // }
 
     uploadFile() {
         this.spinner.show();
@@ -179,11 +216,6 @@ export class FileManagerComponent implements OnInit {
         } else {
             this.notify.notify('info', 'Select a file');
         }
-
-        // this.service.uploadImage(this.fileToUpload).subscribe(res => {
-        //   this.notify.notify('success', 'Uploaded Successfully');
-        // }, error => {
-        // });
     }
 
     getMimetype = (signature) => {

@@ -112,14 +112,7 @@ export class ManageSignComponent implements OnInit, OnDestroy {
 
         this.newChoice = id;
         if (this.oldChoice !== 0 || this.oldChoice) {
-            this.usservice.deleteUserSign(this.oldChoice)
-                .subscribe(res => {
-                    // this.notifier.notify('info', '');
-                }, error => {
-                    // this.notifier.notify('error', error.message);
-                });
-
-            // this.deleteFieldValue(this.oldChoice);
+            this.usservice.deleteUserSign(this.oldChoice).toPromise();
         }
         this.usservice.addUserSign(this.newChoice, this.userid)
             .subscribe(res => {
@@ -151,12 +144,9 @@ export class ManageSignComponent implements OnInit, OnDestroy {
                     this.spinner.hide();
                 }
             });
-        // this.addFieldValue();
     }
 
     addFieldValue() {
-        // this.fieldArray.push(this.newAttribute);
-        // this.newAttribute = {};
         this.isAddNew = !this.isAddNew;
     }
 
@@ -168,19 +158,11 @@ export class ManageSignComponent implements OnInit, OnDestroy {
             icon: 'pi pi-info-circle',
             accept: () => {
                 this.spinner.show();
-                this.usservice.deleteUserSign(id).subscribe(res => {
-                    // this.fieldArray.splice(index, 1);
+                this.usservice.deleteUserSign(id).toPromise().then(res => {
                     this.notifier.notify('warning', res.toString());
                     this.spinner.hide();
                     this.getSignByUser();
-                }, error => {
-                    // this.notifier.notify('error', 'Something Wrong');
-                    // this.getSignByUser();
-                    if (error.status === 200) {
-                        this.notifier.notify('warning', error.error.text);
-                        this.getSignByUser();
-                    } else {
-                    }
+                }).catch( error => {
                     this.spinner.hide();
                 }
                 );
@@ -192,62 +174,8 @@ export class ManageSignComponent implements OnInit, OnDestroy {
 
     }
 
-    // onEditCloseItems() {
-    //   this.isEditItems = !this.isEditItems;
-    //   this.getSignByUser();
-    // }
-
     ngOnDestroy(): void {
         // Do not forget to unsubscribe the event
         // this.dtTrigger.unsubscribe();
     }
-
-    // // *** DYNAMIC GENERATES CONTROLS ** //
-
-    // initItemRows() {
-    //   return this._fb.group(
-    //     {
-    //       itemname: ['']
-    //     }
-    //     // {
-    //     //   name: '',
-    //     //   description: '',
-    //     //   price: ''
-    //     // }
-    //   );
-    // }
-
-    // addNewRow() {
-    //   // control refers to your formarray
-    //   const control = <FormArray>this.manageSign.controls['itemRows'];
-    //   // add new formgroup
-    //   control.push(this.initItemRows());
-
-
-    //   // this.items = this.orderForm.get('items') as FormArray;
-    //   // this.items.push(this.createItem());
-
-    // }
-
-    // deleteRow(index: number) {
-    //   // control refers to your formarray
-    //   const control = <FormArray>this.manageSign.controls['itemRows'];
-    //   // remove the chosen row
-    //   control.removeAt(index);
-    // }
-
-    // createItem(): FormGroup {
-    //   return this.formBuilder.group({
-    //     name: '',
-    //     description: '',
-    //     price: ''
-    //   });
-    // }
-
-    // addItem(): void {
-    //   this.items = this.orderForm.get('items') as FormArray;
-    //   this.items.push(this.createItem());
-    // }
-
-
 }

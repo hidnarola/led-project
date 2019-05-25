@@ -286,17 +286,14 @@ export class CreateScheduleComponent implements OnInit {
         });
         this.model.durationList = this.durationList;
         this.model.fileInfo = this.fileInfo;
-        this.service.createSchedule(this.model, this.fileToUpload, this.repeat).subscribe(res => {
+        this.service.createSchedule(this.model, this.fileToUpload, this.repeat).toPromise().then(res => {
+            this.notifier.notify('success', 'Scheduled Stored Successfully');
+            this.model = {};
+            this.fileToUpload = [];
             this.spinner.hide();
-        }, error => {
-            if (error.status === 201) {
-                this.notifier.notify('success', 'Scheduled Stored Successfully');
-                this.model = {};
-                this.fileToUpload = [];
-                this.spinner.hide();
-                this.router.navigate(['/user/schedules']);
-            } else if (error.status === 500) {
-                // this.notifier.notify('error', error.message);
+            this.router.navigate(['/user/schedules']);
+        }).catch(error => {
+            if (error.status === 500) {
                 this.notifier.notify('error', error.error.message);
             } else if (error.status === 400) {
                 this.notifier.notify('warning', 'Select File To upload');

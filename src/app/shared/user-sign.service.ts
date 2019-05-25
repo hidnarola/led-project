@@ -47,7 +47,6 @@ export class UserSignService {
 
     deleteUserSign(id) {
         const uri = '/leddesigner/signmapping/deleteMapping?id=' + id;
-
         return this.http
             .delete(uri)
             .pipe(map(res => {

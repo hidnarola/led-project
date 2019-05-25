@@ -50,18 +50,15 @@ export class ProfileComponent implements OnInit {
             this.spinner.hide();
             return;
         }
-        this.service.changePassword(this.model).subscribe(res => {
+
+        this.service.changePassword(this.model).toPromise().then(res => {
             this.notifier.notify('success', 'Password Changed successfully');
             this.model = {};
             this.spinner.hide();
-        }, error => {
-            if (error.status === 200) {
-                this.notifier.notify('success', 'Password Changed successfully');
-                this.model = {};
-                this.spinner.hide();
-                this.router.navigate(['/user/home']);
-            } else {
-                this.notifier.notify('error', error.error);
+            this.router.navigate(['/user/home']);
+        }).catch(err => {
+            if (err.status === 400) {
+                this.notifier.notify('error', err.error.message);
                 this.spinner.hide();
             }
         });

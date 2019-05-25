@@ -29,14 +29,11 @@ export class CreateSetupComponent implements OnInit, AfterViewChecked {
   }
   onSubmit() {
     this.spinner.show();
-    this.service.addSign(this.model).subscribe(res => {
+    this.service.addSign(this.model).toPromise().then(res => {
       this.notifier.notify('success', 'Added Successfully');
-      // this.model = {};
-      // this.model.signtype = this.signType[0];
-      // this.model.timezone = 'America/Los_Angeles : (GMT-08:00) Pacific Time';
       this.spinner.hide();
       this.router.navigate(['/admin/sign-setup']);
-    }, error => {
+    }).catch(error => {
       this.spinner.hide();
     }
     );

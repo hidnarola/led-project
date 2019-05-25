@@ -47,9 +47,15 @@ export class EditScheduleComponent implements OnInit {
     isPreviewObject: boolean;
     isPreviewVideo: boolean;
     videoType: string;
-    constructor(private notifier: NotifierService, private route: ActivatedRoute,
-        private service: SchedulesService, private router: Router,
-        private config: Config, private sanitizer: DomSanitizer, private spinner: NgxSpinnerService) { }
+    constructor(
+        private notifier: NotifierService,
+        private route: ActivatedRoute,
+        private service: SchedulesService,
+        private router: Router,
+        private config: Config,
+        private sanitizer: DomSanitizer,
+        private spinner: NgxSpinnerService
+    ) { }
 
     ngOnInit() {
         this.spinner.show();
@@ -91,7 +97,9 @@ export class EditScheduleComponent implements OnInit {
                     } else {
                         this.model.monthorweek = 'month';
                     }
-                    if (this.repeat === this.CONFIG.SCHE_MONT) { this.model.scheduleMonths = this.model.scheduleMonths.toString().split(','); }
+                    if (this.repeat === this.CONFIG.SCHE_MONT) {
+                        this.model.scheduleMonths = this.model.scheduleMonths.toString().split(',');
+                    }
                 } else if (this.repeat === this.CONFIG.SCHE_YEAR) {
                     const now = new Date();
                     now.setDate(this.model.scheduleMonthDays);
@@ -107,7 +115,6 @@ export class EditScheduleComponent implements OnInit {
                 this.router.navigate(['/user/schedules']);
             });
         });
-        // document.getElementById('mydate').value = '2001-01-10';
     }
 
     myFolder_click() {
@@ -242,7 +249,7 @@ export class EditScheduleComponent implements OnInit {
             this.spinner.hide();
             this.showImagePreview(res['body']);
         }, error => {
-            this.notifier.notify('error', error.error);
+            this.notifier.notify('error', error.error.message);
             this.spinner.hide();
         });
     }
@@ -342,21 +349,18 @@ export class EditScheduleComponent implements OnInit {
         this.model.oldScheduleName = this.oldScheduleName;
         this.uniqueArray(this.fileInfoStr);
         this.model.fileInfo = this.fileInfoStr;
-        this.service.updateSChedule(this.model, this.fileToUpload, this.repeat).subscribe(res => {
+        this.service.updateSChedule(this.model, this.fileToUpload, this.repeat).toPromise().then(res => {
+            this.notifier.notify('success', 'Scheduled Updated Successfully');
+            this.model = {};
+            this.fileToUpload = [];
             this.spinner.hide();
-        }, error => {
-            if (error.status === 200) {
-                this.notifier.notify('success', 'Scheduled Updated Successfully');
-                this.model = {};
-                this.fileToUpload = [];
-                this.spinner.hide();
-                this.router.navigate(['/user/schedules']);
-            } else if (error.status === 400) {
+            this.router.navigate(['/user/schedules']);
+        }).catch(error => {
+            if (error.status === 400) {
                 this.notifier.notify('warning', 'Select Image To upload');
             } else {
                 this.notifier.notify('error', error.error.message);
             }
-            // this.notifier.notify('error', error);
             this.spinner.hide();
         });
 

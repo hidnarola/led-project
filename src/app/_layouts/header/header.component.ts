@@ -22,10 +22,10 @@ export class HeaderComponent implements OnInit {
         if (this.user_role === 'ADMIN') {
             this.isAdmin = true;
         }
-        this.userService.getProfileLink().subscribe(link => {
+        this.userService.getProfileLink().toPromise().then(link => {
             if (link) {
                 this.userLogo = link;
             }
-        });
+        }).catch(err=>{ });
     }
 }
