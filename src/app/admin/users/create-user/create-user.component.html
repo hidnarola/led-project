@@ -205,7 +205,7 @@
                             <div class="form-group has-feedback ui-fluid " *ngIf="signData.length > 0 && selectedParentId ">
                                 <label class="form-label">Assign Sign</label>
                                 <div>
-                                    <p-multiSelect [options]="signData" [(ngModel)]="selectedSigns" 
+                                    <p-multiSelect [options]="signData" [(ngModel)]="selectedSigns" required
                                         defaultLabel="Select Sign" selectedItemsLabel="{0} items selected"
                                         [panelStyle]="{minWidth:'10em'}" maxSelectedLabels=0 optionLabel="name"
                                         name="userSigns" #userSigns="ngModel">

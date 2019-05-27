@@ -132,14 +132,12 @@ export class CreateUserComponent implements OnInit {
     onSubmit() {
         this.spinner.show();
         if (this.selectedRole === 'ROLE_SUB_USER') {
-            if (this.model['privileges'].length > 0) {
+            if (this.model['privileges'] && this.model['privileges'].length > 0) {
                 this.permissions.forEach((permissions) => {
                     if (this.model['privileges'].indexOf(permissions.privilegeId.toString()) !== -1) {
                         this.selectedpermissionValue.push(permissions);
                     }
                 });
-            } else {
-                this.selectedpermissionValue = [];
             }
             this.model['privileges'] = this.selectedpermissionValue;
             this.model['parentId'] = this.selectedParentId['id'];
