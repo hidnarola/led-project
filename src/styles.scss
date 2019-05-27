@@ -147,6 +147,23 @@ body .ui-steps .ui-steps-item .ui-menuitem-link .ui-steps-number {
   width: 100%;
 }
 
+.page-content {
+  height: 100%;
+}
+
+.content-wrapper {
+  height: 100%;
+  position: relative;
+}
+
+.content-wrapper .home_logo {
+  position: absolute;
+  max-width: 90%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 @media (max-width: 991px) {
   .footer {
     position: relative;
@@ -172,7 +189,6 @@ body .ui-steps .ui-steps-item .ui-menuitem-link .ui-steps-number {
 @media (min-width: 769px) {
   .page-content {
     height: 100%;
-
     width: 100%;
     vertical-align: top;
   }
@@ -419,40 +435,42 @@ body .ui-dialog {
   height: 20px;
 }
 
-.label-ROLE_USER{
+.label-ROLE_USER {
   border-color: #4CAF50;
   background: #4CAF50;
 }
-.label-ROLE_SUB_USER{
+
+.label-ROLE_SUB_USER {
   border-color: #2196F3;
   background: #2196F3;
 }
-.label-ROLE_ADMIN{
+
+.label-ROLE_ADMIN {
   border-color: #F44336;
   background: #F44336;
 }
 
-.fileUpload{
-    width: 100%;
+.fileUpload {
+  width: 100%;
 }
 
-.user-profile-default{
-    line-height: 32px !important;
-    text-align: center;
-    background: #fff;
-    border-radius: 50%;
-    color: #263238;
-    font-size: 24px !important;
+.user-profile-default {
+  line-height: 32px !important;
+  text-align: center;
+  background: #fff;
+  border-radius: 50%;
+  color: #263238;
+  font-size: 24px !important;
 }
 
-.ui-multiselect .ui-multiselect-label{
-    margin-bottom: 0px;
+.ui-multiselect .ui-multiselect-label {
+  margin-bottom: 0px;
 }
 
 .navbar .navbar-header .navbar-logo {
-    float: left;
-    padding: 5px 0 5px 10px;
-    height: 46px;
+  float: left;
+  padding: 5px 0 5px 10px;
+  height: 46px;
 }
 
 @media (max-width: 767px) {

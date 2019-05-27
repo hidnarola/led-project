@@ -1,19 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import { UsersService } from 'src/app/shared/users.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  user_name: any;
-  user_role: any;
-  constructor() { }
+    userLogo = '';
+    constructor(
+        private userService: UsersService
+    ) { }
 
-  ngOnInit() {
-    // this.user_name = localStorage.getItem('name');
-    // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
-  }
-
-
+    ngOnInit() {
+        this.userService.getProfileLink().toPromise().then(link => {
+            if (link) {
+                this.userLogo = link;
+            }
+        });
+    }
 }

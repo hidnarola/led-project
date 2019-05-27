@@ -1,4 +1,4 @@
 <div class="content-wrapper">
-  <div class="text-center">
-    <img src="assets/images/HyocoLt1.png" /></div>
+    <img class="home_logo" src="assets/images/HyocoLt1.png" *ngIf="userLogo == ''"/>
+    <img class="home_logo" src="{{userLogo}}" *ngIf="userLogo != ''"/>
 </div>
