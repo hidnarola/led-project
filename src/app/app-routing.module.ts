@@ -107,7 +107,7 @@ const routes: Routes = [
                 canActivate: [AuthGuard]
             },
             {
-                path: 'signs/deleteSchedule', component: DeleteScheduleComponent,
+                path: 'signss/deleteSchedule', component: DeleteScheduleComponent,
                 canActivate: [AuthGuard, NgxPermissionsGuard],
                 data: {
                     permissions: {
