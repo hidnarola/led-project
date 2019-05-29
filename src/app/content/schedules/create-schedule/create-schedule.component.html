@@ -447,7 +447,7 @@
       <div class="img_container">
         <img src="assets/images/folder/blank.png" height="120px" width="120px" (click)="image.click()" alt="This PC" />
         <label>This PC</label>
-        <input type="file" ([ngModel])="myfile" name="myfile" class="file-styled custom_file_select" #image
+        <input type="file" ([ngModel])="myfile" name="myfile" id="file" class="file-styled custom_file_select" #image
           (change)="handleFileInput($event.target.files.item(0), 'PC')" accept="image/*,video/*" required>
       </div>
     </div>

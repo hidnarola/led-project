@@ -1,4 +1,12 @@
 <div class="content-wrapper">
+    <div class="announcement-wrapper text-center" *ngIf="announcementData && title">
+        <i class="icon-megaphone" aria-hidden="true"></i>
+        <div class="announcement-detail">
+            <p class="subject">{{announcementData.subject}}</p>
+            <p class="description">{{announcementData.detail}}</p>
+        </div>
+        <i class="icon-cross" aria-hidden="true"(click)="remove()"></i>
+    </div>
     <img class="home_logo" src="assets/images/HyocoLt1.png" *ngIf="userLogo == ''"/>
     <img class="home_logo" src="{{userLogo}}" *ngIf="userLogo != ''"/>
 </div>

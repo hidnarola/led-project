@@ -212,10 +212,9 @@ export class CreateScheduleComponent implements OnInit {
                 } else {
                     this.spinner.hide();
                 }
-                // this.spinner.hide();
+                document.getElementById('file')['value'] = '';
             }
         }
-
         this.display = false;
     }
 
@@ -265,6 +264,7 @@ export class CreateScheduleComponent implements OnInit {
         this.isPreviewImage = false;
         this.isPreviewVideo = false;
         this.isPreviewObject = false;
+        // this.myfile.nativeElement.value = null;
         this.myfile = '';
     }
     timeToMS(strtime) {

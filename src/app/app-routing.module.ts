@@ -37,103 +37,105 @@ import { DeleteScheduleComponent } from './content/schedules/delete-schedule/del
 import { ProfileComponent } from './content/profile/profile.component';
 import { AdminProfileComponent } from './admin/admin-profile/admin-profile.component';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { AddAnnouncementComponent } from './admin/add-announcement/add-announcement.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'forgot', component: ForgotPasswordComponent },
-  { path: 'reset-password', component: ResetPasswordComponent },
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
+    { path: 'login', component: LoginComponent },
+    { path: 'forgot', component: ForgotPasswordComponent },
+    { path: 'reset-password', component: ResetPasswordComponent },
 
-  {
-    path: 'admin',
-    component: AdminLayoutComponent,
-    children: [
-      { path: '', redirectTo: 'admin/login', pathMatch: 'full' },
-      { path: 'dashboard', component: AdminHomeComponent, canActivate: [AdminAuthGuard] },
-      { path: 'profile', component: AdminProfileComponent, canActivate: [AdminAuthGuard] },
-      { path: 'sign-setup', component: SignSetupComponent, canActivate: [AdminAuthGuard] },
-      { path: 'file-manager', component: FileManagerComponent, canActivate: [AdminAuthGuard] },
-      { path: 'sign-setup/add', component: CreateSetupComponent, canActivate: [AdminAuthGuard] },
-      { path: 'sign-setup/edit/:id', component: EditSetupComponent, canActivate: [AdminAuthGuard] },
-      { path: 'users', component: UsersComponent, canActivate: [AdminAuthGuard] },
-      { path: 'user/add', component: CreateUserComponent, canActivate: [AdminAuthGuard] },
-      { path: 'user/edit/:id', component: CreateUserComponent, canActivate: [AdminAuthGuard] },
-      { path: 'user/sign/:id', component: ManageSignComponent, canActivate: [AdminAuthGuard] },
-    ]
-  },
-  // // *** User ***
-  {
-    path: 'user',
-    component: UserLayoutComponent,
-    children: [
-      {
-        path: 'home', component: HomeComponent, canActivate: [AuthGuard],
-      },
-      {
-        path: 'profile', component: ProfileComponent, canActivate: [AuthGuard],
-      },
-      {
-        path: 'schedules', component: SchedulesComponent,
-        canActivate: [AuthGuard, NgxPermissionsGuard],
-        data: {
-          permissions: {
-            only: ['PREV_02', 'PREV_03', 'PREV_04', 'ROLE_USER'],
-          }
-        }
-      },
-      {
-        path: 'schedule/add', component: CreateScheduleComponent,
-        canActivate: [AuthGuard, NgxPermissionsGuard],
-        data: {
-          permissions: {
-            only: ['PREV_02', 'ROLE_USER'],
-          }
-        }
-      },
-      {
-        path: 'schedule/edit/:id', component: EditScheduleComponent,
-        canActivate: [AuthGuard, NgxPermissionsGuard],
-        data: {
-          permissions: {
-            only: ['PREV_03', 'ROLE_USER'],
-          }
-        }
-      },
-      {
-        path: 'schedule/send', component: SendScheduleComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'signs/deleteSchedule', component: DeleteScheduleComponent,
-        canActivate: [AuthGuard, NgxPermissionsGuard],
-        data: {
-          permissions: {
-            only: ['PREV_04', 'ROLE_USER'],
-          }
-        }
-      },
-      {
-        path: 'schedule/:id', component: ViewScheduleComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'signs', component: MySignsComponent,
-        canActivate: [AuthGuard]
-      },
-    ]
-  },
-  { path: 'admin/login', component: AdminLoginComponent },
-  { path: 'logout', component: AdminLogoutComponent },
-  { path: '**', redirectTo: 'login' }
+    {
+        path: 'admin',
+        component: AdminLayoutComponent,
+        children: [
+            { path: '', redirectTo: 'admin/login', pathMatch: 'full' },
+            { path: 'dashboard', component: AdminHomeComponent, canActivate: [AdminAuthGuard] },
+            { path: 'profile', component: AdminProfileComponent, canActivate: [AdminAuthGuard] },
+            { path: 'sign-setup', component: SignSetupComponent, canActivate: [AdminAuthGuard] },
+            { path: 'file-manager', component: FileManagerComponent, canActivate: [AdminAuthGuard] },
+            { path: 'sign-setup/add', component: CreateSetupComponent, canActivate: [AdminAuthGuard] },
+            { path: 'sign-setup/edit/:id', component: EditSetupComponent, canActivate: [AdminAuthGuard] },
+            { path: 'users', component: UsersComponent, canActivate: [AdminAuthGuard] },
+            { path: 'user/add', component: CreateUserComponent, canActivate: [AdminAuthGuard] },
+            { path: 'user/edit/:id', component: CreateUserComponent, canActivate: [AdminAuthGuard] },
+            { path: 'user/sign/:id', component: ManageSignComponent, canActivate: [AdminAuthGuard] },
+            { path: 'announcement', component: AddAnnouncementComponent, canActivate: [AdminAuthGuard] }
+        ]
+    },
+    // // *** User ***
+    {
+        path: 'user',
+        component: UserLayoutComponent,
+        children: [
+            {
+                path: 'home', component: HomeComponent, canActivate: [AuthGuard],
+            },
+            {
+                path: 'profile', component: ProfileComponent, canActivate: [AuthGuard],
+            },
+            {
+                path: 'schedules', component: SchedulesComponent,
+                canActivate: [AuthGuard, NgxPermissionsGuard],
+                data: {
+                    permissions: {
+                        only: ['PREV_02', 'PREV_03', 'PREV_04', 'ROLE_USER'],
+                    }
+                }
+            },
+            {
+                path: 'schedule/add', component: CreateScheduleComponent,
+                canActivate: [AuthGuard, NgxPermissionsGuard],
+                data: {
+                    permissions: {
+                        only: ['PREV_02', 'ROLE_USER'],
+                    }
+                }
+            },
+            {
+                path: 'schedule/edit/:id', component: EditScheduleComponent,
+                canActivate: [AuthGuard, NgxPermissionsGuard],
+                data: {
+                    permissions: {
+                        only: ['PREV_03', 'ROLE_USER'],
+                    }
+                }
+            },
+            {
+                path: 'schedule/send', component: SendScheduleComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'signs/deleteSchedule', component: DeleteScheduleComponent,
+                canActivate: [AuthGuard, NgxPermissionsGuard],
+                data: {
+                    permissions: {
+                        only: ['PREV_04', 'ROLE_USER'],
+                    }
+                }
+            },
+            {
+                path: 'schedule/:id', component: ViewScheduleComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'signs', component: MySignsComponent,
+                canActivate: [AuthGuard]
+            },
+        ]
+    },
+    { path: 'admin/login', component: AdminLoginComponent },
+    { path: 'logout', component: AdminLogoutComponent },
+    { path: '**', redirectTo: 'login' }
 ];
 
 const config: ExtraOptions = {
-  useHash: true,
+    useHash: true,
 };
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, config)],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes, config)],
+    exports: [RouterModule]
 })
 export class AppRoutingModule { }

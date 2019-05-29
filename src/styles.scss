@@ -474,6 +474,46 @@ body .ui-dialog {
   height: 46px;
 }
 
+.announcement-wrapper {
+    padding: 10px 0;
+    background: rgb(222, 235, 255);
+    color: #333333;
+    position: relative;
+}
+.announcement-detail {
+    padding: 0 30px;
+}
+.announcement-wrapper p{
+    margin-bottom: 0;
+}
+.announcement-wrapper p.subject{
+    font-weight: 500;
+}
+.announcement-wrapper i{
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.announcement-wrapper i.icon-megaphone{
+    left: 0;
+    font-size: 18px;
+}
+.announcement-wrapper i.icon-cross{
+    right: 0;
+    cursor: pointer;
+}
+.announcement-wrapper i.icon-cross::before{
+    background: #333;
+    border-radius: 50%;
+    color: #fff;
+}
+.invalid-feedback {
+    color: red;
+    font-style: 12px;
+}
 @media (max-width: 767px) {
 
   body .ui-dialog {

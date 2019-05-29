@@ -42,6 +42,8 @@ import { TabViewModule } from 'primeng/tabview';
 import { NgxSpinnerModule } from 'ngx-spinner';
 // Pagination
 import { NgxPaginationModule } from 'ngx-pagination';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {InputSwitchModule} from 'primeng/inputswitch';
 
 // Notification or Alert
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
@@ -71,6 +73,8 @@ import { CreateSetupComponent } from './admin/sign-setup/create-setup/create-set
 import { EditSetupComponent } from './admin/sign-setup/edit-setup/edit-setup.component';
 import { ManageSignComponent } from './admin/users/manage-sign/manage-sign.component';
 import { AdminProfileComponent } from './admin/admin-profile/admin-profile.component';
+import { AnnouncementService } from './shared/announcement.service';
+import { AddAnnouncementComponent } from './admin/add-announcement/add-announcement.component';
 
 export function tokenGetter() {
     return localStorage.getItem('access-token');
@@ -154,19 +158,22 @@ const customNotifierOptions: NotifierOptions = {
         UserLayoutComponent,
         FileManagerComponent,
         ProfileComponent,
-        AdminProfileComponent
+        AdminProfileComponent,
+        AddAnnouncementComponent
     ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
         CheckboxModule,
         RadioButtonModule,
+        InputTextareaModule,
         CalendarModule,
         FileUploadModule,
         DropdownModule,
         MultiSelectModule,
         ConfirmDialogModule,
         StepsModule,
+        InputSwitchModule,
         DialogModule,
         InputMaskModule,
         TabViewModule,
@@ -191,6 +198,7 @@ const customNotifierOptions: NotifierOptions = {
     providers: [
         Config,
         ConfirmationService,
+        AnnouncementService,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
     ],
     bootstrap: [AppComponent]

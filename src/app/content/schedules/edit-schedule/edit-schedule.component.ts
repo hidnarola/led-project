@@ -221,9 +221,8 @@ export class EditScheduleComponent implements OnInit {
 
     handleFileInput(file, source) {
         this.spinner.show();
-        if (this.fileNamesList.indexOf(file.name) >= 0) {
+        if (this.fileNamesList && this.fileNamesList.indexOf(file.name) >= 0) {
             this.notifier.notify('warning', 'Same File Name Exist.');
-            // isMatched = true;
         } else {
             file.duration = '00:00:06';
             this.fileToUpload.push(file);
@@ -237,10 +236,10 @@ export class EditScheduleComponent implements OnInit {
             } else { this.spinner.hide(); }
             this.fileInfo.push({ 'name': file.name, 'source': source });
         }
+        document.getElementById('file')['value'] = '';
         this.display = false;
     }
     imagePreview(filename) {
-        // this.isPreview = true;
         this.isPreviewImage = false;
         this.isPreviewObject = false;
         this.isPreviewVideo = false;
@@ -261,7 +260,6 @@ export class EditScheduleComponent implements OnInit {
                 source = file.source;
             }
         });
-
         this.service.getPriview(filename, source).toPromise().then(res => {
             this.spinner.hide();
             this.showImagePreview(res['body']);
@@ -275,7 +273,6 @@ export class EditScheduleComponent implements OnInit {
         // Show image preview
         const reader = new FileReader();
         reader.onload = (event: any) => {
-            // this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(event.target.result);
             this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
             if (file.type.substr(0, 5) === 'video') {
                 this.isPreviewImage = false;
@@ -292,12 +289,9 @@ export class EditScheduleComponent implements OnInit {
                 this.isPreviewObject = true;
             }
             this.spinner.hide();
-            // window.open(event.target.result, '_blank');
         };
         reader.readAsDataURL(file);
-        // reader.readAsBinaryString(file);
     }
-
 
     deleteImage(index) {
         this.fileToUpload.splice(index, 1);
@@ -322,7 +316,6 @@ export class EditScheduleComponent implements OnInit {
     }
     onSubmit() {
         this.spinner.show();
-
         if (this.model.monthorweek === 'week') {
             this.model.scheduleMonthDays = 0;
         } else {
@@ -370,7 +363,6 @@ export class EditScheduleComponent implements OnInit {
         const date = new Date();
         date.setFullYear(yr, mon, day);
         return date;
-        // return yr + '-' + mon + '-' + day;
     }
 
     convertToTime(HH, MM, SS) {

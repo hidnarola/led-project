@@ -13,8 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit, OnDestroy {
-    @ViewChild(DataTableDirective)
-    dtElement: DataTableDirective;
+    @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 
     dtTrigger = new Subject();
     dtOptions: DataTables.Settings = {};

@@ -80,6 +80,12 @@
                             <i class="icon-folder2"></i> <span>File Manager</span>
                         </a>
                     </li>
+                    <li *ngIf="isAdmin" routerLinkActive="active">
+                        <a routerLink="/admin/announcement">
+                            <i class="icon-megaphone" aria-hidden="true"></i>
+                            <span>Announcement</span>
+                        </a>
+                    </li>
                     <!-- /main -->
 
                 </ul>
