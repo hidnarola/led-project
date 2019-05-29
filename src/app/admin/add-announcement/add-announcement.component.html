@@ -32,7 +32,7 @@
                         <div class="col-md-5">
                             <div class="form-group has-feedback">
                                 <label class="form-label">Subject</label>
-                                <input type="text" class="form-control" placeholder=" Announcement subject"
+                                <input type="text" class="form-control" placeholder="Announcement subject"
                                     name="subject" [(ngModel)]="model['subject']" #subject="ngModel"
                                     [ngClass]="{ 'is-invalid': f.submitted && subject.invalid }" required>
                                 <div class="form-control-feedback">
@@ -49,7 +49,7 @@
                             <div class="form-group has-feedback">
                                 <label class="form-label">Details </label>
                                 <textarea rows="5" cols="60" name="detail" [(ngModel)]="model['detail']"
-                                    #detail="ngModel" placeholder=" Announcement detail" class="form-control" required
+                                    #detail="ngModel" placeholder="Announcement detail" class="form-control" required
                                     [ngClass]="{ 'is-invalid': f.submitted && detail.invalid }">
                                  </textarea>
                                 <div class="form-control-feedback">
@@ -64,8 +64,10 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group has-feedback">
-                                <label class="form-label">Display Status </label> &nbsp;&nbsp;
-                                <p-inputSwitch [(ngModel)]="model['status']" name ="status"></p-inputSwitch>
+                                <label class="form-label">Display Status </label>
+                                <div>
+                                    <p-inputSwitch [(ngModel)]="model['status']" name="status"></p-inputSwitch>
+                                </div>
                             </div>
                         </div>
                     </div>

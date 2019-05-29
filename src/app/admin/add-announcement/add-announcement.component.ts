@@ -23,9 +23,15 @@ export class AddAnnouncementComponent implements OnInit {
     }
 
     onSubmit() {
+        this.spinner.show();
         this.announcementService.addAnnouncement(this.model).toPromise().then(res => {
+            this.spinner.hide();
             this.notifier.notify('success', 'Announcement saved successfully!!');
+            if (this.model && !this.model.hasOwnProperty('id')) {
+                this.getAnnouncement();
+            }
         }).catch(err => {
+            this.spinner.hide();
             this.notifier.notify('error', err.error.message);
         });
     }
@@ -34,6 +40,9 @@ export class AddAnnouncementComponent implements OnInit {
         this.announcementService.getAnnouncement().toPromise().then(data => {
             if (data && data.length > 0) {
                 this.model = data[0];
+                this.spinner.hide();
+            } else {
+                this.model = {};
                 this.spinner.hide();
             }
         }).catch(err => {
