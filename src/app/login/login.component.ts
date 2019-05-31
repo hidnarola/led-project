@@ -46,7 +46,6 @@ export class LoginComponent implements OnInit {
                 localStorage.setItem('name', userDetail['name']);
                 localStorage.setItem('userid', userDetail['userid']);
                 localStorage.setItem('user_email', userDetail['email']);
-                console.log("authorities..",userDetail['authorities']);
                 userDetail['authorities'].forEach((authorities) => {
                     this.permissionData.push((Object.values(authorities)[0]));
                     if (authorities['name'] === 'ROLE_USER' || authorities['name'] === 'ROLE_ADMIN'
@@ -54,9 +53,10 @@ export class LoginComponent implements OnInit {
                         localStorage.setItem('authorities', authorities['name']);
                     }
                 });
-                console.log("this.permissionData..",this.permissionData);
                 if (this.permissionData.length > 0) {
-                    this.permissionsService.addPermission(this.permissionData);
+                    this.permissionsService.addPermission(this.permissionData,(permissionName, permissionStore) => {
+                        return true;
+                    });
                     localStorage.setItem('userPermission', JSON.stringify(this.permissionData));
                 }
                 if (localStorage.getItem('authorities') === 'ROLE_SUB_USER' || localStorage.getItem('authorities') === 'ROLE_USER') {

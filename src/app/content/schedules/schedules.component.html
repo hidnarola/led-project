@@ -42,7 +42,7 @@
               </div>
             </li>
             <li>
-              <button type="button" (click)="redirectToSend()" class="btn bg-purple btn-rounded"><i
+              <button type="button" (click)="redirectToSend()" *ngxPermissionsOnly="['PREV_05','ROLE_USER']"class="btn bg-purple btn-rounded"><i
                   class="icon-paperplane position-left"></i>
                 Send Schedule</button>
             </li>

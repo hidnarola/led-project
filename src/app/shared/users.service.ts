@@ -32,7 +32,7 @@ export class UsersService {
     }
 
     getAllPermission() {
-        const uri = '/leddesigner/user/get-all-permission';
+        const uri = '/leddesigner/user/permissions';
         return this.http.get(uri);
     }
 

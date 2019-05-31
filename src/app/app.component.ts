@@ -18,7 +18,6 @@ export class AppComponent implements OnInit {
     ) { }
     ngOnInit() {
         if (localStorage.getItem('userPermission')) {
-            console.log("localStorage", JSON.parse(localStorage.getItem('userPermission')));
             this.permissionsService.loadPermissions(JSON.parse(localStorage.getItem('userPermission')));
         }
         this.router.events.subscribe((evt) => {

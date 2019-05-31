@@ -213,7 +213,7 @@ export class EditScheduleComponent implements OnInit {
         this.existFile = false ;
         this.spinner.show();
         this.fileInfoStr.forEach(element => {
-            if (element['name'] === filename) {
+            if (element['name'] === filename || (this.fileNamesList && this.fileNamesList.indexOf(filename) >= 0)) {
                 this.existFile = true;
                 this.display = false;
                 this.spinner.hide();
@@ -232,25 +232,25 @@ export class EditScheduleComponent implements OnInit {
     }
 
     handleFileInput(file, source) {
-        this.spinner.show();
-        file.duration = '00:00:06';
-        this.fileToUpload.push(file);
-        this.fileNamesList.push(file.name);
-        if (file.type.substr(0, 5) === 'video' && source === 'PC') {
-            this.service.addForPreview(file).subscribe(res => {
+            this.spinner.show();
+            file.duration = '00:00:06';
+            this.fileToUpload.push(file);
+            this.fileNamesList.push(file.name);
+            if (file.type.substr(0, 5) === 'video' && source === 'PC') {
+                this.service.addForPreview(file).subscribe(res => {
+                    this.spinner.hide();
+                }, error => {
+                    this.spinner.hide();
+                });
+                document.getElementById('file')['value'] = '';
+            } else {
                 this.spinner.hide();
-            }, error => {
-                this.spinner.hide();
-            });
-            document.getElementById('file')['value'] = '';
-        } else {
-            this.spinner.hide();
-        }
-        this.fileInfo.push({ 'name': file.name, 'source': source });
-        if (source === 'PC') {
-            document.getElementById('file')['value'] = '';
-        }
-        this.display = false;
+            }
+            this.fileInfo.push({ 'name': file.name, 'source': source });
+            if (source === 'PC') {
+                document.getElementById('file')['value'] = '';
+            }
+            this.display = false;
     }
     imagePreview(filename) {
         this.isPreviewImage = false;
