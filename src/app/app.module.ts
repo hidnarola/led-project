@@ -128,7 +128,6 @@ const customNotifierOptions: NotifierOptions = {
 @NgModule({
     declarations: [
         AppComponent,
-        // FileSelectDirective,
         HeaderComponent,
         FooterComponent,
         LoginComponent,

@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { map } from 'rxjs/operators';
 import { AES, enc } from 'crypto-ts';
+import { NgxPermissionsService } from 'ngx-permissions';
+
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +14,8 @@ export class AccountService {
     payloadData: any;
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private permissionsService: NgxPermissionsService
     ) { }
 
     register(data, userid) {
@@ -80,6 +83,7 @@ export class AccountService {
     }
 
     logout() {
+        this.permissionsService.flushPermissions();
         localStorage.clear();
         return true;
     }

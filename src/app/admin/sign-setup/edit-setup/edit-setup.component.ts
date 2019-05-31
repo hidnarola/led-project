@@ -13,8 +13,6 @@ export class EditSetupComponent implements OnInit {
     model: any = {};
     signType: any;
     timezones: any;
-    user_name: string;
-    user_role: string;
 
     constructor(
         private config: Config,
@@ -24,16 +22,14 @@ export class EditSetupComponent implements OnInit {
         private spinner: NgxSpinnerService) { }
 
     ngOnInit() {
-        // this.user_name = localStorage.getItem('name');
-        // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
         this.spinner.show();
         this.signType = this.config.signType;
         this.timezones = this.config.timeZone;
         this.route.params.subscribe(params => {
-            this.service.getSingleSign(params['id']).subscribe(res => {
+            this.service.getSingleSign(params['id']).toPromise().then(res => {
                 this.model = res;
                 this.spinner.hide();
-            }, error => {
+            }).catch(error => {
                 this.spinner.hide();
             });
         });

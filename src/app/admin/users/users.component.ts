@@ -5,7 +5,7 @@ import { NotifierService } from 'angular-notifier';
 import { ConfirmationService } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DataTableDirective } from 'angular-datatables';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-users',
@@ -13,8 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
     styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit, OnDestroy {
-    @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 
+    @ViewChild(DataTableDirective) dtElement: DataTableDirective;
     dtTrigger = new Subject();
     dtOptions: DataTables.Settings = {};
     data: any = [];
@@ -23,7 +23,6 @@ export class UsersComponent implements OnInit, OnDestroy {
         private service: UsersService,
         private notifier: NotifierService,
         private route: ActivatedRoute,
-        private router: Router,
         private confirmationService: ConfirmationService,
         private spinner: NgxSpinnerService) { }
 

@@ -182,7 +182,7 @@
                             <div class="form-group has-feedback">
                                 <label class="form-label">Select Logo</label>
                                 <input type="file" ([ngModel])="profilePic" name="profilePic"
-                                    class="fileUpload file-styled" #profilePic
+                                    class="form-control fileUpload file-styled" #profilePic
                                     (change)="handleFileInput($event.target.files.item(0))" accept="image/*">
                             </div>
                         </div>

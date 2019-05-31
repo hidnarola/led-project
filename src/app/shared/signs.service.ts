@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
-
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { map } from 'rxjs/operators';
 
-import { Config } from '../shared/config';
 @Injectable({
     providedIn: 'root'
 })
 export class SignsService {
     constructor(
-        private http: HttpClient ,
-        private config: Config) { }
+        private http: HttpClient
+                ) { }
 
     getAllSigns() {
         const uri = '/leddesigner/signsn/getAllSignSN';
@@ -35,8 +33,6 @@ export class SignsService {
             ));
     }
 
-
-
     addSign(data) {
         const uri = '/leddesigner/signsn/add';
         const signs = {
@@ -50,8 +46,6 @@ export class SignsService {
             type: data.signtype,
             sizeX: Number(data.widthx)
         };
-
-        // timezone: data.timezone,
         return this.http
             .post(uri, signs)
             .map(res => {
@@ -83,7 +77,6 @@ export class SignsService {
     }
 
     deleteSign(id) {
-        // /leddesigner/signsn/deleteSignSN?signId=25
         const uri = '/leddesigner/signsn/deleteSignSN?signId=' + id;
         return this.http
             .delete(uri)
@@ -92,7 +85,6 @@ export class SignsService {
             }
             );
     }
-
 
     downloadSign(signId): any {
         const httpOptions = {};

@@ -19,8 +19,12 @@ export class FileManagerComponent implements OnInit {
     videoType: string;
     fileToUpload: File;
     fileExplorer: any;
-    constructor(private spinner: NgxSpinnerService, private sanitizer: DomSanitizer,
-        private service: SchedulesService, private notify: NotifierService) { }
+    constructor(
+        private spinner: NgxSpinnerService,
+        private sanitizer: DomSanitizer,
+        private service: SchedulesService,
+        private notify: NotifierService
+    ) { }
 
     ngOnInit() {
         this.mediaType = 'image';
@@ -28,7 +32,6 @@ export class FileManagerComponent implements OnInit {
         this.getAnimationLibrary();
         this.getImageLibrary();
     }
-
     // handleFileInput(file) {
     //     this.spinner.show();
     //     this.fileToUpload = file;
@@ -39,19 +42,19 @@ export class FileManagerComponent implements OnInit {
     //         }).catch(error =>{  this.spinner.hide();  });
     //     }
     // }
-
-
     handleFileInput(file) {
-        // this.showImagePreview(file);
         this.spinner.show();
         this.fileToUpload = file;
         if (file.type.substr(0, 5) === 'video') {
             this.service.addForPreview(file).subscribe(res => {
+                console.log("goood ");
                 this.getConvertedFile(file.name);
                 this.spinner.hide();
             }, error => {
                 if (error.status === 200) {
+                    console.log("tttt");
                     this.getConvertedFile(file.name);
+                    this.spinner.hide();
                 }
                 this.spinner.hide();
             });
@@ -63,8 +66,8 @@ export class FileManagerComponent implements OnInit {
     getConvertedFile(filename) {
         this.spinner.show();
         this.service.getPriview(filename, 'PC').toPromise().then(res => {
-            this.spinner.hide();
             this.showImagePreview(res['body']);
+            this.spinner.hide();
         }).catch(errorResponse => {
             this.notify.notify('warning', 'Unknown File Type or Currupted File');
             this.spinner.hide();
@@ -73,7 +76,6 @@ export class FileManagerComponent implements OnInit {
 
     changeMediaType(type) {
         this.mediaType = type;
-        // this.imageUrl = null;
     }
 
     showImagePreview(file: Blob) {
@@ -116,14 +118,12 @@ export class FileManagerComponent implements OnInit {
     getAnimationLibrary() {
         this.spinner.show();
         this.service.getAnimationLibrary().toPromise().then(res => {
-            // this.fileExplorer = [];
             this.fileExplorer.animations = res;
             this.spinner.hide();
         }).catch(err => {
             this.spinner.hide();
         });
     }
-
     // uploadFile() {
     //     this.spinner.show();
     //     if (this.fileToUpload) {
@@ -184,6 +184,10 @@ export class FileManagerComponent implements OnInit {
                         this.getImageLibrary();
                         this.getAnimationLibrary();
                         this.spinner.hide();
+                    } else if (error.status === 417) {
+                        //Image Already Exist
+                        this.notify.notify('error', error.error.message);
+                        this.spinner.hide();
                     } else {
                         this.notify.notify('error', 'Something went Wrong or Already Exist');
                         this.spinner.hide();
@@ -191,30 +195,28 @@ export class FileManagerComponent implements OnInit {
                 });
             } else {
                 this.service.uploadAnimation(this.fileToUpload).subscribe(res => {
-                    this.notify.notify('success', res.toString());
+                    this.notify.notify('success', res['message']);
+                    this.isPreviewVideo = false;
+                    this.isPreviewObject = false;
+                    this.isPreviewImage = false;
+                    this.fileToUpload = null;
+                    this.mediaType = (this.mediaType === 'image') ? 'video' : 'image';
                     this.spinner.hide();
                     this.getImageLibrary();
                     this.getAnimationLibrary();
                 }, error => {
-                    if (error.status === 200) {
-                        this.notify.notify('success', error.error.text);
-                        this.isPreviewVideo = false;
-                        this.isPreviewObject = false;
-                        this.isPreviewImage = false;
-                        this.fileToUpload = null;
-                        this.mediaType = (this.mediaType === 'image') ? 'video' : 'image';
+                    if (error.status === 417) {
+                        this.notify.notify('error', error.error.toString());
                         this.spinner.hide();
-                        this.getImageLibrary();
-                        this.getAnimationLibrary();
                     } else {
                         this.notify.notify('error', 'Something went Wrong or Already Exist');
                         this.spinner.hide();
                     }
                 });
             }
-
         } else {
             this.notify.notify('info', 'Select a file');
+            this.spinner.hide();
         }
     }
 

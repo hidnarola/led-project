@@ -285,45 +285,10 @@
                   #ondate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ondate.invalid }" required>
               </div>
             </div>
-            <!-- <div class="col-md-6" *ngIf="model.onDate">
-              <i>On Date: {{ model.onDate | date: ' dd-MMMM' }}</i>
-            </div> -->
           </div>
-          <!-- <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="form-label">Duration</label>
-                <div>
-                  <p-inputMask [(ngModel)]="model.duration" name="duration" mask="99:99:99" placeholder="HH:mm:ss"></p-inputMask>
-                </div>
-              </div>
-            </div>
-          </div> -->
           <div class="row">
             <div class="col-md-12">
-              <!-- <input type='file' (change)="onSelectFile($event)" multiple> -->
-              <!-- <input type="file" placeholder="Browse Images" name="myfile" [(ngModel)]="model.myfile" #file #myfile="ngModel"
-                    class="file-input" data-show-upload="false" data-show-caption="true" data-show-preview="true"
-                    [ngClass]="{ 'is-invalid': f.submitted && myfile.invalid }" multiple="multiple" (change)="selectFiles($event)"
-                    required> -->
-
-              <!-- <input type="file" name="myfile" class="file-input" multiple="multiple" data-show-upload="false"
-                    #file #myfile="ngModel" [(ngModel)]="model.myfile" placeholder="Browse Images" data-show-caption="true"
-                    ng2FileSelect [uploader]="myfile" /> -->
-
-              <!-- <p-fileUpload name="myfile" [showUploadButton]="false" customUpload="true" auto="auto" (onUpload)="onUpload($event)" 
-                    (uploadHandler)="myUploader($event)" multiple="multiple" required="required"></p-fileUpload> -->
-
-
               <button type="button" (click)="showDialog()" pButton label="Select Files"></button>
-
-              <!-- <button type="button" (click)="image.click()" pButton label="Select Files"></button>
-              <input type="file" ([ngModel])="myfile" name="myfile" class="file-styled custom_file_select" #image
-                (change)="handleFileInput($event.target.files.item(0))" accept="image/*,video/*" required> -->
-
-              <!-- <input type="file" ([ngModel])="myfile" name="myfile" class="file-styled" #Image (change)="handleFileInput($event)"
-                accept="image/*,video/*,application/x-shockwave-flash" required> -->
-              <!-- <div id="files"></div> -->
             </div>
           </div>
           <table class="table table-hover" *ngIf="fileToUpload.length">
@@ -362,8 +327,7 @@
                 <td colspan="3" align="center">
                   <object *ngIf="isPreviewObject" [data]="imageUrl" height="auto"
                     style="max-width:100%;width:auto;max-height:300px"></object>
-                  <!-- <embed *ngIf="isPreviewObject" [attr.src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px" /> -->
-                  <!-- <iframe *ngIf="isPreviewObject" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"></iframe> -->
+              
                   <img *ngIf="isPreviewImage" [src]="imageUrl" height="auto"
                     style="max-width:100%;width:auto;max-height:300px">
                   <video id="video_player" *ngIf="isPreviewVideo" class="video-js vjs-big-play-centered" preload="auto" controls loop
@@ -375,20 +339,11 @@
                       <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
                     </p></video>
                   <div id="player"></div>
-
-                  <!-- <embed *ngIf="isPreviewVideo" [src]="imageUrl" height="auto" style="max-width:100%;width:auto;max-height:300px"
-                    AUTOPLAY="true" CONTROLLER="false" LOOP="true" name="PreviewVideo" /> -->
-
                 </td>
               </tr>
             </tfoot>
           </table>
-          <!-- <i><small><strong>Note:</strong>only first image will be uploaded. [Testing Purpose]</small></i> -->
-
-          <!-- <ul *ngIf="fileToUpload.length">
-                <li *ngFor="let file of fileToUpload" (click)="showImagePreview(file)">{{file.name}}</li>
-              </ul> -->
-
+        
           <br />
           <div class="text-right">
             <button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10"><b><i
@@ -423,11 +378,7 @@
   <p-header>
     Select Files
   </p-header>
-  <!-- <div class="row">
-    <div class="col-sm-12">
-      <i class="left-arrow icon-arrow-left8"></i>
-    </div>
-  </div> -->
+
   <div class="row" *ngIf="rootFile">
     <div class="col-md-4 col-sm-4">
       <div class="img_container" (click)="myFolder_click()">
@@ -537,11 +488,8 @@
       <div>
         <div class="row img_box">
           <div class="col-sm-4 col-xs-4 img_lib" *ngFor="let image of fileExplorer| keyvalue; let i = index">
-            <!-- <div class="col-sm-4 col-xs-4 img_lib" *ngFor="let image of fileExplorer; let i = index"> -->
             <div>
               <img (click)="pickFile(image.value,image.key, 'library')" [attr.src]="image.value">
-              <!-- <img (click)="pickFile(image,image)" [src]="image" [alt]="image" /> -->
-              <!-- <h4>{{i+1}}</h4> -->
               <h4><span>{{image.key}}</span></h4>
             </div>
           </div>
@@ -570,8 +518,4 @@
       </div>
     </div>
   </div>
-
-  <!-- <p-footer>
-    <button class="btn btn-primary">Select</button>
-  </p-footer> -->
 </p-dialog>

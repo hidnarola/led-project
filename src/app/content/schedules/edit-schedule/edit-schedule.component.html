@@ -570,11 +570,8 @@
             <div>
                 <div class="row img_box">
                     <div class="col-sm-4 col-xs-4 img_lib" *ngFor="let image of fileExplorer| keyvalue; let i = index">
-                        <!-- <div class="col-sm-4 col-xs-4 img_lib" *ngFor="let image of fileExplorer; let i = index"> -->
                         <div>
                             <img (click)="pickFile(image.value,image.key, 'library')" [attr.src]="image.value">
-                            <!-- <img (click)="pickFile(image,image)" [src]="image" [alt]="image" /> -->
-                            <!-- <h4>{{i+1}}</h4> -->
                             <h4><span>{{image.key}}</span></h4>
                         </div>
                     </div>

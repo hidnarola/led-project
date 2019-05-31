@@ -170,13 +170,14 @@ export class CreateScheduleComponent implements OnInit {
 
     pickFile(fileURL, filename, source) {
         this.spinner.show();
-        this.service.getImageFromUrl(fileURL).toPromise().then(res => {
-            const newFile = this.service.blobToFile(res['body'], filename);
-            this.spinner.hide();
-            this.handleFileInput(newFile, source);
-        }).catch(error => {
-            this.notifier.notify('error', 'Something went wrong.');
-        });
+            this.service.getImageFromUrl(fileURL).toPromise().then(res => {
+                const newFile = this.service.blobToFile(res['body'], filename);
+                this.spinner.hide();
+                this.handleFileInput(newFile, source);
+                this.display = false;
+            }).catch(error => {
+                // this.notifier.notify('error', 'Something went wrong.');
+            });
     }
 
     dataURItoBlob(dataURI) {
@@ -191,18 +192,17 @@ export class CreateScheduleComponent implements OnInit {
     }
 
     handleFileInput(file, source) {
-        // let isMatched = false;
         if (file) {
             this.spinner.show();
             if (this.fileNamesList.indexOf(file.name) >= 0) {
                 this.notifier.notify('warning', 'Same File Name Exist.');
-                // isMatched = true;
                 this.spinner.hide();
             } else {
                 file.duration = '00:00:06';
                 this.fileToUpload.push(file);
                 this.fileInfo.push({ 'name': file.name, 'source': source });
                 this.fileNamesList.push(file.name);
+                this.display = false;
                 if (file.type.substr(0, 5) === 'video' && source === 'PC') {
                     this.service.addForPreview(file).subscribe(res => {
                         this.spinner.hide();
@@ -261,10 +261,10 @@ export class CreateScheduleComponent implements OnInit {
     deleteImage(index) {
         this.fileToUpload.splice(index, 1);
         this.fileNamesList.splice(index, 1);
+        this.fileInfo.splice(index,1);
         this.isPreviewImage = false;
         this.isPreviewVideo = false;
         this.isPreviewObject = false;
-        // this.myfile.nativeElement.value = null;
         this.myfile = '';
     }
     timeToMS(strtime) {

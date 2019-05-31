@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
-
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { map } from 'rxjs/operators';
 
-import { Config } from '../shared/config';
 @Injectable({
     providedIn: 'root'
 })
 export class UserSignService {
     constructor(
-        private http: HttpClient,
-        private config: Config) { }
+        private http: HttpClient
+                ) { }
 
     // Use For User Side
     getSignByUserId_user(id) {
@@ -57,7 +55,6 @@ export class UserSignService {
 
     getSignBySignId(id) {
         const uri = '/leddesigner/signmapping/getSignUsers?signid=' + id;
-
         return this.http
             .get(uri)
             .pipe(map(res => {
@@ -65,6 +62,4 @@ export class UserSignService {
             }
             ));
     }
-
-
 }

@@ -29,18 +29,15 @@ export class AdminLoginComponent implements OnInit {
             let arr = [];
             user = user.replace('{', '');
             user = user.replace('}', ''); // these lines will remove the leading and trailing braces
-            // user = user.replace(/=/g, ':');
             arr = user.split(','); // this will give you an array of strings with each index in the format "12=Other Services (Assisted)"
             arr[3] = arr[3].replace('[Authority{authorityName=\'', '');
             arr[3] = arr[3].replace('\']}', '');
             arr.forEach(function (item) {
                 // here you can split again with '=' and do what is required
                 const s = item.split('=');
-                // const obj = { key: s[0], value: s[1] }; // this is up to your implementation
                 localStorage.setItem((s[0]).trim(), s[1]);
             });
             localStorage.setItem('USER', JSON.stringify(arr));
-
             // CHECK USER ROLE
             if (localStorage.getItem('authorities') === 'ROLE_USER') {
                 this.router.navigate(['home']);
@@ -54,9 +51,6 @@ export class AdminLoginComponent implements OnInit {
             this.notifier.notify('error', err.error.message);
             this.spinner.hide();
         });
-
-        // // For Bypass Login : Testing Purpose
-        // this.router.navigate(['admin/dashboard']);
     }
 
 

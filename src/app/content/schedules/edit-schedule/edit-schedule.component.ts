@@ -47,6 +47,8 @@ export class EditScheduleComponent implements OnInit {
     isPreviewObject: boolean;
     isPreviewVideo: boolean;
     videoType: string;
+    existFile: boolean = false;
+
     constructor(
         private notifier: NotifierService,
         private route: ActivatedRoute,
@@ -208,35 +210,46 @@ export class EditScheduleComponent implements OnInit {
     }
 
     pickFile(file, filename, source) {
+        this.existFile = false ;
         this.spinner.show();
-        this.service.getImageFromUrl(file).subscribe(res => {
-            const newFile = this.service.blobToFile(res['body'], filename);
-            this.spinner.hide();
-            this.handleFileInput(newFile, source);
-        }, error => {
-            this.notifier.notify('error', 'Something went wrong.');
+        this.fileInfoStr.forEach(element => {
+            if (element['name'] === filename) {
+                this.existFile = true;
+                this.display = false;
+                this.spinner.hide();
+                this.notifier.notify('warning', 'Same File Name Exist.');
+            }
         });
+        if (!this.existFile) {
+            this.service.getImageFromUrl(file).subscribe(res => {
+                const newFile = this.service.blobToFile(res['body'], filename);
+                this.spinner.hide();
+                this.handleFileInput(newFile, source);
+                this.display = false;
+            }, error => { });
+        }
 
     }
 
     handleFileInput(file, source) {
         this.spinner.show();
-        if (this.fileNamesList && this.fileNamesList.indexOf(file.name) >= 0) {
-            this.notifier.notify('warning', 'Same File Name Exist.');
+        file.duration = '00:00:06';
+        this.fileToUpload.push(file);
+        this.fileNamesList.push(file.name);
+        if (file.type.substr(0, 5) === 'video' && source === 'PC') {
+            this.service.addForPreview(file).subscribe(res => {
+                this.spinner.hide();
+            }, error => {
+                this.spinner.hide();
+            });
+            document.getElementById('file')['value'] = '';
         } else {
-            file.duration = '00:00:06';
-            this.fileToUpload.push(file);
-            this.fileNamesList.push(file.name);
-            if (file.type.substr(0, 5) === 'video' && source === 'PC') {
-                this.service.addForPreview(file).subscribe(res => {
-                    this.spinner.hide();
-                }, error => {
-                    this.spinner.hide();
-                });
-            } else { this.spinner.hide(); }
-            this.fileInfo.push({ 'name': file.name, 'source': source });
+            this.spinner.hide();
         }
-        document.getElementById('file')['value'] = '';
+        this.fileInfo.push({ 'name': file.name, 'source': source });
+        if (source === 'PC') {
+            document.getElementById('file')['value'] = '';
+        }
         this.display = false;
     }
     imagePreview(filename) {
@@ -296,6 +309,9 @@ export class EditScheduleComponent implements OnInit {
     deleteImage(index) {
         this.fileToUpload.splice(index, 1);
         this.fileNamesList.splice(index, 1);
+
+        this.fileInfo.splice(index, 1);
+
         this.fileInfo.splice(index, 1);
         this.isPreviewImage = false;
         this.isPreviewVideo = false;

@@ -38,7 +38,7 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-user-check text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && subject.invalid" class="invalid-feedback">
+                                <div *ngIf="subject.invalid && (subject.dirty || subject.touched) " class="invalid-feedback">
                                     <div *ngIf="subject.errors.required">Subject is required</div>
                                 </div>
                             </div>
@@ -55,7 +55,7 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-user-check text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && detail.invalid" class="invalid-feedback">
+                                <div *ngIf="detail.invalid  && (detail.dirty || detail.touched)" class="invalid-feedback">
                                     <div *ngIf="detail.errors.required">Detail is required</div>
                                 </div>
                             </div>

@@ -1,133 +1,92 @@
 <!-- Main content -->
 <div class="content-wrapper">
+    <!-- Page header -->
+    <div class="page-header page-header-default">
+        <div class="page-header-content">
+            <div class="page-title">
+                <h4>
+                    <i class="icon-arrow-left52 position-left"></i>
+                    <span class="text-semibold">Home</span> - Sign-Setup
+                </h4>
+            </div>
+            <div class="heading-elements">
 
-
-  <!-- Page header -->
-  <div class="page-header page-header-default">
-    <div class="page-header-content">
-      <div class="page-title">
-        <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Home</span> - Sign-Setup</h4>
-      </div>
-
-      <div class="heading-elements">
-
-      </div>
-    </div>
-
-    <div class="breadcrumb-line">
-      <ul class="breadcrumb">
-        <li><a href="" routerLink="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
-        <li class="active">Sign-Setup</li>
-      </ul>
-
-      <ul class="breadcrumb-elements">
-
-      </ul>
-    </div>
-  </div>
-  <!-- /page header -->
-  <p-confirmDialog></p-confirmDialog>
-  <!-- Content area -->
-  <div class="content">
-
-    <div class="panel panel-flat">
-      <div class="panel-heading">
-        <h5 class="panel-title">Manage Sign</h5>
-        <div class="heading-elements">
-          <ul class="icons-list">
-            <!-- <li><a data-action="collapse"></a></li> -->
-            <li><a href="" routerLink="/admin/sign-setup/add">
-                <button class="btn btn-primary">Add New Setup</button></a></li>
-            <!-- <li><a data-action="close"></a></li> -->
-          </ul>
+            </div>
         </div>
-      </div>
 
-      <div class="panel-body">
-        <div>
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
-            <thead>
-              <tr>
-                <th>Sign Name</th>
-                <th>Type</th>
-                <th>IP</th>
-                <th>Port</th>
-                <th>Time-Zone</th>
-                <th>Screen Size</th>
-                <th class="text-center">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let sign of data ; let i = index">
-                <td>{{ sign.name }} ({{ sign.serial_number }})</td>
-                <td>{{ sign.type }}</td>
-                <td class="text-right">{{ sign.ipaddress }}</td>
-                <td class="text-right">{{ sign.port }}</td>
-                <td>{{ sign.timezone }}</td>
-                <td class="text-right">{{ sign.sizeX }} x {{ sign.sizeY }}</td>
-                <td class="text-center">
-                  <ul class="icons-list">
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="icon-menu9"></i>
-                      </a>
-                      <ul class="dropdown-menu dropdown-menu-right">
-                        <li><a href="" routerLink="/admin/sign-setup/edit/{{ sign.id }}"><i class="icon-pencil4"></i>
-                            Edit</a></li>
-                        <li (click)="deleteSign(sign.id)"><a><i class=" icon-trash-alt"></i> Delete</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="" routerLink="/admin/dashboard">
+                        <i class="icon-home2 position-left"></i> Home</a>
+                </li>
+                <li class="active">Sign-Setup</li>
+            </ul>
+            <ul class="breadcrumb-elements">
+
+            </ul>
         </div>
-      </div>
-
-      <!-- <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
-            <thead>
-              <tr>
-                <th style="width: 20%">
-                  <mfDefaultSorter by="alias">Alias</mfDefaultSorter>
-                </th>
-                <th style="width: 30%">
-                  <mfDefaultSorter by="ip">IP</mfDefaultSorter>
-                </th>
-                <th style="width: 10%">
-                  <mfDefaultSorter by="port">Port</mfDefaultSorter>
-                </th>
-                <th style="width: 20%">
-                  <mfDefaultSorter by="timezone">Time-Zone</mfDefaultSorter>
-                </th>
-                <th style="width: 10%">
-                  <mfDefaultSorter by="sizex">Size-X</mfDefaultSorter>
-                </th>
-                <th style="width: 10%">
-                  <mfDefaultSorter by="sizey">Size-Y</mfDefaultSorter>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of mf.data">
-                <td>{{item.alias}}</td>
-                <td>{{item.ip}}</td>
-                <td class="text-right">{{item.port}}</td>
-                <td>{{item.timezone | uppercase}}</td>
-                <td class="text-right">{{item.sizex}}</td>
-                <td class="text-right">{{item.sizey}}</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="6">
-                  <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-                </td>
-              </tr>
-            </tfoot>
-          </table> -->
-
     </div>
+    <!-- /page header -->
+    <p-confirmDialog></p-confirmDialog>
+    <!-- Content area -->
+    <div class="content">
+        <div class="panel panel-flat">
+            <div class="panel-heading">
+                <h5 class="panel-title">Manage Sign</h5>
+                <div class="heading-elements">
+                    <ul class="icons-list">
+                        <li>
+                            <a href="" routerLink="/admin/sign-setup/add">
+                                <button class="btn btn-primary">Add New Setup</button></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-  </div>
+            <div class="panel-body">
+                <div>
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+                        <thead>
+                            <tr>
+                                <th>Sign Name</th>
+                                <th>Type</th>
+                                <th>IP</th>
+                                <th>Port</th>
+                                <th>Time-Zone</th>
+                                <th>Screen Size</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let sign of data ; let i = index">
+                                <td>{{ sign.name }} ({{ sign.serial_number }})</td>
+                                <td>{{ sign.type }}</td>
+                                <td class="text-right">{{ sign.ipaddress }}</td>
+                                <td class="text-right">{{ sign.port }}</td>
+                                <td>{{ sign.timezone }}</td>
+                                <td class="text-right">{{ sign.sizeX }} x {{ sign.sizeY }}</td>
+                                <td class="text-center">
+                                    <ul class="icons-list">
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                <i class="icon-menu9"></i>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li><a href="" routerLink="/admin/sign-setup/edit/{{ sign.id }}"><i
+                                                            class="icon-pencil4"></i>
+                                                        Edit</a></li>
+                                                <li (click)="deleteSign(sign.id)"><a><i class=" icon-trash-alt"></i>
+                                                        Delete</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

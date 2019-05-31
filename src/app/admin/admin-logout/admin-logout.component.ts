@@ -7,13 +7,13 @@ import { Router } from '@angular/router';
 })
 export class AdminLogoutComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(
+      private router: Router
+      ) { }
 
   ngOnInit() {
-
     localStorage.clear();
     this.router.navigate(['']);
-
   }
 
 }

@@ -14,10 +14,13 @@ export class AdminProfileComponent implements OnInit {
 
     model: any = {};
     userId: number;
-    f: FormGroup;
     misMatchPwd: boolean;
-    constructor(private service: UsersService, private spinner: NgxSpinnerService, private notifier: NotifierService,
-        private router: Router) { }
+    constructor(
+        private service: UsersService,
+        private spinner: NgxSpinnerService,
+        private notifier: NotifierService,
+        private router: Router
+        ) { }
 
     ngOnInit() {
         this.userId = Number(localStorage.getItem('userid'));

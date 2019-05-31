@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Config } from '../shared/config';
-import { map } from 'rxjs/operators';
+
 
 @Injectable({
     providedIn: 'root'
@@ -136,7 +135,6 @@ export class SchedulesService {
             scheduleJSON['scheduleMonths'] = ((data.scheduleMonths) ? data.scheduleMonths : '');
             scheduleJSON['weekDays'] = ((data.weekDays) ? data.weekDays : '');
         } else if (type === this.config.SCHE_YEAR) {
-            // const onDate = this.convertToOnDate(data.onDate);
             scheduleJSON['firstYear'] = ((data.firstYear) ? data.firstYear : '');
             scheduleJSON['lastYear'] = ((data.lastYear) ? data.lastYear : '');
             scheduleJSON['onDate'] = ((data.onDate) ? data.onDate : '');
@@ -220,7 +218,6 @@ export class SchedulesService {
     getImageFromUrl(url) {
         const httpOptions = {};
         httpOptions['responseType'] = 'Blob' as 'json';
-        // httpOptions['responseType'] = 'ArrayBuffer';
         httpOptions['observe'] = 'response';
         return this.http.get(url, httpOptions);
     }
