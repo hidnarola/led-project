@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NgxPermissionsService } from 'ngx-permissions';
 import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
@@ -13,13 +12,9 @@ export class AppComponent implements OnInit {
     mobileMenuActive: boolean;
 
     constructor(
-        private permissionsService: NgxPermissionsService,
         private router: Router,
     ) { }
     ngOnInit() {
-        if (localStorage.getItem('userPermission')) {
-            this.permissionsService.loadPermissions(JSON.parse(localStorage.getItem('userPermission')));
-        }
         this.router.events.subscribe((evt) => {
             if (!(evt instanceof NavigationEnd)) {
                 return;

@@ -7,6 +7,8 @@
         </div>
         <i class="icon-cross" aria-hidden="true"(click)="changeState()"></i>
     </div>
-    <img class="home_logo" src="assets/images/HyocoLt1.png" *ngIf="userLogo == ''"/>
-    <img class="home_logo" src="{{userLogo}}" *ngIf="userLogo != ''"/>
+    <div class="home_logo_wrapper">
+        <img class="home_logo" src="assets/images/HyocoLt1.png" *ngIf="userLogo == ''"/>
+        <img class="home_logo" src="{{userLogo}}" *ngIf="userLogo != ''"/>
+    </div>
 </div>

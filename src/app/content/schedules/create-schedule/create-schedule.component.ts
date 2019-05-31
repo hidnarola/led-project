@@ -170,14 +170,14 @@ export class CreateScheduleComponent implements OnInit {
 
     pickFile(fileURL, filename, source) {
         this.spinner.show();
-            this.service.getImageFromUrl(fileURL).toPromise().then(res => {
-                const newFile = this.service.blobToFile(res['body'], filename);
-                this.spinner.hide();
-                this.handleFileInput(newFile, source);
-                this.display = false;
-            }).catch(error => {
-                // this.notifier.notify('error', 'Something went wrong.');
-            });
+        this.service.getImageFromUrl(fileURL).toPromise().then(res => {
+            const newFile = this.service.blobToFile(res['body'], filename);
+            this.spinner.hide();
+            this.handleFileInput(newFile, source);
+            this.display = false;
+        }).catch(error => {
+            // this.notifier.notify('error', 'Something went wrong.');
+        });
     }
 
     dataURItoBlob(dataURI) {
@@ -261,7 +261,7 @@ export class CreateScheduleComponent implements OnInit {
     deleteImage(index) {
         this.fileToUpload.splice(index, 1);
         this.fileNamesList.splice(index, 1);
-        this.fileInfo.splice(index,1);
+        this.fileInfo.splice(index, 1);
         this.isPreviewImage = false;
         this.isPreviewVideo = false;
         this.isPreviewObject = false;

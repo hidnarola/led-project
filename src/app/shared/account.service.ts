@@ -18,6 +18,11 @@ export class AccountService {
         private permissionsService: NgxPermissionsService
     ) { }
 
+    about() {
+        const uri = '/leddesigner/user/about/';
+        return this.http.get(uri);
+    }
+
     register(data, userid) {
         let uri = '';
         const headers = new HttpHeaders();

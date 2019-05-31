@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UsersService } from 'src/app/shared/users.service';
 import { AnnouncementService } from 'src/app/shared/announcement.service';
 import { trigger, style, animate, transition } from '@angular/animations';
+import { AccountService } from 'src/app/shared/account.service';
+import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
     selector: 'app-home',
@@ -21,7 +23,9 @@ export class HomeComponent implements OnInit {
 
     constructor(
         private userService: UsersService,
-        private aservice: AnnouncementService
+        private accountService: AccountService,
+        private aservice: AnnouncementService,
+        private permissionsService: NgxPermissionsService
     ) { }
 
     ngOnInit() {
@@ -31,6 +35,7 @@ export class HomeComponent implements OnInit {
             }
         });
         this.getAnnouncement();
+        this.getDetails();
     }
 
     getAnnouncement() {
@@ -42,6 +47,18 @@ export class HomeComponent implements OnInit {
             }
         }).catch(err => {
             this.announcementData = null;
+        });
+    }
+
+    getDetails() {
+        this.permissionsService.flushPermissions();
+        this.accountService.about().toPromise().then(res => {
+            const privileges = res['userDTO']['privileges'];
+            privileges.forEach(privilege => {
+                this.permissionsService.addPermission(privilege['privilegeCode']);
+            });
+        }).catch(err => {
+
         });
     }
 

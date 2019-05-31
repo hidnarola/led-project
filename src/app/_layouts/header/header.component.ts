@@ -26,6 +26,6 @@ export class HeaderComponent implements OnInit {
             if (link) {
                 this.userLogo = link;
             }
-        }).catch(err=>{ });
+        }).catch(err => { });
     }
 }

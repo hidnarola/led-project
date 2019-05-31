@@ -47,7 +47,6 @@ export class EditScheduleComponent implements OnInit {
     isPreviewObject: boolean;
     isPreviewVideo: boolean;
     videoType: string;
-    existFile: boolean = false;
 
     constructor(
         private notifier: NotifierService,
@@ -73,6 +72,7 @@ export class EditScheduleComponent implements OnInit {
                 this.files = this.res.multipartImages;
                 this.files.forEach(file => {
                     this.fileInfoStr.push({ name: file.path, source: 'folder' });
+                    this.fileNamesList.push(file.path);
                     this.existFileToUpload.push(file);
                 });
                 this.oldScheduleName = this.res.scheduleDTO.scheduleName;
@@ -210,47 +210,57 @@ export class EditScheduleComponent implements OnInit {
     }
 
     pickFile(file, filename, source) {
-        this.existFile = false ;
+        // this.existFile = false ;
         this.spinner.show();
-        this.fileInfoStr.forEach(element => {
-            if (element['name'] === filename || (this.fileNamesList && this.fileNamesList.indexOf(filename) >= 0)) {
-                this.existFile = true;
-                this.display = false;
-                this.spinner.hide();
-                this.notifier.notify('warning', 'Same File Name Exist.');
-            }
+        // this.fileInfoStr.forEach(element => {
+        //     if (element['name'] === filename || (this.fileNamesList && this.fileNamesList.indexOf(filename) >= 0)) {
+        //         this.existFile = true;
+        //         this.display = false;
+        //         this.spinner.hide();
+        //         this.notifier.notify('warning', 'Same File Name Exist.');
+        //     }
+        // });
+        // if (!this.existFile) {
+        // }
+        this.service.getImageFromUrl(file).subscribe(res => {
+            const newFile = this.service.blobToFile(res['body'], filename);
+            this.spinner.hide();
+            this.handleFileInput(newFile, source);
+            this.display = false;
+        }, error => {
+            this.spinner.hide();
+            this.display = false;
         });
-        if (!this.existFile) {
-            this.service.getImageFromUrl(file).subscribe(res => {
-                const newFile = this.service.blobToFile(res['body'], filename);
-                this.spinner.hide();
-                this.handleFileInput(newFile, source);
-                this.display = false;
-            }, error => { });
-        }
 
     }
 
     handleFileInput(file, source) {
+        if (file) {
             this.spinner.show();
-            file.duration = '00:00:06';
-            this.fileToUpload.push(file);
-            this.fileNamesList.push(file.name);
-            if (file.type.substr(0, 5) === 'video' && source === 'PC') {
-                this.service.addForPreview(file).subscribe(res => {
-                    this.spinner.hide();
-                }, error => {
-                    this.spinner.hide();
-                });
-                document.getElementById('file')['value'] = '';
-            } else {
+            if (this.fileNamesList.indexOf(file.name) >= 0) {
+                this.notifier.notify('warning', 'Same File Name Exist.');
                 this.spinner.hide();
-            }
-            this.fileInfo.push({ 'name': file.name, 'source': source });
-            if (source === 'PC') {
-                document.getElementById('file')['value'] = '';
+            } else {
+                file.duration = '00:00:06';
+                this.fileToUpload.push(file);
+                this.fileNamesList.push(file.name);
+                if (file.type.substr(0, 5) === 'video' && source === 'PC') {
+                    this.service.addForPreview(file).subscribe(res => {
+                        this.spinner.hide();
+                    }, error => {
+                        this.spinner.hide();
+                    });
+                    document.getElementById('file')['value'] = '';
+                } else {
+                    this.spinner.hide();
+                }
+                this.fileInfo.push({ 'name': file.name, 'source': source });
+                if (source === 'PC') {
+                    document.getElementById('file')['value'] = '';
+                }
             }
             this.display = false;
+        }
     }
     imagePreview(filename) {
         this.isPreviewImage = false;
