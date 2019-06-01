@@ -426,6 +426,7 @@
                     <div align="center" *ngIf="!fileToUpload.length">
                         <object *ngIf="isPreviewObject" [data]="imageUrl" height="auto"
                             style="max-width:100%;width:auto;max-height:300px"></object>
+                            {{isPreviewImage}}
                         <img *ngIf="isPreviewImage" [src]="imageUrl" height="auto"
                             style="max-width:100%;width:auto;max-height:300px">
                         <video *ngIf="isPreviewVideo" height="auto" style="max-width:100%;width:auto;max-height:300px"

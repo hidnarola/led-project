@@ -12,7 +12,7 @@ import { NgxPermissionsService } from 'ngx-permissions';
 })
 
 export class LoginComponent implements OnInit {
-    currentYear: any;
+    currentYear = new Date().getFullYear();
     model: any = {};
     permissionData = [];
 
@@ -24,16 +24,15 @@ export class LoginComponent implements OnInit {
     ) { }
     ngOnInit() {
         if (localStorage.getItem('access-token')) {
-            if (localStorage.getItem('authorities') === 'ROLE_USER') {
-                this.router.navigate(['user/home']);
-            } else if (localStorage.getItem('authorities') === 'ROLE_ADMIN') {
+            if (localStorage.getItem('authorities') === 'ROLE_ADMIN') {
                 this.router.navigate(['admin/dashboard']);
             } else {
-                this.notifier.notify('warning', 'ACCESS DENIED. Please Login Again.');
-                localStorage.clear();
+                this.router.navigate(['user/home']);
             }
+        } else {
+            // this.notifier.notify('warning', 'ACCESS DENIED. Please Login Again.');
+            localStorage.clear();
         }
-        this.currentYear = new Date().getFullYear();
     }
     onSubmit() {
         this.service.login(this.model.email, this.model.password).subscribe(res => {
@@ -47,24 +46,20 @@ export class LoginComponent implements OnInit {
                 localStorage.setItem('userid', userDetail['userid']);
                 localStorage.setItem('user_email', userDetail['email']);
                 userDetail['authorities'].forEach((authorities) => {
-                    this.permissionData.push((Object.values(authorities)[0]));
+                    this.permissionData.push(authorities['name']);
                     if (authorities['name'] === 'ROLE_USER' || authorities['name'] === 'ROLE_ADMIN'
-                    || authorities['name'] === 'ROLE_SUB_USER') {
+                        || authorities['name'] === 'ROLE_SUB_USER') {
                         localStorage.setItem('authorities', authorities['name']);
                     }
                 });
                 if (this.permissionData.length > 0) {
-                    this.permissionsService.addPermission(this.permissionData,(permissionName, permissionStore) => {
-                        return true;
-                    });
+                    this.permissionsService.addPermission(this.permissionData);
                     localStorage.setItem('userPermission', JSON.stringify(this.permissionData));
                 }
-                if (localStorage.getItem('authorities') === 'ROLE_SUB_USER' || localStorage.getItem('authorities') === 'ROLE_USER') {
-                    this.router.navigate(['user/home']);
-                } else if (localStorage.getItem('authorities') === 'ROLE_ADMIN') {
+                if (localStorage.getItem('authorities') === 'ROLE_ADMIN') {
                     this.router.navigate(['admin/dashboard']);
                 } else {
-                    this.notifier.notify('warning', 'ACCESS DENIED');
+                    this.router.navigate(['user/home']);
                 }
             } else {
                 this.notifier.notify('error', 'Can not get Token from Server');

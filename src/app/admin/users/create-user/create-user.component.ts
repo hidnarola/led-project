@@ -40,7 +40,8 @@ export class CreateUserComponent implements OnInit {
     signData: any = [];
     imageData: any = null;
     selectedSigns = [];
-
+    displayForm :boolean = true ;
+    
     constructor(private notifier: NotifierService,
         private service: AccountService,
         private userSignservice: UserSignService,
@@ -109,16 +110,22 @@ export class CreateUserComponent implements OnInit {
     }
 
     signDropdownData(pid) {
+        this.displayForm = true ;
         this.userSignservice.getSignByUserId_user(pid).toPromise().then(signList => {
             this.displaySigndropdown = true;
             this.signData = signList;
-            this.selectedSigns = [];
-            if (this.model['userSigns'] && this.model['userSigns'].length > 0) {
-                this.signData.forEach(signsdata => {
-                    if (this.model['userSigns'].indexOf(signsdata['id']) !== -1) {
-                        this.selectedSigns.push(signsdata);
-                    }
-                });
+            if (this.signData && this.signData.length > 0) {
+                this.selectedSigns = [];
+                if (this.model['userSigns'] && this.model['userSigns'].length > 0) {
+                    this.signData.forEach(signsdata => {
+                        if (this.model['userSigns'].indexOf(signsdata['id']) !== -1) {
+                            this.selectedSigns.push(signsdata);
+                        }
+                    });
+                }
+            } else {
+                this.notifier.notify('error', 'Yet no sign assigned to your parent user, Please contact to admin.');
+                this.displayForm = false ;
             }
         }).catch(error => {
             this.signData = [];

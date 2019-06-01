@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 import { map } from 'rxjs/operators';
 import { AES, enc } from 'crypto-ts';
 import { NgxPermissionsService } from 'ngx-permissions';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -15,6 +16,7 @@ export class AccountService {
 
     constructor(
         private http: HttpClient,
+        private router: Router,
         private permissionsService: NgxPermissionsService
     ) { }
 
@@ -90,7 +92,8 @@ export class AccountService {
     logout() {
         this.permissionsService.flushPermissions();
         localStorage.clear();
-        return true;
+         this.router.navigate(['']);
+         return true ;
     }
 
     dateAndTime() {

@@ -3,6 +3,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { SchedulesService } from 'src/app/shared/schedules.service';
 import { NotifierService } from 'angular-notifier';
 import { UsersService } from 'src/app/shared/users.service';
+import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
     selector: 'app-sidebar',
@@ -19,7 +20,8 @@ export class SidebarComponent implements OnInit {
         private service: SchedulesService,
         private notifier: NotifierService,
         private spinner: NgxSpinnerService,
-        private userService: UsersService
+        private userService: UsersService,
+        private permissionsService: NgxPermissionsService
     ) { }
 
     ngOnInit() {

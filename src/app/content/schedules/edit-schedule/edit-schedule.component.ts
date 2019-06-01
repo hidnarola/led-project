@@ -319,9 +319,6 @@ export class EditScheduleComponent implements OnInit {
     deleteImage(index) {
         this.fileToUpload.splice(index, 1);
         this.fileNamesList.splice(index, 1);
-
-        this.fileInfo.splice(index, 1);
-
         this.fileInfo.splice(index, 1);
         this.isPreviewImage = false;
         this.isPreviewVideo = false;
@@ -331,6 +328,9 @@ export class EditScheduleComponent implements OnInit {
     edeleteImage(index) {
         this.files.splice(index, 1);
         this.fileInfoStr.splice(index, 1);
+        this.isPreviewImage = false;
+        this.isPreviewVideo = false;
+        this.isPreviewObject = false;
     }
     timeToMS(strtime) {
         let ms = 0;

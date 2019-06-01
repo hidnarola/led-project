@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from 'src/app/shared/users.service';
+import { AccountService } from 'src/app/shared/account.service';
 
 @Component({
     selector: 'app-admin-header',
@@ -11,7 +12,8 @@ export class AdminHeaderComponent implements OnInit {
     user_name: string;
     userLogo: any;
     constructor(
-        private userService: UsersService
+        private userService: UsersService,
+        private accountService:AccountService
     ) { }
 
     ngOnInit() {
@@ -23,5 +25,7 @@ export class AdminHeaderComponent implements OnInit {
         }).catch(err=>{ });
     }
 
-    logout() { }
+    logout() { 
+        this.accountService.logout();
+    }
 }

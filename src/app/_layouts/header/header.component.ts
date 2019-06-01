@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from 'src/app/shared/users.service';
+import { AccountService } from 'src/app/shared/account.service';
 
 @Component({
     selector: 'app-header',
@@ -8,24 +9,20 @@ import { UsersService } from 'src/app/shared/users.service';
 })
 export class HeaderComponent implements OnInit {
     user_name: string;
-    user_role: string;
     isAdmin: boolean;
     userLogo: any;
 
     constructor(
-        private userService: UsersService
+        private accountService: AccountService
     ) { }
 
     ngOnInit() {
         this.user_name = localStorage.getItem('name');
-        this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
-        if (this.user_role === 'ADMIN') {
+        if (localStorage.getItem('authorities') && localStorage.getItem('authorities') === 'ROLE_ADMIN') {
             this.isAdmin = true;
         }
-        this.userService.getProfileLink().toPromise().then(link => {
-            if (link) {
-                this.userLogo = link;
-            }
-        }).catch(err => { });
+    }
+    logout() { 
+        this.accountService.logout();
     }
 }

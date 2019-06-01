@@ -23,9 +23,7 @@ export class HomeComponent implements OnInit {
 
     constructor(
         private userService: UsersService,
-        private accountService: AccountService,
-        private aservice: AnnouncementService,
-        private permissionsService: NgxPermissionsService
+        private aservice: AnnouncementService
     ) { }
 
     ngOnInit() {
@@ -35,7 +33,6 @@ export class HomeComponent implements OnInit {
             }
         });
         this.getAnnouncement();
-        this.getDetails();
     }
 
     getAnnouncement() {
@@ -47,18 +44,6 @@ export class HomeComponent implements OnInit {
             }
         }).catch(err => {
             this.announcementData = null;
-        });
-    }
-
-    getDetails() {
-        this.permissionsService.flushPermissions();
-        this.accountService.about().toPromise().then(res => {
-            const privileges = res['userDTO']['privileges'];
-            privileges.forEach(privilege => {
-                this.permissionsService.addPermission(privilege['privilegeCode']);
-            });
-        }).catch(err => {
-
         });
     }
 

@@ -14,7 +14,6 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './content/home/home.component';
 import { ForgotPasswordComponent } from './login/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './login/forgot-password/reset-password/reset-password.component';
-import { AdminLoginComponent } from './admin/admin-login/admin-login.component';
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 import { AdminHeaderComponent } from './admin/admin-header/admin-header.component';
 import { UsersComponent } from './admin/users/users.component';
@@ -68,7 +67,6 @@ import { DeleteScheduleComponent } from './content/schedules/delete-schedule/del
 import { ProfileComponent } from './content/profile/profile.component';
 
 import { FileManagerComponent } from './admin/file-manager/file-manager.component';
-import { EditUserComponent } from './admin/users/edit-user/edit-user.component';
 import { CreateSetupComponent } from './admin/sign-setup/create-setup/create-setup.component';
 import { EditSetupComponent } from './admin/sign-setup/edit-setup/edit-setup.component';
 import { ManageSignComponent } from './admin/users/manage-sign/manage-sign.component';
@@ -134,7 +132,6 @@ const customNotifierOptions: NotifierOptions = {
         HomeComponent,
         ForgotPasswordComponent,
         ResetPasswordComponent,
-        AdminLoginComponent,
         AdminHomeComponent,
         AdminHeaderComponent,
         UsersComponent,
@@ -144,7 +141,6 @@ const customNotifierOptions: NotifierOptions = {
         SchedulesComponent,
         CreateScheduleComponent,
         EditScheduleComponent,
-        EditUserComponent,
         CreateSetupComponent,
         EditSetupComponent,
         ManageSignComponent,
