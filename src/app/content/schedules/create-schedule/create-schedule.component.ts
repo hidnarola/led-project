@@ -13,7 +13,7 @@ import * as moment from 'moment';
     styleUrls: ['./create-schedule.component.css']
 })
 export class CreateScheduleComponent implements OnInit {
-    // ms24 = 86400000;
+    ms24 = 86400000;
     durationList: any = [];
     myAnimationFile: boolean;
     myImageFile: boolean;
@@ -198,6 +198,9 @@ export class CreateScheduleComponent implements OnInit {
             if (this.fileNamesList.indexOf(file.name) >= 0) {
                 this.notifier.notify('warning', 'Same File Name Exist.');
                 this.spinner.hide();
+                if (source === 'PC') {
+                    document.getElementById('file')['value'] = '';
+                }
             } else {
                 file.duration = '00:00:06';
                 this.fileToUpload.push(file);

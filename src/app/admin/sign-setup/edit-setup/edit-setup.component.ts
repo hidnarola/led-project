@@ -4,6 +4,7 @@ import { SignsService } from '../../../shared/signs.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Config } from '../../../shared/config';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { NotifierService } from 'angular-notifier';
 @Component({
     selector: 'app-edit-setup',
     templateUrl: './edit-setup.component.html',
@@ -18,6 +19,7 @@ export class EditSetupComponent implements OnInit {
         private config: Config,
         private route: ActivatedRoute,
         private router: Router,
+        private notifier: NotifierService,
         private service: SignsService,
         private spinner: NgxSpinnerService) { }
 
@@ -39,6 +41,7 @@ export class EditSetupComponent implements OnInit {
         this.spinner.show();
         this.service.updateSign(this.model).toPromise().then(res => {
             this.spinner.hide();
+            this.notifier.notify('success', 'Updated Successfully');
             this.router.navigate(['/admin/sign-setup']);
         }).catch(err => { });
     }
