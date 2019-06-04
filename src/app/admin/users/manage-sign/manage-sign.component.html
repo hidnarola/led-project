@@ -1,7 +1,5 @@
 <!-- Main content -->
 <div class="content-wrapper">
-
-
   <!-- Page header -->
   <div class="page-header page-header-default">
     <div class="page-header-content">
@@ -10,7 +8,6 @@
       </div>
 
       <div class="heading-elements">
-
       </div>
     </div>
 
@@ -20,9 +17,7 @@
         <li><a href="" routerLink="/admin/users"><i class="icon-user-tie position-left"></i> User</a></li>
         <li class="active">Manage Sign</li>
       </ul>
-
       <ul class="breadcrumb-elements">
-
       </ul>
     </div>
   </div>
@@ -30,13 +25,11 @@
   <p-confirmDialog></p-confirmDialog>
   <!-- Content area -->
   <div class="content">
-
     <!-- Individual column searching (text inputs) -->
     <div class="panel panel-flat">
       <div class="panel-heading">
         <h5 class="panel-title">Manage Sign for USER_ID : {{ userid }}</h5>
       </div>
-
       <div class="panel-body">
         <div class="row sign_table">
           <div class="col-md-10">
@@ -63,19 +56,16 @@
               <tbody>
                 <tr *ngFor="let field of fieldArray; let i = index">
                   <td>{{i + 1}}</td>
-                  <td>{{field.sn.name + ' : ' +
-                    field.sn.serial_number}}</td>
-                  <td><button class="btn btn-danger" (click)="deleteFieldValue(field.id)"><i class="icon icon-x"></i>
-                      Delete</button></td>
+                  <td>{{field.sn.name + ' : ' + field.sn.serial_number}}</td>
+                  <td><button class="btn btn-danger" (click)="deleteFieldValue(field.id)">
+                      <i class="icon icon-x"></i> Delete</button></td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
       </div>
-
     </div>
     <!-- /individual column searching (text inputs) -->
-
   </div>
 </div>

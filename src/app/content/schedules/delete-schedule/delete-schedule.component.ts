@@ -23,6 +23,8 @@ export class DeleteScheduleComponent implements OnInit {
     entryIPList = [];
     filePropertiesList = [];
     activeIndex = 0;
+    year = new Date().getFullYear();
+    
     constructor(
         private spinner: NgxSpinnerService,
         private notifier: NotifierService,
@@ -74,7 +76,6 @@ export class DeleteScheduleComponent implements OnInit {
         this.model.filePropertiesList = this.filePropertiesList;
 
         for (let i = 0; i < this.entryIPList.length; i++) {
-            // this.model.entryIPList[i] = this.mySigns[this.entryIPList[i]];
             this.model.entryIPList[i].selected = true;
             this.model.entryIPList[i].selection = true;
         }
@@ -88,33 +89,25 @@ export class DeleteScheduleComponent implements OnInit {
             this.model = {};
             this.spinner.hide();
             this.getSchedules(this.sign);
-            // this.BakcToSign();
-            // this.router.navigate(['/user/signs/deleteSchedule']);
         }, error => {
             if (error.status === 200) {
                 this.notifier.notify('success', 'Deleted Successfully');
                 this.model = {};
                 setTimeout(() => {
-                    /** spinner ends after 1 seconds */
                     this.spinner.hide();
                 }, 2000);
                 this.getSchedules(this.sign);
-                // this.BakcToSign();
-                // this.router.navigate(['/user/signs/deleteSchedule']);
             } else if (error.status === 500) {
                 this.notifier.notify('error', 'Failed');
                 setTimeout(() => {
-                    /** spinner ends after 1 seconds */
                     this.spinner.hide();
                 }, 1000);
             } else {
                 this.notifier.notify('error', 'Failed');
                 setTimeout(() => {
-                    /** spinner ends after 1 seconds */
                     this.spinner.hide();
                 }, 1000);
             }
-            // this.spinner.hide();
         });
     }
 

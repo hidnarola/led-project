@@ -15,6 +15,8 @@ export class AdminProfileComponent implements OnInit {
     model: any = {};
     userId: number;
     misMatchPwd: boolean;
+    year = new Date().getFullYear();
+
     constructor(
         private service: UsersService,
         private spinner: NgxSpinnerService,

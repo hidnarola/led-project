@@ -17,7 +17,7 @@ export class CreateUserComponent implements OnInit {
     userData = [];
     selectedpermissionValue = [];
     selectedParentId: any;
-    userRole: boolean = true;
+    userRole = true;
     displayPermission = true;
     userId = null;
     usersResponse = {};
@@ -36,12 +36,12 @@ export class CreateUserComponent implements OnInit {
         }
     ];
     selectedRole = 'ROLE_SUB_USER';
-    displaySigndropdown: boolean = false;
+    displaySigndropdown = false;
     signData: any = [];
     imageData: any = null;
     selectedSigns = [];
-    displayForm :boolean = true ;
-    
+    displayForm = true ;
+
     constructor(private notifier: NotifierService,
         private service: AccountService,
         private userSignservice: UserSignService,

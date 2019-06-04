@@ -20,11 +20,9 @@ export class SchedulesComponent implements OnDestroy, OnInit, AfterViewInit {
     schedules: any = [];
     user_name: string;
     user_role: string;
-    // dtElement: DataTableDirective;
+    year = new Date().getFullYear();
 
-    // We use this trigger because fetching the list of schedules can be quite long,
-    // thus we ensure the data is fetched before rendering
-    // dtTrigger: Subject<any> = new Subject();
+  
     constructor(private service: SchedulesService, private notification: NotifierService,
         private router: Router, private confirmationService: ConfirmationService,
         private spinner: NgxSpinnerService) { }
@@ -43,7 +41,6 @@ export class SchedulesComponent implements OnDestroy, OnInit, AfterViewInit {
             // Destroy the table first
             dtInstance.destroy();
         });
-        // this.dtTrigger.next();
     }
     getSchedules() {
         this.spinner.show();

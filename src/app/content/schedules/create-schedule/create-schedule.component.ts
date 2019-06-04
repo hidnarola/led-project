@@ -13,7 +13,7 @@ import * as moment from 'moment';
     styleUrls: ['./create-schedule.component.css']
 })
 export class CreateScheduleComponent implements OnInit {
-    ms24 = 86400000;
+    // ms24 = 86400000;
     durationList: any = [];
     myAnimationFile: boolean;
     myImageFile: boolean;
@@ -36,13 +36,14 @@ export class CreateScheduleComponent implements OnInit {
     videoType: string;
     model: any = {};
     CONFIG = this.config;
-    user_name: string;
-    user_role: string;
+    // user_name: string;
+    // user_role: string;
     uploads = [];
     date = new Date();
     fileExplorer: any;
     fileNamesList: any = [];
     searchText = '';
+
     constructor(
         private notifier: NotifierService,
         private route: ActivatedRoute,

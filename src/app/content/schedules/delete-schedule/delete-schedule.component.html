@@ -1,7 +1,5 @@
-<!-- Main content -->
+
 <div class="content-wrapper">
-
-
   <!-- Page header -->
   <div class="page-header page-header-default">
     <div class="page-header-content">
@@ -20,8 +18,6 @@
     </div>
   </div>
   <!-- /page header -->
-
-  <!-- Content area -->
   <div class="content">
 
     <div class="panel panel-flat">
@@ -48,7 +44,6 @@
                     <th>Select</th>
                     <th>Name</th>
                     <th class="size_th">Size</th>
-                    <!-- <th>Last Update</th> -->
                     <th>status</th>
                   </tr>
                 </thead>
@@ -56,11 +51,9 @@
                   <tr *ngFor="let sign of mySigns| paginate: { itemsPerPage: 5, currentPage: p2, id: 'first' } ; let i = index">
                     <td>
                       <button class="btn btn-link" (click)="getSchedules(sign)"><i class="icon-enter6"></i></button>
-                      <!-- <p-checkbox name="days" value="{{i}}" [(ngModel)]="entryIPList" onChange="getSchedules(sign)"></p-checkbox> -->
                     </td>
                     <td>{{sign.name}}</td>
                     <td>{{sign.sizeX}} X {{sign.sizeY}}</td>
-                    <!-- <td>{{sign.lastModification}}</td> -->
                     <td>{{sign.status===true?'Updated':'Fail'}}</td>
                   </tr>
                 </tbody>
@@ -80,16 +73,11 @@
           <button class="button btn-link" (click)="BakcToSign()"><i class="icon-arrow-left7"></i> Back To Sign</button>
           <button *ngIf="filePropertiesList.length > 0" class="btn btn-primary" (click)="deleteSchedule()">Delete</button>
           <div class="col-sm-12 sign_table_container">
-            <!-- <ul>
-              <li *ngFor="let item of schedules | paginate: { itemsPerPage: 10, currentPage: p2, id: 'second' } ; let i = index">
-                <span>{{ item }} </span></li>
-            </ul> -->
             <div class="table-responsive sign_table_wrapper">
               <table class="table table-strip table_schedule sign_table">
                 <thead>
                   <tr>
                     <th>Select</th>
-                    <!-- <th width="0">Type</th> -->
                     <th>Name</th>
                     <th class="size_th">Size</th>
                     <th>Last Update</th>
@@ -106,7 +94,6 @@
                     <td>
                       <p-checkbox name="days" value="{{i}}" [(ngModel)]="filePropertiesList"></p-checkbox>
                     </td>
-                    <!-- <td>{{schedule.type}}</td> -->
                     <td>{{schedule.name}}</td>
                     <td>{{schedule.size}}</td>
                     <td>{{schedule.lastModification | date: 'dd-MMM-yyyy hh:mm:ss a'}}</td>
@@ -124,16 +111,10 @@
         </div>
       </div>
     </div>
-
-    <!-- Footer -->
     <div class="footer text-muted text-center">
-      &copy; 2018. <a href="" [routerLink]="['/login']"> LED Project</a> by <a href="http://www.narolainfotech.com"
+      &copy; {{year}}. <a href="" [routerLink]="['/login']"> LED Project</a> by <a href="http://www.narolainfotech.com"
         target="_blank">Narola Infotech</a>
     </div>
-    <!-- /footer -->
-
   </div>
-  <!-- /content area -->
-
 </div>
-<!-- /main content -->
+

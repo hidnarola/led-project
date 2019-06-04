@@ -285,7 +285,6 @@ export class SchedulesService {
     uploadFile(file: File) {
         const uri = '/leddesigner/schedule/upload-file';
         const headers = new HttpHeaders();
-        // this is the important step. You need to set content type as null
         headers.set('Content-Type', null);
         headers.set('Accept', 'multipart/form-data');
         this.formdata = new FormData();

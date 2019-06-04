@@ -1,8 +1,5 @@
 <!-- Main content -->
 <div class="content-wrapper">
-
-
-    <!-- Page header -->
     <div class="page-header page-header-default">
         <div class="page-header-content">
             <div class="page-title">
@@ -20,11 +17,7 @@
 
         </div>
     </div>
-    <!-- /page header -->
-
-    <!-- Content area -->
     <div class="content">
-
         <div class="panel panel-flat">
             <div class="panel-heading">
                 <h5 class="panel-title">{{ repeat }} Schedule</h5>
@@ -34,11 +27,8 @@
             </div>
 
             <div class="panel-body">
-
-
                 <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" enctype="multipart/form-data"
                     novalidate>
-
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group has-feedback">
@@ -75,8 +65,6 @@
                         <div class="col-md-6">
                             <div class="form-group has-feedback">
                                 <label class="form-label">First Year</label>
-                                <!-- <p-calendar [(ngModel)]="model.firstyear" name="firstyear" view="year" dateFormat="yyyy" [yearNavigator]="true" yearRange="2018:9999"></p-calendar> -->
-
                                 <input type="number" class="form-control" placeholder="First year" min="{{currentYear}}"
                                     name="firstyear" [(ngModel)]="model.firstYear" #firstyear="ngModel"
                                     [ngClass]="{ 'is-invalid': f.submitted && firstyear.invalid }" required>
@@ -85,13 +73,8 @@
                                 </div>
                                 <div *ngIf="f.submitted && firstyear.invalid" class="invalid-feedback">
                                     <div *ngIf="firstyear.errors.required">First year is required</div>
-                                    <!-- <div *ngIf="firstyear.errors.max">Number Must be beetween 1 and 5</div> -->
+                                 
                                 </div>
-
-                                <!-- <p-dropdown [options]="years" name="firstyear" [(ngModel)]="model.firstyear" placeholder="Select a First Year"
-                      optionLabel="value" [showClear]="true"></p-dropdown> &nbsp;&nbsp;
-                    <p-dropdown [options]="years" name="lastyear" [(ngModel)]="model.lastyear" placeholder="Select a Last Year"
-                      optionLabel="value" [showClear]="true"></p-dropdown> -->
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -100,9 +83,6 @@
                                 <input type="number" class="form-control" placeholder="Last year" min="{{currentYear}}"
                                     name="lastyear" [(ngModel)]="model.lastYear" #lastyear="ngModel"
                                     [ngClass]="{ 'is-invalid': f.submitted && lastyear.invalid }" required>
-
-                                <!-- <p-calendar name="ondate" dateFormat="dd-mm" placeholder="On Date (dd-mm)" [monthNavigator]="true"
-                      [yearNavigator]="false" [(ngModel)]="model.ondate"></p-calendar> -->
 
                                 <div class="form-control-feedback">
                                     <i class="icon-calendar text-muted"></i>
@@ -154,7 +134,6 @@
                                 <input type="time" placeholder="Start Time" class="form-control" name="starttime"
                                     [(ngModel)]="model.startTime" #starttime="ngModel"
                                     [ngClass]="{ 'is-invalid': f.submitted && starttime.invalid }" required />
-                                <!-- <p-calendar name="starttime" [(ngModel)]="value" showTime="true" hourFormat="12"></p-calendar> -->
                                 <div class="form-control-feedback">
                                     <i class="icon-watch2 text-muted"></i>
                                 </div>
@@ -288,52 +267,16 @@
                                     [ngClass]="{ 'is-invalid': f.submitted && ondate.invalid }" required>
                             </div>
                         </div>
-                        <!-- <div class="col-md-6" *ngIf="model.onDate">
-              <i>On Date: {{ model.onDate | date: ' dd-MMMM' }}</i>
-            </div> -->
+                     
                     </div>
-                    <!-- <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="form-label">Duration</label>
-                <div>
-                  <p-inputMask [(ngModel)]="model.duration" max="24:00:00" name="duration" mask="99:99:99" placeholder="HH:mm:ss"></p-inputMask>
-                </div>
-              </div>
-            </div>
-          </div> -->
                     <div class="row">
                         <div class="col-md-12">
-                            <!-- <input type='file' (change)="onSelectFile($event)" multiple> -->
-                            <!-- <input type="file" placeholder="Browse Images" name="myfile" [(ngModel)]="model.myfile" #file #myfile="ngModel"
-                    class="file-input" data-show-upload="false" data-show-caption="true" data-show-preview="true"
-                    [ngClass]="{ 'is-invalid': f.submitted && myfile.invalid }" multiple="multiple" (change)="selectFiles($event)"
-                    required> -->
-
-                            <!-- <input type="file" name="myfile" class="file-input" multiple="multiple" data-show-upload="false"
-                    #file #myfile="ngModel" [(ngModel)]="model.myfile" placeholder="Browse Images" data-show-caption="true"
-                    ng2FileSelect [uploader]="myfile" /> -->
-
-                            <!-- <p-fileUpload name="myfile" [showUploadButton]="false" customUpload="true" auto="auto" (onUpload)="onUpload($event)" 
-                    (uploadHandler)="myUploader($event)" multiple="multiple" required="required"></p-fileUpload> -->
-                            <!-- <div class="form-group">
-                <input type="file" ([ngModel])="myfile" name="myfile" class="file-styled" (change)="handleFileInput($event.target.files)"
-                  #myfile [ngClass]="{ 'is-invalid': f.submitted && myfile.invalid }" required>
-                <div *ngIf="f.submitted && myfile.invalid" class="invalid-feedback">
-                  <div *ngIf="myfile.errors.required">Image(s) is required</div>
-                </div>
-              </div> -->
-
                             <button type="button" (click)="showDialog()" pButton label="Select Files"></button>
 
                         </div>
                     </div>
                     <div class="row">
                         <div> Uploaded File(s) :
-                            <!-- <ul *ngFor="let file of files; let i = index">
-                <li (click)="imagePreview(file.path)"> <i class="icon icon-display"></i> {{file.path}}</li>
-              </ul> -->
-                            <!-- <i>[<small>Note: Please upload all file(s) again. Uploaded File(s) will removed.</small>]</i> -->
                             <table class=" table table-strip table-responsive" *ngIf="files.length > 0">
                                 <thead>
                                     <tr>
@@ -350,7 +293,6 @@
                                         <td>
                                             {{msToTime(file.duration)}}
                                         </td>
-
                                         <td>
                                             <a class="btn btn-primary" (click)="imagePreview(file.path)">
                                                 <i class="icon icon-display">
@@ -358,7 +300,7 @@
                                                 </i></a>
                                             <button type="button" class="btn btn-danger" (click)="edeleteImage(i)"><i
                                                     class="icon icon-trash"></i>
-                                                Delete</button>
+                                              Delete</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -392,17 +334,17 @@
                                                 type="button" class="btn btn-primary"
                                                 (click)="showImagePreview(file)"><i class="icon icon-display"></i>
                                                 Preview</button>
-                                            <button type="button" class="btn btn-danger" (click)="deleteImage(i)"><i
+                                            <button type="button" class="btn btn-danger" (click)="deleteImage(i ,file.name)"><i
                                                     class="icon icon-trash"></i>
-                                                Delete</button></td>
+                                          Delete</button></td>
 
                                         <td class="text-right" *ngIf="file.type.substr(0,5) === 'video'"><button
                                                 type="button" class="btn btn-primary"
                                                 (click)="getConvertedFile(file.name)"><i class="icon icon-display"></i>
                                                 Preview</button>
-                                            <button type="button" class="btn btn-danger" (click)="deleteImage(i)"><i
+                                            <button type="button" class="btn btn-danger" (click)="deleteImage(i , file.name)"><i
                                                     class="icon icon-trash"></i>
-                                                Delete</button></td>
+                                              Delete</button></td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
@@ -426,7 +368,6 @@
                     <div align="center" *ngIf="!fileToUpload.length">
                         <object *ngIf="isPreviewObject" [data]="imageUrl" height="auto"
                             style="max-width:100%;width:auto;max-height:300px"></object>
-                            {{isPreviewImage}}
                         <img *ngIf="isPreviewImage" [src]="imageUrl" height="auto"
                             style="max-width:100%;width:auto;max-height:300px">
                         <video *ngIf="isPreviewVideo" height="auto" style="max-width:100%;width:auto;max-height:300px"
@@ -443,16 +384,12 @@
                 </form>
             </div>
         </div>
-        <!-- Footer -->
         <div class="footer text-muted text-center">
-            &copy; 2018. <a href="" [routerLink]="['/login']"> LED Project</a> by <a
+            &copy; {{year}}. <a href="" [routerLink]="['/login']"> LED Project</a> by <a
                 href="http://www.narolainfotech.com" target="_blank">Narola Infotech</a>
         </div>
-        <!-- /footer -->
     </div>
-    <!-- /content area -->
 </div>
-<!-- /main content -->
 
 <p-dialog [(visible)]="display" [width]="650" [modal]="true" [minWidth]="767" [minY]="70" [responsive]="true"
     [baseZIndex]="10000">
@@ -601,8 +538,4 @@
             </div>
         </div>
     </div>
-
-    <!-- <p-footer>
-    <button class="btn btn-primary">Select</button>
-  </p-footer> -->
 </p-dialog>

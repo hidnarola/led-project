@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
 import { ActivatedRoute, Router } from '@angular/router';
 import { SchedulesService } from '../../../shared/schedules.service';
 import { Config } from '../../../shared/config';
-
 import { NotifierService } from 'angular-notifier';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -15,7 +13,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class EditScheduleComponent implements OnInit {
     oldScheduleName: string;
-    ms24 = 86400000;
+    // ms24 = 86400000;
     durationList: any = [];
     myAnimationFile: boolean;
     myImageFile: boolean;
@@ -28,8 +26,8 @@ export class EditScheduleComponent implements OnInit {
     fileExplorer: any;
     fileNamesList: any = [];
     currentYear = Number(new Date().getFullYear());
-    user_name: string;
-    user_role: string;
+    // user_name: string;
+    // user_role: string;
     repeat = 'None';
     years = [];
     files = [];
@@ -47,6 +45,7 @@ export class EditScheduleComponent implements OnInit {
     isPreviewObject: boolean;
     isPreviewVideo: boolean;
     videoType: string;
+    year = new Date().getFullYear();
 
     constructor(
         private notifier: NotifierService,
@@ -210,34 +209,29 @@ export class EditScheduleComponent implements OnInit {
     }
 
     pickFile(file, filename, source) {
-        // this.existFile = false ;
-        this.spinner.show();
-        // this.fileInfoStr.forEach(element => {
-        //     if (element['name'] === filename || (this.fileNamesList && this.fileNamesList.indexOf(filename) >= 0)) {
-        //         this.existFile = true;
-        //         this.display = false;
-        //         this.spinner.hide();
-        //         this.notifier.notify('warning', 'Same File Name Exist.');
-        //     }
-        // });
-        // if (!this.existFile) {
-        // }
-        this.service.getImageFromUrl(file).subscribe(res => {
-            const newFile = this.service.blobToFile(res['body'], filename);
+        if (this.fileNamesList && this.fileNamesList.indexOf(file.name) >= 0 ||
+            this.files && this.files.indexOf(file.name) >= 0 || this.fileToUpload && this.filesToUpload.indexOf(file.name) >= 0) {
+            this.notifier.notify('warning', 'Same File Name Exist.');
             this.spinner.hide();
-            this.handleFileInput(newFile, source);
-            this.display = false;
-        }, error => {
-            this.spinner.hide();
-            this.display = false;
-        });
-
+        } else {
+            this.spinner.show();
+            this.service.getImageFromUrl(file).subscribe(res => {
+                const newFile = this.service.blobToFile(res['body'], filename);
+                this.spinner.hide();
+                this.handleFileInput(newFile, source);
+                this.display = false;
+            }, error => {
+                this.spinner.hide();
+                this.display = false;
+            });
+        }
     }
 
     handleFileInput(file, source) {
         if (file) {
             this.spinner.show();
-            if (this.fileNamesList.indexOf(file.name) >= 0) {
+            if (this.fileNamesList && this.fileNamesList.indexOf(file.name) >= 0 ||
+                this.files && this.files.indexOf(file.name) >= 0 || this.fileToUpload && this.filesToUpload.indexOf(file.name) >= 0) {
                 this.notifier.notify('warning', 'Same File Name Exist.');
                 this.spinner.hide();
             } else {
@@ -316,10 +310,12 @@ export class EditScheduleComponent implements OnInit {
         reader.readAsDataURL(file);
     }
 
-    deleteImage(index) {
+    deleteImage(index , fileName) {
         this.fileToUpload.splice(index, 1);
-        this.fileNamesList.splice(index, 1);
+         const i = this.fileNamesList.indexOf(fileName);
+        this.fileNamesList.splice(i, 1);
         this.fileInfo.splice(index, 1);
+        this.existFileToUpload.splice(index,1); //
         this.isPreviewImage = false;
         this.isPreviewVideo = false;
         this.isPreviewObject = false;
@@ -327,7 +323,9 @@ export class EditScheduleComponent implements OnInit {
     }
     edeleteImage(index) {
         this.files.splice(index, 1);
+        this.fileToUpload.splice(index, 1);
         this.fileInfoStr.splice(index, 1);
+        this.fileNamesList.splice(index, 1);
         this.isPreviewImage = false;
         this.isPreviewVideo = false;
         this.isPreviewObject = false;

@@ -11,6 +11,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 export class ForgotPasswordComponent implements OnInit {
     model: any = {};
+    year = new Date().getFullYear();
+    
     constructor(
         private notifier: NotifierService,
         private service: AccountService,

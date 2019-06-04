@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
                 this.router.navigate(['user/home']);
             }
         } else {
-            // this.notifier.notify('warning', 'ACCESS DENIED. Please Login Again.');
             localStorage.clear();
         }
     }

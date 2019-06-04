@@ -19,6 +19,8 @@ export class SendScheduleComponent implements OnInit {
     model: any = {};
     entryIPList = [];
     filePropertiesList = [];
+    year = new Date().getFullYear();
+
     constructor(
         private service: SchedulesService,
         private usservice: UserSignService,
@@ -27,8 +29,6 @@ export class SendScheduleComponent implements OnInit {
         private spinner: NgxSpinnerService) { }
 
     ngOnInit() {
-        // this.user_name = localStorage.getItem('name');
-        // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
         this.getSchedule();
         this.getSigns();
     }
@@ -56,14 +56,8 @@ export class SendScheduleComponent implements OnInit {
     }
     sendSchedule() {
         this.spinner.show();
-        // const IP = JSON.stringify(this.entryIPList).toString();
-        // const Sign = JSON.stringify(this.filePropertiesList).toString();
-        // for (let i = 0; i < this.entryIPList.length; i++) {
-        // }
-
         this.model.entryIPList = this.entryIPList;
         this.model.filePropertiesList = this.filePropertiesList;
-
         for (let i = 0; i < this.entryIPList.length; i++) {
             this.model.entryIPList[i] = this.mySigns[this.entryIPList[i]];
             this.model.entryIPList[i].selected = true;
@@ -75,12 +69,10 @@ export class SendScheduleComponent implements OnInit {
         }
 
         setTimeout(() => {
-
             this.notifier.notify('success', 'connecting...');
         }, 1000);
 
         setTimeout(() => {
-
             this.notifier.notify('success', 'Loading...');
         }, 1000);
 
@@ -93,24 +85,17 @@ export class SendScheduleComponent implements OnInit {
                 });
                 this.model = {};
                 setTimeout(() => {
-                    /** spinner ends after 1 seconds */
                     this.spinner.hide();
                 }, 1000);
                 this.router.navigate(['/user/schedules']);
             }, error => {
                 if (error.status === 200) {
                     const res = JSON.parse(JSON.stringify(error.error.text));
-                    // const res = JSON.parse(text);
                     const str = JSON.parse(res.replace(/\'/g, '\"'));
                     const keys = Object.keys(str);
                     keys.forEach(key => {
                         this.notifier.notify(str[key] === 'fail' ? 'error' : 'success', key + ' is ' + str[key]);
                     });
-                    // this.notifier.notify('success', 'Updated');
-                    // const keys = Object.keys(res);
-                    // keys.forEach(key => {
-                    //   this.notifier.notify(res[key] === 'fail' ? 'error' : 'success', res[key]);
-                    // });
                     this.model = {};
                     setTimeout(() => {
                         /** spinner ends after 1 seconds */

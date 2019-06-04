@@ -5,7 +5,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { SignsService } from 'src/app/shared/signs.service';
 import { NotifierService } from 'angular-notifier';
 
-
 @Component({
     selector: 'app-my-signs',
     templateUrl: './my-signs.component.html',
@@ -18,7 +17,10 @@ export class MySignsComponent implements OnDestroy, OnInit {
     signArray: any = [];
     user_name: string;
     user_role: string;
-    constructor(private service: UserSignService,
+    year = new Date().getFullYear();
+
+    constructor(
+        private service: UserSignService,
         private notifier: NotifierService,
         private signService: SignsService,
         private spinner: NgxSpinnerService

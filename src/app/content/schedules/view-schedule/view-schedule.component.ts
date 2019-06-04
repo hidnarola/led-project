@@ -14,7 +14,6 @@ export class ViewScheduleComponent implements OnInit {
     user_name: string;
     user_role: string;
     files = [];
-    // File Type
     uploads = [];
     isPreviewImage: boolean;
     isPreviewVideo: boolean;
@@ -34,8 +33,7 @@ export class ViewScheduleComponent implements OnInit {
         private spinner: NgxSpinnerService) { }
 
     ngOnInit() {
-        // this.user_name = localStorage.getItem('name');
-        // this.user_role = (localStorage.getItem('authorities')).replace('ROLE_', '');
+
         this.spinner.show();
         this.route.params.subscribe(params => {
             this.service.getScheduleById(params['id']).toPromise().then(res => {
@@ -49,9 +47,6 @@ export class ViewScheduleComponent implements OnInit {
                 HH = ('0' + this.dto.endTime.hour).slice(-2);
                 MM = ('0' + this.dto.endTime.minute).slice(-2);
                 this.dto.endTime = HH + ':' + MM + ':00';
-                if (this.CONFIG.SCHE_MONT === this.repeat) {
-                    // this.dto.scheduleMonthDays = this.service.getValueOfScheduleMonthDays(this.dto.scheduleMonthDays).toString();
-                }
                 this.spinner.hide();
             }).catch(error => {
                 this.notifier.notify('error', error.error.message);
@@ -62,7 +57,7 @@ export class ViewScheduleComponent implements OnInit {
     }
 
     imagePreview(filename) {
-        // this.isPreview = true;
+
         this.isPreviewImage = false;
         this.isPreviewObject = false;
         this.isPreviewVideo = false;

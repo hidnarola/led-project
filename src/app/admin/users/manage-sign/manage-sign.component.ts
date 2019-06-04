@@ -15,11 +15,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class ManageSignComponent implements OnInit {
     userid: any;
     signForm: FormGroup;
-    signs: FormArray;
+    // signs: FormArray;
     allSign: any = [];
     fieldArray: any = [];
     addNewSign: any;
-    firstField = true;
+    // firstField = true;
     isAddNew: boolean;
     oldChoice: Number = 0;
     newChoice: Number;
@@ -107,7 +107,6 @@ export class ManageSignComponent implements OnInit {
     }
 
     deleteFieldValue(id) {
-
         this.confirmationService.confirm({
             message: 'Do you want to delete this record?',
             header: 'Delete Confirmation',
@@ -115,7 +114,7 @@ export class ManageSignComponent implements OnInit {
             accept: () => {
                 this.spinner.show();
                 this.usservice.deleteUserSign(id).toPromise().then(res => {
-                    this.notifier.notify('warning', res.toString());
+                    this.notifier.notify('success', res['message']);
                     this.spinner.hide();
                     this.getSignByUser();
                 }).catch( error => {
