@@ -84,6 +84,7 @@ export class SchedulesService {
     updateSChedule(data, file, type) {
         const uri = '/leddesigner/schedule/update';
         const scheduleJSON = this.getScheduleRequestJSON(data, type);
+        scheduleJSON['userid'] = data['userid'];
         const headers = new HttpHeaders();
         headers.set('Content-Type', null);
         headers.set('Accept', 'multipart/form-data');
@@ -124,6 +125,7 @@ export class SchedulesService {
             'endTime': data.endTime,
             'type': type,
             'userid': Number(localStorage.getItem('userid')),
+            'scheduleId': data.scheduleId
         };
         if (type === this.config.SCHE_DAYL) {
             scheduleJSON['moduloYDay'] = ((data.moduloYDay) ? data.moduloYDay : 0);
@@ -177,10 +179,12 @@ export class SchedulesService {
         return this.http.post(uri, filedata);
     }
 
-    getScheduleByUserIdandType(userid, type) {
-        const uri = '/leddesigner/schedule/getSchedulesByUseridAndType?userid=' + userid + '&type=' + type;
-        return this.http.get(uri);
-    }
+    // unused API 
+
+    // getScheduleByUserIdandType(userid, type) {
+    //     const uri = '/leddesigner/schedule/getSchedulesByUseridAndType?userid=' + userid + '&type=' + type;
+    //     return this.http.get(uri);
+    // }
 
     getFilesByUserId(userid) {
         const uri = '/leddesigner/schedule/getFiles?userid=' + userid;

@@ -39,7 +39,7 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-stairs-up text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && priority.invalid" class="invalid-feedback">
+                                <div *ngIf="priority.invalid && (priority.dirty || priority.touched)" class="invalid-feedback">  
                                     <div *ngIf="priority.errors.required">Priority is required</div>
                                     <div *ngIf="priority.errors.max">Number Must be beetween 1 and 5</div>
                                 </div>
@@ -54,7 +54,7 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-screen3 text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && name.invalid" class="invalid-feedback">
+                                <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">  
                                     <div *ngIf="name.errors.required">Schedule name is required</div>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-calendar text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && firstyear.invalid" class="invalid-feedback">
+                                <div *ngIf="firstyear.invalid && (firstyear.dirty || firstyear.touched)" class="invalid-feedback">  
                                     <div *ngIf="firstyear.errors.required">First year is required</div>
                                  
                                 </div>
@@ -87,7 +87,7 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-calendar text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && lastyear.invalid" class="invalid-feedback">
+                                <div *ngIf="lastyear.invalid && (lastyear.dirty || lastyear.touched)" class="invalid-feedback">  
                                     <div *ngIf="lastyear.errors.required">Last year is required</div>
                                 </div>
                             </div>
@@ -105,7 +105,7 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-calendar text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && startdate.invalid" class="invalid-feedback">
+                                <div *ngIf="startdate.invalid && (startdate.dirty || startdate.touched)" class="invalid-feedback">  
                                     <div *ngIf="startdate.errors.required">Enter valid start date</div>
                                 </div>
                             </div>
@@ -120,7 +120,7 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-calendar text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && enddate.invalid" class="invalid-feedback">
+                                <div *ngIf="enddate.invalid && (enddate.dirty || enddate.touched)" class="invalid-feedback">  
                                     <div *ngIf="enddate.errors.required">Enter valid end date</div>
                                 </div>
                             </div>
@@ -137,7 +137,7 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-watch2 text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && starttime.invalid" class="invalid-feedback">
+                                <div *ngIf="starttime.invalid && (starttime.dirty || starttime.touched)" class="invalid-feedback">  
                                     <div *ngIf="starttime.errors.required">Start Time is required</div>
                                 </div>
                             </div>
@@ -152,7 +152,7 @@
                                 <div class="form-control-feedback">
                                     <i class=" icon-watch2 text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && endtime.invalid" class="invalid-feedback">
+                                <div *ngIf="endtime.invalid && (endtime.dirty || endtime.touched)" class="invalid-feedback">  
                                     <div *ngIf="endtime.errors.required">End Time is required</div>
                                 </div>
                             </div>
@@ -168,7 +168,7 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-reload-alt text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && nthday.invalid" class="invalid-feedback">
+                                <div *ngIf="nthday.invalid && (nthday.dirty || nthday.touched)" class="invalid-feedback">  
                                     <div *ngIf="nthday.errors.required">Every N-th Day is required</div>
                                 </div>
                             </div>
@@ -184,7 +184,7 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-reload-alt text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && nthweek.invalid" class="invalid-feedback">
+                                <div *ngIf="nthweek.invalid && (nthweek.dirty || nthweek.touched)" class="invalid-feedback">  
                                     <div *ngIf="nthweek.errors.required">Every N-th Week is required</div>
                                 </div>
                             </div>
@@ -236,7 +236,7 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-calendar52 text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && monthday.invalid" class="invalid-feedback">
+                                <div *ngIf="monthday.invalid && (monthday.dirty || monthday.touched)" class="invalid-feedback">  
                                     <div *ngIf="monthday.errors.required">On Month Day is required</div>
                                 </div>
                             </div>

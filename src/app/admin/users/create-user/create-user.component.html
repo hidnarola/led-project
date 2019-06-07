@@ -51,11 +51,14 @@
                         <div class="col-md-6 ui-fluid" *ngIf="userData.length > 0">
                             <div class="form-group has-feedback ui-fluid">
                                 <label class="form-label">Parent user : &nbsp;</label>
-                                <div *ngIf="!userId">
+                                <div  *ngIf="!userId">
                                     <p-dropdown name="parentId" [options]="userData" #parentId="ngModel"
                                         required [(ngModel)]="selectedParentId" placeholder="Select a user"
                                         optionLabel="name" (ngModelChange)="displaySign(selectedParentId);"
                                         [showClear]="true"></p-dropdown>
+                                        <div *ngIf="parentId.invalid && (parentId.dirty || parentId.touched)" class="invalid-feedback">
+                                            <div *ngIf="parentId.errors.required">Select Parent User</div>
+                                        </div>
                                 </div>
                                 <label *ngIf="userId"> {{usersResponse[model['parentId']]}}</label>
                             </div>
@@ -72,7 +75,8 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-user-check text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && firstname.invalid" class="invalid-feedback">
+
+                                <div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" class="invalid-feedback">
                                     <div *ngIf="firstname.errors.required">First Name is required</div>
                                 </div>
                             </div>
@@ -87,7 +91,7 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-user-check text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && lastname.invalid" class="invalid-feedback">
+                                <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)" class="invalid-feedback">
                                     <div *ngIf="lastname.errors.required">Last Name is required</div>
                                 </div>
                             </div>
@@ -104,7 +108,7 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-mention text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
+                                <div *ngIf="email.invalid && (email.dirty || email.touched)" class="invalid-feedback">
                                     <div *ngIf="email.errors.required">Email is required</div>
                                     <div *ngIf="email.errors.email">Email must be a valid email address</div>
                                 </div>
@@ -120,7 +124,7 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-briefcase text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && company.invalid" class="invalid-feedback">
+                                <div *ngIf="company.invalid && (company.dirty || company.touched)" class="invalid-feedback">
                                     <div *ngIf="company.errors.required">Company name is required</div>
                                 </div>
                             </div>
@@ -138,7 +142,7 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-city text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && city.invalid" class="invalid-feedback">
+                                <div *ngIf="city.invalid && (city.dirty || city.touched)" class="invalid-feedback">
                                     <div *ngIf="city.errors.required">City is required</div>
                                 </div>
                             </div>
@@ -153,7 +157,7 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-map text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && state.invalid" class="invalid-feedback">
+                                <div *ngIf="state.invalid && (state.dirty || state.touched)" class="invalid-feedback">
                                     <div *ngIf="state.errors.required">State is required</div>
                                 </div>
                             </div>
@@ -171,7 +175,7 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-phone text-muted"></i>
                                 </div>
-                                <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
+                                <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="invalid-feedback">
                                     <div *ngIf="phone.errors.required">Phone is required</div>
                                 </div>
                             </div>
@@ -197,6 +201,7 @@
                                         <p-checkbox name="privileges" value="{{permission.privilegeId}}"
                                             label="{{permission.privilegeName}}" [(ngModel)]="model['privileges']">
                                         </p-checkbox>
+                                      
                                     </p>
                                 </div>
                             </div>
@@ -210,6 +215,10 @@
                                         [panelStyle]="{minWidth:'10em'}" maxSelectedLabels=0 optionLabel="name"
                                         name="userSigns" #userSigns="ngModel">
                                     </p-multiSelect>
+                                    <div *ngIf="userSigns.invalid && (userSigns.dirty || userSigns.touched)"
+                                     class="invalid-feedback">
+                                        <div *ngIf="userSigns.errors.required">Select Sign</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

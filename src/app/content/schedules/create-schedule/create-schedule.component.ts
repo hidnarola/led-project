@@ -36,8 +36,6 @@ export class CreateScheduleComponent implements OnInit {
     videoType: string;
     model: any = {};
     CONFIG = this.config;
-    // user_name: string;
-    // user_role: string;
     uploads = [];
     date = new Date();
     fileExplorer: any;
@@ -70,7 +68,6 @@ export class CreateScheduleComponent implements OnInit {
         this.model.scheduleMonthDays = null;
         this.model.onDate = moment().startOf('year').format('YYYY-MM-DD');
         this.model.myfiles = [];
-
         this.route.queryParams.filter(params => params.repeat).subscribe(params => {
             this.repeat = params.repeat;
         });
@@ -177,7 +174,8 @@ export class CreateScheduleComponent implements OnInit {
             this.handleFileInput(newFile, source);
             this.display = false;
         }).catch(error => {
-            // this.notifier.notify('error', 'Something went wrong.');
+            this.display = false;
+            this.spinner.hide();
         });
     }
 
@@ -290,6 +288,7 @@ export class CreateScheduleComponent implements OnInit {
         });
         this.model.durationList = this.durationList;
         this.model.fileInfo = this.fileInfo;
+        this.model.scheduleId = null;
         this.service.createSchedule(this.model, this.fileToUpload, this.repeat).toPromise().then(res => {
             this.notifier.notify('success', 'Scheduled Stored Successfully');
             this.model = {};

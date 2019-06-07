@@ -46,6 +46,8 @@ export class EditScheduleComponent implements OnInit {
     isPreviewVideo: boolean;
     videoType: string;
     year = new Date().getFullYear();
+    userid: any;
+    scheduleId: number;
 
     constructor(
         private notifier: NotifierService,
@@ -64,8 +66,10 @@ export class EditScheduleComponent implements OnInit {
             this.years.push({ 'value': i });
         }
         this.route.params.subscribe(params => {
+            this.scheduleId = params['id'] ;
             this.service.getScheduleById(params['id']).subscribe(res => {
                 this.res = res;
+                this.userid = this.res.scheduleDTO['userid'];
                 this.repeat = this.res.type;
                 this.model = this.res.scheduleDTO;
                 this.files = this.res.multipartImages;
@@ -315,7 +319,7 @@ export class EditScheduleComponent implements OnInit {
 
     deleteImage(index , fileName) {
         this.fileToUpload.splice(index, 1);
-         const i = this.fileNamesList.indexOf(fileName);
+        const i = this.fileNamesList.indexOf(fileName);
         this.fileNamesList.splice(i, 1);
         this.fileInfo.splice(index, 1);
         this.existFileToUpload.splice(index,1); //
@@ -349,7 +353,6 @@ export class EditScheduleComponent implements OnInit {
             this.model.weekDays = [];
         }
         this.durationList = [];
-
         this.fileToUpload.forEach(file => {
             const dura: any = {};
             dura.name = file.name;
@@ -365,15 +368,17 @@ export class EditScheduleComponent implements OnInit {
         this.fileInfo.forEach(file => {
             this.fileInfoStr.push({ 'name': file.name, 'source': file.source });
         });
+        this.model.scheduleId = +this.scheduleId ;
         this.model.durationList = this.durationList;
         this.model.oldScheduleName = this.oldScheduleName;
         this.uniqueArray(this.fileInfoStr);
         this.model.fileInfo = this.fileInfoStr;
+        this.model.userid = this.userid;
         this.service.updateSChedule(this.model, this.fileToUpload, this.repeat).toPromise().then(res => {
-            this.notifier.notify('success', 'Scheduled Updated Successfully');
             this.model = {};
             this.fileToUpload = [];
             this.spinner.hide();
+            this.notifier.notify('success', 'Scheduled Updated Successfully');
             this.router.navigate(['/user/schedules']);
         }).catch(error => {
             if (error.status === 400) {

@@ -36,7 +36,7 @@
                             <a (click)="image.click()">
                                 <i class="icon-upload"></i> <span>Upload Files</span>
                             </a>
-                            <input type="file" ([ngModel])="myfile" name="myfile" class="file-styled custom_file_select"
+                            <input type="file" ([ngModel])="myfile" id="file" name="myfile" class="file-styled custom_file_select"
                                 #image (change)="handleFileInput($event.target.files.item(0))" accept="image/*,video/*"
                                 required>
                         </ng-container>

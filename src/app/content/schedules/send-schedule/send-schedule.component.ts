@@ -77,7 +77,6 @@ export class SendScheduleComponent implements OnInit {
         }, 1000);
 
         setTimeout(() => {
-
             this.service.sendFileByUserId(this.model, localStorage.getItem('userid')).subscribe((res: any) => {
                 const keys = Object.keys(res);
                 keys.forEach(key => {
@@ -89,20 +88,7 @@ export class SendScheduleComponent implements OnInit {
                 }, 1000);
                 this.router.navigate(['/user/schedules']);
             }, error => {
-                if (error.status === 200) {
-                    const res = JSON.parse(JSON.stringify(error.error.text));
-                    const str = JSON.parse(res.replace(/\'/g, '\"'));
-                    const keys = Object.keys(str);
-                    keys.forEach(key => {
-                        this.notifier.notify(str[key] === 'fail' ? 'error' : 'success', key + ' is ' + str[key]);
-                    });
-                    this.model = {};
-                    setTimeout(() => {
-                        /** spinner ends after 1 seconds */
-                        this.spinner.hide();
-                    }, 1000);
-                    this.router.navigate(['/user/schedules']);
-                } else if (error.status === 500) {
+                 if (error.status === 500) {
                     this.notifier.notify('error', 'Failed');
                     setTimeout(() => {
                         /** spinner ends after 1 seconds */

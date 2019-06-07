@@ -12,6 +12,7 @@ import { UserSignService } from 'src/app/shared/user-sign.service';
     styleUrls: ['./create-user.component.css']
 })
 export class CreateUserComponent implements OnInit {
+
     model = {};
     permissions: any = [];
     userData = [];
@@ -40,7 +41,7 @@ export class CreateUserComponent implements OnInit {
     signData: any = [];
     imageData: any = null;
     selectedSigns = [];
-    displayForm = true ;
+    displayForm = true;
 
     constructor(private notifier: NotifierService,
         private service: AccountService,
@@ -83,8 +84,8 @@ export class CreateUserComponent implements OnInit {
                 if (users.hasOwnProperty(userId)) {
                     this.userData.push(
                         {
-                            "id": userId,
-                            "name": users[userId]
+                            'id': userId,
+                            'name': users[userId]
                         }
                     )
                 }
@@ -110,7 +111,7 @@ export class CreateUserComponent implements OnInit {
     }
 
     signDropdownData(pid) {
-        this.displayForm = true ;
+        this.displayForm = true;
         this.userSignservice.getSignByUserId_user(pid).toPromise().then(signList => {
             this.displaySigndropdown = true;
             this.signData = signList;
@@ -125,7 +126,7 @@ export class CreateUserComponent implements OnInit {
                 }
             } else {
                 this.notifier.notify('error', 'Yet no sign assigned to your parent user, Please contact to admin.');
-                this.displayForm = false ;
+                this.displayForm = false;
             }
         }).catch(error => {
             this.signData = [];
@@ -162,7 +163,6 @@ export class CreateUserComponent implements OnInit {
             formData.append('profilePic', this.imageData);
         }
         formData.append('userJSON', JSON.stringify(this.model));
-
         this.service.register(formData, this.userId).toPromise().then(res => {
             this.model['isAdmin'] = false;
             this.spinner.hide();
@@ -175,7 +175,7 @@ export class CreateUserComponent implements OnInit {
             this.router.navigate(['/admin/users']);
         }).catch(error => {
             this.spinner.hide();
-            this.notifier.notify('error', error.error);
+            this.notifier.notify('error', error.error.message);
         });
     }
 }

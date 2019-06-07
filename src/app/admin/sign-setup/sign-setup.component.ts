@@ -69,12 +69,7 @@ export class SignSetupComponent implements OnInit, OnDestroy {
                     this.notifier.notify('success', 'Deleted Successfully');
                     this.getSigns(true);
                 }, error => {
-                    if (error.status === 200) {
-                        this.notifier.notify('error', error.error.text);
-                        this.getSigns(true);
-                    } else {
                         this.spinner.hide();
-                    }
                 });
             },
             reject: () => {

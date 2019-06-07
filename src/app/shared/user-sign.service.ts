@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { map } from 'rxjs/operators';
 
@@ -24,9 +24,7 @@ export class UserSignService {
     // Use For Admin Side
     getSignByUserId_admin(id) {
         const uri = '/leddesigner/signmapping/getUserSignMapping?userid=' + id;
-        return this.http.get(uri).pipe(map(res => {
-            return res;
-        }));
+        return this.http.get(uri);
     }
 
     addUserSign(sid, uid) {
@@ -45,21 +43,11 @@ export class UserSignService {
 
     deleteUserSign(id) {
         const uri = '/leddesigner/signmapping/deleteMapping?id=' + id;
-        return this.http
-            .delete(uri)
-            .pipe(map(res => {
-                return res;
-            }
-            ));
+        return this.http.delete(uri);
     }
 
     getSignBySignId(id) {
         const uri = '/leddesigner/signmapping/getSignUsers?signid=' + id;
-        return this.http
-            .get(uri)
-            .pipe(map(res => {
-                return res;
-            }
-            ));
+        return this.http.get(uri);
     }
 }

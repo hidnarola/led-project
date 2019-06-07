@@ -57,5 +57,6 @@ export class SidebarComponent implements OnInit {
                 this.spinner.hide();
             });
         }
+        document.getElementById('file')['value'] = '';
     }
 }
