@@ -33,3 +33,8 @@
   font-weight: 400;
   width: 100px;
 }
+
+.form-group .ui-calendar .ui-datepicker {
+    display: block !important;
+}
+

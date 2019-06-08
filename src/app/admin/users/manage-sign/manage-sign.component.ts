@@ -93,12 +93,10 @@ export class ManageSignComponent implements OnInit {
                 this.spinner.hide();
                 this.getSignByUser();
             }).catch(error => {
+                this.spinner.hide();
                 if (error.status === 500) {
                     this.notifier.notify('error', error.error.message);
-                    this.spinner.hide();
-                } else {
-                    this.spinner.hide();
-                }
+                } 
             });
     }
 

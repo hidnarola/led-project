@@ -49,9 +49,9 @@ export class AdminProfileComponent implements OnInit {
             this.model = {};
             this.spinner.hide();
         }).catch(err => {
+            this.spinner.hide();
             if (err.status === 400) {
                 this.notifier.notify('error', err.error.message);
-                this.spinner.hide();
             }
         });
     }

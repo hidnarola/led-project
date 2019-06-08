@@ -15,25 +15,15 @@ export class ProfileComponent implements OnInit {
     userId: number;
     f: FormGroup;
     misMatchPwd: boolean;
-    constructor(private service: UsersService,
+
+    constructor(
+        private service: UsersService,
         private spinner: NgxSpinnerService,
         private notifier: NotifierService,
         private router: Router) { }
 
     ngOnInit() {
         this.userId = Number(localStorage.getItem('userid'));
-
-        // $(document).ready(function () {
-        //   $('.pass_show').append('<span class="ptxt">Show</span>');
-        // });
-
-        // $(document).on('click', '.pass_show .ptxt', function () {
-
-        //   $(this).text($(this).text() === 'Show' ? 'Hide' : 'Show');
-
-        //   $(this).prev().attr('type', function (index, attr) { return attr === 'password' ? 'text' : 'password'; });
-
-        // });
     }
     matchPassword = () => {
         if (this.misMatchPwd) {
@@ -50,18 +40,16 @@ export class ProfileComponent implements OnInit {
             this.spinner.hide();
             return;
         }
-
         this.service.changePassword(this.model).toPromise().then(res => {
+            this.spinner.hide();
             this.notifier.notify('success', 'Password Changed successfully');
             this.model = {};
-            this.spinner.hide();
             this.router.navigate(['/user/home']);
         }).catch(err => {
+            this.spinner.hide();
             if (err.status === 400) {
                 this.notifier.notify('error', err.error.message);
-                this.spinner.hide();
             }
         });
     }
-
 }

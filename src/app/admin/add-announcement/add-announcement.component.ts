@@ -38,12 +38,11 @@ export class AddAnnouncementComponent implements OnInit {
 
     getAnnouncement() {
         this.announcementService.getAnnouncement().toPromise().then(data => {
+            this.spinner.hide();
             if (data && data.length > 0) {
                 this.model = data[0];
-                this.spinner.hide();
             } else {
                 this.model = {};
-                this.spinner.hide();
             }
         }).catch(err => {
             this.model = {};

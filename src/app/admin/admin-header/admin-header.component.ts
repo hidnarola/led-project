@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersService } from 'src/app/shared/users.service';
 import { AccountService } from 'src/app/shared/account.service';
 
 @Component({
@@ -10,22 +9,16 @@ import { AccountService } from 'src/app/shared/account.service';
 export class AdminHeaderComponent implements OnInit {
 
     user_name: string;
-    userLogo: any;
+
     constructor(
-        private userService: UsersService,
         private accountService:AccountService
     ) { }
 
     ngOnInit() {
         this.user_name = localStorage.getItem('name');
-        this.userService.getProfileLink().toPromise().then(link => {
-            if (link) {
-                this.userLogo = link;
-            }
-        }).catch(err=>{ });
     }
 
-    logout() { 
+    logout() {
         this.accountService.logout();
     }
 }

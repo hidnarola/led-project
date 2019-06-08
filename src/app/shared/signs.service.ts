@@ -7,83 +7,34 @@ import { map } from 'rxjs/operators';
     providedIn: 'root'
 })
 export class SignsService {
+
     constructor(
         private http: HttpClient
-                ) { }
+    ) { }
 
     getAllSigns() {
         const uri = '/leddesigner/signsn/getAllSignSN';
-
-        return this.http
-            .get(uri)
-            .pipe(map(res => {
-                return res;
-            }
-            ));
+        return this.http.get(uri);
     }
 
     getSingleSign(id) {
         const uri = '/leddesigner/signsn/getSignSN?signId=' + id;
-
-        return this.http
-            .get(uri)
-            .pipe(map(res => {
-                return res;
-            }
-            ));
+        return this.http.get(uri);
     }
 
     addSign(data) {
-        const uri = '/leddesigner/signsn/add';
-        const signs = {
-            serial_number: data.signsn,
-            sizeY: Number(data.heighty),
-            ipaddress: data.ip,
-            name: data.signname,
-            port: Number(data.port),
-            status: true,
-            timezone: data.timezone,
-            type: data.signtype,
-            sizeX: Number(data.widthx)
-        };
-        return this.http
-            .post(uri, signs)
-            .map(res => {
-                return res;
-            }
-            );
-    }
-
-    updateSign(data) {
-        const uri = '/leddesigner/signsn/updateSignSN';
-        const signs = {
-            id: data.id,
-            serial_number: data.serial_number,
-            sizeY: Number(data.sizeY),
-            ipaddress: data.ipaddress,
-            name: data.name,
-            port: Number(data.port),
-            status: true,
-            timezone: data.timezone,
-            type: data.type,
-            sizeX: Number(data.sizeX)
-        };
-        return this.http
-            .put(uri, signs)
-            .map(res => {
-                return res;
-            }
-            );
+        if (data.hasOwnProperty('id')) {
+            const uri = '/leddesigner/signsn/updateSignSN';
+            return this.http.put(uri, data);
+        } else {
+            const uri = '/leddesigner/signsn/add';
+            return this.http.post(uri, data);
+        }
     }
 
     deleteSign(id) {
         const uri = '/leddesigner/signsn/deleteSignSN?signId=' + id;
-        return this.http
-            .delete(uri)
-            .map(res => {
-                return res;
-            }
-            );
+        return this.http.delete(uri);
     }
 
     downloadSign(signId): any {

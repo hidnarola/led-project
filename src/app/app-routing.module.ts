@@ -45,15 +45,15 @@ const routes: Routes = [
     { path: 'reset-password', component: ResetPasswordComponent },
     {
         path: 'admin',
-        component: AdminLayoutComponent,
+        component: UserLayoutComponent,
         canActivate: [AdminAuthGuard],
         children: [
             { path: 'dashboard', component: AdminHomeComponent },
-            { path: 'profile', component: AdminProfileComponent },
+            { path: 'profile', component: ProfileComponent },
             { path: 'sign-setup', component: SignSetupComponent },
             { path: 'file-manager', component: FileManagerComponent },
             { path: 'sign-setup/add', component: CreateSetupComponent },
-            { path: 'sign-setup/edit/:id', component: EditSetupComponent },
+            { path: 'sign-setup/edit/:id', component: CreateSetupComponent },
             { path: 'users', component: UsersComponent },
             { path: 'user/add', component: CreateUserComponent },
             { path: 'user/edit/:id', component: CreateUserComponent },
@@ -78,7 +78,7 @@ const routes: Routes = [
                 path: 'schedules', component: SchedulesComponent,
                 data: {
                     permissions: {
-                        only: ['PREV_00', 'ROLE_USER'],
+                        only: ['PREV_00', 'ROLE_USER']
                     }
                 }
             },
@@ -86,7 +86,7 @@ const routes: Routes = [
                 path: 'schedule/add', component: CreateScheduleComponent,
                 data: {
                     permissions: {
-                        only: ['PREV_02', 'ROLE_USER'],
+                        only: ['PREV_02', 'ROLE_USER']
                     }
                 }
             },
@@ -94,7 +94,7 @@ const routes: Routes = [
                 path: 'schedule/edit/:id', component: EditScheduleComponent,
                 data: {
                     permissions: {
-                        only: ['PREV_03', 'ROLE_USER'],
+                        only: ['PREV_03', 'ROLE_USER']
                     }
                 }
             },
@@ -105,7 +105,7 @@ const routes: Routes = [
                 path: 'signss/deleteSchedule', component: DeleteScheduleComponent,
                 data: {
                     permissions: {
-                        only: ['PREV_04', 'ROLE_USER'],
+                        only: ['PREV_04', 'ROLE_USER']
                     }
                 }
             },

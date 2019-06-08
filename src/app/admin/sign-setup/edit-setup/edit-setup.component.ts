@@ -37,12 +37,13 @@ export class EditSetupComponent implements OnInit {
         });
     }
 
-    onSubmit() {
-        this.spinner.show();
-        this.service.updateSign(this.model).toPromise().then(res => {
-            this.spinner.hide();
-            this.notifier.notify('success', 'Updated Successfully');
-            this.router.navigate(['/admin/sign-setup']);
-        }).catch(err => { });
-    }
+    // onSubmit() {
+    //     this.spinner.show();
+    //     this.service.updateSign(this.model).toPromise().then(res => {
+    //         this.spinner.hide();
+    //         this.notifier.notify('success', 'Updated Successfully');
+    //         this.router.navigate(['/admin/sign-setup']);
+    //     }).catch(err => { });
+    // }
 }
+

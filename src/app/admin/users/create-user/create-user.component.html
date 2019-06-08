@@ -1,5 +1,5 @@
-<!-- Main content -->
-<div class="content-wrapper">
+
+
     <!-- Page header -->
     <div class="page-header page-header-default">
         <div class="page-header-content">
@@ -63,7 +63,6 @@
                                 <label *ngIf="userId"> {{usersResponse[model['parentId']]}}</label>
                             </div>
                         </div>
-
                     </div>
                     <div class="row" *ngIf="displayForm">
                         <div class="col-md-6">
@@ -201,7 +200,6 @@
                                         <p-checkbox name="privileges" value="{{permission.privilegeId}}"
                                             label="{{permission.privilegeName}}" [(ngModel)]="model['privileges']">
                                         </p-checkbox>
-                                      
                                     </p>
                                 </div>
                             </div>
@@ -244,4 +242,3 @@
             </div>
         </div>
     </div>
-</div>

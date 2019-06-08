@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersService } from 'src/app/shared/users.service';
 import { AccountService } from 'src/app/shared/account.service';
 
 @Component({
@@ -9,8 +8,7 @@ import { AccountService } from 'src/app/shared/account.service';
 })
 export class HeaderComponent implements OnInit {
     user_name: string;
-    isAdmin: boolean;
-    userLogo: any;
+    isAdmin = false;
 
     constructor(
         private accountService: AccountService
@@ -22,7 +20,7 @@ export class HeaderComponent implements OnInit {
             this.isAdmin = true;
         }
     }
-    logout() { 
+    logout() {
         this.accountService.logout();
     }
 }

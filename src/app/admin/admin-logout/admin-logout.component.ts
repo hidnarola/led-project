@@ -12,8 +12,6 @@ export class AdminLogoutComponent implements OnInit {
       ) { }
 
   ngOnInit() {
-    localStorage.clear();
-    this.router.navigate(['']);
   }
 
 }

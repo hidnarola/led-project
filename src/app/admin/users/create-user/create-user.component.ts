@@ -139,30 +139,34 @@ export class CreateUserComponent implements OnInit {
 
     onSubmit() {
         this.spinner.show();
+
+        const payload = JSON.parse(JSON.stringify(this.model));
+
         if (this.selectedRole === 'ROLE_SUB_USER') {
-            if (this.model['privileges'] && this.model['privileges'].length > 0) {
+            if (payload['privileges'] && payload['privileges'].length > 0) {
                 this.permissions.forEach((permissions) => {
-                    if (this.model['privileges'].indexOf(permissions.privilegeId.toString()) !== -1) {
+                    if (payload['privileges'].indexOf(permissions.privilegeId.toString()) !== -1) {
                         this.selectedpermissionValue.push(permissions);
                     }
                 });
             }
-            this.model['privileges'] = this.selectedpermissionValue;
-            this.model['parentId'] = this.selectedParentId['id'];
-            this.model['userSigns'] = [];
+            payload['privileges'] = this.selectedpermissionValue;
+            payload['parentId'] = this.selectedParentId['id'];
+            payload['userSigns'] = [];
             if (this.selectedSigns.length > 0) {
                 this.selectedSigns.forEach(selectedSignData => {
-                    this.model['userSigns'].push(selectedSignData['id']);
+                    payload['userSigns'].push(selectedSignData['id']);
                 });
             }
         }
 
-        this.model['authorities'] = [{ name: this.selectedRole }];
+        payload['authorities'] = [{ name: this.selectedRole }];
         const formData = new FormData();
         if (this.imageData) {
             formData.append('profilePic', this.imageData);
         }
-        formData.append('userJSON', JSON.stringify(this.model));
+        formData.append('userJSON', JSON.stringify(payload));
+
         this.service.register(formData, this.userId).toPromise().then(res => {
             this.model['isAdmin'] = false;
             this.spinner.hide();

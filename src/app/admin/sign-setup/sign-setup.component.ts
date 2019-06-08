@@ -47,15 +47,16 @@ export class SignSetupComponent implements OnInit, OnDestroy {
 
     getSigns(rerender = false) {
         this.spinner.show();
-        this.service.getAllSigns().subscribe(res => {
+        this.service.getAllSigns().toPromise().then(res => {
             this.data = res;
             rerender ? this.rerender() : this.dtTrigger.next();
             setTimeout(() => {
                 /** spinner ends after 5 seconds */
                 this.spinner.hide();
             }, 1000);
-        }, error => {
+        }).catch(error => {
             this.spinner.hide();
+            this.notifier.notify('error', 'Data Not Found');
         });
     }
 
@@ -65,11 +66,12 @@ export class SignSetupComponent implements OnInit, OnDestroy {
             header: 'Delete Confirmation',
             icon: 'pi pi-info-circle',
             accept: () => {
-                this.service.deleteSign(id).subscribe(res => {
+                this.service.deleteSign(id).toPromise().then(res => {
                     this.notifier.notify('success', 'Deleted Successfully');
                     this.getSigns(true);
-                }, error => {
-                        this.spinner.hide();
+                }).catch(error => {
+                    this.spinner.hide();
+                    this.notifier.notify('error', error.error.message);
                 });
             },
             reject: () => {

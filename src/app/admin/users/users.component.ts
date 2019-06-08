@@ -76,7 +76,7 @@ export class UsersComponent implements OnInit, OnDestroy {
                     this.spinner.hide();
                     this.getUsers(true);
                     this.notifier.notify('success', 'User Deleted Successfully');
-                }).catch(error => { });
+                }).catch(error => {  this.spinner.hide(); });
             },
             reject: () => {
                 this.notifier.notify('info', 'Request Rejected For Delete');
