@@ -45,11 +45,13 @@
           <div class="form-group">
             <div class="col-md-8">
               <div *ngIf="mediaType==='image'">
-                <input type="file" ([ngModel])="myfile" name="myfile" class="form-control file-styled" #image (change)="handleFileInput($event.target.files.item(0))"
+                <input type="file" ([ngModel])="myfile" name="myfile"
+                id="file" class="form-control file-styled" #image (change)="handleFileInput($event.target.files.item(0))"
                   accept="image/*" required>
               </div>
               <div *ngIf="mediaType==='video'">
-                <input type="file" ([ngModel])="myfile" name="myfile" class="form-control file-styled" #image (change)="handleFileInput($event.target.files.item(0))"
+                <input type="file" ([ngModel])="myfile" name="myfile"
+                 id ="mFile" class="form-control file-styled" #image (change)="handleFileInput($event.target.files.item(0))"
                   accept="video/*" required>
               </div>
             </div>

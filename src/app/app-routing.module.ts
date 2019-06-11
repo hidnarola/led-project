@@ -4,7 +4,6 @@ import { Routes, RouterModule, ExtraOptions } from '@angular/router';
 // User
 import { LoginComponent } from './login/login.component';
 import { ForgotPasswordComponent } from './login/forgot-password/forgot-password.component';
-import { ResetPasswordComponent } from './login/forgot-password/reset-password/reset-password.component';
 import { HomeComponent } from './content/home/home.component';
 import { SchedulesComponent } from './content/schedules/schedules.component';
 import { CreateScheduleComponent } from './content/schedules/create-schedule/create-schedule.component';
@@ -20,7 +19,6 @@ import { SignSetupComponent } from './admin/sign-setup/sign-setup.component';
 import { AdminLogoutComponent } from './admin/admin-logout/admin-logout.component';
 import { CreateUserComponent } from './admin/users/create-user/create-user.component';
 import { CreateSetupComponent } from './admin/sign-setup/create-setup/create-setup.component';
-import { EditSetupComponent } from './admin/sign-setup/edit-setup/edit-setup.component';
 import { ManageSignComponent } from './admin/users/manage-sign/manage-sign.component';
 import { FileManagerComponent } from './admin/file-manager/file-manager.component';
 
@@ -30,10 +28,8 @@ import { AdminAuthGuard } from './admin-auth.guard';
 
 // Layout
 import { UserLayoutComponent } from './_layouts/user-layout/user-layout.component';
-import { AdminLayoutComponent } from './_layouts/admin-layout/admin-layout.component';
 import { DeleteScheduleComponent } from './content/schedules/delete-schedule/delete-schedule.component';
 import { ProfileComponent } from './content/profile/profile.component';
-import { AdminProfileComponent } from './admin/admin-profile/admin-profile.component';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { AddAnnouncementComponent } from './admin/add-announcement/add-announcement.component';
 
@@ -42,7 +38,6 @@ const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
     { path: 'forgot', component: ForgotPasswordComponent },
-    { path: 'reset-password', component: ResetPasswordComponent },
     {
         path: 'admin',
         component: UserLayoutComponent,
