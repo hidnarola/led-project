@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SchedulesService } from 'src/app/shared/schedules.service';
 import { NotifierService } from 'angular-notifier';
-import { UsersService } from 'src/app/shared/users.service';
-import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
     selector: 'app-sidebar',
@@ -19,9 +17,7 @@ export class SidebarComponent implements OnInit {
     constructor(
         private service: SchedulesService,
         private notifier: NotifierService,
-        private spinner: NgxSpinnerService,
-        private userService: UsersService,
-        private permissionsService: NgxPermissionsService
+        private spinner: NgxSpinnerService
     ) { }
 
     ngOnInit() {
@@ -57,6 +53,6 @@ export class SidebarComponent implements OnInit {
                 this.spinner.hide();
             });
         }
-        document.getElementById('file')['value'] = '';
+        document.getElementById('myfile')['value'] = '';
     }
 }

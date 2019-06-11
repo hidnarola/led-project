@@ -20,6 +20,7 @@ export class SendScheduleComponent implements OnInit {
     entryIPList = [];
     filePropertiesList = [];
     year = new Date().getFullYear();
+    sendDisable = false;
 
     constructor(
         private service: SchedulesService,
@@ -35,25 +36,25 @@ export class SendScheduleComponent implements OnInit {
 
     getSchedule() {
         this.spinner.show();
-        this.service.getFilesByUserId(localStorage.getItem('userid')).subscribe(res => {
+        this.service.getFilesByUserId(localStorage.getItem('userid')).toPromise().then(res => {
             this.mySchedules = res;
+            (this.mySchedules && this.mySchedules.length <= 0) ? this.sendDisable = true : this.sendDisable = false;
             this.spinner.hide();
-        }, error => {
+        }).catch(error => {
             this.spinner.hide();
         });
     }
 
     getSigns() {
         this.spinner.show();
-        this.usservice.getSignByUserId_user(localStorage.getItem('userid')).subscribe(res => {
+        this.usservice.getSignByUserId_user(localStorage.getItem('userid')).toPromise().then(res => {
             this.mySigns = res;
-        }, error => {
+            (this.mySchedules && this.mySchedules.length <= 0) ? this.sendDisable = true : this.sendDisable = false;
+        }).catch(error => {
             this.spinner.hide();
         });
     }
 
-    changeSchedule(event) {
-    }
     sendSchedule() {
         this.spinner.show();
         this.model.entryIPList = this.entryIPList;
@@ -63,7 +64,6 @@ export class SendScheduleComponent implements OnInit {
             this.model.entryIPList[i].selected = true;
             this.model.entryIPList[i].selection = true;
         }
-
         for (let i = 0; i < this.filePropertiesList.length; i++) {
             this.model.filePropertiesList[i] = this.mySchedules[this.filePropertiesList[i]];
         }
@@ -81,24 +81,22 @@ export class SendScheduleComponent implements OnInit {
             this.service.sendFileByUserId(this.model, localStorage.getItem('userid')).toPromise().then(res => {
                 const keys = Object.keys(res);
                 keys.forEach(key => {
-                    this.notifier.notify((res[key] == 'fail' ? 'error' : 'success'),key + ' is ' + res[key]);
+                    this.notifier.notify((res[key] == 'fail' ? 'error' : 'success'), key + ' is ' + res[key]);
                 });
                 this.model = {};
                 setTimeout(() => {
                     this.spinner.hide();
                     this.router.navigate(['/user/schedules']);
                 }, 1000);
-            }).catch( error => {
-                 if (error.status === 500) {
+            }).catch(error => {
+                if (error.status === 500) {
                     this.notifier.notify('error', 'Failed');
                     setTimeout(() => {
-                        /** spinner ends after 1 seconds */
                         this.spinner.hide();
                     }, 1000);
                 } else {
                     this.notifier.notify('error', 'Failed');
                     setTimeout(() => {
-                        /** spinner ends after 1 seconds */
                         this.spinner.hide();
                         this.router.navigate(['/user/schedules']);
                     }, 1000);

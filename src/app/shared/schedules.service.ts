@@ -179,12 +179,6 @@ export class SchedulesService {
         return this.http.post(uri, filedata);
     }
 
-    // unused API 
-
-    // getScheduleByUserIdandType(userid, type) {
-    //     const uri = '/leddesigner/schedule/getSchedulesByUseridAndType?userid=' + userid + '&type=' + type;
-    //     return this.http.get(uri);
-    // }
 
     getFilesByUserId(userid) {
         const uri = '/leddesigner/schedule/getFiles?userid=' + userid;
@@ -216,6 +210,11 @@ export class SchedulesService {
 
     getImageLibrary() {
         const uri = '/leddesigner/schedule/getallimages';
+        return this.http.get(uri);
+    }
+
+    getMyMessage(){
+        const uri = '/leddesigner/schedule/my-messages';
         return this.http.get(uri);
     }
 

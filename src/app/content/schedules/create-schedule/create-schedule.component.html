@@ -344,11 +344,10 @@
                         </tr>
                     </tfoot>
                 </table>
-
                 <br />
                 <div class="text-right">
-                    <button type="submit" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10"><b><i
-                                class="icon-plus3"></i></b>
+                    <button type="submit" [disabled]="!f.form.valid" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10">
+                        <b><i class="icon-plus3"></i></b>
                         Create Schedule</button>
                 </div>
             </form>
@@ -382,7 +381,7 @@
                 <img src="assets/images/folder/blank.png" height="120px" width="120px" (click)="image.click()"
                     alt="This PC" />
                 <label>This PC</label>
-                <input type="file" ([ngModel])="myfile" name="myfile" id="file" class="file-styled custom_file_select"
+                <input type="file" ([ngModel])="myfile" name="myfile" id="myfile" class="file-styled custom_file_select"
                     #image (change)="handleFileInput($event.target.files.item(0), 'PC')" accept="image/*,video/*"
                     required>
             </div>
@@ -404,6 +403,13 @@
                 <img src="assets/images/folder/video.png" (click)="getMyAnimationLibrary()" height="120px" width="120px"
                     alt="My Animation" />
                 <label>My Animation</label>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-4">
+            <div class="img_container">
+                <img src="assets/images/folder/picture.png" (click)="getMyMessage()" height="120px" width="120px"
+                    alt="My Message" />
+                <label>My Messages</label>
             </div>
         </div>
     </div>
@@ -464,6 +470,26 @@
             </div>
         </div>
     </div>
+
+
+    <div class="row" *ngIf="myMessageFile">
+        <div class="col-sm-12">
+            <i class="left-arrow icon-arrow-left8" (click)="myFolder_click()"></i>
+        </div>
+        <div class="col-sm-12">
+            <div>
+                <div class="row img_box">
+                    <div class="col-sm-4 col-xs-4 img_lib" *ngFor="let msg of msgList| keyvalue; let i = index">
+                        <div>
+                            <img src="assets/images/folder/fileicon.png" style="height: 50%" width="50%">
+                            <h4><span>{{msg.key}}</span></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div class="row" *ngIf="imageLibraryFile">
         <div class="col-sm-12">

@@ -26,8 +26,6 @@ export class EditScheduleComponent implements OnInit {
     fileExplorer: any;
     fileNamesList: any = [];
     currentYear = Number(new Date().getFullYear());
-    // user_name: string;
-    // user_role: string;
     repeat = 'None';
     years = [];
     files = [];
@@ -48,6 +46,8 @@ export class EditScheduleComponent implements OnInit {
     year = new Date().getFullYear();
     userid: any;
     scheduleId: number;
+    myMessageFile:boolean;
+    msgList:any = [];
 
     constructor(
         private notifier: NotifierService,
@@ -126,6 +126,7 @@ export class EditScheduleComponent implements OnInit {
         this.myFile = true;
         this.rootFile = false;
         this.myImageFile = false;
+        this.myMessageFile = false ;
         this.myAnimationFile = false;
     }
     showDialog() {
@@ -142,6 +143,7 @@ export class EditScheduleComponent implements OnInit {
         this.rootFile = true;
         this.libraryFile = false;
         this.myFile = false;
+        this.myMessageFile = false ;
         this.imageLibraryFile = false;
         this.animationLibraryFile = false;
         this.myImageFile = false;
@@ -164,6 +166,11 @@ export class EditScheduleComponent implements OnInit {
         this.myAnimationFile = true;
     }
 
+    myMessage(){
+        this.myFile = false;
+        this.myMessageFile = true ;
+    }
+
     getMyImagesLibrary() {
         this.myImage();
         this.spinner.show();
@@ -184,6 +191,18 @@ export class EditScheduleComponent implements OnInit {
             this.fileExplorer = res;
             this.spinner.hide();
         }, error => {
+            this.spinner.hide();
+        });
+    }
+
+    getMyMessage() {
+        this.myMessage();
+        this.spinner.show();
+        this.service.getMyMessage().toPromise().then(res => {
+            this.spinner.hide();
+            this.msgList = [];
+            this.msgList = res ;
+        }).catch(error => {
             this.spinner.hide();
         });
     }
@@ -238,9 +257,6 @@ export class EditScheduleComponent implements OnInit {
                 this.files && this.files.indexOf(file.name) >= 0 || this.fileToUpload && this.filesToUpload.indexOf(file.name) >= 0) {
                 this.notifier.notify('warning', 'Same File Name Exist.');
                 this.spinner.hide();
-                if (source === 'PC') {
-                    document.getElementById('file')['value'] = '';
-                }
             } else {
                 file.duration = '00:00:06';
                 this.fileToUpload.push(file);
@@ -251,16 +267,15 @@ export class EditScheduleComponent implements OnInit {
                     }, error => {
                         this.spinner.hide();
                     });
-                    document.getElementById('file')['value'] = '';
                 } else {
                     this.spinner.hide();
                 }
                 this.fileInfo.push({ 'name': file.name, 'source': source });
-                if (source === 'PC') {
-                    document.getElementById('file')['value'] = '';
-                }
             }
-            this.display = false;
+        }
+        this.display = false;
+        if (source === 'PC') {
+            document.getElementById('myfile')['value'] = '';
         }
     }
     imagePreview(filename) {

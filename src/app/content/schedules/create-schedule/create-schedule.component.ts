@@ -41,6 +41,8 @@ export class CreateScheduleComponent implements OnInit {
     fileExplorer: any;
     fileNamesList: any = [];
     searchText = '';
+    msgList:any = [];
+    myMessageFile:boolean;
 
     constructor(
         private notifier: NotifierService,
@@ -78,6 +80,7 @@ export class CreateScheduleComponent implements OnInit {
         this.rootFile = false;
         this.myImageFile = false;
         this.myAnimationFile = false;
+        this.myMessageFile = false ;
         this.searchText = '';
     }
     showDialog() {
@@ -99,6 +102,7 @@ export class CreateScheduleComponent implements OnInit {
         this.animationLibraryFile = false;
         this.myImageFile = false;
         this.myAnimationFile = false;
+        this.myMessageFile = false ;
         this.searchText = '';
     }
     ImageLibrary() {
@@ -117,15 +121,19 @@ export class CreateScheduleComponent implements OnInit {
         this.myFile = false;
         this.myAnimationFile = true;
     }
+    myMessage(){
+        this.myFile = false;
+        this.myMessageFile = true ;
+    }
 
     getMyImagesLibrary() {
         this.myImage();
         this.spinner.show();
-        this.service.getMyImages(localStorage.getItem('userid')).subscribe(res => {
+        this.service.getMyImages(localStorage.getItem('userid')).toPromise().then(res => {
             this.fileExplorer = [];
             this.fileExplorer = res;
             this.spinner.hide();
-        }, error => {
+        }).catch(error => {
             this.spinner.hide();
         });
     }
@@ -133,11 +141,23 @@ export class CreateScheduleComponent implements OnInit {
     getMyAnimationLibrary() {
         this.myAnimation();
         this.spinner.show();
-        this.service.getMyAnimations(localStorage.getItem('userid')).subscribe(res => {
+        this.service.getMyAnimations(localStorage.getItem('userid')).toPromise().then(res => {
             this.fileExplorer = [];
             this.fileExplorer = res;
             this.spinner.hide();
-        }, error => {
+        }).catch(error => {
+            this.spinner.hide();
+        });
+    }
+
+    getMyMessage() {
+        this.myMessage();
+        this.spinner.show();
+        this.service.getMyMessage().toPromise().then(res => {
+            this.spinner.hide();
+            this.msgList = [];
+            this.msgList = res ;
+        }).catch(error => {
             this.spinner.hide();
         });
     }
@@ -196,9 +216,6 @@ export class CreateScheduleComponent implements OnInit {
             if (this.fileNamesList.indexOf(file.name) >= 0) {
                 this.notifier.notify('warning', 'Same File Name Exist.');
                 this.spinner.hide();
-                if (source === 'PC') {
-                    document.getElementById('file')['value'] = '';
-                }
             } else {
                 file.duration = '00:00:06';
                 this.fileToUpload.push(file);
@@ -206,18 +223,20 @@ export class CreateScheduleComponent implements OnInit {
                 this.fileNamesList.push(file.name);
                 this.display = false;
                 if (file.type.substr(0, 5) === 'video' && source === 'PC') {
-                    this.service.addForPreview(file).subscribe(res => {
+                    this.service.addForPreview(file).toPromise().then(res => {
                         this.spinner.hide();
-                    }, error => {
+                    }).catch(error => {
                         this.spinner.hide();
                     });
                 } else {
                     this.spinner.hide();
                 }
-                document.getElementById('file')['value'] = '';
             }
         }
         this.display = false;
+        if (source === 'PC') {
+            document.getElementById('myfile')['value'] = '';
+        }
     }
 
     getConvertedFile(filename, index) {
