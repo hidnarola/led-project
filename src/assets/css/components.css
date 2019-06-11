@@ -1161,8 +1161,9 @@ body[class*=navbar-bottom] .content {
 *
 * ---------------------------------------------------------------------------- */
 .footer {
-  position: absolute;
-  bottom: 30px;
+  position: absolute !important;
+  bottom: 0px;
+  width: 100%;
 }
 .footer:not(.navbar-fixed-bottom) {
   z-index: 1000;

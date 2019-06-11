@@ -439,10 +439,10 @@
         <div class="col-sm-12">
             <div>
                 <div class="row img_box">
-                    <div class="col-sm-4 col-xs-4 img_lib" *ngFor="let image of fileExplorer| keyvalue; let i = index">
-                        <div>
+                    <div class="col-sm-4 col-xs-4 " *ngFor="let image of fileExplorer| keyvalue; let i = index">
+                        <div class="image-wrapper">
                             <img (click)="pickFile(image.value,image.key,'folder')" [attr.src]="image.value">
-                            <h4><span>{{image.key}}</span></h4>
+                            <h4>{{image.key}}</h4>
                         </div>
                     </div>
                 </div>
@@ -457,8 +457,8 @@
         <div class="col-sm-12">
             <div>
                 <div class="row img_box">
-                    <div class="col-sm-4 col-xs-4 img_lib" *ngFor="let video of fileExplorer| keyvalue; let i = index">
-                        <div>
+                    <div class="col-sm-4 col-xs-4 " *ngFor="let video of fileExplorer| keyvalue; let i = index">
+                        <div class="image-wrapper">
                             <video height="auto" controls loop class="video-js vjs-big-play-centered" preload="auto"
                                 data-setup="{}" height="auto" style="max-width:100%;width:auto;max-height:300px">
                                 <source [src]="video.value" type="video/mp4">
@@ -479,10 +479,10 @@
         <div class="col-sm-12">
             <div>
                 <div class="row img_box">
-                    <div class="col-sm-4 col-xs-4 img_lib" *ngFor="let msg of msgList| keyvalue; let i = index">
-                        <div>
+                    <div class="col-sm-4 col-xs-4 " *ngFor="let msg of msgList| keyvalue; let i = index">
+                        <div class="image-wrapper">
                             <img src="assets/images/folder/fileicon.png" style="height: 50%" width="50%">
-                            <h4><span>{{msg.key}}</span></h4>
+                            <h4>{{msg.key}}</h4>
                         </div>
                     </div>
                 </div>
@@ -498,10 +498,10 @@
         <div class="col-sm-12">
             <div>
                 <div class="row img_box">
-                    <div class="col-sm-4 col-xs-4 img_lib" *ngFor="let image of fileExplorer| keyvalue; let i = index">
-                        <div>
+                    <div class="col-sm-4 col-xs-4 " *ngFor="let image of fileExplorer| keyvalue; let i = index">
+                        <div class="image-wrapper">
                             <img (click)="pickFile(image.value,image.key, 'library')" [attr.src]="image.value">
-                            <h4><span>{{image.key}}</span></h4>
+                            <h4>{{image.key}}</h4>
                         </div>
                     </div>
                 </div>
@@ -516,8 +516,8 @@
         <div class="col-sm-12">
             <div>
                 <div class="row img_box">
-                    <div class="col-sm-4 col-xs-4 img_lib" *ngFor="let video of fileExplorer| keyvalue; let i = index">
-                        <div>
+                    <div class="col-sm-4 col-xs-4 " *ngFor="let video of fileExplorer| keyvalue; let i = index">
+                        <div class="image-wrapper">
                             <video height="auto" controls loop class="video-js vjs-big-play-centered" preload="auto"
                                 data-setup="{}" height="auto" style="max-width:100%;width:auto;max-height:300px">
                                 <source [src]="video.value" type="video/mp4">

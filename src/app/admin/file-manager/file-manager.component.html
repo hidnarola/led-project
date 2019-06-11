@@ -85,11 +85,9 @@
             <div class="col-sm-12">
               <div>
                 <div class="img_box d-flex">
-                  <div class="img_lib" *ngFor="let image of fileExplorer.images| keyvalue; let i = index">
-                    <div class="img_lib-img">
+                  <div *ngFor="let image of fileExplorer.images| keyvalue; let i = index">
+                    <div class="image-wrapper">
                       <img [attr.src]="image.value">
-                    </div>
-                    <div class="img_lib-body">
                       <h4>{{image.key}}</h4>
                     </div>
                   </div>
@@ -105,15 +103,13 @@
             <div class="col-sm-12">
               <div>
                 <div class="img_box d-flex">
-                  <div class="img_lib" *ngFor="let video of fileExplorer.animations| keyvalue; let i = index">
-                    <div class="img_lib-img">
+                  <div *ngFor="let video of fileExplorer.animations| keyvalue; let i = index">
+                    <div class="image-wrapper video-wrapper">
                       <video controls class="video-js vjs-big-play-centered" preload="auto" data-setup="{}" style="max-width:100%;width:auto;max-height:300px">
                         <source [src]="video.value" type="video/mp4">
                         <source [src]="video.value" type="video/mp4">
                         Your browser does not support the video tag.</video>
-                    </div>
-                    <div class="img_lib-body">
-                      <h4>{{video.key}}</h4>
+                        <h4>{{video.key}}</h4>
                     </div>
                   </div>
                 </div>
