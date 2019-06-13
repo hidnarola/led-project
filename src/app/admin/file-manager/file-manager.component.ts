@@ -122,7 +122,7 @@ export class FileManagerComponent implements OnInit {
         this.spinner.show();
         if (this.fileToUpload) {
             if (this.mediaType === 'image') {
-                this.service.uploadImage(this.fileToUpload).subscribe(res => {
+                this.service.uploadImage(this.fileToUpload).toPromise().then(res => {
                     this.isPreviewVideo = false;
                     this.isPreviewObject = false;
                     this.isPreviewImage = false;
@@ -132,7 +132,7 @@ export class FileManagerComponent implements OnInit {
                     this.getAnimationLibrary();
                     this.spinner.hide();
                     this.notify.notify('success', res['message']);
-                }, error => {
+                }).catch(error => {
                     if (error.status === 417) {
                         //Image Already Exist
                         this.notify.notify('error', error.error.message);
@@ -143,7 +143,7 @@ export class FileManagerComponent implements OnInit {
                     }
                 });
             } else {
-                this.service.uploadAnimation(this.fileToUpload).subscribe(res => {
+                this.service.uploadAnimation(this.fileToUpload).toPromise().then(res => {
                     this.isPreviewVideo = false;
                     this.isPreviewObject = false;
                     this.isPreviewImage = false;
@@ -153,7 +153,7 @@ export class FileManagerComponent implements OnInit {
                     this.getAnimationLibrary();
                     this.spinner.hide();
                     this.notify.notify('success', res['message']);
-                }, error => {
+                }).catch(error => {
                     if (error.status === 417) {
                         this.notify.notify('error', error.error.toString());
                         this.spinner.hide();

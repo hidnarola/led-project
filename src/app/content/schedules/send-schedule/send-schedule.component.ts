@@ -11,15 +11,12 @@ import { NgxSpinnerService } from 'ngx-spinner';
     styleUrls: ['./send-schedule.component.scss']
 })
 export class SendScheduleComponent implements OnInit {
-    user_name: string;
-    user_role: string;
-    cars = [];
+
     mySchedules: any = [];
     mySigns: any = [];
     model: any = {};
     entryIPList = [];
     filePropertiesList = [];
-    year = new Date().getFullYear();
     sendDisable = false;
 
     constructor(
@@ -87,22 +84,23 @@ export class SendScheduleComponent implements OnInit {
                 setTimeout(() => {
                     this.spinner.hide();
                     this.router.navigate(['/user/schedules']);
-                }, 1000);
+                }, 2000);
             }).catch(error => {
                 if (error.status === 500) {
                     this.notifier.notify('error', 'Failed');
                     setTimeout(() => {
                         this.spinner.hide();
-                    }, 1000);
+                        this.router.navigate(['/user/schedules']);
+                    }, 2000);
                 } else {
                     this.notifier.notify('error', 'Failed');
                     setTimeout(() => {
                         this.spinner.hide();
                         this.router.navigate(['/user/schedules']);
-                    }, 1000);
+                    }, 2000);
                 }
             });
-        }, 1000);
+        }, 3000);
     }
 
 }

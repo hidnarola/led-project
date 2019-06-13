@@ -42,12 +42,14 @@ export class EditScheduleComponent implements OnInit {
     isPreviewImage: boolean;
     isPreviewObject: boolean;
     isPreviewVideo: boolean;
+    isPreviewMessage: boolean;
     videoType: string;
     year = new Date().getFullYear();
     userid: any;
     scheduleId: number;
-    myMessageFile:boolean;
-    msgList:any = [];
+    myMessageFile: boolean;
+    msgList: any = [];
+
 
     constructor(
         private notifier: NotifierService,
@@ -66,8 +68,8 @@ export class EditScheduleComponent implements OnInit {
             this.years.push({ 'value': i });
         }
         this.route.params.subscribe(params => {
-            this.scheduleId = params['id'] ;
-            this.service.getScheduleById(params['id']).subscribe(res => {
+            this.scheduleId = params['id'];
+            this.service.getScheduleById(params['id']).toPromise().then(res => {
                 this.res = res;
                 this.userid = this.res.scheduleDTO['userid'];
                 this.repeat = this.res.type;
@@ -114,7 +116,7 @@ export class EditScheduleComponent implements OnInit {
                 }
                 this.model.duration = this.msToTime(this.model.duration);
                 this.spinner.hide();
-            }, error => {
+            }).catch(error => {
                 this.notifier.notify('error', error.error.message);
                 this.spinner.hide();
                 this.router.navigate(['/user/schedules']);
@@ -126,7 +128,7 @@ export class EditScheduleComponent implements OnInit {
         this.myFile = true;
         this.rootFile = false;
         this.myImageFile = false;
-        this.myMessageFile = false ;
+        this.myMessageFile = false;
         this.myAnimationFile = false;
     }
     showDialog() {
@@ -143,7 +145,7 @@ export class EditScheduleComponent implements OnInit {
         this.rootFile = true;
         this.libraryFile = false;
         this.myFile = false;
-        this.myMessageFile = false ;
+        this.myMessageFile = false;
         this.imageLibraryFile = false;
         this.animationLibraryFile = false;
         this.myImageFile = false;
@@ -166,19 +168,19 @@ export class EditScheduleComponent implements OnInit {
         this.myAnimationFile = true;
     }
 
-    myMessage(){
+    myMessage() {
         this.myFile = false;
-        this.myMessageFile = true ;
+        this.myMessageFile = true;
     }
 
     getMyImagesLibrary() {
         this.myImage();
         this.spinner.show();
-        this.service.getMyImages(localStorage.getItem('userid')).subscribe(res => {
+        this.service.getMyImages(localStorage.getItem('userid')).toPromise().then(res => {
             this.fileExplorer = [];
             this.fileExplorer = res;
             this.spinner.hide();
-        }, error => {
+        }).then(error => {
             this.spinner.hide();
         });
     }
@@ -186,11 +188,11 @@ export class EditScheduleComponent implements OnInit {
     getMyAnimationLibrary() {
         this.myAnimation();
         this.spinner.show();
-        this.service.getMyAnimations(localStorage.getItem('userid')).subscribe(res => {
+        this.service.getMyAnimations(localStorage.getItem('userid')).toPromise().then(res => {
             this.fileExplorer = [];
             this.fileExplorer = res;
             this.spinner.hide();
-        }, error => {
+        }).then(error => {
             this.spinner.hide();
         });
     }
@@ -201,7 +203,7 @@ export class EditScheduleComponent implements OnInit {
         this.service.getMyMessage().toPromise().then(res => {
             this.spinner.hide();
             this.msgList = [];
-            this.msgList = res ;
+            this.msgList = res;
         }).catch(error => {
             this.spinner.hide();
         });
@@ -210,11 +212,11 @@ export class EditScheduleComponent implements OnInit {
     getImageLibrary() {
         this.ImageLibrary();
         this.spinner.show();
-        this.service.getImageLibrary().subscribe(res => {
+        this.service.getImageLibrary().toPromise().then(res => {
             this.fileExplorer = [];
             this.fileExplorer = res;
             this.spinner.hide();
-        }, error => {
+        }).then(error => {
             this.spinner.hide();
         });
     }
@@ -222,11 +224,11 @@ export class EditScheduleComponent implements OnInit {
     getAnimationLibrary() {
         this.AnimationLibrary();
         this.spinner.show();
-        this.service.getAnimationLibrary().subscribe(res => {
+        this.service.getAnimationLibrary().toPromise().then(res => {
             this.fileExplorer = [];
             this.fileExplorer = res;
             this.spinner.hide();
-        }, error => {
+        }).then(error => {
             this.spinner.hide();
         });
     }
@@ -238,12 +240,12 @@ export class EditScheduleComponent implements OnInit {
             this.spinner.hide();
         } else {
             this.spinner.show();
-            this.service.getImageFromUrl(file).subscribe(res => {
+            this.service.getImageFromUrl(file).toPromise().then(res => {
                 const newFile = this.service.blobToFile(res['body'], filename);
                 this.spinner.hide();
                 this.handleFileInput(newFile, source);
                 this.display = false;
-            }, error => {
+            }).then(error => {
                 this.spinner.hide();
                 this.display = false;
             });
@@ -332,12 +334,12 @@ export class EditScheduleComponent implements OnInit {
         reader.readAsDataURL(file);
     }
 
-    deleteImage(index , fileName) {
+    deleteImage(index, fileName) {
         this.fileToUpload.splice(index, 1);
         const i = this.fileNamesList.indexOf(fileName);
         this.fileNamesList.splice(i, 1);
         this.fileInfo.splice(index, 1);
-        this.existFileToUpload.splice(index,1); //
+        this.existFileToUpload.splice(index, 1);
         this.isPreviewImage = false;
         this.isPreviewVideo = false;
         this.isPreviewObject = false;
@@ -383,7 +385,7 @@ export class EditScheduleComponent implements OnInit {
         this.fileInfo.forEach(file => {
             this.fileInfoStr.push({ 'name': file.name, 'source': file.source });
         });
-        this.model.scheduleId = +this.scheduleId ;
+        this.model.scheduleId = +this.scheduleId;
         this.model.durationList = this.durationList;
         this.model.oldScheduleName = this.oldScheduleName;
         this.uniqueArray(this.fileInfoStr);

@@ -3,7 +3,6 @@
         <div class="page-title">
             <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Schedules</span> - Send</h4>
         </div>
-
     </div>
 
     <div class="breadcrumb-line">
@@ -35,7 +34,7 @@
                             <table class="table table-strip table_schedule ">
                                 <thead>
                                     <tr>
-                                        <th></th>
+                                        <th> Select</th>
                                         <th width="0">Type</th>
                                         <th>Name</th>
                                         <th class="size_th">Size</th>
@@ -44,7 +43,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- <div *ngIf="sendDisable" class="text-center">  <p> No data available </p></div> -->
+                                    <tr *ngIf="sendDisable" class="text-center">
+                                        <td colspan="6" class="invalid-feedback">
+                                            <p> No data available </p>
+                                        </td>
+                                    </tr>
                                     <tr *ngFor="let schedule of mySchedules; let i = index">
                                         <td>
                                             <p-checkbox name="days" value="{{i}}" [(ngModel)]="filePropertiesList">
@@ -78,6 +81,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr *ngIf="sendDisable" class="text-center">
+                                        <td colspan="5" class="invalid-feedback">
+                                            <p> No data available </p>
+                                        </td>
+                                    </tr>
                                     <tr *ngFor="let sign of mySigns; let i = index">
                                         <td>
                                             <p-checkbox name="days" value="{{i}}" [(ngModel)]="entryIPList">

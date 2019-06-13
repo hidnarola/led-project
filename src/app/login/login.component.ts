@@ -16,7 +16,8 @@ export class LoginComponent implements OnInit {
     model: any = {};
     permissionData = [];
 
-    constructor(private notifier: NotifierService,
+    constructor(
+        private notifier: NotifierService,
         private service: AccountService,
         private router: Router,
         private helper: JwtHelperService,
@@ -34,7 +35,7 @@ export class LoginComponent implements OnInit {
         }
     }
     onSubmit() {
-        this.service.login(this.model.email, this.model.password).subscribe(res => {
+        this.service.login(this.model.email, this.model.password).toPromise().then(res => {
             if (res) {
                 const decodedToken = this.helper.decodeToken(localStorage.getItem('access-token'));
                 const user = decodedToken.sub;
@@ -63,7 +64,7 @@ export class LoginComponent implements OnInit {
             } else {
                 this.notifier.notify('error', 'Can not get Token from Server');
             }
-        }, error => {
+        }).catch(error => {
             if (error.status === 403 && error.statusText === 'OK') {
                 this.notifier.notify('error', 'Invalid Email or Password');
             } else {

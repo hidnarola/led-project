@@ -16,7 +16,6 @@ import { ForgotPasswordComponent } from './login/forgot-password/forgot-password
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 import { UsersComponent } from './admin/users/users.component';
 import { SignSetupComponent } from './admin/sign-setup/sign-setup.component';
-import { AdminLogoutComponent } from './admin/admin-logout/admin-logout.component';
 
 // PrimeNG Modules
 import { CalendarModule } from 'primeng/calendar';
@@ -32,8 +31,6 @@ import { DialogModule } from 'primeng/dialog';
 import { InputMaskModule } from 'primeng/inputmask';
 import { TabViewModule } from 'primeng/tabview';
 
-// import { ProgressSpinnerModule } from 'primeng/progressspinner';
-// import { ImageLazyLoadModule, WebWorkerService } from 'ng2-image-lazy-load';
 
 // Spinner
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -129,7 +126,6 @@ const customNotifierOptions: NotifierOptions = {
         AdminHomeComponent,
         UsersComponent,
         SignSetupComponent,
-        AdminLogoutComponent,
         CreateUserComponent,
         SchedulesComponent,
         CreateScheduleComponent,

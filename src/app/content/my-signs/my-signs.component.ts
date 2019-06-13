@@ -11,14 +11,12 @@ import { NotifierService } from 'angular-notifier';
     styleUrls: ['./my-signs.component.css']
 })
 export class MySignsComponent implements OnDestroy, OnInit {
+    
     dtOptions: DataTables.Settings = {};
     dtTrigger = new Subject();
     userid: string;
     signArray: any = [];
-    user_name: string;
-    user_role: string;
-    year = new Date().getFullYear();
-
+    
     constructor(
         private service: UserSignService,
         private notifier: NotifierService,

@@ -304,20 +304,26 @@
                             </td>
                             <td *ngIf="file.type.substr(0,5) === 'video'">
                             </td>
-                            <td class="text-right" *ngIf="file.type.substr(0,5) === 'image'"><button type="button"
-                                    class="btn btn-primary" (click)="showImagePreview(file)"><i
-                                        class="icon icon-display"></i>
+                            <td class="text-right" *ngIf="file.type.substr(0,5) === 'text/'">
+                                <button type="button" class="btn btn-danger" (click)="deleteImage(i)">
+                                    <i class="icon icon-trash"></i>
+                                    Delete</button>
+                            </td>
+                            <td class="text-right" *ngIf="file.type.substr(0,5) === 'image'">
+                                <button type="button" class="btn btn-primary" (click)="showImagePreview(file)">
+                                    <i class="icon icon-display"></i>
                                     Preview</button>
-                                <button type="button" class="btn btn-danger" (click)="deleteImage(i)"><i
-                                        class="icon icon-trash"></i>
+                                <button type="button" class="btn btn-danger" (click)="deleteImage(i)">
+                                    <i class="icon icon-trash"></i>
                                     Delete</button></td>
-                            <td class="text-right" *ngIf="file.type.substr(0,5) === 'video'"><button type="button"
-                                    class="btn btn-primary" (click)="getConvertedFile(file.name, i)"><i
-                                        class="icon icon-display"></i>
+                            <td class="text-right" *ngIf="file.type.substr(0,5) === 'video'">
+                                <button type="button" class="btn btn-primary" (click)="getConvertedFile(file.name, i)">
+                                    <i class="icon icon-display"></i>
                                     Preview</button>
-                                <button type="button" class="btn btn-danger" (click)="deleteImage(i)"><i
-                                        class="icon icon-trash"></i>
-                                    Delete</button></td>
+                                <button type="button" class="btn btn-danger" (click)="deleteImage(i)">
+                                    <i class="icon icon-trash"></i>
+                                    Delete</button>
+                            </td>
                         </tr>
                     </tbody>
                     <tfoot>
@@ -336,9 +342,11 @@
                                     <p class="vjs-no-js">
                                         To view this video please enable JavaScript, and consider upgrading to a web
                                         browser that
-                                        <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5
-                                            video</a>
-                                    </p></video>
+                                        <a href="http://videojs.com/html5-video-support/" target="_blank">
+                                            supports HTML5 video
+                                        </a>
+                                    </p>
+                                </video>
                                 <div id="player"></div>
                             </td>
                         </tr>
@@ -346,7 +354,8 @@
                 </table>
                 <br />
                 <div class="text-right">
-                    <button type="submit" [disabled]="!f.form.valid" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10">
+                    <button type="submit" [disabled]="!f.form.valid"
+                        class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10">
                         <b><i class="icon-plus3"></i></b>
                         Create Schedule</button>
                 </div>
@@ -382,7 +391,7 @@
                     alt="This PC" />
                 <label>This PC</label>
                 <input type="file" ([ngModel])="myfile" name="myfile" id="myfile" class="file-styled custom_file_select"
-                    #image (change)="handleFileInput($event.target.files.item(0), 'PC')" accept="image/*,video/*"
+                #image (change)="handleFileInput($event.target.files.item(0), 'PC')" accept="image/*,video/*"
                     required>
             </div>
         </div>
@@ -440,8 +449,8 @@
             <div>
                 <div class="row img_box">
                     <div class="col-sm-4 col-xs-4 " *ngFor="let image of fileExplorer| keyvalue; let i = index">
-                        <div class="image-wrapper">
-                            <img (click)="pickFile(image.value,image.key,'folder')" [attr.src]="image.value">
+                        <div class="image-wrapper" (click)="pickFile(image.value,image.key,'folder')">
+                            <img [attr.src]="image.value">
                             <h4>{{image.key}}</h4>
                         </div>
                     </div>
@@ -480,7 +489,7 @@
             <div>
                 <div class="row img_box">
                     <div class="col-sm-4 col-xs-4 " *ngFor="let msg of msgList| keyvalue; let i = index">
-                        <div class="image-wrapper">
+                        <div class="image-wrapper" (click)="pickFile(msg.value,msg.key, 'folder')">
                             <img src="assets/images/folder/fileicon.png" style="height: 50%" width="50%">
                             <h4>{{msg.key}}</h4>
                         </div>

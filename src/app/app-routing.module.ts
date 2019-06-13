@@ -16,7 +16,6 @@ import { MySignsComponent } from './content/my-signs/my-signs.component';
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 import { UsersComponent } from './admin/users/users.component';
 import { SignSetupComponent } from './admin/sign-setup/sign-setup.component';
-import { AdminLogoutComponent } from './admin/admin-logout/admin-logout.component';
 import { CreateUserComponent } from './admin/users/create-user/create-user.component';
 import { CreateSetupComponent } from './admin/sign-setup/create-setup/create-setup.component';
 import { ManageSignComponent } from './admin/users/manage-sign/manage-sign.component';

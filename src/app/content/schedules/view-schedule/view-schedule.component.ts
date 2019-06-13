@@ -11,10 +11,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
     styleUrls: ['./view-schedule.component.css']
 })
 export class ViewScheduleComponent implements OnInit {
-    user_name: string;
-    user_role: string;
+
     files = [];
-    uploads = [];
     isPreviewImage: boolean;
     isPreviewVideo: boolean;
     isPreviewObject: boolean;
@@ -24,7 +22,9 @@ export class ViewScheduleComponent implements OnInit {
     repeat: string;
     CONFIG = this.config;
     imageUrl = this.sanitizer.bypassSecurityTrustUrl('/assets/images/signature.png');
-    constructor(private route: ActivatedRoute,
+
+    constructor(
+        private route: ActivatedRoute,
         private service: SchedulesService,
         private config: Config,
         private sanitizer: DomSanitizer,

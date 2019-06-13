@@ -101,7 +101,8 @@
                       {{msToTime(file.duration)}}
                     </td>
                     <td>
-                      <button class="btn btn-primary" (click)="imagePreview(file.path)"><i class="icon icon-display">
+                      <button class="btn btn-primary"  *ngIf="file.path.substr((file.path.lastIndexOf('.') + 1)) != 'yml'" 
+                      (click)="imagePreview(file.path)"><i class="icon icon-display">
                           Preview</i></button>
                     </td>
                   </tr>

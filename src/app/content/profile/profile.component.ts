@@ -3,7 +3,6 @@ import { UsersService } from 'src/app/shared/users.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NotifierService } from 'angular-notifier';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'app-profile',
@@ -13,7 +12,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class ProfileComponent implements OnInit {
     model: any = {};
     userId: number;
-    f: FormGroup;
     misMatchPwd: boolean;
 
     constructor(

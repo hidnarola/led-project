@@ -18,13 +18,12 @@ export class SchedulesComponent implements OnDestroy, OnInit, AfterViewInit {
     dtOptions: DataTables.Settings = {};
     dtTrigger = new Subject();
     schedules: any = [];
-    user_name: string;
-    user_role: string;
-    year = new Date().getFullYear();
 
-  
-    constructor(private service: SchedulesService, private notification: NotifierService,
-        private router: Router, private confirmationService: ConfirmationService,
+    constructor(
+        private service: SchedulesService,
+        private notification: NotifierService,
+        private router: Router,
+        private confirmationService: ConfirmationService,
         private spinner: NgxSpinnerService) { }
 
     ngOnInit() {
@@ -44,13 +43,13 @@ export class SchedulesComponent implements OnDestroy, OnInit, AfterViewInit {
     }
     getSchedules() {
         this.spinner.show();
-        this.service.getSchedulesByUserId(localStorage.getItem('userid')).subscribe(res => {
+        this.service.getSchedulesByUserId(localStorage.getItem('userid')).toPromise().then(res => {
             this.schedules = [];
             this.schedules = res;
             this.dtTrigger.next();
 
             this.spinner.hide();
-        }, error => {
+        }).catch(error => {
             this.spinner.hide();
         });
     }
