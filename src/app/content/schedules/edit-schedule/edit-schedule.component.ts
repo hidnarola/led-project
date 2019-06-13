@@ -50,7 +50,6 @@ export class EditScheduleComponent implements OnInit {
     myMessageFile: boolean;
     msgList: any = [];
 
-
     constructor(
         private notifier: NotifierService,
         private route: ActivatedRoute,

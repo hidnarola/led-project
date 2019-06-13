@@ -304,7 +304,7 @@
                             </td>
                             <td *ngIf="file.type.substr(0,5) === 'video'">
                             </td>
-                            <td class="text-right" *ngIf="file.type.substr(0,5) === 'text/'">
+                            <td colspan="2" class="text-right" *ngIf="file.type.substr(0,5) === 'text/'">
                                 <button type="button" class="btn btn-danger" (click)="deleteImage(i)">
                                     <i class="icon icon-trash"></i>
                                     Delete</button>
