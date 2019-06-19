@@ -122,80 +122,57 @@ export class FileManagerComponent implements OnInit {
         this.spinner.show();
         if (this.fileToUpload) {
             if (this.mediaType === 'image') {
-                this.service.uploadImage(this.fileToUpload).toPromise().then(res => {
-                    this.isPreviewVideo = false;
-                    this.isPreviewObject = false;
-                    this.isPreviewImage = false;
-                    this.fileToUpload = null;
-                    this.mediaType = (this.mediaType === 'image') ? 'video' : 'image';
-                    this.getImageLibrary();
-                    this.getAnimationLibrary();
+                if (this.fileToUpload.type.substring(0, this.fileToUpload.type.lastIndexOf('/') + 1) === 'image/') {
+                    this.service.uploadImage(this.fileToUpload).toPromise().then(res => {
+                        this.isPreviewVideo = false;
+                        this.isPreviewObject = false;
+                        this.isPreviewImage = false;
+                        this.fileToUpload = null;
+                        this.mediaType = (this.mediaType === 'image') ? 'video' : 'image';
+                        this.getImageLibrary();
+                        this.getAnimationLibrary();
+                        this.spinner.hide();
+                        this.notify.notify('success', res['message']);
+                    }).catch(error => {
+                        if (error.status === 417) {
+                            this.notify.notify('error', error.error.message);
+                        } else {
+                            this.notify.notify('error', 'Something went Wrong or Already Exist');
+                        }
+                        this.spinner.hide();
+                    });
+                } else {
+                    this.notify.notify('error', 'Select Image file.');
                     this.spinner.hide();
-                    this.notify.notify('success', res['message']);
-                }).catch(error => {
-                    if (error.status === 417) {
-                        //Image Already Exist
-                        this.notify.notify('error', error.error.message);
-                        this.spinner.hide();
-                    } else {
-                        this.notify.notify('error', 'Something went Wrong or Already Exist');
-                        this.spinner.hide();
-                    }
-                });
+                }
             } else {
-                this.service.uploadAnimation(this.fileToUpload).toPromise().then(res => {
-                    this.isPreviewVideo = false;
-                    this.isPreviewObject = false;
-                    this.isPreviewImage = false;
-                    this.fileToUpload = null;
-                    this.mediaType = (this.mediaType === 'image') ? 'video' : 'image';
-                    this.getImageLibrary();
-                    this.getAnimationLibrary();
+                if (this.fileToUpload.type.substring(0, this.fileToUpload.type.lastIndexOf('/') + 1) === 'video/') {
+                    this.service.uploadAnimation(this.fileToUpload).toPromise().then(res => {
+                        this.isPreviewVideo = false;
+                        this.isPreviewObject = false;
+                        this.isPreviewImage = false;
+                        this.fileToUpload = null;
+                        this.mediaType = (this.mediaType === 'image') ? 'video' : 'image';
+                        this.getImageLibrary();
+                        this.getAnimationLibrary();
+                        this.spinner.hide();
+                        this.notify.notify('success', res['message']);
+                    }).catch(error => {
+                        if (error.status === 417) {
+                            this.notify.notify('error', error.error.toString());
+                        } else {
+                            this.notify.notify('error', 'Something went Wrong or Already Exist');
+                        }
+                        this.spinner.hide();
+                    });
+                } else {
+                    this.notify.notify('error', 'Select Animation file');
                     this.spinner.hide();
-                    this.notify.notify('success', res['message']);
-                }).catch(error => {
-                    if (error.status === 417) {
-                        this.notify.notify('error', error.error.toString());
-                        this.spinner.hide();
-                    } else {
-                        this.notify.notify('error', 'Something went Wrong or Already Exist');
-                        this.spinner.hide();
-                    }
-                });
+                }
             }
         } else {
             this.notify.notify('info', 'Select a file');
             this.spinner.hide();
-        }
-    }
-
-    getMimetype = (signature) => {
-        switch (signature) {
-            case '89504E47':
-                return 'image/png';
-            case '47494638':
-                return 'image/gif';
-            case 'FFD8FFDB':
-            case 'FFD8FFE0':
-            case 'FFD8FFE1':
-                return 'image/jpeg';
-            case '3C3F786D':
-                return 'image/svg+xml';
-            case '00018':
-            case '0001C':
-            case '00020':
-                return 'video/mp4';
-            case '1A45DFA3':
-                return 'video/webm';
-            case '4357539':
-                return 'application/x-shockwave-flash';
-            case '504B0304':
-            case '504B34':
-                return 'application/zip';
-            case '25504446':
-                return 'application/pdf';
-            default:
-                return 'Unknown filetype';
         }
     }
 }

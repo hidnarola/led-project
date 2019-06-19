@@ -12,12 +12,14 @@ import { DataTableDirective } from 'angular-datatables';
     templateUrl: './schedules.component.html',
     styleUrls: ['./schedules.component.css']
 })
-export class SchedulesComponent implements OnDestroy, OnInit, AfterViewInit {
+export class SchedulesComponent implements OnDestroy, OnInit {
+
     @ViewChild(DataTableDirective)
     dtElement: DataTableDirective;
     dtOptions: DataTables.Settings = {};
     dtTrigger = new Subject();
     schedules: any = [];
+    tableData: boolean;
 
     constructor(
         private service: SchedulesService,
@@ -47,17 +49,13 @@ export class SchedulesComponent implements OnDestroy, OnInit, AfterViewInit {
             this.schedules = [];
             this.schedules = res;
             this.dtTrigger.next();
-
             this.spinner.hide();
+            (this.schedules && this.schedules.length <= 0) ? this.tableData = true : this.tableData = false;
         }).catch(error => {
             this.spinner.hide();
         });
     }
-    ngAfterViewInit(): void {
-    }
-    sendSchedule() {
-        this.notification.notify('success', 'Schedule Sent Successfully');
-    }
+
     deleteSchedule(id) {
         this.confirmationService.confirm({
             message: 'Do you want to delete this record?',

@@ -13,11 +13,6 @@ export class SchedulesService {
         private config: Config
     ) { }
 
-    convertToOnDate(date) {
-        const dt = new Date(date);
-        return dt.getDate() + '-' + dt.getMonth();
-    }
-
     timeToMS(strtime) {
         let ms = 0;
         const HH = strtime.split(':')[0] * 60 * 60 * 1000;
@@ -33,20 +28,6 @@ export class SchedulesService {
         return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
     }
 
-    msToTime(s) {
-        if (s) {
-            const ms = s % 1000;
-            s = (s - ms) / 1000;
-            const secs = s % 60;
-            s = (s - secs) / 60;
-            const mins = s % 60;
-            const hrs = (s - mins) / 60;
-
-            return this.pad(hrs, 2) + ':' + this.pad(mins, 2) + ':' + this.pad(secs, 2);
-        } else {
-            return '';
-        }
-    }
     createSchedule(data, file, type) {
         const uri = '/leddesigner/schedule/add';
         const scheduleJSON = this.getScheduleRequestJSON(data, type);
@@ -213,7 +194,7 @@ export class SchedulesService {
         return this.http.get(uri);
     }
 
-    getMyMessage(){
+    getMyMessage() {
         const uri = '/leddesigner/schedule/my-messages';
         return this.http.get(uri);
     }
@@ -237,7 +218,6 @@ export class SchedulesService {
     uploadImage(file) {
         const uri = '/leddesigner/schedule/uploadAllImages';
         const headers = new HttpHeaders();
-        // this is the important step. You need to set content type as null
         headers.set('Content-Type', null);
         headers.set('Accept', 'multipart/form-data');
         this.formdata = new FormData();
@@ -248,7 +228,6 @@ export class SchedulesService {
     uploadAnimation(file) {
         const uri = '/leddesigner/schedule/uploadAllMovies';
         const headers = new HttpHeaders();
-        // this is the important step. You need to set content type as null
         headers.set('Content-Type', null);
         headers.set('Accept', 'multipart/form-data');
         this.formdata = new FormData();
@@ -274,16 +253,6 @@ export class SchedulesService {
         const uri = '/leddesigner/schedule/preview-file?fileName=' + filename + '&source=' + source;
         return this.http.get(uri, httpOptions);
     }
-    // Functions
-    getValueOfScheduleMonthDays(days) {
-        let day = 0;
-        for (let i = 0; days !== 1; i++) {
-            days = days / 2;
-            day++;
-        }
-        return day;
-    }
-
 
     uploadFile(file: File) {
         const uri = '/leddesigner/schedule/upload-file';

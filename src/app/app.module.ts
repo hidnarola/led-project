@@ -36,8 +36,8 @@ import { TabViewModule } from 'primeng/tabview';
 import { NgxSpinnerModule } from 'ngx-spinner';
 // Pagination
 import { NgxPaginationModule } from 'ngx-pagination';
-import {InputTextareaModule} from 'primeng/inputtextarea';
-import {InputSwitchModule} from 'primeng/inputswitch';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 // Notification or Alert
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
@@ -53,7 +53,6 @@ import { UserLayoutComponent } from './_layouts/user-layout/user-layout.componen
 
 import { SchedulesComponent } from './content/schedules/schedules.component';
 import { CreateScheduleComponent } from './content/schedules/create-schedule/create-schedule.component';
-import { EditScheduleComponent } from './content/schedules/edit-schedule/edit-schedule.component';
 import { MySignsComponent } from './content/my-signs/my-signs.component';
 import { ViewScheduleComponent } from './content/schedules/view-schedule/view-schedule.component';
 import { SendScheduleComponent } from './content/schedules/send-schedule/send-schedule.component';
@@ -129,7 +128,6 @@ const customNotifierOptions: NotifierOptions = {
         CreateUserComponent,
         SchedulesComponent,
         CreateScheduleComponent,
-        EditScheduleComponent,
         CreateSetupComponent,
         ManageSignComponent,
         MySignsComponent,

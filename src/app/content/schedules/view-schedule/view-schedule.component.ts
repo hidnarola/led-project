@@ -57,7 +57,6 @@ export class ViewScheduleComponent implements OnInit {
     }
 
     imagePreview(filename) {
-
         this.isPreviewImage = false;
         this.isPreviewObject = false;
         this.isPreviewVideo = false;
@@ -70,12 +69,6 @@ export class ViewScheduleComponent implements OnInit {
         });
     }
 
-    pad(n, width) {
-        const z = '0';
-        n = n + '';
-        return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
-    }
-
     msToTime(s) {
         if (s) {
             const ms = s % 1000;
@@ -85,7 +78,7 @@ export class ViewScheduleComponent implements OnInit {
             const mins = s % 60;
             const hrs = (s - mins) / 60;
 
-            return this.pad(hrs, 2) + ':' + this.pad(mins, 2) + ':' + this.pad(secs, 2);
+            return this.service.pad(hrs, 2) + ':' + this.service.pad(mins, 2) + ':' + this.service.pad(secs, 2);
         } else {
             return '';
         }
@@ -113,35 +106,4 @@ export class ViewScheduleComponent implements OnInit {
         };
         reader.readAsDataURL(file);
     }
-
-    getMimetype = (signature) => {
-        switch (signature) {
-            case '89504E47':
-                return 'image/png';
-            case '47494638':
-                return 'image/gif';
-            case 'FFD8FFDB':
-            case 'FFD8FFE0':
-            case 'FFD8FFE1':
-                return 'image/jpeg';
-            case '3C3F786D':
-                return 'image/svg+xml';
-            case '00018':
-            case '0001C':
-            case '00020':
-                return 'video/mp4';
-            case '1A45DFA3':
-                return 'video/webm';
-            case '4357539':
-                return 'application/x-shockwave-flash';
-            case '504B0304':
-            case '504B34':
-                return 'application/zip';
-            case '25504446':
-                return 'application/pdf';
-            default:
-                return 'Unknown filetype';
-        }
-    }
-
 }

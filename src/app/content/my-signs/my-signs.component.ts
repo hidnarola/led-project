@@ -11,12 +11,13 @@ import { NotifierService } from 'angular-notifier';
     styleUrls: ['./my-signs.component.css']
 })
 export class MySignsComponent implements OnDestroy, OnInit {
-    
+
     dtOptions: DataTables.Settings = {};
     dtTrigger = new Subject();
     userid: string;
     signArray: any = [];
-    
+    disableSign: boolean;
+
     constructor(
         private service: UserSignService,
         private notifier: NotifierService,
@@ -62,6 +63,7 @@ export class MySignsComponent implements OnDestroy, OnInit {
             this.signArray = res;
             this.dtTrigger.next();
             this.spinner.hide();
+            (this.signArray && this.signArray.length <= 0) ? this.disableSign = true : this.disableSign = false;
         }).catch(err => {
             this.spinner.hide();
         });

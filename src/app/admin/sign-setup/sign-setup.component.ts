@@ -16,6 +16,7 @@ export class SignSetupComponent implements OnInit, OnDestroy {
     dtOptions: DataTables.Settings = {};
     dtTrigger = new Subject();
     @ViewChild(DataTableDirective) dtElement: DataTableDirective;
+    tableData: boolean;
 
     constructor(
         private service: SignsService,
@@ -49,6 +50,7 @@ export class SignSetupComponent implements OnInit, OnDestroy {
         this.spinner.show();
         this.service.getAllSigns().toPromise().then(res => {
             this.data = res;
+            (this.data && this.data.length <= 0) ? this.tableData = true : this.tableData = false;
             rerender ? this.rerender() : this.dtTrigger.next();
             setTimeout(() => {
                 /** spinner ends after 5 seconds */

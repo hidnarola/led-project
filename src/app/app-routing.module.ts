@@ -7,7 +7,6 @@ import { ForgotPasswordComponent } from './login/forgot-password/forgot-password
 import { HomeComponent } from './content/home/home.component';
 import { SchedulesComponent } from './content/schedules/schedules.component';
 import { CreateScheduleComponent } from './content/schedules/create-schedule/create-schedule.component';
-import { EditScheduleComponent } from './content/schedules/edit-schedule/edit-schedule.component';
 import { ViewScheduleComponent } from './content/schedules/view-schedule/view-schedule.component';
 import { SendScheduleComponent } from './content/schedules/send-schedule/send-schedule.component';
 import { MySignsComponent } from './content/my-signs/my-signs.component';
@@ -22,7 +21,6 @@ import { ManageSignComponent } from './admin/users/manage-sign/manage-sign.compo
 import { FileManagerComponent } from './admin/file-manager/file-manager.component';
 
 // Guard
-import { AuthGuard } from './auth.guard';
 import { AdminAuthGuard } from './admin-auth.guard';
 
 // Layout
@@ -85,7 +83,7 @@ const routes: Routes = [
                 }
             },
             {
-                path: 'schedule/edit/:id', component: EditScheduleComponent,
+                path: 'schedule/edit/:id', component: CreateScheduleComponent,
                 data: {
                     permissions: {
                         only: ['PREV_03', 'ROLE_USER']

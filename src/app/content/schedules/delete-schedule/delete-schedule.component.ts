@@ -22,6 +22,8 @@ export class DeleteScheduleComponent implements OnInit {
     entryIPList = [];
     filePropertiesList = [];
     activeIndex = 0;
+    disableSchedule = false;
+    disableSign = false ;
 
     constructor(
         private spinner: NgxSpinnerService,
@@ -44,6 +46,7 @@ export class DeleteScheduleComponent implements OnInit {
         this.usservice.getSignByUserId_user(localStorage.getItem('userid')).toPromise().then(res => {
             this.mySigns = res;
             this.spinner.hide();
+            (this.mySigns && this.mySigns.length <= 0) ? this.disableSign = true : this.disableSign = false;
         }).catch(error => {
             this.spinner.hide();
         });
@@ -61,6 +64,7 @@ export class DeleteScheduleComponent implements OnInit {
         this.service.getScheduleBySignId(localStorage.getItem('userid'), sign.id).toPromise().then(res => {
             this.mySchedules = res;
             this.spinner.hide();
+            (this.mySchedules && this.mySchedules.length <= 0) ? this.disableSchedule = true : this.disableSchedule = false;
         }).catch(error => {
             this.spinner.hide();
         });
