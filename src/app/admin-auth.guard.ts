@@ -12,7 +12,7 @@ export class AdminAuthGuard implements CanActivate {
         next: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-        if (localStorage.getItem('access-token') && localStorage.getItem('authorities') === 'ROLE_ADMIN') {
+        if (localStorage.getItem('access-token')) {
             const currentStamp = new Date().getTime() / 1000;
             if (Number(localStorage.getItem('validity')) > currentStamp) {
                 return true;
@@ -23,6 +23,5 @@ export class AdminAuthGuard implements CanActivate {
         }
         this.router.navigate(['/login']);
         return false;
-
     }
 }

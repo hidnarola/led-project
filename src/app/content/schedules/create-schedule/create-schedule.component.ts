@@ -13,8 +13,29 @@ import * as moment from 'moment';
     styleUrls: ['./create-schedule.component.css']
 })
 export class CreateScheduleComponent implements OnInit {
-    ms24 = 86400000;
+
+    currentYear = Number(new Date().getFullYear());
+    date = new Date();
+    CONFIG = this.config;
     durationList: any = [];
+    fileToUpload: any[] = [];
+    filesToUpload: any = [];
+    fileInfo: any = [];
+    msgList: any = [];
+    model: any = {};
+    uploads = [];
+    fileNamesList: any = [];
+    videoType: string;
+    myfile: any;
+    fileExplorer: any;
+    searchText = '';
+    repeat = 'None';
+    imageUrl = this.sanitizer.bypassSecurityTrustUrl('/assets/images/signature.png');
+
+    myMessageFile: boolean;
+    isPreviewImage: boolean;
+    isPreviewVideo: boolean;
+    isPreviewObject: boolean;
     myAnimationFile: boolean;
     myImageFile: boolean;
     animationLibraryFile: boolean;
@@ -23,26 +44,15 @@ export class CreateScheduleComponent implements OnInit {
     rootFile: boolean;
     libraryFile: boolean;
     display = false;
-    repeat = 'None';
-    currentYear = Number(new Date().getFullYear());
-    myfile: any;
-    fileToUpload: any[] = [];
-    filesToUpload: any = [];
-    fileInfo: any = [];
-    imageUrl = this.sanitizer.bypassSecurityTrustUrl('/assets/images/signature.png');
-    isPreviewImage: boolean;
-    isPreviewVideo: boolean;
-    isPreviewObject: boolean;
-    videoType: string;
-    model: any = {};
-    CONFIG = this.config;
-    user_name: string;
-    user_role: string;
-    uploads = [];
-    date = new Date();
-    fileExplorer: any;
-    fileNamesList: any = [];
-    searchText = '';
+
+    scheduleId: number;
+    files = [];
+    fileInfoStr: any = [];
+    oldScheduleName: string;
+    res: any;
+    userid: any;
+    existFileToUpload: any = [];
+
     constructor(
         private notifier: NotifierService,
         private route: ActivatedRoute,
@@ -54,24 +64,82 @@ export class CreateScheduleComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.model.priority = 1;
-        this.model.scheduleName = 'NewSchedule';
-        this.model.startDate = moment().format('YYYY-MM-DD');
-        this.model.startTime = this.date.toTimeString().slice(0, 5);
-        this.model.firstYear = this.date.getFullYear();
-        this.model.lastYear = Number(this.date.getFullYear() + 1);
-        this.model.endDate = moment().add(1, 'year').endOf('year').format('YYYY-MM-DD');
-        this.model.endTime = '23:59';
-        this.model.monthorweek = 'week';
-        this.model.moduloYDay = '1';
-        this.model.moduloWeek = '1';
-        this.model.duration = '00:00:06';
-        this.model.scheduleMonthDays = null;
-        this.model.onDate = moment().startOf('year').format('YYYY-MM-DD');
-        this.model.myfiles = [];
 
-        this.route.queryParams.filter(params => params.repeat).subscribe(params => {
-            this.repeat = params.repeat;
+        this.route.params.subscribe(params => {
+            this.scheduleId = params['id'];
+            if (this.scheduleId) {
+                this.service.getScheduleById(params['id']).toPromise().then(res => {
+                    this.res = res;
+                    this.userid = this.res.scheduleDTO['userid'];
+                    this.repeat = this.res.type;
+                    this.model = this.res.scheduleDTO;
+                    this.files = this.res.multipartImages;
+                    this.files.forEach(file => {
+                        this.fileInfoStr.push({ name: file.path, source: 'folder' });
+                        this.fileNamesList.push(file.path);
+                        this.existFileToUpload.push(file);
+                    });
+                    this.oldScheduleName = this.res.scheduleDTO.scheduleName;
+                    // Set Date to datepicker
+                    let year = this.model.startDate.year;
+                    let month = ('0' + this.model.startDate.monthValue).slice(-2);
+                    let date = ('0' + this.model.startDate.dayOfMonth).slice(-2);
+                    this.model.startDate = year + '-' + month + '-' + date;
+                    year = this.model.endDate.year;
+                    month = ('0' + this.model.endDate.monthValue).slice(-2);
+                    date = ('0' + this.model.endDate.dayOfMonth).slice(-2);
+                    this.model.endDate = year + '-' + month + '-' + date;
+                    // Set Time to Time Picker
+                    let HH = ('0' + this.model.startTime.hour).slice(-2);
+                    let MM = ('0' + this.model.startTime.minute).slice(-2);
+                    this.model.startTime = HH + ':' + MM;
+                    HH = ('0' + this.model.endTime.hour).slice(-2);
+                    MM = ('0' + this.model.endTime.minute).slice(-2);
+                    this.model.endTime = HH + ':' + MM;
+                    if (this.repeat === this.CONFIG.SCHE_WEEK || this.repeat === this.CONFIG.SCHE_MONT) {
+                        if (this.model.weekDays.length > 0) {
+                            this.model.weekDays = this.model.weekDays.toString().split(',');
+                            this.model.monthorweek = 'week';
+                        } else {
+                            this.model.monthorweek = 'month';
+                        }
+                        if (this.repeat === this.CONFIG.SCHE_MONT) {
+                            this.model.scheduleMonths = this.model.scheduleMonths.toString().split(',');
+                        }
+                    } else if (this.repeat === this.CONFIG.SCHE_YEAR) {
+                        const now = new Date();
+                        now.setDate(this.model.scheduleMonthDays);
+                        now.setMonth(this.model.scheduleMonths[0]);
+                        this.model.onDate = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) +
+                            '-' + ('0' + (now.getDate())).slice(-2);
+                    }
+                    this.model.duration = this.msToTime(this.model.duration);
+                    this.spinner.hide();
+                }).catch(error => {
+                    this.notifier.notify('error', error.error.message);
+                    this.spinner.hide();
+                    this.router.navigate(['/user/schedules']);
+                });
+            } else {
+                this.model.priority = 1;
+                this.model.scheduleName = 'NewSchedule';
+                this.model.startDate = moment().format('YYYY-MM-DD');
+                this.model.startTime = this.date.toTimeString().slice(0, 5);
+                this.model.firstYear = this.date.getFullYear();
+                this.model.lastYear = Number(this.date.getFullYear() + 1);
+                this.model.endDate = moment().add(1, 'year').endOf('year').format('YYYY-MM-DD');
+                this.model.endTime = '23:59';
+                this.model.monthorweek = 'week';
+                this.model.moduloYDay = '1';
+                this.model.moduloWeek = '1';
+                this.model.duration = '00:00:06';
+                this.model.scheduleMonthDays = null;
+                this.model.onDate = moment().startOf('year').format('YYYY-MM-DD');
+                this.model.myfiles = [];
+                this.route.queryParams.filter(params => params.repeat).subscribe(params => {
+                    this.repeat = params.repeat;
+                });
+            }
         });
     }
 
@@ -80,6 +148,7 @@ export class CreateScheduleComponent implements OnInit {
         this.rootFile = false;
         this.myImageFile = false;
         this.myAnimationFile = false;
+        this.myMessageFile = false;
         this.searchText = '';
     }
     showDialog() {
@@ -101,6 +170,7 @@ export class CreateScheduleComponent implements OnInit {
         this.animationLibraryFile = false;
         this.myImageFile = false;
         this.myAnimationFile = false;
+        this.myMessageFile = false;
         this.searchText = '';
     }
     ImageLibrary() {
@@ -119,15 +189,18 @@ export class CreateScheduleComponent implements OnInit {
         this.myFile = false;
         this.myAnimationFile = true;
     }
-
+    myMessage() {
+        this.myFile = false;
+        this.myMessageFile = true;
+    }
     getMyImagesLibrary() {
         this.myImage();
         this.spinner.show();
-        this.service.getMyImages(localStorage.getItem('userid')).subscribe(res => {
+        this.service.getMyImages(localStorage.getItem('userid')).toPromise().then(res => {
             this.fileExplorer = [];
             this.fileExplorer = res;
             this.spinner.hide();
-        }, error => {
+        }).catch(error => {
             this.spinner.hide();
         });
     }
@@ -135,11 +208,23 @@ export class CreateScheduleComponent implements OnInit {
     getMyAnimationLibrary() {
         this.myAnimation();
         this.spinner.show();
-        this.service.getMyAnimations(localStorage.getItem('userid')).subscribe(res => {
+        this.service.getMyAnimations(localStorage.getItem('userid')).toPromise().then(res => {
             this.fileExplorer = [];
             this.fileExplorer = res;
             this.spinner.hide();
-        }, error => {
+        }).catch(error => {
+            this.spinner.hide();
+        });
+    }
+
+    getMyMessage() {
+        this.myMessage();
+        this.spinner.show();
+        this.service.getMyMessage().toPromise().then(res => {
+            this.spinner.hide();
+            this.msgList = [];
+            this.msgList = res;
+        }).catch(error => {
             this.spinner.hide();
         });
     }
@@ -147,11 +232,11 @@ export class CreateScheduleComponent implements OnInit {
     getImageLibrary() {
         this.ImageLibrary();
         this.spinner.show();
-        this.service.getImageLibrary().subscribe(res => {
+        this.service.getImageLibrary().toPromise().then(res => {
             this.fileExplorer = [];
             this.fileExplorer = res;
             this.spinner.hide();
-        }, error => {
+        }).then(error => {
             this.spinner.hide();
         });
     }
@@ -159,199 +244,261 @@ export class CreateScheduleComponent implements OnInit {
     getAnimationLibrary() {
         this.AnimationLibrary();
         this.spinner.show();
-        this.service.getAnimationLibrary().subscribe(res => {
+        this.service.getAnimationLibrary().toPromise().then(res => {
             this.fileExplorer = [];
             this.fileExplorer = res;
             this.spinner.hide();
-        }, error => {
+        }).then(error => {
             this.spinner.hide();
         });
     }
 
-    pickFile(file, filename, source) {
-        this.service.getImageFromUrl(file).subscribe(res => {
-            const uint = new Uint8Array(res.slice(0, 4));
-            const bytes = [];
-            uint.forEach((byte) => {
-                bytes.push(byte.toString(16));
-            });
-            const hex = bytes.join('').toUpperCase();
-            const binaryFileType = this.getMimetype(hex);
-            if (binaryFileType === 'Unknown filetype') {
-                this.notifier.notify('warning', 'Unknown File Type or Currupted File');
-            } else {
-                const newFile = new File([res], filename, { type: binaryFileType });
-                this.handleFileInput(newFile, source);
-            }
+    uniqueArray = (values) => values.filter((v, i) => values.indexOf(v) === i);
 
-
-        }, error => {
-        });
-    }
-
-    blobToFile = (theBlob, fileName: string): File => {
-        const b: any = theBlob;
-        b.lastModifiedDate = new Date();
-        b.name = fileName;
-        return <File>theBlob;
-    }
-
-    dataURItoBlob(dataURI) {
-        const byteString = atob(dataURI);
-        const arrayBuffer = new ArrayBuffer(byteString.length);
-        const int8Array = new Uint8Array(arrayBuffer);
-        for (let i = 0; i < byteString.length; i++) {
-            int8Array[i] = byteString.charCodeAt(i);
+    msToTime(s) {
+        if (s) {
+            const ms = s % 1000;
+            s = (s - ms) / 1000;
+            const secs = s % 60;
+            s = (s - secs) / 60;
+            const mins = s % 60;
+            const hrs = (s - mins) / 60;
+            return this.service.pad(hrs, 2) + ':' + this.service.pad(mins, 2) + ':' + this.service.pad(secs, 2);
+        } else {
+            return '';
         }
-        const blob = new Blob([arrayBuffer], { type: 'image/jpeg' });
-        return blob;
     }
 
-    handleFileInput(file, source) {
-        // let isMatched = false;
-        if (file) {
-            this.spinner.show();
-            if (this.fileNamesList.indexOf(file.name) >= 0) {
-                this.notifier.notify('warning', 'Same File Name Exist.');
-                // isMatched = true;
-                this.spinner.hide();
-            } else {
-                file.duration = '00:00:06';
-                this.fileToUpload.push(file);
-                this.fileNamesList.push(file.name);
-                if (file.type.substr(0, 5) === 'video' && source === 'PC') {
-                    this.service.addForPreview(file).subscribe(res => {
-                        this.spinner.hide();
-                    }, error => {
-                        this.spinner.hide();
-                    });
-                } else {
-                    this.spinner.hide();
-                }
-                this.fileInfo.push({ 'name': file.name, 'source': source });
-                // this.spinner.hide();
-            }
-        }
-
-        this.display = false;
+    edeleteImage(index) {
+        this.files.splice(index, 1);
+        this.fileToUpload.splice(index, 1);
+        this.fileInfoStr.splice(index, 1);
+        this.fileNamesList.splice(index, 1);
+        this.isPreviewImage = false;
+        this.isPreviewVideo = false;
+        this.isPreviewObject = false;
     }
 
-    getConvertedFile(filename, index) {
+    imagePreview(filename) {
         this.isPreviewImage = false;
         this.isPreviewObject = false;
         this.isPreviewVideo = false;
         this.spinner.show();
-        this.service.getPriview(filename, this.fileInfo[index].source).toPromise().then(res => {
+        this.service.getImageForPreview(filename, localStorage.getItem('userid')).toPromise().then(res => {
             this.spinner.hide();
             this.showImagePreview(res['body']);
-        }).catch(errorResponse => {
+        }).catch(error => {
+            this.notifier.notify('error', error.error.message);
             this.spinner.hide();
         });
     }
 
-    showImagePreview(file: Blob) {
-        // Show image preview
-        this.spinner.show();
-        this.isPreviewVideo = false;
-        this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(null);
-        const reader = new FileReader();
-        reader.onload = (event: any) => {
-            this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(event.target.result);
-            if ((this.imageUrl.toString().substr(this.imageUrl.toString().indexOf('data'), 10) === 'data:video')) {
-                this.isPreviewImage = false;
-                this.isPreviewObject = false;
-                this.isPreviewVideo = true;
-                this.videoType = file.type;
-            } else if ((this.imageUrl.toString().substr(this.imageUrl.toString().indexOf('data'), 10) === 'data:image')) {
-                this.isPreviewVideo = false;
-                this.isPreviewObject = false;
-                this.isPreviewImage = true;
-            } else {
-                this.isPreviewVideo = false;
-                this.isPreviewImage = false;
-                this.isPreviewObject = true;
-            }
-            this.spinner.hide();
-        };
-        reader.readAsDataURL(file);
-    }
-
-    deleteImage(index) {
+    deleteImage(index, fileName) {
         this.fileToUpload.splice(index, 1);
-        this.fileNamesList.splice(index, 1);
+        const i = this.fileNamesList.indexOf(fileName);
+        this.fileNamesList.splice(i, 1);
+        this.fileInfo.splice(index, 1);
+        this.existFileToUpload.splice(index, 1);
         this.isPreviewImage = false;
         this.isPreviewVideo = false;
         this.isPreviewObject = false;
         this.myfile = '';
     }
-    timeToMS(strtime) {
-        let ms = 0;
-        const HH = strtime.split(':')[0] * 60 * 60 * 1000;
-        const mm = strtime.split(':')[1] * 60 * 1000;
-        const ss = strtime.split(':')[2] * 1000;
-        ms = HH + mm + ss;
-        return ms;
+
+    pickFile(fileURL, filename, source) {
+        if (this.fileNamesList && this.fileNamesList.indexOf(fileURL) >= 0 ||
+            this.files && this.files.indexOf(fileURL) >= 0 ||
+            this.fileToUpload && this.filesToUpload.indexOf(fileURL) >= 0) {
+            this.notifier.notify('warning', 'Same File Name Exist.');
+            this.spinner.hide();
+        } else {
+            this.spinner.show();
+            this.service.getImageFromUrl(fileURL).toPromise().then(res => {
+                const newFile = this.service.blobToFile(res['body'], filename);
+                this.spinner.hide();
+                this.handleFileInput(newFile, source);
+                this.display = false;
+            }).catch(error => {
+                this.display = false;
+                this.spinner.hide();
+            });
+        }
     }
+
+    handleFileInput(file, source) {
+        if (file) {
+            this.spinner.show();
+            if (this.fileNamesList && this.fileNamesList.indexOf(file.name) >= 0 ||
+                this.files && this.files.indexOf(file.name) >= 0 ||
+                this.fileToUpload && this.filesToUpload.indexOf(file.name) >= 0) {
+                this.notifier.notify('warning', 'Same File Name Exist.');
+                this.spinner.hide();
+            } else {
+                file.duration = '00:00:06';
+                this.fileToUpload.push(file);
+                this.fileNamesList.push(file.name);
+                this.fileInfo.push({ 'name': file.name, 'source': source });
+                this.display = false;
+                if (file.type.substr(0, 5) === 'video' && source === 'PC') {
+                    this.service.addForPreview(file).toPromise();
+                }
+            }
+        }
+        this.spinner.hide();
+        this.display = false;
+        if (source === 'PC') {
+            document.getElementById('myfile')['value'] = '';
+        }
+    }
+
+    getConvertedFile(filename, index) {
+        if (this.scheduleId) {
+            let source;
+            this.fileInfo.forEach(file => {
+                if (filename === file.name) {
+                    source = file.source;
+                }
+            });
+            this.service.getPriview(filename, source).toPromise().then(res => {
+                this.spinner.hide();
+                this.showImagePreview(res['body']);
+            }).catch(errorResponse => {
+                this.spinner.hide();
+            });
+        } else {
+            this.isPreviewImage = false;
+            this.isPreviewObject = false;
+            this.isPreviewVideo = false;
+            this.spinner.show();
+            this.service.getPriview(filename, this.fileInfo[index].source).toPromise().then(res => {
+                this.spinner.hide();
+                this.showImagePreview(res['body']);
+            }).catch(errorResponse => {
+                this.spinner.hide();
+            });
+        }
+    }
+
+    showImagePreview(file: Blob) {
+        this.spinner.show();
+        this.isPreviewVideo = false;
+        const reader = new FileReader();
+
+        if (this.scheduleId) {
+            reader.onload = (event: any) => {
+                this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
+                if (file.type.substr(0, 5) === 'video') {
+                    this.isPreviewImage = false;
+                    this.isPreviewObject = false;
+                    this.isPreviewVideo = true;
+                    this.videoType = file.type;
+                } else if (file.type.substr(0, 5) === 'image') {
+                    this.isPreviewVideo = false;
+                    this.isPreviewObject = false;
+                    this.isPreviewImage = true;
+                } else {
+                    this.isPreviewVideo = false;
+                    this.isPreviewImage = false;
+                    this.isPreviewObject = true;
+                }
+                this.spinner.hide();
+            };
+            reader.readAsDataURL(file);
+
+        } else {
+            this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(null);
+            reader.onload = (event: any) => {
+                this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(event.target.result);
+                if ((this.imageUrl.toString().substr(this.imageUrl.toString().indexOf('data'), 10) === 'data:video')) {
+                    this.isPreviewImage = false;
+                    this.isPreviewObject = false;
+                    this.isPreviewVideo = true;
+                    this.videoType = file.type;
+                } else if ((this.imageUrl.toString().substr(this.imageUrl.toString().indexOf('data'), 10) === 'data:image')) {
+                    this.isPreviewVideo = false;
+                    this.isPreviewObject = false;
+                    this.isPreviewImage = true;
+                } else {
+                    this.isPreviewVideo = false;
+                    this.isPreviewImage = false;
+                    this.isPreviewObject = true;
+                }
+                this.spinner.hide();
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
     onSubmit() {
         this.spinner.show();
         this.durationList = [];
         this.fileToUpload.forEach(file => {
             const dura: any = {};
             dura.name = file.name;
-            dura.regex = this.timeToMS(file.duration);
+            dura.regex = this.service.timeToMS(file.duration);
             this.durationList.push(dura);
         });
         this.model.durationList = this.durationList;
-        this.model.fileInfo = this.fileInfo;
-        this.service.createSchedule(this.model, this.fileToUpload, this.repeat).subscribe(res => {
-            this.spinner.hide();
-        }, error => {
-            if (error.status === 201) {
+        if (this.scheduleId) {
+            this.model.monthorweek === 'week' ? this.model.scheduleMonthDays = 0 : this.model.weekDays = [];
+            this.fileToUpload.forEach(file => {
+                const dura: any = {};
+                dura.name = file.name;
+                dura.regex = this.service.timeToMS(file.duration);
+                this.durationList.push(dura);
+            });
+            this.existFileToUpload.forEach(file => {
+                const dura: any = {};
+                dura.name = file.path;
+                dura.regex = file.duration ? file.duration : 6000;
+                this.durationList.push(dura);
+            });
+            this.fileInfo.forEach(file => {
+                this.fileInfoStr.push({ 'name': file.name, 'source': file.source });
+            });
+            this.model.scheduleId = +this.scheduleId;
+            this.model.oldScheduleName = this.oldScheduleName;
+            this.uniqueArray(this.fileInfoStr);
+            this.model.fileInfo = this.fileInfoStr;
+            this.model.userid = this.userid;
+            this.service.updateSChedule(this.model, this.fileToUpload, this.repeat).toPromise().then(res => {
+                this.model = {};
+                this.fileToUpload = [];
+                this.spinner.hide();
+                this.notifier.notify('success', 'Scheduled Updated Successfully');
+                this.router.navigate(['/user/schedules']);
+            }).catch(error => {
+                if (error.status === 500) {
+                    this.notifier.notify('error', error.error.message);
+                } else if (error.status === 400) {
+                    this.notifier.notify('warning', 'Select File To upload');
+                } else {
+                    this.notifier.notify('error', error.error.message);
+                }
+                this.spinner.hide();
+            });
+
+        } else {
+            this.model.durationList = this.durationList;
+            this.model.fileInfo = this.fileInfo;
+            this.model.scheduleId = null;
+            this.service.createSchedule(this.model, this.fileToUpload, this.repeat).toPromise().then(res => {
                 this.notifier.notify('success', 'Scheduled Stored Successfully');
                 this.model = {};
                 this.fileToUpload = [];
                 this.spinner.hide();
                 this.router.navigate(['/user/schedules']);
-            } else if (error.status === 500) {
-                // this.notifier.notify('error', error.message);
-                this.notifier.notify('error', error.error.message);
-            } else if (error.status === 400) {
-                this.notifier.notify('warning', 'Select File To upload');
-            } else {
-                this.notifier.notify('error', error.error);
-            }
-            this.spinner.hide();
-        });
-    }
-
-    getMimetype = (signature) => {
-        switch (signature) {
-            case '89504E47':
-                return 'image/png';
-            case '47494638':
-                return 'image/gif';
-            case 'FFD8FFDB':
-            case 'FFD8FFE0':
-            case 'FFD8FFE1':
-                return 'image/jpeg';
-            case '3C3F786D':
-                return 'image/svg+xml';
-            case '00018':
-            case '0001C':
-            case '00020':
-                return 'video/mp4';
-            case '1A45DFA3':
-                return 'video/webm';
-            case '4357539':
-                return 'application/x-shockwave-flash';
-            case '504B0304':
-            case '504B34':
-                return 'application/zip';
-            case '25504446':
-                return 'application/pdf';
-            default:
-                return 'Unknown filetype';
+            }).catch(error => {
+                if (error.status === 500) {
+                    this.notifier.notify('error', error.error.message);
+                } else if (error.status === 400) {
+                    this.notifier.notify('warning', 'Select File To upload');
+                } else {
+                    this.notifier.notify('error', error.error.message);
+                }
+                this.spinner.hide();
+            });
         }
-    }
 
+    }
 }

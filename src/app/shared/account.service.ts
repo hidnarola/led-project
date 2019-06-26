@@ -3,38 +3,40 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { map } from 'rxjs/operators';
 import { AES, enc } from 'crypto-ts';
-import { Config } from '../shared/config';
+import { NgxPermissionsService } from 'ngx-permissions';
+import { Router } from '@angular/router';
+
 
 @Injectable({
     providedIn: 'root'
 })
 export class AccountService {
     secretKey = 'ansdu3jbduwehqdjna23dwer4g667fdfk';
-    role = 'ROLE_USER';
-    constructor(private http: HttpClient, private config: Config) { }
+    payloadData: any;
 
-    register(data) {
-        const uri = '/leddesigner/user/register';
-        if (data.isAdmin) {
-            this.role = 'ROLE_ADMIN';
+    constructor(
+        private http: HttpClient,
+        private router: Router,
+        private permissionsService: NgxPermissionsService
+    ) { }
+
+    about() {
+        const uri = '/leddesigner/user/about/';
+        return this.http.get(uri);
+    }
+
+    register(data, userid) {
+        let uri = '';
+        const headers = new HttpHeaders();
+        headers.set('Accept', 'application/json');
+        if (!userid) {
+            headers.set('Content-Type', 'multipart/form-data');
+            uri = '/leddesigner/user/register';
+            return this.http.post(uri, data, { headers });
+        } else {
+            uri = '/leddesigner/user/updateProfile';
+            return this.http.post(uri, data, { headers });
         }
-        const user = {
-            userid: null,
-            email: data.email,
-            firstname: data.firstname,
-            lastname: data.lastname,
-            mobno: data.phone,
-            companyname: data.company,
-            city: data.city,
-            state: data.state,
-            authorities: [
-                { name: this.role }
-            ]
-        };
-
-        return this.http.post(uri, user).map(res => {
-            return res;
-        });
     }
 
     activatation(activatation_key) {
@@ -49,9 +51,7 @@ export class AccountService {
         const user = {
             email: email
         };
-        return this.http.post(uri, user).map(res => {
-            return res;
-        });
+        return this.http.post(uri, user);
     }
 
     reset_password(key, newpass) {
@@ -60,9 +60,7 @@ export class AccountService {
             resetKey: key,
             newPassword: newpass
         };
-        return this.http.post(uri, user).map(res => {
-            return res;
-        });
+        return this.http.post(uri, user);
     }
 
     login(uname, pass) {
@@ -77,7 +75,6 @@ export class AccountService {
         };
 
         return this.http.post(uri, user, httpOptions).pipe(map(res => {
-            // login successful if there's a jwt token in the response
             if (res) {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 if (res.headers.has('Authorization')) {
@@ -86,8 +83,6 @@ export class AccountService {
                     localStorage.setItem('user_email', uname);
                     localStorage.setItem('access-token', token);
                     return true;
-                } else {
-                    console.log(res.headers);
                 }
             }
             return false;
@@ -95,8 +90,10 @@ export class AccountService {
     }
 
     logout() {
+        this.permissionsService.flushPermissions();
         localStorage.clear();
-        return true;
+         this.router.navigate(['']);
+         return true ;
     }
 
     dateAndTime() {
@@ -105,14 +102,9 @@ export class AccountService {
 
     encPwd(str) {
         return AES.encrypt(str, this.secretKey).toString();
-        // const ciphertext = CryptoTS.AES.encrypt(str, this.secretKey).toString();
-        // return ciphertext;
     }
 
     decPwd(str) {
         return AES.decrypt(str, this.secretKey).toString(enc.Utf8);
-        // const bytes  = CryptoTS.AES.decrypt(str.toString(), this.secretKey);
-        // const plaintext = bytes.toString(CryptoTS.enc.Utf8);
-        // return plaintext;
     }
 }

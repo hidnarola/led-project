@@ -12,6 +12,7 @@ export class SidebarComponent implements OnInit {
     user_name: string;
     user_role: string;
     isAdmin: boolean;
+    userProfile: any;
 
     constructor(
         private service: SchedulesService,
@@ -32,13 +33,11 @@ export class SidebarComponent implements OnInit {
         const header = document.getElementById('myMainNav');
         const btns = header.getElementsByClassName('myNav');
         for (let i = 0; i < btns.length; i++) {
-            //  btns[i].addEventListener('click', function () {
             const current = document.getElementsByClassName('active');
             if (current.length > 0) {
                 current[0].className = current[0].className.replace(' active', '');
             }
             that.className += ' active';
-            //  });
         }
     }
 
@@ -54,5 +53,6 @@ export class SidebarComponent implements OnInit {
                 this.spinner.hide();
             });
         }
+        document.getElementById('myfile')['value'] = '';
     }
 }

@@ -1,12 +1,9 @@
 import timezones from 'google-timezones-json';
 export class Config {
-    // apiURL = 'http://13.58.218.221:8080/';
-    // apiURL = 'http://clientapp.narola.online:2220/';
+
     signType = ['RGB', 'GRAYSCALE'];
-    // isLoggedIn = false;
     userRole = ['ROLE_USER', 'ROLE_ADMIN'];
     timeZone = timezones;
-
     scheduleRepeat = ['Continuous', 'Daily', 'Weekly', 'Monthly', 'Yearly'];
     SCHE_CONT = 'Continuous';
     SCHE_DAYL = 'Daily';

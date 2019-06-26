@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Config } from '../shared/config';
-import { map } from 'rxjs/operators';
+
 
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
@@ -15,11 +14,6 @@ export class SchedulesService {
         private http: HttpClient,
         private config: Config
     ) { }
-
-    convertToOnDate(date) {
-        const dt = new Date(date);
-        return dt.getDate() + '-' + dt.getMonth();
-    }
 
     timeToMS(strtime) {
         let ms = 0;
@@ -36,21 +30,7 @@ export class SchedulesService {
         return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
     }
 
-    msToTime(s) {
-        if (s) {
-            const ms = s % 1000;
-            s = (s - ms) / 1000;
-            const secs = s % 60;
-            s = (s - secs) / 60;
-            const mins = s % 60;
-            const hrs = (s - mins) / 60;
-
-            return this.pad(hrs, 2) + ':' + this.pad(mins, 2) + ':' + this.pad(secs, 2);
-        } else {
-            return '';
-        }
-    }
-    createSchedule(data, file: File[], type) {
+    createSchedule(data, file, type) {
         const uri = '/leddesigner/schedule/add';
         const scheduleJSON = this.getScheduleRequestJSON(data, type);
         const headers = new HttpHeaders();
@@ -58,9 +38,8 @@ export class SchedulesService {
         headers.set('Accept', 'multipart/form-data');
         this.formdata = new FormData();
         for (let i = 0; i < file.length; i++) {
-            this.formdata.append('multipartFiles', file[i]);
+            this.formdata.append('multipartFiles', file[i], data['fileInfo'][i]['name']);
         }
-        // this.formdata.append('multipartFiles', file);
         let dura = '{"map":{';
         for (let i = 0; i < data.durationList.length; i++) {
             if (i < data.durationList.length - 1) {
@@ -85,15 +64,16 @@ export class SchedulesService {
         return this.http.post(uri, this.formdata, { headers });
     }
 
-    updateSChedule(data, file: File[], type) {
+    updateSChedule(data, file, type) {
         const uri = '/leddesigner/schedule/update';
         const scheduleJSON = this.getScheduleRequestJSON(data, type);
+        scheduleJSON['userid'] = data['userid'];
         const headers = new HttpHeaders();
         headers.set('Content-Type', null);
         headers.set('Accept', 'multipart/form-data');
         this.formdata = new FormData();
         for (let i = 0; i < file.length; i++) {
-            this.formdata.append('multipartFiles', file[i]);
+            this.formdata.append('multipartFiles', file[i], file[i]['name']);
         }
         let dura = '{"map":{';
         for (let i = 0; i < data.durationList.length; i++) {
@@ -128,6 +108,7 @@ export class SchedulesService {
             'endTime': data.endTime,
             'type': type,
             'userid': Number(localStorage.getItem('userid')),
+            'scheduleId': data.scheduleId
         };
         if (type === this.config.SCHE_DAYL) {
             scheduleJSON['moduloYDay'] = ((data.moduloYDay) ? data.moduloYDay : 0);
@@ -139,7 +120,6 @@ export class SchedulesService {
             scheduleJSON['scheduleMonths'] = ((data.scheduleMonths) ? data.scheduleMonths : '');
             scheduleJSON['weekDays'] = ((data.weekDays) ? data.weekDays : '');
         } else if (type === this.config.SCHE_YEAR) {
-            // const onDate = this.convertToOnDate(data.onDate);
             scheduleJSON['firstYear'] = ((data.firstYear) ? data.firstYear : '');
             scheduleJSON['lastYear'] = ((data.lastYear) ? data.lastYear : '');
             scheduleJSON['onDate'] = ((data.onDate) ? data.onDate : '');
@@ -182,10 +162,6 @@ export class SchedulesService {
         return this.http.post(uri, filedata);
     }
 
-    getScheduleByUserIdandType(userid, type) {
-        const uri = '/leddesigner/schedule/getSchedulesByUseridAndType?userid=' + userid + '&type=' + type;
-        return this.http.get(uri);
-    }
 
     getFilesByUserId(userid) {
         const uri = '/leddesigner/schedule/getFiles?userid=' + userid;
@@ -202,8 +178,12 @@ export class SchedulesService {
     }
 
     getImageForPreview(filename, userid) {
+        const httpOptions = {};
+        httpOptions['responseType'] = 'Blob' as 'json';
+        httpOptions['observe'] = 'response';
+
         const uri = '/leddesigner/schedule/filePreview?fileName=' + filename + '&userid=' + userid;
-        return this.http.get(uri, { responseType: 'arraybuffer' });
+        return this.http.get(uri, httpOptions);
     }
 
     getAnimationLibrary() {
@@ -216,8 +196,16 @@ export class SchedulesService {
         return this.http.get(uri);
     }
 
+    getMyMessage() {
+        const uri = '/leddesigner/schedule/my-messages';
+        return this.http.get(uri);
+    }
+
     getImageFromUrl(url) {
-        return this.http.get(url, { responseType: 'arraybuffer' });
+        const httpOptions = {};
+        httpOptions['responseType'] = 'Blob' as 'json';
+        httpOptions['observe'] = 'response';
+        return this.http.get(url, httpOptions);
     }
 
     getMyImages(id) {
@@ -232,7 +220,6 @@ export class SchedulesService {
     uploadImage(file) {
         const uri = '/leddesigner/schedule/uploadAllImages';
         const headers = new HttpHeaders();
-        // this is the important step. You need to set content type as null
         headers.set('Content-Type', null);
         headers.set('Accept', 'multipart/form-data');
         this.formdata = new FormData();
@@ -243,7 +230,6 @@ export class SchedulesService {
     uploadAnimation(file) {
         const uri = '/leddesigner/schedule/uploadAllMovies';
         const headers = new HttpHeaders();
-        // this is the important step. You need to set content type as null
         headers.set('Content-Type', null);
         headers.set('Accept', 'multipart/form-data');
         this.formdata = new FormData();
@@ -260,13 +246,6 @@ export class SchedulesService {
         this.formdata = new FormData();
         this.formdata.append('file', file);
         return this.http.post(uri, this.formdata, { headers });
-    }
-
-    previewTests(filename, source) {
-        const uri = '/leddesigner/schedule/addfilePreview1?fileName=' + filename +
-            '&UserId=' + Number(localStorage.getItem('userid')) + '&Source=' + source;
-
-        return this.http.get(uri, { responseType: 'arraybuffer' });
     }
 
     getPriview(filename, source) {
@@ -303,11 +282,17 @@ export class SchedulesService {
     uploadFile(file: File) {
         const uri = '/leddesigner/schedule/upload-file';
         const headers = new HttpHeaders();
-        // this is the important step. You need to set content type as null
         headers.set('Content-Type', null);
         headers.set('Accept', 'multipart/form-data');
         this.formdata = new FormData();
         this.formdata.append('multipartFile', file);
         return this.http.post(uri, this.formdata, { headers });
+    }
+
+    blobToFile(theBlob, fileName): File {
+        const b: any = theBlob;
+        b.lastModified = Date.now();
+        b.name = fileName;
+        return <File>theBlob;
     }
 }

@@ -12,13 +12,15 @@ import { DataTableDirective } from 'angular-datatables';
     templateUrl: './schedules.component.html',
     styleUrls: ['./schedules.component.css']
 })
-export class SchedulesComponent implements OnDestroy, OnInit, AfterViewInit {
+export class SchedulesComponent implements OnDestroy, OnInit {
+
     @ViewChild(DataTableDirective)
     dtElement: DataTableDirective;
     dtOptions: DataTables.Settings = {};
     dtTrigger = new Subject();
     schedules: any = [];
     selectedSchedules = [];
+    tableData: boolean;
 
     constructor(
         private service: SchedulesService,
@@ -41,28 +43,21 @@ export class SchedulesComponent implements OnDestroy, OnInit, AfterViewInit {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             // Destroy the table first
             dtInstance.destroy();
-            // Call the dtTrigger to rerender again
-            // this.dtTrigger.next();
         });
-        // this.dtTrigger.next();
     }
     getSchedules() {
         this.spinner.show();
-        this.service.getSchedulesByUserId(localStorage.getItem('userid')).subscribe(res => {
+        this.service.getSchedulesByUserId(localStorage.getItem('userid')).toPromise().then(res => {
             this.schedules = [];
             this.schedules = res;
             this.dtTrigger.next();
-
             this.spinner.hide();
-        }, error => {
+            (this.schedules && this.schedules.length <= 0) ? this.tableData = true : this.tableData = false;
+        }).catch(error => {
             this.spinner.hide();
         });
     }
-    ngAfterViewInit(): void {
-    }
-    sendSchedule() {
-        this.notification.notify('success', 'Schedule Sent Successfully');
-    }
+
     deleteSchedule(id) {
         this.confirmationService.confirm({
             message: 'Do you want to delete this record?',
@@ -70,18 +65,13 @@ export class SchedulesComponent implements OnDestroy, OnInit, AfterViewInit {
             icon: 'pi pi-info-circle',
             accept: () => {
                 this.spinner.show();
-                this.service.deleteScheduleById(id).subscribe(res => {
+                this.service.deleteScheduleById(id).toPromise().then(res => {
                     this.notification.notify('success', 'Deleted Successfully');
                     this.spinner.hide();
                     this.rerender();
                     this.getSchedules();
-                }, error => {
-                    if (error.status === 200) {
-                        this.notification.notify('success', error.error.text);
-                        this.rerender();
-                        this.getSchedules();
-                        this.spinner.hide();
-                    } else if (error.status === 0) {
+                }).catch(error => {
+                    if (error.status === 0) {
                         this.notification.notify('error', 'ER: ' + 'API Disconnected');
                         this.spinner.hide();
                     } else {
