@@ -64,6 +64,7 @@ import { CreateSetupComponent } from './admin/sign-setup/create-setup/create-set
 import { ManageSignComponent } from './admin/users/manage-sign/manage-sign.component';
 import { AnnouncementService } from './shared/announcement.service';
 import { AddAnnouncementComponent } from './admin/add-announcement/add-announcement.component';
+import { AnnouncementComponent } from './admin/announcement/announcement.component';
 
 export function tokenGetter() {
     return localStorage.getItem('access-token');
@@ -138,6 +139,7 @@ const customNotifierOptions: NotifierOptions = {
         UserLayoutComponent,
         FileManagerComponent,
         ProfileComponent,
+        AnnouncementComponent,
         AddAnnouncementComponent
     ],
     imports: [
