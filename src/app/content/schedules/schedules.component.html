@@ -46,7 +46,7 @@
                             Send Schedule</button>
                     </li> -->
                     <li>
-                        <button type="button" (click)="updatePlaylist()" class="btn bg-purple btn-rounded">
+                        <button type="button" (click)="updatePlaylist()" class="btn bg-purple btn-rounded" *ngxPermissionsOnly="['PREV_05','ROLE_USER']">
                             <i class="icon-paperplane position-left"></i>
                             Update Playlist
                         </button>
